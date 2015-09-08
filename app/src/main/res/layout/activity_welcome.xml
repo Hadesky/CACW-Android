@@ -1,0 +1,42 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        <View
+            android:id="@+id/welcome_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <android.support.v4.view.ViewPager
+            android:layout_alignParentTop="true"
+            android:id="@+id/welcome_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+        <com.hadesky.cacw.widget.IndicatorView
+            android:id="@+id/welcome_indicator"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:layout_alignBottom="@id/welcome_viewpager"
+            android:layout_marginBottom="150dp"
+            cacw:indicator_empty="@drawable/activity_welcome_indicator_empty"
+            cacw:indicator_smooth="true"
+            cacw:indicator_selected="@drawable/activity_welcome_indicator_selected"
+            cacw:indicator_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:background="@drawable/activity_welcome_button"
+            android:layout_alignTop="@id/welcome_indicator"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:onClick="Test"
+            android:text="注册|登录"
+            android:id="@+id/welcome_button"
+            android:layout_width="300dp"
+            android:layout_height="50dp" />
+</RelativeLayout>

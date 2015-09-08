@@ -1,9 +1,10 @@
 package com.hadesky.cacw.ui;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    private long exitTime = 0;// 双击退出的时间标记
     private ViewPager mViewPager;//主界面
     private TabLayout mTabLayout;//主界面Fragment的容器
     private Toast exitToast;    //退出软件时的Toast
@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        //Check if firstRun,if true, start Welcome Activity
+        checkIfFirstRun();
         //ActionBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
         setSupportActionBar(toolbar);
@@ -83,11 +85,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -97,5 +95,41 @@ public class MainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    /**
+     * 检查是否第一次运行程序
+     */
+    private void checkIfFirstRun() {
+        if (isFirstRun()) {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(), WelcomeActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+    }
+
+    /**
+     *检查是否第一次运行程序，返回值表示是否第一次运行
+     * @return  true表示第一次运行
+     */
+    private boolean isFirstRun() {
+        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
+        int count = preferences.getInt("runCount", 0);
+        return count == 0;
+    }
+
+    /**
+     * onDestroy的时候增加一次使用记录
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //退出自动增加一次使用次数
+        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        final int count = preferences.getInt("runCount", 0);
+        editor.putInt("runCount", count + 1);
+        editor.apply();
     }
 }

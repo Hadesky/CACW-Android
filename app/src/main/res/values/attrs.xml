@@ -5,4 +5,10 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="IndicatorView">
+        <attr name="indicator_empty" format="reference" />
+        <attr name="indicator_selected" format="reference" />
+        <attr name="indicator_margin" format="dimension" />
+        <attr name="indicator_smooth" format="boolean" />
+    </declare-styleable>
 </resources>
