@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 整个App的基本color,不可以随便更改-->
+    <color name="color_base_text_color">#666</color>
+    <color name="color_base_item_bg_press">#ddd</color>
+    <color name="color_base_item_bg_normal">#fff</color>
+    <color name="color_primary">#03a9f4</color>
+    <color name="color_primary_dark">#008FE7</color>
+    <color name="color_base_window_background">#EFF3F6</color>
+    <color name="color_control_normal">#03a9f4</color>
+    <color name="color_accent">#008FE7</color>
+    <color name="color_base_tab_normal">#f2f2f2</color>
+    <color name="color_base_tab_pressed">#DFDFDF</color>
+    <!-- 其他color-->
+    <color name="color_bg_ibtn_white">#1fffffff</color>
+    <color name="color_text_tab_main">#888</color>
+    <color name="color_bg_tab_main">#fff</color>
+
+</resources>

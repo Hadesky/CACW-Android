@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">蚂蚁团队</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="action_settings">设置</string>
+
+</resources>
