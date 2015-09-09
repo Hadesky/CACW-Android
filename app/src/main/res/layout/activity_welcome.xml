@@ -5,20 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
         <View
-            android:id="@+id/welcome_bg"
+            android:id="@+id/bg_activity_welcome"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <android.support.v4.view.ViewPager
             android:layout_alignParentTop="true"
-            android:id="@+id/welcome_viewpager"
+            android:id="@+id/viewpager_activity_welcome"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </android.support.v4.view.ViewPager>
         <com.hadesky.cacw.widget.IndicatorView
-            android:id="@+id/welcome_indicator"
+            android:id="@+id/indicator_activity_welcome"
             android:layout_centerHorizontal="true"
             android:padding="5dp"
-            android:layout_alignBottom="@id/welcome_viewpager"
+            android:layout_alignBottom="@id/viewpager_activity_welcome"
             android:layout_marginBottom="150dp"
             cacw:indicator_empty="@drawable/activity_welcome_indicator_empty"
             cacw:indicator_smooth="true"
@@ -31,11 +31,11 @@
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:background="@drawable/activity_welcome_button"
-            android:layout_alignTop="@id/welcome_indicator"
+            android:layout_alignTop="@id/indicator_activity_welcome"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:text="注册|登录"
-            android:id="@+id/welcome_button"
+            android:id="@+id/button_activity_welcome"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:onClick="startLoginActivity" />

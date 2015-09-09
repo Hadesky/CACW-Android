@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_launcher);//TODO 更换ICON
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.icon);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
         mTabLayout = (TabLayout) findViewById(R.id.tabs_activity_main);

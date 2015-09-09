@@ -60,12 +60,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
         initImageView();
 
-        mViewPager = (ViewPager) findViewById(R.id.welcome_viewpager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_welcome);
         mAdapter = new WelcomePagerAdapter(imageViewList);
         mViewPager.setAdapter(mAdapter);
-        mIndicatorView = (IndicatorView) findViewById(R.id.welcome_indicator);
+        mIndicatorView = (IndicatorView) findViewById(R.id.indicator_activity_welcome);
         mIndicatorView.setViewPager(mViewPager);
-        final View bg = findViewById(R.id.welcome_bg);
+        final View bg = findViewById(R.id.bg_activity_welcome);
         bg.setBackgroundColor(colorList.get(0));
         mIndicatorView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
