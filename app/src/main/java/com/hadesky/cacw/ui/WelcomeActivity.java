@@ -2,6 +2,7 @@ package com.hadesky.cacw.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,7 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private List<ImageView> imageViewList;
     private static final int PAGER_NUMBER = 3;
     private List<Integer> colorList;
-
+    private int mPriviousIndex = 0;
 
 
     @Override
@@ -75,13 +76,22 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ObjectAnimator animator1 = ObjectAnimator.ofFloat(bg, "alpha", 1f, 0.6f);
-                ObjectAnimator animator2 = ObjectAnimator.ofFloat(bg, "alpha", 0.6f, 1f);
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.playTogether(animator1,animator2);
-                animatorSet.setDuration(500);
-                animatorSet.start();
-                bg.setBackgroundColor(colorList.get(position));
+//                ObjectAnimator animator1 = ObjectAnimator.ofFloat(bg, "alpha", 1f, 0.6f);
+//                ObjectAnimator animator2 = ObjectAnimator.ofFloat(bg, "alpha", 0.6f, 1f);
+//                AnimatorSet animatorSet = new AnimatorSet();
+//                animatorSet.playTogether(animator1,animator2);
+//                animatorSet.setDuration(500);
+//                animatorSet.start();
+//                bg.setBackgroundColor(colorList.get(position));
+                //颜色渐变动画
+                ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
+                        "backgroundColor",
+                        new ArgbEvaluator(),
+                        colorList.get(mPriviousIndex),
+                        colorList.get(position));
+                mPriviousIndex = position;
+                animator1.setDuration(500);
+                animator1.start();
             }
 
             @Override
