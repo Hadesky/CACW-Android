@@ -1,5 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_base_window_background"
+              android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        >
+
+        <ImageView
+            android:layout_marginLeft="@dimen/setting_item_margin_left"
+            android:id="@+id/iv_UserImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/tv_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_UserImg"
+            android:text="uername"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+
+
+    <View
+        style="@style/mDividingLine"
+        android:layout_marginBottom="50dp"
+        />
+
+    <View
+        style="@style/mDividingLine"
+        />
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/setting_item_margin_left"
+            android:id="@+id/iv_remind"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_remind_64"/>
+
+        <TextView
+            android:id="@+id/tv_Remind"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_remind"
+            android:text="@string/setting_remind"
+            />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+    <View
+        style="@style/mDividingLine"
+        />
+
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            android:layout_marginLeft="@dimen/setting_item_margin_left"
+            android:id="@+id/iv_complete"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_complete_64"/>
+
+        <TextView
+            android:id="@+id/tv_complete"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_complete"
+            android:text="@string/setting_complete"
+            />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/mDividingLine"
+        />
+
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            android:layout_marginLeft="@dimen/setting_item_margin_left"
+            android:id="@+id/iv_memo"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_memo_64"/>
+
+        <TextView
+            android:id="@+id/tv_memo"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_memo"
+            android:text="@string/setting_memo"
+            />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/mDividingLine"
+        />
+
+    <View
+        style="@style/mDividingLine"
+        android:layout_marginTop="60dp"
+        />
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageView
+            android:layout_marginLeft="@dimen/setting_item_margin_left"
+
+            android:id="@+id/iv_setting"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/setting_64"/>
+
+        <TextView
+            android:id="@+id/tvSetting"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_setting"
+            android:text="@string/setting"
+            />
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/mDividingLine"
+        />
 
 </LinearLayout>

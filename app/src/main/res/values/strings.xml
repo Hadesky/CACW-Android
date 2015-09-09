@@ -3,5 +3,9 @@
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="action_settings">设置</string>
+    <string name="setting">设置</string>
+    <string name="setting_remind">提醒</string>
+    <string name="setting_complete">完成事项</string>
+    <string name="setting_memo">备忘录</string>
 
 </resources>

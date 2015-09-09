@@ -17,4 +17,6 @@
     <color name="color_text_tab_main">#888</color>
     <color name="color_bg_tab_main">#fff</color>
 
+
+    <color name="setting_item_selected_bd">#77b6b6b6</color>
 </resources>
