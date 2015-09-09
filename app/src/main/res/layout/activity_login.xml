@@ -1,10 +1,104 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.hadesky.cacw.ui.LoginActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/login_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:textColor="@android:color/white"
+            android:text="@string/login"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <com.hadesky.cacw.widget.CircleImageView
+        android:id="@+id/login_icon"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <com.hadesky.cacw.widget.DeletableEditText
+        android:id="@+id/login_username"
+        android:layout_marginTop="200dp"
+        cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+        cacw:underline_color="#BFBFBFBF"
+        android:inputType="textEmailAddress"
+        android:textCursorDrawable="@null"
+        android:padding="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="邮箱/手机号"
+        android:imeOptions="actionNext"/>
+    <RelativeLayout
+        android:background="@android:color/white"
+        android:id="@+id/login_password_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignTop="@id/login_username"
+        android:layout_marginTop="40dp">
+        <com.hadesky.cacw.widget.DeletableEditText
+            android:layout_marginRight="30dp"
+            android:id="@+id/login_password"
+            cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+            cacw:underline_color="#FFFFFF"
+            android:inputType="textPassword"
+            android:textCursorDrawable="@null"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="密码"
+            android:imeOptions="actionGo"/>
+        <ImageButton
+            android:id="@+id/login_password_eye"
+            android:src="@drawable/activity_login_pw_eye"
+            android:background="@android:color/white"
+            android:scaleType="centerInside"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_width="32dp"
+            android:layout_height="40dp"
+            android:contentDescription="显示/隐藏密码"/>
+    </RelativeLayout>
+    <Button
+        android:id="@+id/login_login_button"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="登录"
+        android:layout_alignTop="@id/login_password_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:onClick="btOnClick"/>
+    <TextView
+        android:text="忘记密码？"
+        android:linksClickable="true"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="新用户注册"
+        android:linksClickable="true"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -119,11 +119,11 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    public void Test(View view) {
-        Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
+    public void startLoginActivity(View view) {
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        this.finish();
     }
+
 
     private class WelcomePagerAdapter extends PagerAdapter {
 

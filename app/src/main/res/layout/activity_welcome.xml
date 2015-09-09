@@ -34,9 +34,9 @@
             android:layout_alignTop="@id/welcome_indicator"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:onClick="Test"
             android:text="注册|登录"
             android:id="@+id/welcome_button"
             android:layout_width="300dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:onClick="startLoginActivity" />
 </RelativeLayout>
