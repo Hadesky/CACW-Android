@@ -31,10 +31,12 @@
         android:layout_height="100dp" />
 
     <com.hadesky.cacw.widget.DeletableEditText
+        style="@style/EditText_login"
+        android:background="@android:color/white"
         android:id="@+id/login_username"
         android:layout_marginTop="200dp"
         cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
-        cacw:underline_color="#BFBFBFBF"
+        cacw:underline_color="@android:color/darker_gray"
         android:inputType="textEmailAddress"
         android:textCursorDrawable="@null"
         android:padding="6dp"
@@ -43,18 +45,18 @@
         android:hint="邮箱/手机号"
         android:imeOptions="actionNext"/>
     <RelativeLayout
-        android:background="@android:color/white"
         android:id="@+id/login_password_layout"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignTop="@id/login_username"
         android:layout_marginTop="40dp">
         <com.hadesky.cacw.widget.DeletableEditText
+            style="@style/EditText_login"
             android:layout_marginRight="30dp"
             android:id="@+id/login_password"
             cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
-            cacw:underline_color="#FFFFFF"
             android:inputType="textPassword"
             android:textCursorDrawable="@null"
             android:padding="6dp"
@@ -65,7 +67,7 @@
         <ImageButton
             android:id="@+id/login_password_eye"
             android:src="@drawable/activity_login_pw_eye"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -75,6 +77,7 @@
             android:contentDescription="显示/隐藏密码"/>
     </RelativeLayout>
     <Button
+        style="@style/LoginButton_login"
         android:id="@+id/login_login_button"
         android:textColor="@android:color/white"
         android:textSize="20sp"
@@ -82,8 +85,6 @@
         android:layout_alignTop="@id/login_password_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
         android:onClick="btOnClick"/>
     <TextView
         android:text="忘记密码？"

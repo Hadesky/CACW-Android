@@ -5,22 +5,14 @@ package com.hadesky.cacw.ui;
  */
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -30,19 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.util.LoginTask;
 import com.hadesky.cacw.widget.CircleImageView;
-
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends BaseActivity {
 
@@ -105,22 +86,22 @@ public class LoginActivity extends BaseActivity {
         mPwButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIsPwVisiable(!mIsPwVisitable);
+                setIsPwVisible(!mIsPwVisitable);
                 if (mIsPwVisitable) {
                     mPwButton.setSelected(false);
                     mIsPwVisitable = false;
-                    setIsPwVisiable(false);
+                    setIsPwVisible(false);
                 } else {
                     mPwButton.setSelected(true);
                     mIsPwVisitable = true;
-                    setIsPwVisiable(true);
+                    setIsPwVisible(true);
                 }
             }
         });
     }
 
-    private void setIsPwVisiable(boolean visiable) {
-        if (visiable) {
+    private void setIsPwVisible(boolean visible) {
+        if (visible) {
             mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             //定位到最后
             CharSequence text = mPassword.getText();
@@ -170,10 +151,9 @@ public class LoginActivity extends BaseActivity {
      * @param password 密码
      */
     private void login(final String username, final String password) {
-        Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        ProgressDialog progressDialog = new ProgressDialog(this);
+
+        LoginTask loginTask = new LoginTask(progressDialog, context);
+        loginTask.execute(URL, username, password);
     }
 }

@@ -41,7 +41,7 @@
     </style>
 
     <!-- 登陆注册界面相关 -->
-    <style name="mEditText_login">
+    <style name="EditText_login">
         <item name="android:textColor">#666</item>
         <item name="android:drawablePadding">10dp</item>
         <item name="android:textSize">17sp</item>
@@ -50,7 +50,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">45dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:background">#fff</item>
+        <item name="android:background">@null</item>
+    </style>
+    <style name="LoginButton_login">
+        <item name="android:textColor">#fff</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/color_primary</item>
     </style>
 
 </resources>
