@@ -4,9 +4,7 @@ package com.hadesky.cacw.ui;
  * Created by Bright Van on 2015/8/26/026.
  */
 
-import android.app.ProgressDialog;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -22,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.util.LoginTask;
+import com.hadesky.cacw.util.NetworkUtils;
 import com.hadesky.cacw.widget.CircleImageView;
 
 public class LoginActivity extends BaseActivity {
@@ -86,22 +84,22 @@ public class LoginActivity extends BaseActivity {
         mPwButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIsPwVisible(!mIsPwVisitable);
+                setIsPwVisiable(!mIsPwVisitable);
                 if (mIsPwVisitable) {
                     mPwButton.setSelected(false);
                     mIsPwVisitable = false;
-                    setIsPwVisible(false);
+                    setIsPwVisiable(false);
                 } else {
                     mPwButton.setSelected(true);
                     mIsPwVisitable = true;
-                    setIsPwVisible(true);
+                    setIsPwVisiable(true);
                 }
             }
         });
     }
 
-    private void setIsPwVisible(boolean visible) {
-        if (visible) {
+    private void setIsPwVisiable(boolean visiable) {
+        if (visiable) {
             mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             //定位到最后
             CharSequence text = mPassword.getText();
@@ -122,9 +120,7 @@ public class LoginActivity extends BaseActivity {
 
     public void btOnClick(View view) {
         //检查网络状态
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (NetworkUtils.isNetworkConnected(this)) {
             //有网络
             String username = mUsername.getText().toString();
             String password = mPassword.getText().toString();
@@ -143,6 +139,7 @@ public class LoginActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "请检查网络！", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     /**
@@ -151,9 +148,10 @@ public class LoginActivity extends BaseActivity {
      * @param password 密码
      */
     private void login(final String username, final String password) {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-
-        LoginTask loginTask = new LoginTask(progressDialog, context);
-        loginTask.execute(URL, username, password);
+        Intent intent = new Intent();
+        intent.setClass(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

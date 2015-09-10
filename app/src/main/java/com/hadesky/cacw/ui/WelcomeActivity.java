@@ -1,27 +1,17 @@
 package com.hadesky.cacw.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 
 import com.hadesky.cacw.R;
@@ -58,7 +48,6 @@ public class WelcomeActivity extends AppCompatActivity {
         colorList.add(0xFF92D050);
         colorList.add(0xFF7030A0);
         colorList.add(0xFF00B0F0);
-
         initImageView();
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_welcome);
@@ -76,13 +65,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                ObjectAnimator animator1 = ObjectAnimator.ofFloat(bg, "alpha", 1f, 0.6f);
-//                ObjectAnimator animator2 = ObjectAnimator.ofFloat(bg, "alpha", 0.6f, 1f);
-//                AnimatorSet animatorSet = new AnimatorSet();
-//                animatorSet.playTogether(animator1,animator2);
-//                animatorSet.setDuration(500);
-//                animatorSet.start();
-//                bg.setBackgroundColor(colorList.get(position));
+
                 //颜色渐变动画
                 ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
                         "backgroundColor",
