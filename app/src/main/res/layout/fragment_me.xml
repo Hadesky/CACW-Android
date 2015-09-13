@@ -15,20 +15,20 @@
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/setting_item_margin_left"
-            android:id="@+id/iv_UserImg"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
+            android:id="@+id/iv_Me_UserImg"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:src="@drawable/default_user_image"/>
 
         <TextView
-            android:id="@+id/tv_UserName"
+            android:id="@+id/tv_Me_UserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_UserImg"
+            android:layout_toRightOf="@id/iv_Me_UserImg"
             android:text="uername"
             android:textSize="18sp"/>
 
@@ -43,7 +43,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
@@ -65,20 +65,20 @@
         android:layout_height="50dp">
 
         <ImageView
-            android:layout_marginLeft="@dimen/setting_item_margin_left"
-            android:id="@+id/iv_remind"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
+            android:id="@+id/iv_Me_remind"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting_remind_64"/>
+            android:src="@drawable/me_remind_64"/>
 
         <TextView
-            android:id="@+id/tv_Remind"
+            android:id="@+id/tv_Me_Remind"
             style="@style/mTextView_Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_remind"
+            android:layout_toRightOf="@id/iv_Me_remind"
             android:text="@string/setting_remind"
             />
 
@@ -87,7 +87,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
     <View
@@ -104,20 +104,20 @@
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/setting_item_margin_left"
-            android:id="@+id/iv_complete"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
+            android:id="@+id/iv_Me_complete"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting_complete_64"/>
+            android:src="@drawable/me_complete_64"/>
 
         <TextView
-            android:id="@+id/tv_complete"
+            android:id="@+id/tv_Me_complete"
             style="@style/mTextView_Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_complete"
+            android:layout_toRightOf="@id/iv_Me_complete"
             android:text="@string/setting_complete"
             />
 
@@ -126,7 +126,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
@@ -144,20 +144,20 @@
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/setting_item_margin_left"
-            android:id="@+id/iv_memo"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
+            android:id="@+id/iv_Me_memo"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting_memo_64"/>
+            android:src="@drawable/me_memo_64"/>
 
         <TextView
-            android:id="@+id/tv_memo"
+            android:id="@+id/tv_Me_memo"
             style="@style/mTextView_Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_memo"
+            android:layout_toRightOf="@id/iv_Me_memo"
             android:text="@string/setting_memo"
             />
 
@@ -166,7 +166,7 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
@@ -188,22 +188,22 @@
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/setting_item_margin_left"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
 
-            android:id="@+id/iv_setting"
+            android:id="@+id/iv_Me_setting"
             android:layout_width="25dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting_64"/>
+            android:src="@drawable/me_64"/>
 
         <TextView
-            android:id="@+id/tvSetting"
+            android:id="@+id/tv_Me_Setting"
             style="@style/mTextView_Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_setting"
+            android:layout_toRightOf="@id/iv_Me_setting"
             android:text="@string/setting"
             />
 
@@ -213,12 +213,11 @@
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_item_margin_right"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
     <View
         style="@style/mDividingLine"
         />
-
 </LinearLayout>
