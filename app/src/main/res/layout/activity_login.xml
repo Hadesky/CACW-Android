@@ -24,6 +24,8 @@
     </android.support.v7.widget.Toolbar>
 
     <com.hadesky.cacw.widget.CircleImageView
+        cacw:border_color="@android:color/white"
+        cacw:border_width="1dp"
         android:id="@+id/login_icon"
         android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"

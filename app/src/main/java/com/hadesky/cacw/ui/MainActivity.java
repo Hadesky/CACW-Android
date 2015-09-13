@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.LinkManFragment;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MessageFragment;
@@ -35,6 +36,9 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         //Check if firstRun,if true, start Welcome Activity
         checkIfFirstRun();
+        //Check if had login,if no, start Login Activity
+        checkIfLogin();
+
         //ActionBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
         setSupportActionBar(toolbar);
@@ -46,6 +50,11 @@ public class MainActivity extends BaseActivity {
 
         //初始化退出的Toast，并不需要Show出来
         exitToast = Toast.makeText(this, "再按返回键退出", Toast.LENGTH_SHORT);
+    }
+
+    private void checkIfLogin() {
+        final MyApp app = (MyApp) getApplication();
+        app.getSession().checkLogin();
     }
 
     @Override
@@ -85,7 +94,15 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.action_settings:
+                break;
+            case R.id.action_logout:
+                final MyApp app = (MyApp) getApplication();
+                app.getSession().logoutUser();
+                break;
+        }
+        return true;
     }
 
     @Override

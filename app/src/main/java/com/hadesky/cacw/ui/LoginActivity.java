@@ -1,6 +1,7 @@
 package com.hadesky.cacw.ui;
 
 /**
+ * 登录Activity
  * Created by Bright Van on 2015/8/26/026.
  */
 
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,8 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.config.SessionManagement;
+import com.hadesky.cacw.util.LogUtils;
 import com.hadesky.cacw.util.LoginTask;
 import com.hadesky.cacw.widget.CircleImageView;
+
+import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends BaseActivity {
 
@@ -31,6 +38,8 @@ public class LoginActivity extends BaseActivity {
     private ImageButton mPwButton;
     private Button mLoginButton;
     private boolean mIsPwVisitable = false;
+    private SessionManagement mSession;
+    private String URL;
 
     @Override
     public int getLayoutId() {
@@ -49,6 +58,9 @@ public class LoginActivity extends BaseActivity {
         mUsername = (EditText) findViewById(R.id.login_username);
         mPassword = (EditText) findViewById(R.id.login_password);
 
+        final MyApp app = (MyApp) getApplication();
+        mSession = app.getSession();
+        URL = app.getURL();
     }
 
     @Override
@@ -120,7 +132,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    public void btOnClick(View view) {
+    public void btOnClick(View view) throws ExecutionException, InterruptedException {
         //检查网络状态
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -150,10 +162,22 @@ public class LoginActivity extends BaseActivity {
      * @param username 用户名
      * @param password 密码
      */
-    private void login(final String username, final String password) {
+    private void login(final String username, final String password) throws ExecutionException, InterruptedException {
         ProgressDialog progressDialog = new ProgressDialog(this);
 
-        LoginTask loginTask = new LoginTask(progressDialog, context);
+        LoginTask loginTask = new LoginTask(progressDialog, context, mSession);
         loginTask.execute(URL, username, password);
+        final int result = loginTask.get();
+        if (result == LoginTask.SUCCESS_NORMAL) {
+            onLoginSuccess();
+            LogUtils.d("loginTask result is :", "" + result);
+        }
+    }
+
+    /**
+     * 登录成功时调用
+     */
+    private void onLoginSuccess() {
+        
     }
 }

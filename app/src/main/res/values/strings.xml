@@ -7,5 +7,6 @@
     <string name="setting_remind">提醒</string>
     <string name="setting_complete">完成事项</string>
     <string name="setting_memo">备忘录</string>
+    <string name="logout">退出登录</string>
 
 </resources>

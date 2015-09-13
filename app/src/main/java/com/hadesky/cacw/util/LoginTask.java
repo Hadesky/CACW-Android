@@ -4,13 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.ui.MainActivity;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * 登陆时用到的Task
@@ -27,10 +31,12 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     //登陆时的进度Dialog
     ProgressDialog progressDialog;
     Context mContext;
+    SessionManagement mSession;
 
-    public LoginTask(ProgressDialog progressDialog, Context context) {
+    public LoginTask(ProgressDialog progressDialog, Context context,SessionManagement session) {
         this.progressDialog = progressDialog;
         mContext = context;
+        mSession = session;
     }
 
     @Override
@@ -44,6 +50,17 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
 
     private Integer login(String[] parms) throws IOException, JSONException {
         //TODO 需要修改
+        URL url = new URL(parms[0]);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setReadTimeout(10000);
+        connection.setConnectTimeout(15000);
+        //start
+        connection.connect();
+        int response = connection.getResponseCode();
+        Log.d("Login Tag", "The response is " + response);
+        if (response != 200) {
+            return ERROR_NO_RESPONSES;
+        }
         return SUCCESS_NORMAL;
     }
 
@@ -58,19 +75,19 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
         progressDialog.cancel();
         switch (result) {
             case ERROR_PASSWORD_WRONG:
-                Toast.makeText(mContext, "用户名或密码错误，请检查后再试", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "用户名或密码错误，请检查后再试", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR_ACCOUNT_NO_EXIST:
-                Toast.makeText(mContext, "用户名或密码错误，请检查后再试", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "用户名或密码错误，请检查后再试", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR_NO_RESPONSES:
-                Toast.makeText(mContext, "网络异常，请稍后再试", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "网络异常，请稍后再试", Toast.LENGTH_SHORT).show();
                 break;
             case ERROR_OTHER:
-                Toast.makeText(mContext, "未知错误", Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "未知错误", Toast.LENGTH_SHORT).show();
                 break;
             case SUCCESS_NORMAL:
-                session.createLoginSession("一张树叶", "455173472@qq.com");
+                mSession.createLoginSession("一张树叶", "455173472@qq.com");
                 Intent intent = new Intent();
                 intent.setClass(mContext, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
