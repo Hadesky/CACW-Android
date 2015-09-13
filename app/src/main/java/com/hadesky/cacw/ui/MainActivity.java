@@ -43,8 +43,10 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
-        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.icon);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //icon和字体已经在xml里面定义，目的是为了让homeButton不能点击，只找到这个解决方法，即自定义Toolbar
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setTitle("");
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
         mTabLayout = (TabLayout) findViewById(R.id.tabs_activity_main);
 
@@ -53,8 +55,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkIfLogin() {
-        final MyApp app = (MyApp) getApplication();
-        app.getSession().checkLogin();
+        if (!isFirstRun()) {
+            final MyApp app = (MyApp) getApplication();
+            app.getSession().checkLogin();
+        }
     }
 
     @Override

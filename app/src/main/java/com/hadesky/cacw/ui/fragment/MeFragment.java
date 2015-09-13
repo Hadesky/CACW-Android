@@ -27,8 +27,8 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        userImageView = (ImageView) view.findViewById(R.id.iv_UserImg);
-        userName = (TextView) view.findViewById(R.id.tv_UserName);
+        userImageView = (ImageView) view.findViewById(R.id.iv_Me_UserImg);
+        userName = (TextView) view.findViewById(R.id.tv_Me_UserName);
     }
 
     @Override

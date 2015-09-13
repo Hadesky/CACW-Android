@@ -39,7 +39,7 @@ public class SessionManagement {
     public boolean checkLogin() {
         if (!isLoggedIn()) {
             Intent intent = new Intent(contextWeakReference.get(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             contextWeakReference.get().startActivity(intent);
             return false;
         } else {

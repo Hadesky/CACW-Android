@@ -6,6 +6,7 @@ package com.hadesky.cacw.ui;
  */
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -164,20 +166,14 @@ public class LoginActivity extends BaseActivity {
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
         ProgressDialog progressDialog = new ProgressDialog(this);
-
+        progressDialog.setCancelable(false);
+        //隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+        }
         LoginTask loginTask = new LoginTask(progressDialog, context, mSession);
         loginTask.execute(URL, username, password);
-        final int result = loginTask.get();
-        if (result == LoginTask.SUCCESS_NORMAL) {
-            onLoginSuccess();
-            LogUtils.d("loginTask result is :", "" + result);
-        }
     }
 
-    /**
-     * 登录成功时调用
-     */
-    private void onLoginSuccess() {
-        
-    }
 }
