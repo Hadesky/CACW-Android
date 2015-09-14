@@ -6,7 +6,8 @@ import android.net.NetworkInfo;
 
 
 
-/**网络工具类
+/**
+ * 网络工具类
  * Created by ziyue on 2015/9/9 0009.
  */
 

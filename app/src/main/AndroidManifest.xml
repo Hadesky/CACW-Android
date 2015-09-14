@@ -32,8 +32,8 @@
 
     <application
         android:name=".config.MyApp"
-        android:fullBackupContent="false"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -46,24 +46,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" >
         </activity>
-
         <activity
             android:name=".ui.WelcomeActivity"
             android:label="欢迎使用"
             android:launchMode="singleTask" >
         </activity>
-
         <activity android:name=".ui.SettingsActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:launchMode="singleTask" />
-
+        <activity
+            android:name=".ui.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
     </application>
 
 </manifest>

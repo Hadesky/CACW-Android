@@ -21,7 +21,7 @@ import com.hadesky.cacw.widget.IndicatorView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
@@ -31,12 +31,27 @@ public class WelcomeActivity extends AppCompatActivity {
     private List<Integer> colorList;
     private int mPriviousIndex = 0;
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_welcome;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+    public void initView() {
+        colorList = new ArrayList<>();
+        colorList.add(0xFF92D050);
+        colorList.add(0xFF7030A0);
+        colorList.add(0xFF00B0F0);
 
+        initImageView();
+
+        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_welcome);
+        mAdapter = new WelcomePagerAdapter(imageViewList);
+        mIndicatorView = (IndicatorView) findViewById(R.id.indicator_activity_welcome);
+    }
+
+    @Override
+    public void setupView() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -44,28 +59,16 @@ public class WelcomeActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
-        colorList = new ArrayList<>();
-        colorList.add(0xFF92D050);
-        colorList.add(0xFF7030A0);
-        colorList.add(0xFF00B0F0);
-        initImageView();
-
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_welcome);
-        mAdapter = new WelcomePagerAdapter(imageViewList);
-        mViewPager.setAdapter(mAdapter);
-        mIndicatorView = (IndicatorView) findViewById(R.id.indicator_activity_welcome);
-        mIndicatorView.setViewPager(mViewPager);
         final View bg = findViewById(R.id.bg_activity_welcome);
         bg.setBackgroundColor(colorList.get(0));
+        mViewPager.setAdapter(mAdapter);
+        mIndicatorView.setViewPager(mViewPager);
         mIndicatorView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-
                 //颜色渐变动画
                 ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
                         "backgroundColor",
@@ -78,12 +81,9 @@ public class WelcomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
-        mViewPager.setPageTransformer(true,new ZoomOutPageTransformer());
-
+        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
     private void initImageView() {

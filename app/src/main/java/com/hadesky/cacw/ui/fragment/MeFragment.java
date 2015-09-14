@@ -33,13 +33,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                userName.setText(getUserName());
-            }
-        };
-        thread.start();
+        userName.setText(getUserName());
     }
 
     /**
@@ -48,7 +42,10 @@ public class MeFragment extends BaseFragment {
      */
     private String getUserName() {
         final MyApp app = (MyApp) getActivity().getApplication();
-        return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
+        if (app != null) {
+            return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
+        }
+        return null;
     }
 
 }

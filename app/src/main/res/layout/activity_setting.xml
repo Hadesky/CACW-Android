@@ -1,0 +1,174 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_base_window_background"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/login_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:textColor="@android:color/white"
+            android:text="@string/setting"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+
+    <View
+        style="@style/mDividingLine" />
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_general"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="通用"
+            />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/Me_item_margin_left"
+            android:src="@drawable/arrow_right_64"/>
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+    <View
+        style="@style/mDividingLine"
+        android:layout_marginTop="@dimen/Setting_item_div_width"/>
+
+
+    <RelativeLayout
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_receive_alarm"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="接受新消息提醒"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/Me_item_margin_left"/>
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+    <RelativeLayout
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_sound"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="声音"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/Me_item_margin_left"/>
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+    <RelativeLayout
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_vibration"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="振动"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/Me_item_margin_left"/>
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+    <View style="@style/mDividingLine"
+        android:layout_marginTop="@dimen/Setting_item_div_width"/>
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_about"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="关于"
+            />
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+    <RelativeLayout
+        android:focusable="true"
+        android:clickable="true"
+        android:background="@drawable/setting_item_bg"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:id="@+id/tv_setting_exit"
+            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="退出"
+            />
+    </RelativeLayout>
+
+    <View style="@style/mDividingLine" />
+
+</LinearLayout>

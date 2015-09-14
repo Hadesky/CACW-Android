@@ -50,12 +50,11 @@
 
     <View
         style="@style/mDividingLine"
-        android:layout_marginBottom="50dp"
         />
 
     <View
         style="@style/mDividingLine"
-        />
+        android:layout_marginTop="@dimen/Setting_item_div_width"/>
 
     <RelativeLayout
         android:focusable="true"
@@ -73,7 +72,6 @@
             android:src="@drawable/me_remind_64"/>
 
         <TextView
-            android:id="@+id/tv_Me_Remind"
             style="@style/mTextView_Settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -176,8 +174,7 @@
 
     <View
         style="@style/mDividingLine"
-        android:layout_marginTop="60dp"
-        />
+        android:layout_marginTop="@dimen/Setting_item_div_width"/>
 
     <RelativeLayout
         android:focusable="true"
@@ -202,7 +199,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_Me_setting"
             android:text="@string/setting"
             />

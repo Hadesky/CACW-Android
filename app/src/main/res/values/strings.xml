@@ -8,5 +8,8 @@
     <string name="setting_complete">完成事项</string>
     <string name="setting_memo">备忘录</string>
     <string name="logout">退出登录</string>
+    <string name="title_activity_setting">设置</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

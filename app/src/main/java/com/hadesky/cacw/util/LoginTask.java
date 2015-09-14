@@ -87,7 +87,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
                 Toast.makeText(mContext, "未知错误", Toast.LENGTH_SHORT).show();
                 break;
             case SUCCESS_NORMAL:
-                mSession.createLoginSession("一张树叶", "455173472@qq.com");
+                mSession.createLoginSession("蚂蚁测试员", "455173472@qq.com");
                 Intent intent = new Intent();
                 intent.setClass(mContext, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
