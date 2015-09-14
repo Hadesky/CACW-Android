@@ -9,8 +9,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 
-import java.util.logging.Handler;
-
 /**
  * MeFragment
  * Created by Bright Van on 2015/9/7/007.
@@ -27,8 +25,8 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        userImageView = (ImageView) view.findViewById(R.id.iv_UserImg);
-        userName = (TextView) view.findViewById(R.id.tv_UserName);
+        userImageView = (ImageView) view.findViewById(R.id.iv_Me_UserImg);
+        userName = (TextView) view.findViewById(R.id.tv_Me_UserName);
     }
 
     @Override
@@ -37,6 +35,7 @@ public class MeFragment extends BaseFragment {
             @Override
             public void run() {
                 userName.setText(getUserName());
+
             }
         };
         thread.start();

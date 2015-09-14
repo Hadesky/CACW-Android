@@ -20,7 +20,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/default_user_image"/>
+            android:src="@drawable/ic_clear_grey600_48dp"/>
 
         <TextView
             android:id="@+id/tv_Me_UserName"
@@ -194,7 +194,7 @@
             android:layout_width="25dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/me_64"/>
+            android:src="@drawable/me_setting_64"/>
 
         <TextView
             android:id="@+id/tv_Me_Setting"

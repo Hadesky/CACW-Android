@@ -11,7 +11,7 @@ import android.widget.Toast;
  * Created by Bright Van on 2015/8/22/022.
  */
 public abstract class BaseFragment extends Fragment {
-    private View mContentView;
+    protected View mContentView;
 
     public BaseFragment() {
     }
