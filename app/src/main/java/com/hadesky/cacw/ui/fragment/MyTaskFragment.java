@@ -1,11 +1,14 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.MyTaskListAdapter;
+import com.hadesky.cacw.adapter.MyTaskRecylerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 
 import java.util.ArrayList;
@@ -16,9 +19,13 @@ import java.util.List;
  */
 public class MyTaskFragment extends BaseFragment {
 
-    private ListView mListView;
-    private MyTaskListAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private MyTaskRecylerAdapter mAdapter;
     private List<TaskBean> mDatas;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private LinearLayoutManager mLayoutManager;
+    private int lastVisibleItem = 0 ;
+
 
     @Override
     public int getLayoutId() {
@@ -28,19 +35,60 @@ public class MyTaskFragment extends BaseFragment {
     @Override
     protected void initViews(View view) {
 
-        mListView = (ListView) mContentView.findViewById(R.id.lv_task_my_task_fragment);
-
+        mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.lv_task_my_task_fragment);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mContentView.findViewById(R.id.srl_my_task_fragment);
     }
 
     @Override
     protected void setupViews(Bundle bundle) {
 
         mDatas = new ArrayList<TaskBean>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             mDatas.add(new TaskBean());
         }
-        mAdapter = new MyTaskListAdapter(getContext(),mDatas);
-        mListView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },1000);
+            }
+        });
+
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyTaskRecylerAdapter(getContext(),mDatas);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView,
+                                             int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                    mSwipeRefreshLayout.setEnabled(mLayoutManager.findFirstVisibleItemPosition()==0);
+
+
+
+            }
+        });
+
+
 
     }
 }
