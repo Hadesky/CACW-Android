@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardCornerRadius="0dp"
+        android:elevation="10dp"
         >
 
         <RelativeLayout
@@ -33,6 +34,7 @@
                 />
 
             <TextView
+                android:padding="2dp"
                 android:textColor="@android:color/white"
                 android:background="#E59903"
                 android:id="@+id/tv_date_and_time"
@@ -43,6 +45,7 @@
                 android:text="5-19|13:20"/>
 
             <TextView
+                android:padding="2dp"
                 android:id="@+id/tv_teamwork_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +62,6 @@
                 android:background="@drawable/mytask_edit"
                 android:layout_width="20dp"
                 style="?attr/borderlessButtonStyle"
-
                 android:layout_height="20dp"/>
 
 
@@ -81,7 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button
-
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:textSize="12sp"
                     android:layout_gravity="center_vertical"

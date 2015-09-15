@@ -14,7 +14,8 @@ public class TaskBean {
 
     private String mTitle;
     private String mRemark;
-    private Date mDate;
+    private Date mStartDate;
+    private Date mEndDate;
     private int ID;
     private int mTaskStatus;
 
@@ -34,12 +35,12 @@ public class TaskBean {
         mRemark = remark;
     }
 
-    public Date getDate() {
-        return mDate;
+    public Date getStartDate() {
+        return mStartDate;
     }
 
-    public void setDate(Date date) {
-        mDate = date;
+    public void setStartDate(Date startDate) {
+        mStartDate = startDate;
     }
 
     public int getID() {
@@ -56,5 +57,13 @@ public class TaskBean {
 
     public void setTaskStatus(int taskStatus) {
         mTaskStatus = taskStatus;
+    }
+
+    public Date getEndDate() {
+        return mEndDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        mEndDate = endDate;
     }
 }
