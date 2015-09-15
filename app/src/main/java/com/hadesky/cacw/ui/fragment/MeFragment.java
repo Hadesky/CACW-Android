@@ -27,13 +27,19 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        userImageView = (ImageView) view.findViewById(R.id.iv_Me_UserImg);
-        userName = (TextView) view.findViewById(R.id.tv_Me_UserName);
+        userImageView = (ImageView) view.findViewById(R.id.iv_UserImg);
+        userName = (TextView) view.findViewById(R.id.tv_UserName);
     }
 
     @Override
     protected void setupViews(Bundle bundle) {
-        userName.setText(getUserName());
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                userName.setText(getUserName());
+            }
+        };
+        thread.start();
     }
 
     /**
@@ -42,10 +48,7 @@ public class MeFragment extends BaseFragment {
      */
     private String getUserName() {
         final MyApp app = (MyApp) getActivity().getApplication();
-        if (app != null) {
-            return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
-        }
-        return null;
+        return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
     }
 
 }
