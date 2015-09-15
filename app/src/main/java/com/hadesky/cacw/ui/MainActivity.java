@@ -3,6 +3,7 @@ package com.hadesky.cacw.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,8 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;//主界面
     private TabLayout mTabLayout;//主界面Fragment的容器
     private Toast exitToast;    //退出软件时的Toast
+    private AppBarLayout mAppBarLayout;
+
 
     @Override
     public int getLayoutId() {
@@ -50,6 +53,9 @@ public class MainActivity extends BaseActivity {
 
         //初始化退出的Toast，并不需要Show出来
         exitToast = Toast.makeText(this, "再按返回键退出", Toast.LENGTH_SHORT);
+
+
+        mAppBarLayout  = (AppBarLayout) findViewById(R.id.AppBar);
     }
 
     private void checkIfLogin() {
@@ -83,6 +89,14 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(adapter);
+
+
+    }
+
+
+    public void setAppBarLayoutVisiable(boolean visiable){
+        mAppBarLayout.setExpanded(visiable,true);
+
     }
 
     @Override
