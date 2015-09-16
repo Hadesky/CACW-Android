@@ -34,56 +34,48 @@
 
     <com.hadesky.cacw.widget.DeletableEditText
         style="@style/EditText_login"
-        android:background="@android:color/white"
         android:id="@+id/login_username"
         android:layout_marginTop="200dp"
         cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
         cacw:underline_color="@android:color/darker_gray"
         android:inputType="textEmailAddress"
-        android:textCursorDrawable="@null"
-        android:padding="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
         android:hint="邮箱/手机号"
         android:imeOptions="actionNext"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:id="@+id/login_password_layout"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignTop="@id/login_username"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="50dp">
         <com.hadesky.cacw.widget.DeletableEditText
             style="@style/EditText_login"
-            android:layout_marginRight="30dp"
             android:id="@+id/login_password"
             cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+            cacw:underline_color="@android:color/darker_gray"
+            android:layout_weight="7"
             android:inputType="textPassword"
-            android:textCursorDrawable="@null"
-            android:padding="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
             android:hint="密码"
             android:imeOptions="actionGo"/>
+
         <ImageButton
             android:id="@+id/login_password_eye"
             android:src="@drawable/activity_login_pw_eye"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_width="32dp"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:contentDescription="显示/隐藏密码"/>
-    </RelativeLayout>
+    </LinearLayout>
+
     <Button
         style="@style/LoginButton_login"
         android:id="@+id/login_login_button"
         android:textColor="@android:color/white"
         android:textSize="20sp"
-        android:text="登录"
+        android:text="@string/login"
         android:layout_alignTop="@id/login_password_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
@@ -91,14 +83,15 @@
     <TextView
         android:text="忘记密码？"
         android:linksClickable="true"
-        android:layout_margin="10dp"
+        android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
         android:text="新用户注册"
-        android:linksClickable="true"
-        android:layout_margin="10dp"
+        android:clickable="true"
+        android:onClick="startRegActivity"
+        android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

@@ -11,5 +11,6 @@
     <string name="title_activity_setting">设置</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_register">注册</string>
 
 </resources>

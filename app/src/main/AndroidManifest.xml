@@ -29,6 +29,10 @@
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 读取账户权限 -->
+    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS" />
+    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS_PRIVILEGED" />
+    <uses-permission android:name="ANDROID.PERMISSION.ACCOUNT_MANAGER" />
 
     <application
         android:name=".config.MyApp"
@@ -63,6 +67,14 @@
         <activity
             android:name=".ui.SettingActivity"
             android:label="@string/title_activity_setting" >
+        </activity>
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".ui.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hadesky.cacw.ui.LoginActivity" />
         </activity>
     </application>
 

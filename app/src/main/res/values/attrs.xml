@@ -15,4 +15,7 @@
         <attr name="clear_icon" format="reference" />
         <attr name="underline_color" format="color" />
     </declare-styleable>
+    <declare-styleable name="PwDeletableEditText">
+        <attr name="eye_icon" format="reference" />
+    </declare-styleable>
 </resources>

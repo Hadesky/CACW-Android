@@ -34,13 +34,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                userName.setText(getUserName());
-            }
-        };
-        thread.start();
+        userName.setText(getUserName());
     }
 
     /**

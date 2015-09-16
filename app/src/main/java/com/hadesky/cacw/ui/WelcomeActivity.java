@@ -114,6 +114,7 @@ public class WelcomeActivity extends BaseActivity {
 
     public void startLoginActivity(View view) {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         this.finish();
     }
 

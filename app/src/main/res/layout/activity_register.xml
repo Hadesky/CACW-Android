@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/login_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:textColor="@android:color/white"
+            android:text="@string/register"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.Toolbar>
+
+    <com.hadesky.cacw.widget.DeletableEditText
+        style="@style/EditText_login"
+        android:id="@+id/reg_username"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="150dp"
+        android:hint="邮箱/手机号"
+        android:imeOptions="actionNext"
+        cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+        cacw:underline_color="@android:color/darker_gray"/>
+
+    <com.hadesky.cacw.widget.DeletableEditText
+        style="@style/EditText_login"
+        android:id="@+id/reg_password"
+        android:inputType="textPassword"
+        android:hint="密码"
+        android:imeOptions="actionNext"
+        android:layout_alignTop="@id/reg_username"
+        android:layout_marginTop="50dp"
+        cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+        cacw:underline_color="@android:color/darker_gray"/>
+
+    <com.hadesky.cacw.widget.DeletableEditText
+        style="@style/EditText_login"
+        android:id="@+id/reg_password_confirm"
+        android:inputType="textPassword"
+        android:hint="再次输入密码"
+        android:imeOptions="actionNext"
+        android:layout_alignTop="@id/reg_password"
+        android:layout_marginTop="50dp"
+        cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+        cacw:underline_color="@android:color/darker_gray"/>
+
+    <Button
+        style="@style/LoginButton_login"
+        android:id="@+id/login_login_button"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="@string/register"
+        android:layout_alignTop="@id/reg_password_confirm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"/>
+
+
+    <TextView
+        android:textSize="12sp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="通过创建账户，你同意我们的使用条款以及隐私政策"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.util.DecodeBitmap;
+import com.hadesky.cacw.util.DensityUtil;
 
 /**
  * 自定义View，带有一个删除键
@@ -27,6 +28,7 @@ import com.hadesky.cacw.util.DecodeBitmap;
 public class DeletableEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
 
     private int mUnderlineColor;
+    private int HintColor = 0;
     private Paint mPaint;
     private int mClearIconId;
     private BitmapDrawable mClearIcon;
@@ -34,6 +36,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private int mIconLeftX;
     private int mIconRightX;
     private boolean isClearIconVisible = true;
+    private boolean isFocused = false;
     private Resources mResources;
 
     public DeletableEditText(Context context) {
@@ -63,6 +66,9 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
             }
         }
         typedArray.recycle();
+
+        HintColor = getResources().getColor(R.color.color_primary);
+
         init();
     }
 
@@ -73,8 +79,6 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         mClearIcon = new BitmapDrawable(mResources, ClearIconBitmap);
 
         mPaint = new Paint();
-        mPaint.setStrokeWidth(3.0f);
-        mPaint.setColor(mUnderlineColor);
 
         if (mClearIcon == null) {
             throw new RuntimeException("没有为删除图标设置资源");
@@ -114,11 +118,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     @Override
     protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            int x=this.getScrollX();
-            int w=this.getMeasuredWidth();
-            canvas.drawLine(0, this.getHeight() - 1, w+x,
-                    this.getHeight() - 1, mPaint);
+        super.onDraw(canvas);
+        drawUnderLine(canvas, isFocused);
     }
 
     public void setIsClearIconVisible(boolean isClearIconVisible) {
@@ -130,6 +131,28 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         }
     }
 
+    public void setHintColor(int Color) {
+        this.HintColor = Color;
+    }
+
+
+    private void drawUnderLine(Canvas canvas,boolean foucsed) {
+        mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 1));
+        mPaint.setColor(mUnderlineColor);
+        if (foucsed && HintColor != 0) {
+            mPaint.setColor(HintColor);
+        }
+        int x = this.getScrollX();
+        int w = this.getMeasuredWidth();
+        canvas.drawLine(0, this.getHeight() - 1, w + x,
+                this.getHeight() - 1, mPaint);
+    }
+
+    public void setUnderlineColor(int Color) {
+        this.mUnderlineColor = Color;
+        invalidate();
+    }
+
     @Override
     public void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
         super.onTextChanged(text, start, lengthBefore, lengthAfter);
@@ -138,11 +161,13 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        isFocused = hasFocus;
         if (hasFocus) {
             setIsClearIconVisible(getText().length() > 0);
         } else {
             setIsClearIconVisible(false);
         }
+        invalidate();
     }
 
     @Override

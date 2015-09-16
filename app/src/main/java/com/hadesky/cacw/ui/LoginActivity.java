@@ -7,13 +7,16 @@ package com.hadesky.cacw.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,7 +37,7 @@ import com.hadesky.cacw.widget.CircleImageView;
 
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity{
 
     private EditText mUsername, mPassword;
     private ImageButton mPwButton;
@@ -176,4 +179,8 @@ public class LoginActivity extends BaseActivity {
         loginTask.execute(URL, username, password);
     }
 
+    public void startRegActivity(View view) {
+        Intent i = new Intent(context, RegisterActivity.class);
+        startActivity(i);
+    }
 }
