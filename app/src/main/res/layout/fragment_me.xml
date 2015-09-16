@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/color_base_window_background"
-              android:orientation="vertical"
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_base_window_background"
+    android:orientation="vertical"
     >
 
+
     <RelativeLayout
-        android:focusable="true"
-        android:clickable="true"
-        android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:focusable="true"
         >
 
         <ImageView
@@ -20,7 +25,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/default_user_image"/>
+            android:src="@drawable/ic_clear_grey600_48dp"/>
 
         <TextView
             android:id="@+id/tv_Me_UserName"
@@ -57,18 +62,19 @@
         android:layout_marginTop="@dimen/Setting_item_div_width"/>
 
     <RelativeLayout
-        android:focusable="true"
-        android:clickable="true"
-        android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="false">
 
         <ImageView
-            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:id="@+id/iv_Me_remind"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:src="@drawable/me_remind_64"/>
 
         <TextView
@@ -88,25 +94,27 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
+
     <View
         style="@style/mDividingLine"
         />
 
 
     <RelativeLayout
-        android:focusable="true"
-        android:clickable="true"
-        android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:id="@+id/iv_Me_complete"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:src="@drawable/me_complete_64"/>
 
         <TextView
@@ -134,19 +142,19 @@
 
 
     <RelativeLayout
-        android:focusable="true"
-        android:clickable="true"
-        android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:focusable="true"
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:id="@+id/iv_Me_memo"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:src="@drawable/me_memo_64"/>
 
         <TextView
@@ -177,20 +185,20 @@
         android:layout_marginTop="@dimen/Setting_item_div_width"/>
 
     <RelativeLayout
-        android:focusable="true"
-        android:clickable="true"
-        android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/setting_item_bg"
+        android:clickable="true"
+        android:focusable="true"
         >
 
         <ImageView
-            android:layout_marginLeft="@dimen/Me_item_margin_left"
-
             android:id="@+id/iv_Me_setting"
+
             android:layout_width="25dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:src="@drawable/me_setting_64"/>
 
         <TextView
@@ -202,7 +210,6 @@
             android:layout_toRightOf="@id/iv_Me_setting"
             android:text="@string/setting"
             />
-
 
         <ImageView
             android:layout_width="20dp"
@@ -217,3 +224,4 @@
         style="@style/mDividingLine"
         />
 </LinearLayout>
+

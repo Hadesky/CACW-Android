@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
+import com.hadesky.cacw.ui.MainActivity;
 
 import java.util.logging.Handler;
 
@@ -51,4 +52,11 @@ public class MeFragment extends BaseFragment {
         return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+            ((MainActivity) getActivity()).setAppBarLayoutVisiable(true);
+
+
+    }
 }

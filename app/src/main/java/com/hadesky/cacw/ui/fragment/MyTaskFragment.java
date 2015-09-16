@@ -3,6 +3,7 @@ package com.hadesky.cacw.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,8 +25,6 @@ public class MyTaskFragment extends BaseFragment {
     private List<TaskBean> mDatas;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLayoutManager;
-    private int lastVisibleItem = 0 ;
-
 
     @Override
     public int getLayoutId() {
@@ -61,12 +60,12 @@ public class MyTaskFragment extends BaseFragment {
             }
         });
 
-
         mLayoutManager = new LinearLayoutManager(getContext());
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyTaskRecyclerAdapter(getContext(),mDatas);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -80,15 +79,10 @@ public class MyTaskFragment extends BaseFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                    mSwipeRefreshLayout.setEnabled(mLayoutManager.findFirstVisibleItemPosition()==0);
-
-
-
+                mSwipeRefreshLayout.setEnabled(mLayoutManager.findFirstVisibleItemPosition() == 0);
             }
         });
-
-
-
     }
+
+
 }
