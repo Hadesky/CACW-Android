@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by dzysg on 2015/9/14 0014.
  */
-public class MyTaskListAdapter extends CommenAdapter<TaskBean> {
+public class MyTaskListAdapter extends CommonAdapter<TaskBean> {
 
     public MyTaskListAdapter(Context context, List<TaskBean> list) {
         super(context, list);

@@ -1,6 +1,7 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +16,18 @@ import java.util.List;
 /**
  * Created by ziyue on 2015/7/24 0024.
  */
-public class MyTaskRecylerAdapter extends RecyclerView.Adapter<MyTaskRecylerAdapter.MyTaskViewHolder> {
+public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAdapter.MyTaskViewHolder> {
 
     private Context mContext;
     private List<TaskBean> mDatas;
     private LayoutInflater mInflater;
 
 
-    public MyTaskRecylerAdapter(Context context, List<TaskBean> list) {
+    public MyTaskRecyclerAdapter(Context context, List<TaskBean> list) {
 
         mInflater = LayoutInflater.from(context);
         mContext = context;
         mDatas = list;
-
 
     }
 
@@ -36,11 +36,7 @@ public class MyTaskRecylerAdapter extends RecyclerView.Adapter<MyTaskRecylerAdap
 
         View view = mInflater.inflate(R.layout.list_item_teamtask, viewGroup, false);
 
-
-        MyTaskViewHolder myViewHolder = new MyTaskViewHolder(view);
-
-
-        return myViewHolder;
+        return new MyTaskViewHolder(view);
     }
 
     @Override

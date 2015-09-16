@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.MyTaskRecylerAdapter;
+import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 public class MyTaskFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
-    private MyTaskRecylerAdapter mAdapter;
+    private MyTaskRecyclerAdapter mAdapter;
     private List<TaskBean> mDatas;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLayoutManager;
@@ -65,7 +65,7 @@ public class MyTaskFragment extends BaseFragment {
         mLayoutManager = new LinearLayoutManager(getContext());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecylerAdapter(getContext(),mDatas);
+        mAdapter = new MyTaskRecyclerAdapter(getContext(),mDatas);
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {

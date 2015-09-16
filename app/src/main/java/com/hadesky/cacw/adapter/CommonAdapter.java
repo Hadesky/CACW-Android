@@ -17,18 +17,18 @@ import java.util.List;
  *
  * Created by dzysg on 2015/9/14 0014.
  */
-public abstract class CommenAdapter<T> extends BaseAdapter
+public abstract class CommonAdapter<T> extends BaseAdapter
 {
-	protected List<T> mDatas;
+	protected List<T> mData;
 	protected Context mContext;
 	protected LayoutInflater mInflater;
 	
 	
 	
-	public CommenAdapter(Context context,List<T> list)
+	public CommonAdapter(Context context, List<T> list)
 	{
 		mContext = context;
-		mDatas = list;
+		mData = list;
 		mInflater = LayoutInflater.from(context);
 	}
 
@@ -37,13 +37,13 @@ public abstract class CommenAdapter<T> extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		return mDatas.size();
+		return mData.size();
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return mDatas.get(position);
+		return mData.get(position);
 	}
 
 	@Override
