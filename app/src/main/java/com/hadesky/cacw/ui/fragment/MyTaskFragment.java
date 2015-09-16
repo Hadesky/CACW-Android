@@ -70,7 +70,7 @@ public class MyTaskFragment extends BaseFragment {
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecylerAdapter(getContext(), mDatas);
+        mAdapter = new MyTaskRecyclerAdapter(getContext(), mDatas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
