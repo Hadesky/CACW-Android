@@ -67,8 +67,8 @@
         android:layout_height="50dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="false">
+
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/iv_Me_remind"
@@ -108,7 +108,6 @@
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true"
-        android:focusableInTouchMode="true"
         >
 
         <ImageView
