@@ -13,12 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+                android:layout_marginBottom="4dp"
+                android:id="@+id/tv_my_task_range"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
-
+                android:background="@drawable/setting_item_bg"
                 android:textSize="18sp"
                 android:text="今天"
-                android:background="@android:color/transparent"
+                android:clickable="true"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"/>
             <View
