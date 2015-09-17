@@ -13,19 +13,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="6dp"
                 android:id="@+id/tv_my_task_range"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
+                android:drawableRight="@drawable/arrow_down"
                 android:background="@drawable/setting_item_bg"
                 android:textSize="18sp"
                 android:text="今天"
                 android:clickable="true"
-                android:layout_width="100dp"
+                android:paddingRight="4dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <View
                 style="@style/mDividingLine"
-                android:layout_height="3px"
+                android:layout_height="4px"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="0dp"

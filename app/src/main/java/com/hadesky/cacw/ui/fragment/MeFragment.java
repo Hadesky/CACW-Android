@@ -10,8 +10,6 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.ui.MainActivity;
 
-import java.util.logging.Handler;
-
 /**
  * MeFragment
  * Created by Bright Van on 2015/9/7/007.
@@ -50,7 +48,6 @@ public class MeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
             ((MainActivity) getActivity()).setAppBarLayoutVisiable(true);
-
-
     }
+
 }

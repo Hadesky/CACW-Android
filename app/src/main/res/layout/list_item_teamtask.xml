@@ -15,7 +15,6 @@
         card_view:cardCornerRadius="0dp"
         android:elevation="10dp"
         >
-
         <RelativeLayout
 
             android:layout_width="match_parent"
@@ -66,15 +65,14 @@
                 style="?attr/borderlessButtonStyle"
                 android:layout_height="20dp"/>
 
-
-
             <Button
                 style="?attr/borderlessButtonStyle"
                 android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@id/iv_teamwork_edit"
                 android:id="@+id/iv_teamwork_star"
-                android:background="@drawable/mytask_star"
+                android:scaleType="center"
                 android:layout_width="20dp"
+                android:background="@drawable/mytask_star"
                 android:layout_height="20dp"/>
 
             <LinearLayout
@@ -128,7 +126,6 @@
                     android:gravity="start|center_vertical"
                     android:text="提醒"
                     android:textSize="12sp"
-
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:drawableLeft="@drawable/mytask_alarm"
                     android:layout_width="0dp"

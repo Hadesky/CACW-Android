@@ -1,16 +1,13 @@
 package com.hadesky.cacw.ui.fragment;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
@@ -32,8 +29,7 @@ public class MyTaskFragment extends BaseFragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayoutManager mLayoutManager;
     private TextView mTvSelectRange;
-
-    private PopupWindow mRangeWindow;
+    private PopupMenu mPopupMenu;
 
     @Override
     public int getLayoutId() {
@@ -81,41 +77,27 @@ public class MyTaskFragment extends BaseFragment {
             public void onScrollStateChanged(RecyclerView recyclerView,
                                              int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
+                    mSwipeRefreshLayout.setEnabled(true);
+                else
+                    mSwipeRefreshLayout.setEnabled(false);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mSwipeRefreshLayout.setEnabled(mLayoutManager.findFirstVisibleItemPosition() == 0);
             }
         });
 
-        initPopupWindows();
-
+        mPopupMenu = new PopupMenu(getContext(),mTvSelectRange);
+        getActivity().getMenuInflater().inflate(R.menu.menu_task_popup,mPopupMenu.getMenu());
 
         mTvSelectRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mRangeWindow.showAsDropDown(mTvSelectRange, 10, 10);
-
+                mPopupMenu.show();
             }
         });
-
-    }
-
-    private void initPopupWindows() {
-
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.my_task_popupmenu, null);
-        mRangeWindow = new PopupWindow(view, 500, LinearLayout.LayoutParams.WRAP_CONTENT);
-        // 使其聚集
-        mRangeWindow.setFocusable(true);
-        // 设置允许在外点击消失
-        mRangeWindow.setOutsideTouchable(true);
-        //刷新状态（必须刷新否则无效）
-        mRangeWindow.update();
-        mRangeWindow.setBackgroundDrawable(new BitmapDrawable());//加这行在外点击才消失，原因不明
-
 
     }
 
