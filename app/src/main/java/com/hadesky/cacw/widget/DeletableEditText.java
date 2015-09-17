@@ -37,7 +37,9 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private int mIconRightX;
     private boolean isClearIconVisible = true;
     private boolean isFocused = false;
+    private boolean isTouch = false;
     private Resources mResources;
+
 
     public DeletableEditText(Context context) {
         this(context, null);
@@ -105,15 +107,24 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (isClearIconVisible) {
-                boolean isTouch = event.getX() > mIconLeftX && event.getX() < mIconRightX;
-                if (isTouch) {
-                    this.setText("");
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (isClearIconVisible) {
+                    //按下事件，且图标可视，此时应该判断第一次按下的位置是否处图标所在位置
+                    isTouch = event.getX() > mIconLeftX && event.getX() < mIconRightX;
                 }
-            }
+                break;
+            case MotionEvent.ACTION_UP:
+                //手指抬起，且图标可视，此时应该判断位置是否在图标所在位置，若是，再判断isTouch是否为真，为真则清空文本
+                if (event.getX() > mIconLeftX && event.getX() < mIconRightX) {
+                    if (isTouch) {
+                        this.setText("");
+                    }
+                }
+                break;
         }
         return super.onTouchEvent(event);
+
     }
 
     @Override
