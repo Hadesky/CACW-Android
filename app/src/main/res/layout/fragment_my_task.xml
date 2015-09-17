@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:background="@android:color/white"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@android:color/white">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_my_task_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
-                android:layout_marginBottom="6dp"
                 android:id="@+id/tv_my_task_range"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="16dp"
-                android:drawableRight="@drawable/arrow_down"
-                android:background="@drawable/setting_item_bg"
-                android:textSize="18sp"
-                android:text="今天"
-                android:clickable="true"
-                android:paddingRight="4dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/setting_item_bg"
+                android:clickable="true"
+                android:drawableRight="@drawable/arrow_down"
+                android:paddingRight="4dp"
+                android:text="今天"
+                android:textSize="18sp"/>
+
             <View
                 style="@style/mDividingLine"
                 android:layout_height="4px"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="0dp"
                 />
 
             <android.support.v7.widget.RecyclerView

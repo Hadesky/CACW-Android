@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.ui.MainActivity;
 
 import java.io.ByteArrayInputStream;
 
@@ -70,10 +69,5 @@ public class MeFragment extends BaseFragment {
         return null;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-            ((MainActivity) getActivity()).setAppBarLayoutVisiable(true);
-    }
 
 }

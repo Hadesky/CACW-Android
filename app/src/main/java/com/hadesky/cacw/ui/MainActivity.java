@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
@@ -28,7 +30,7 @@ public class MainActivity extends BaseActivity {
     private TabLayout mTabLayout;//主界面Fragment的容器
     private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
-
+    private FloatingActionButton mFab; //悬浮button
 
     @Override
     public int getLayoutId() {
@@ -58,6 +60,7 @@ public class MainActivity extends BaseActivity {
 
 
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.AppBar);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     private void checkIfLogin() {
@@ -95,11 +98,27 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setTabsFromPagerAdapter(adapter);
 
 
-    }
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+            @Override
+            public void onPageSelected(int position) {
+                if (position==3)
+                mAppBarLayout.setExpanded(true,true);
+                if (position!=0){
+                    mFab.setVisibility(View.GONE);
+                }else{
+                    mFab.setVisibility(View.VISIBLE);
+                }
+            }
 
-    public void setAppBarLayoutVisiable(boolean visiable){
-        mAppBarLayout.setExpanded(visiable,true);
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
