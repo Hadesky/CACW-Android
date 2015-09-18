@@ -146,7 +146,6 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         this.HintColor = Color;
     }
 
-
     private void drawUnderLine(Canvas canvas,boolean foucsed) {
         mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 1));
         mPaint.setColor(mUnderlineColor);

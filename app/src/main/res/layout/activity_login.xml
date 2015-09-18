@@ -83,16 +83,16 @@
         android:layout_marginTop="80dp"
         android:onClick="btOnClick"/>
     <TextView
+        style="@style/LinkButton_login"
         android:text="忘记密码？"
-        android:linksClickable="true"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        style="@style/LinkButton_login"
         android:text="新用户注册"
-        android:clickable="true"
-        android:onClick="startRegActivity"
+        android:onClick="goRegisterActivity"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

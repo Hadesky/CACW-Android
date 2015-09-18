@@ -52,21 +52,12 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-
-    <View
-        style="@style/mDividingLine"
-        />
-
-    <View
-        style="@style/mDividingLine"
-        android:layout_marginTop="@dimen/Setting_item_div_width"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/Setting_item_div_width"
         android:layout_height="50dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
-
         android:focusable="true">
 
         <ImageView
@@ -95,9 +86,7 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-    <View
-        style="@style/mDividingLine"
-        />
+    <ImageView style="@style/paddingDividingLine" />
 
 
     <RelativeLayout
@@ -135,10 +124,7 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-    <View
-        style="@style/mDividingLine"
-        />
-
+    <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -175,15 +161,8 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-    <View
-        style="@style/mDividingLine"
-        />
-
-    <View
-        style="@style/mDividingLine"
-        android:layout_marginTop="@dimen/Setting_item_div_width"/>
-
     <RelativeLayout
+        android:layout_marginTop="@dimen/Setting_item_div_width"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/setting_item_bg"
@@ -218,9 +197,5 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
-
-    <View
-        style="@style/mDividingLine"
-        />
 </LinearLayout>
 

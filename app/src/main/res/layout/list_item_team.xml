@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/setting_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/iv_team_avatar"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:layout_width="@dimen/Team_item_img_size"
+        android:layout_height="@dimen/Team_item_img_size" />
+    <TextView
+        style="@style/textView_item_team"
+        android:id="@+id/tv_team_title"
+        android:layout_toRightOf="@id/iv_team_avatar"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

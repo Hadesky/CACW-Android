@@ -2,7 +2,7 @@
 <resources>
 
     <!-- 整个App的基本color,不可以随便更改-->
-    <color name="color_base_text_color">#666</color>
+    <color name="color_base_text_color">#424242</color>
     <color name="color_base_item_bg_press">#ddd</color>
     <color name="color_base_item_bg_normal">#fff</color>
     <color name="color_primary">#03a9f4</color>
@@ -16,7 +16,6 @@
     <color name="color_bg_ibtn_white">#1fffffff</color>
     <color name="color_text_tab_main">#888</color>
     <color name="color_bg_tab_main">#fff</color>
-
 
     <color name="setting_item_selected_bd">#77b6b6b6</color>
 </resources>

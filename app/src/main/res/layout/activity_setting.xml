@@ -23,9 +23,6 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <View
-        style="@style/mDividingLine" />
-
     <RelativeLayout
         android:focusable="true"
         android:clickable="true"
@@ -51,14 +48,9 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-    <View style="@style/mDividingLine" />
-
-    <View
-        style="@style/mDividingLine"
-        android:layout_marginTop="@dimen/Setting_item_div_width"/>
-
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/Setting_item_div_width"
         android:background="@drawable/setting_item_bg"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -80,7 +72,7 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"/>
     </RelativeLayout>
 
-    <View style="@style/mDividingLine" />
+    <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
         android:background="@drawable/setting_item_bg"
@@ -104,7 +96,7 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"/>
     </RelativeLayout>
 
-    <View style="@style/mDividingLine" />
+    <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
         android:background="@drawable/setting_item_bg"
@@ -128,12 +120,8 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"/>
     </RelativeLayout>
 
-    <View style="@style/mDividingLine" />
-
-    <View style="@style/mDividingLine"
-        android:layout_marginTop="@dimen/Setting_item_div_width"/>
-
     <RelativeLayout
+        android:layout_marginTop="@dimen/Setting_item_div_width"
         android:focusable="true"
         android:clickable="true"
         android:background="@drawable/setting_item_bg"
@@ -150,7 +138,7 @@
             />
     </RelativeLayout>
 
-    <View style="@style/mDividingLine" />
+    <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
         android:focusable="true"
@@ -168,7 +156,4 @@
             android:text="退出"
             />
     </RelativeLayout>
-
-    <View style="@style/mDividingLine" />
-
 </LinearLayout>

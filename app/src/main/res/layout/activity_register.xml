@@ -62,13 +62,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"/>
 
-
     <TextView
         android:textSize="12sp"
         android:layout_marginBottom="16dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:text="通过创建账户，你同意我们的使用条款以及隐私政策"
+        android:text="@string/terms_statement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

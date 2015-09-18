@@ -10,8 +10,6 @@ import java.util.Date;
 public class TaskBean {
 
 
-
-
     private String mTitle;
     private String mRemark;
     private Date mStartDate;

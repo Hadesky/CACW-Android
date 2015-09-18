@@ -16,7 +16,12 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -74,6 +79,7 @@ public class LoginActivity extends BaseActivity{
         setupEditText();
         setupActionBar();
     }
+
 
     private void setupActionBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
@@ -179,8 +185,8 @@ public class LoginActivity extends BaseActivity{
         loginTask.execute(URL, username, password);
     }
 
-    public void startRegActivity(View view) {
-        Intent i = new Intent(context, RegisterActivity.class);
-        startActivity(i);
+    public void goRegisterActivity(View view) {
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        startActivity(intent);
     }
 }

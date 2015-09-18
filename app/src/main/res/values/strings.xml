@@ -12,5 +12,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_register">注册</string>
+    <string name="terms_statement">通过创建账户，你同意我们的<b>使用条款</b>以及<b>隐私政策</b></string>
 
 </resources>

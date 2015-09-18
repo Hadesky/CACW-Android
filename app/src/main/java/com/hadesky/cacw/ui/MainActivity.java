@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.fragment.LinkManFragment;
+import com.hadesky.cacw.ui.fragment.TeamFragment;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MessageFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new MyTaskFragment());
         fragments.add(new MessageFragment());
-        fragments.add(new LinkManFragment());
+        fragments.add(new TeamFragment());
         fragments.add(new MeFragment());
         FragmentAdapter adapter =
                 new FragmentAdapter(getSupportFragmentManager(), fragments, titles);

@@ -7,4 +7,6 @@
     <dimen name="Me_item_margin_right">16dp</dimen>
 
     <dimen name="Setting_item_div_width">25dp</dimen>
+
+    <dimen name="Team_item_img_size">40dp</dimen>
 </resources>
