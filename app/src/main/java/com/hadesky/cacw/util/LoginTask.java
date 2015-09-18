@@ -3,10 +3,15 @@ package com.hadesky.cacw.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.ProfileBean;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.ui.MainActivity;
 
@@ -32,6 +37,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     ProgressDialog progressDialog;
     Context mContext;
     SessionManagement mSession;
+    private Object profileBean;
 
     public LoginTask(ProgressDialog progressDialog, Context context,SessionManagement session) {
         this.progressDialog = progressDialog;
@@ -87,14 +93,37 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
                 Toast.makeText(mContext, "未知错误", Toast.LENGTH_SHORT).show();
                 break;
             case SUCCESS_NORMAL:
-                mSession.createLoginSession("蚂蚁测试员", "455173472@qq.com");
-                Intent intent = new Intent();
-                intent.setClass(mContext, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                progressDialog.cancel();
-                mContext.startActivity(intent);
+                onSuccessLogin();
                 break;
         }
+    }
+
+    /**
+     * 在账户密码一切正确正常的时候调用
+     */
+    private void onSuccessLogin() {
+        ProfileBean bean = getProfileBean();
+        mSession.createLoginSession(bean);
+
+        Intent intent = new Intent();
+        intent.setClass(mContext, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        progressDialog.cancel();
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * 生成账户信息,TODO,需要改成从网络获取
+     * @return ProfileBean
+     */
+    public ProfileBean getProfileBean() {
+        ProfileBean bean = new ProfileBean();
+        bean.setUserName("蚂蚁测试员");
+        bean.setUserEmail("abc@mayi.com");
+        bean.setUserPhoneNumber("123456");
+        Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_user_image);
+        bean.setUserAvatar(avatar);
+        return bean;
     }
 }

@@ -3,9 +3,16 @@ package com.hadesky.cacw.config;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Base64;
 
+import com.hadesky.cacw.bean.ProfileBean;
 import com.hadesky.cacw.ui.LoginActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
@@ -14,6 +21,7 @@ import java.util.HashMap;
  * Created by 45517 on 2015/8/20.
  */
 public class SessionManagement {
+    private static final String KEY_PHONE = "phoneNumber";
     private SharedPreferences mPref;
     private WeakReference<Context> contextWeakReference;
     private final static int PRIVATE_MODE = 0;
@@ -36,6 +44,25 @@ public class SessionManagement {
 
         editor.apply();
     }
+
+    public void createLoginSession(ProfileBean bean) {
+        final SharedPreferences.Editor editor = mPref.edit();
+        editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_NAME, bean.getUserName());
+        editor.putString(KEY_EMAIL, bean.getUserEmail());
+        editor.putString(KEY_PHONE, bean.getUserPhoneNumber());
+
+        //放入头像
+        Bitmap bitmap = bean.getUserAvatar();
+        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray=byteArrayOutputStream.toByteArray();
+        String imageString= Base64.encodeToString(byteArray, Base64.DEFAULT);
+        editor.putString(KEY_AVATAR, imageString);
+
+        editor.apply();
+    }
+
     public boolean checkLogin() {
         if (!isLoggedIn()) {
             Intent intent = new Intent(contextWeakReference.get(), LoginActivity.class);
@@ -71,6 +98,10 @@ public class SessionManagement {
 
         // user email id
         user.put(KEY_EMAIL, mPref.getString(KEY_EMAIL, null));
+
+        user.put(KEY_PHONE, mPref.getString(KEY_PHONE, null));
+
+        user.put(KEY_AVATAR, mPref.getString(KEY_AVATAR, null));
 
         // return user
         return user;
