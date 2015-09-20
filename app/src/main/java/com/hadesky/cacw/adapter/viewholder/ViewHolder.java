@@ -1,4 +1,4 @@
-package com.hadesky.cacw.adapter;
+package com.hadesky.cacw.adapter.viewholder;
 
 import android.content.Context;
 import android.util.SparseArray;

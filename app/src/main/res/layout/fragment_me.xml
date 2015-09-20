@@ -168,11 +168,11 @@
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="goSettingActivity"
         >
 
         <ImageView
             android:id="@+id/iv_Me_setting"
-
             android:layout_width="25dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"

@@ -19,7 +19,6 @@ import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.TeamFragment;
 import com.hadesky.cacw.ui.fragment.MeFragment;
-import com.hadesky.cacw.ui.fragment.MessageFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
     private FloatingActionButton mFab; //悬浮button
+
 
     @Override
     public int getLayoutId() {
@@ -83,12 +83,10 @@ public class MainActivity extends BaseActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[0]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[1]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[2]));
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles[3]));
         mTabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         mTabLayout.setTabTextColors(0xEEF5F5F5, Color.WHITE);
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new MyTaskFragment());
-        fragments.add(new MessageFragment());
         fragments.add(new TeamFragment());
         fragments.add(new MeFragment());
         FragmentAdapter adapter =
@@ -187,5 +185,10 @@ public class MainActivity extends BaseActivity {
         final int count = preferences.getInt("runCount", 0);
         editor.putInt("runCount", count + 1);
         editor.apply();
+    }
+
+    public void goSettingActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), SettingActivity.class);
+        startActivity(i);
     }
 }

@@ -7,34 +7,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.toolbox.Volley;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.util.LogUtils;
 
 import java.util.List;
 
 /**
  * Created by 45517 on 2015/9/18.
  */
-public class LinkManAdapter extends RecyclerView.Adapter<LinkManAdapter.LinkManViewHolder> {
+public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder> {
 
     private List<TeamBean> mData;
     private LayoutInflater mInflater;
 
 
-    public LinkManAdapter(Context context,List<TeamBean> data) {
+    public TeamAdapter(Context context, List<TeamBean> data) {
         this.mData = data;
         this.mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public LinkManViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TeamViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_team, parent, false);
-        return new LinkManViewHolder(view);
+        return new TeamViewHolder(view, new TeamViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                LogUtils.d("OnItemClick", "Item" + position + " was Clicked");
+            }
+        });
     }
 
     @Override
-    public void onBindViewHolder(LinkManViewHolder holder, int position) {
+    public void onBindViewHolder(TeamViewHolder holder, int position) {
         TeamBean bean = mData.get(position);
         holder.tv_title.setText(bean.getTitle());
         holder.iv_avatar.setImageResource(bean.getResId());
@@ -50,16 +58,30 @@ public class LinkManAdapter extends RecyclerView.Adapter<LinkManAdapter.LinkManV
     /**
      * ViewHolder内部类
      */
-    class LinkManViewHolder extends RecyclerView.ViewHolder {
+    public static class TeamViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private OnItemClickListener listener;
         private ImageView iv_avatar;
         private TextView tv_title;
 
-        public LinkManViewHolder(View itemView) {
+        public TeamViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             iv_avatar = (ImageView) itemView.findViewById(R.id.iv_team_avatar);
             tv_title = (TextView) itemView.findViewById(R.id.tv_team_title);
+            itemView.setOnClickListener(this);
+            this.listener = listener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.OnItemClick(v,getLayoutPosition());
+        }
+
+        public interface OnItemClickListener {
+            void OnItemClick(View view, int position);
         }
     }
+
 }
+
 

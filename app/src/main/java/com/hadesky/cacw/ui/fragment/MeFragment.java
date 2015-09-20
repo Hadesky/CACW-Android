@@ -14,13 +14,14 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 /**
  * MeFragment
  * Created by Bright Van on 2015/9/7/007.
  */
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment implements View.OnClickListener {
     private ImageView userImageView;
     private TextView userName;
 
@@ -54,20 +55,27 @@ public class MeFragment extends BaseFragment {
     }
 
     /**
-     * 在Session里获取头像
+     *
      * @param app
      * @return
      */
     private Bitmap getUserAvatar(MyApp app) {
         if (app != null) {
             String byteString = app.getSession().getUserDetails().get(SessionManagement.KEY_AVATAR);
-            byte[] byteArray= Base64.decode(byteString, Base64.DEFAULT);
-            ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(byteArray);
-
-            return BitmapFactory.decodeStream(byteArrayInputStream);
+            if (byteString != null) {
+                byte[] byteArray= Base64.decode(byteString, Base64.DEFAULT);
+                ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(byteArray);
+                return BitmapFactory.decodeStream(byteArrayInputStream);
+            }
         }
         return null;
     }
 
 
+    @Override
+    public void onClick(View v) {
+        final int id = v.getId();
+        switch (id) {
+        }
+    }
 }

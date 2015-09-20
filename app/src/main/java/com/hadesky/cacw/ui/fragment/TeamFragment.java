@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.LinkManAdapter;
+import com.hadesky.cacw.adapter.TeamAdapter;
 import com.hadesky.cacw.bean.TeamBean;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TeamFragment extends BaseFragment {
     private RecyclerView recyclerView;
-    private LinkManAdapter mAdapter;
+    private TeamAdapter mAdapter;
     private List<TeamBean> mData;
 
     @Override
@@ -33,7 +33,7 @@ public class TeamFragment extends BaseFragment {
     protected void initViews(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.lv_team_List);
         initData();
-        mAdapter = new LinkManAdapter(getContext(), mData);
+        mAdapter = new TeamAdapter(getContext(), mData);
     }
 
     private void initData() {
@@ -49,7 +49,6 @@ public class TeamFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new LinkManDecoration(getContext()));
-
     }
 
 

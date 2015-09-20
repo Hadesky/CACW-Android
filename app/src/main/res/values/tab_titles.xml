@@ -2,8 +2,7 @@
 <resources>
     <string-array name="tab_titles">
         <item>任务</item>
-        <item>私信</item>
-        <item>团队</item>
+        <item>项目</item>
         <item>我</item>
     </string-array>
 </resources>
