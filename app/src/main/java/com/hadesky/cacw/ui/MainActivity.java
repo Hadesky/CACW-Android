@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,9 +16,9 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.fragment.TeamFragment;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
+import com.hadesky.cacw.ui.fragment.TeamFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class MainActivity extends BaseActivity {
     private TabLayout mTabLayout;//主界面Fragment的容器
     private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
-    private FloatingActionButton mFab; //悬浮button
-
 
     @Override
     public int getLayoutId() {
@@ -60,7 +57,7 @@ public class MainActivity extends BaseActivity {
 
 
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.AppBar);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+
     }
 
     private void checkIfLogin() {
@@ -103,13 +100,8 @@ public class MainActivity extends BaseActivity {
             }
             @Override
             public void onPageSelected(int position) {
-                if (position==3)
+                if (position==2)
                 mAppBarLayout.setExpanded(true,true);
-                if (position!=0){
-                    mFab.setVisibility(View.GONE);
-                }else{
-                    mFab.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
