@@ -70,9 +70,6 @@
 
         <TextView
             style="@style/mTextView_Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_Me_remind"
             android:text="@string/setting_remind"
             />
@@ -108,9 +105,6 @@
         <TextView
             android:id="@+id/tv_Me_complete"
             style="@style/mTextView_Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_Me_complete"
             android:text="@string/setting_complete"
             />
@@ -145,9 +139,6 @@
         <TextView
             android:id="@+id/tv_Me_memo"
             style="@style/mTextView_Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_Me_memo"
             android:text="@string/setting_memo"
             />
@@ -162,6 +153,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/setting"
         android:layout_marginTop="@dimen/Setting_item_div_width"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -182,9 +174,6 @@
         <TextView
             android:id="@+id/tv_Me_Setting"
             style="@style/mTextView_Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_Me_setting"
             android:text="@string/setting"
             />

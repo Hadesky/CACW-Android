@@ -76,6 +76,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hadesky.cacw.ui.LoginActivity" />
         </activity>
+        <activity
+            android:name=".ui.AddTaskActivity"
+            android:label="@string/title_activity_add_task" >
+        </activity>
     </application>
 
 </manifest>
