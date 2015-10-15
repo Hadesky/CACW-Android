@@ -72,7 +72,7 @@
             android:layout_marginRight="@dimen/Me_item_margin_left"/>
     </RelativeLayout>
 
-    <ImageView style="@style/paddingDividingLine" />
+    <ImageView style="@style/paddingDividingLine"/>
 
     <RelativeLayout
         android:background="@drawable/setting_item_bg"

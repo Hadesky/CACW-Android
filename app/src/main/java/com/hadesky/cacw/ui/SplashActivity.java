@@ -6,10 +6,11 @@ import android.view.WindowManager;
 
 import com.hadesky.cacw.R;
 /**
+ * 启动页面
  * Created by Bright Van on 2015/8/22/022.
  */
 public class SplashActivity extends BaseActivity {
-    private static final int SPLASH_DISPLAY_LENGTH = 2000; // 延迟2秒
+    private static final int SPLASH_DISPLAY_LENGTH = 1000; // 延迟2秒
 
     @Override
     public int getLayoutId() {

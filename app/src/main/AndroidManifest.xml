@@ -60,7 +60,6 @@
             android:label="欢迎使用"
             android:launchMode="singleTask" >
         </activity>
-        <activity android:name=".ui.SettingsActivity" />
         <activity
             android:name=".ui.LoginActivity"
             android:launchMode="singleTask" />
@@ -79,6 +78,8 @@
         <activity
             android:name=".ui.AddTaskActivity"
             android:label="@string/title_activity_add_task" >
+        </activity>
+        <activity android:name=".ui.TaskDetailActivity" >
         </activity>
     </application>
 

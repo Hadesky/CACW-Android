@@ -55,7 +55,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/Setting_item_div_width"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true">
@@ -88,7 +88,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true"
@@ -122,7 +122,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true"
@@ -156,7 +156,7 @@
         android:id="@+id/setting"
         android:layout_marginTop="@dimen/Setting_item_div_width"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@drawable/setting_item_bg"
         android:clickable="true"
         android:focusable="true"
