@@ -17,6 +17,22 @@
         <item name="android:textColor">@color/color_base_text_color</item>
     </style>
 
+    <style name="BaseActionbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- toolbar（actionbar）颜色 -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <!-- 状态栏颜色 -->
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@color/color_base_window_background</item>
+        <!-- 各控件预设颜色 -->
+        <item name="colorControlNormal">@color/color_control_normal</item>
+        <!-- 颜色凸显 -->
+        <item name="colorAccent">@color/color_accent</item>
+        <!--基本字体色调-->
+        <item name="android:textColor">@color/color_base_text_color</item>
+    </style>
+
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -106,6 +122,14 @@
         <item name="android:lines">1</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="tv_task_info">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 

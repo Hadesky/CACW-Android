@@ -81,6 +81,12 @@
         </activity>
         <activity android:name=".ui.TaskDetailActivity" >
         </activity>
+        <activity android:name=".ui.EditTaskActivity" >
+        </activity>
+        <activity android:name=".ui.UserInfoActivity"
+            android:theme="@style/BaseActionbarTheme"
+            android:label="用户信息">
+        </activity>
     </application>
 
 </manifest>
