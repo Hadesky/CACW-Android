@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -153,10 +152,10 @@ public class EditTaskActivity extends BaseActivity
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                     {
-                        setTime(hourOfDay, minute);
+                        setTime(view.getCurrentHour(), minute);
 
                     }
-                }, nhour, nmin, false);
+                }, nhour, nmin,true);
                 dialog.show();
             }
         });
@@ -164,19 +163,14 @@ public class EditTaskActivity extends BaseActivity
 
     public void setTime(int hour,int min)
     {
-        if (hour>12)
-            hour = hour -12;
-        String t = hour>12?"下午":"上午";
 
-        String s = t+" "+hour+":"+min;
-        mTvTime.setText(s);
+        mTvTime.setText(String.format("%02d : %02d",hour,min));
     }
 
    public void setDate(int year,int month,int day)
    {
-       String s = year+"-"+month+"-"+day;
-       Log.i("tag",s);
-       mTvDate.setText(s);
+
+       mTvDate.setText(String.format("%d-%d-%d",year,month+1,day));
    }
 
 
