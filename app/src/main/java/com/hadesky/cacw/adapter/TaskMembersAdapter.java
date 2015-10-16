@@ -3,7 +3,6 @@ package com.hadesky.cacw.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskMemberBean;
+import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 @Override
                 public void OnItemClick(View view, int position)
                 {
-                    Log.i("tag", "add members");
+                    mContext.startActivity(new Intent(mContext, SelectMemberActivity.class));
                 }
             });
 

@@ -3,8 +3,8 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="60dp"
-              android:padding="4dp"
               android:clickable="true"
+              android:paddingTop="2dp"
               android:background="@drawable/edit_task_item_bg"
               android:layout_height="wrap_content">
     <com.hadesky.cacw.widget.CircleImageView

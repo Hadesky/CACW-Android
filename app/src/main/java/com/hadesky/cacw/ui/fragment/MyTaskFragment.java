@@ -56,13 +56,12 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
+        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyTaskRecyclerAdapter(getContext(), mDatas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
