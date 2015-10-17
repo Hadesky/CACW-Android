@@ -49,14 +49,14 @@ public class ProjectFragment extends BaseFragment {
     protected void setupViews(Bundle bundle) {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new LinkManDecoration(getContext()));
+        recyclerView.addItemDecoration(new Decoration(getContext()));
     }
 
 
     /**
      * 自定义分割线
      */
-    public class LinkManDecoration extends RecyclerView.ItemDecoration {
+    public class Decoration extends RecyclerView.ItemDecoration {
         private final int[] ATTRS = new int[]{
                 android.R.attr.listDivider
         };
@@ -64,7 +64,7 @@ public class ProjectFragment extends BaseFragment {
         private Drawable mDecoration;
 
 
-        public LinkManDecoration(Context context) {
+        public Decoration(Context context) {
             mDecoration = context.obtainStyledAttributes(ATTRS).getDrawable(0);
         }
 

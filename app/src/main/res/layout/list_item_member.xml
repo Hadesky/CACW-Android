@@ -12,10 +12,12 @@
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         cacw:border_width="0dp"
+        cacw:border_color="@android:color/transparent"
         tools:src="@drawable/default_user_image"
         />
     <TextView
         android:id="@+id/tv_item_member"
+        android:layout_marginTop="2dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/font_small"

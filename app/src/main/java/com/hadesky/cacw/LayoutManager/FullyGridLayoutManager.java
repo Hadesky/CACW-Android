@@ -1,4 +1,4 @@
-package com.hadesky.cacw.widget;
+package com.hadesky.cacw.LayoutManager;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;

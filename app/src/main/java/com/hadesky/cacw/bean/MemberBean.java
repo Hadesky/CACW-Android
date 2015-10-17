@@ -11,6 +11,9 @@ public class MemberBean {
     private int avatarResid;
     private int type = TYPE_NORMAL;
 
+    public MemberBean() {
+    }
+
     public MemberBean(String username, int  avatarResid) {
         this.username = username;
         this.avatarResid = avatarResid;
@@ -36,5 +39,13 @@ public class MemberBean {
 
     public int getType() {
         return type;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setAvatarResid(int avatarResid) {
+        this.avatarResid = avatarResid;
     }
 }

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="60dp"
-              android:paddingTop="2dp"
-                android:clickable="true"
-              android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/member_size"
+    android:paddingTop="2dp"
+    android:clickable="true"
+    android:layout_height="@dimen/member_size">
 <com.hadesky.cacw.widget.CircleImageView
     android:src="@drawable/default_user_image"
-    android:layout_width="40dp"
+    android:layout_width="@dimen/image_large"
     android:id="@+id/iv_avatar"
     android:layout_centerHorizontal="true"
     android:layout_gravity="center_horizontal"
-    android:layout_height="40dp"/>
+    android:layout_height="@dimen/image_large"/>
 <TextView
     android:text="谢伟鹏"
     android:layout_marginTop="2dp"
     android:layout_below="@id/iv_avatar"
-    android:textSize="10sp"
+    android:textSize="@dimen/font_small"
     android:layout_centerHorizontal="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>

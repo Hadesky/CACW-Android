@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TaskMemberBean;
+import com.hadesky.cacw.bean.MemberBean;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
 
@@ -21,10 +21,10 @@ import java.util.List;
  */
 public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.TaskMemberVH>
 {
-    private Context              mContext;
-    private List<TaskMemberBean> mDatas;
+    private Context mContext;
+    private List<MemberBean> mDatas;
 
-    public TaskMembersAdapter(Context context, List<TaskMemberBean> datas)
+    public TaskMembersAdapter(Context context, List<MemberBean> datas)
     {
         mContext = context;
         mDatas = datas;
@@ -35,7 +35,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     {
         View view = null;
         TaskMemberVH holder;
-        if (viewType == 1) {
+        if (viewType == MemberBean.TYPE_NORMAL) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_task_members, parent, false);
 
             holder = new TaskMemberVH(view, new OnItemClickListener()
@@ -51,12 +51,10 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
             view = LayoutInflater.from(mContext).inflate(R.layout.item_add_member, parent, false);
             holder = new TaskMemberVH(view, new OnItemClickListener() {
                 @Override
-                public void OnItemClick(View view, int position)
-                {
+                public void OnItemClick(View view, int position) {
                     mContext.startActivity(new Intent(mContext, SelectMemberActivity.class));
                 }
             });
-
         }
 
         return holder;

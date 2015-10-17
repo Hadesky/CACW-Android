@@ -33,6 +33,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
+            <LinearLayout
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.hadesky.cacw.widget.StickView
+                    cacw:stick_title="所有任务"
+                    android:id="@+id/stick_all"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"/>
+                <!--分割线-->
+                <ImageView
+                    android:background="@android:color/white"
+                    android:src="#ccc"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent" />
+
+                <com.hadesky.cacw.widget.StickView
+                    cacw:stick_title="未完成"
+                    android:id="@+id/stick_undo"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"/>
+
+                <!--分割线-->
+                <ImageView
+                    android:background="@android:color/white"
+                    android:src="#ccc"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="1px"
+                    android:layout_height="match_parent" />
+                
+                <com.hadesky.cacw.widget.StickView
+                    cacw:stick_title="已完成"
+                    android:id="@+id/stick_done"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"/>
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_width="match_parent"

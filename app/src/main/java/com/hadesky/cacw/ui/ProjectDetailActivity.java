@@ -1,15 +1,12 @@
 package com.hadesky.cacw.ui;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.ViewTreeObserver;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.MenbersAdapter;
+import com.hadesky.cacw.adapter.MembersAdapter;
 import com.hadesky.cacw.bean.MemberBean;
-import com.hadesky.cacw.widget.FullyGridLayoutManager;
+import com.hadesky.cacw.LayoutManager.FullyGridLayoutManager;
+import com.hadesky.cacw.widget.StickView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,10 @@ public class ProjectDetailActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private List<MemberBean> members;
     private float recyclerViewWidth;
+    private StickView allTaskStick;
+    private StickView doneTaskStick;
+    private StickView undoTaskStick;
+
 
     @Override
     public int getLayoutId() {
@@ -28,6 +29,10 @@ public class ProjectDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.rv_project_detail);
+
+        allTaskStick = (StickView) findViewById(R.id.stick_all);
+        undoTaskStick = (StickView) findViewById(R.id.stick_undo);
+        doneTaskStick = (StickView) findViewById(R.id.stick_done);
 
         recyclerView.post(new Runnable() {
             @Override
@@ -45,17 +50,21 @@ public class ProjectDetailActivity extends BaseActivity {
             members.add(new MemberBean("用户" + i, R.drawable.default_user_image));
         }
         if (isAbleToAdd()) {
-            members.add(new MemberBean("", R.drawable.ic_action_add, MemberBean.TYPE_ADD));
+            members.add(new MemberBean("", R.drawable.fab_add, MemberBean.TYPE_ADD));
         }
         if (isAbleToRed()) {
-            members.add(new MemberBean("", R.drawable.ic_action_add, MemberBean.TYPE_REDUCE));
+            members.add(new MemberBean("", R.drawable.fab_add, MemberBean.TYPE_REDUCE));
         }
     }
 
     @Override
     public void setupView() {
-        recyclerView.setAdapter(new MenbersAdapter(members, context));
+        recyclerView.setAdapter(new MembersAdapter(members, context));
         recyclerView.setLayoutManager(new FullyGridLayoutManager(context, getSpanCount()));
+
+        allTaskStick.setTaskCount(10);
+        undoTaskStick.setTaskCount(7);
+        doneTaskStick.setTaskCount(3);
     }
 
     private int getSpanCount() {
