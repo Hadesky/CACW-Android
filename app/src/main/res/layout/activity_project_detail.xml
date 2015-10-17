@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
-    <ScrollView
+    <com.hadesky.cacw.widget.RevScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -67,7 +67,7 @@
                     android:paddingBottom="10dp"
                     android:layout_width="1px"
                     android:layout_height="match_parent" />
-                
+
                 <com.hadesky.cacw.widget.StickView
                     cacw:stick_title="已完成"
                     android:id="@+id/stick_done"
@@ -97,6 +97,6 @@
                     />
             </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.hadesky.cacw.widget.RevScrollView>
 
 </LinearLayout>

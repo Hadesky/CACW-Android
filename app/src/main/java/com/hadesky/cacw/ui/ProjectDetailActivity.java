@@ -46,7 +46,7 @@ public class ProjectDetailActivity extends BaseActivity {
 
     private void initData() {
         members = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             members.add(new MemberBean("用户" + i, R.drawable.default_user_image));
         }
         if (isAbleToAdd()) {

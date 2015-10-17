@@ -26,7 +26,7 @@
             android:textSize="18sp"/>
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <com.hadesky.cacw.widget.RevScrollView
         android:scrollX="0dp"
         android:scrollY="0dp"
         android:id="@+id/scrollView"
@@ -167,5 +167,5 @@
                     android:textSize="18sp"/>
             </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
+    </com.hadesky.cacw.widget.RevScrollView>
 </RelativeLayout>
