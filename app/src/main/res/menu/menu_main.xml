@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.hadesky.cacw.ui.MainActivity">
     <item
+        android:id="@+id/action_add"
+        android:title="新建"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_add"
+        />
+    <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="50"

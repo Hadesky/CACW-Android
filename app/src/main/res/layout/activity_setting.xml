@@ -26,10 +26,10 @@
     <RelativeLayout
         android:focusable="true"
         android:clickable="true"
-        android:background="@drawable/setting_item_bg"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        >
+        android:layout_height="@dimen/list_item_height"
+        android:background="@drawable/list_item_bg" >
         <TextView
             android:id="@+id/tv_setting_general"
             style="@style/mTextView_Settings"
@@ -50,10 +50,10 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/Setting_item_div_width"
-        android:background="@drawable/setting_item_bg"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@drawable/list_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_height"
         >
         <TextView
             android:id="@+id/tv_setting_receive_alarm"
@@ -75,9 +75,9 @@
     <ImageView style="@style/paddingDividingLine"/>
 
     <RelativeLayout
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_height"
         >
         <TextView
             android:id="@+id/tv_setting_sound"
@@ -99,9 +99,9 @@
     <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_height"
         >
         <TextView
             android:id="@+id/tv_setting_vibration"
@@ -121,12 +121,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/Setting_item_div_width"
+        android:layout_marginTop="@dimen/spacing_large"
         android:focusable="true"
         android:clickable="true"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_height"
         >
         <TextView
             android:id="@+id/tv_setting_about"
@@ -143,9 +143,9 @@
     <RelativeLayout
         android:focusable="true"
         android:clickable="true"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/list_item_height"
         >
         <TextView
             android:id="@+id/tv_setting_exit"

@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.util.LoginTask;
+import com.hadesky.cacw.task.LoginTask;
 import com.hadesky.cacw.widget.CircleImageView;
 
 import java.util.concurrent.ExecutionException;

@@ -33,9 +33,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
-    public int getLayoutId()
-    {
-
+    public int getLayoutId() {
         return R.layout.fragment_my_task;
     }
 

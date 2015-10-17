@@ -11,10 +11,10 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/Setting_item_div_width"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
         >
@@ -54,9 +54,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/Setting_item_div_width"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_height="48dp"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true">
 
@@ -89,7 +89,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
         >
@@ -123,7 +123,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
         >
@@ -154,10 +154,10 @@
 
     <RelativeLayout
         android:id="@+id/setting"
-        android:layout_marginTop="@dimen/Setting_item_div_width"
+        android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/setting_item_bg"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
         android:onClick="goSettingActivity"

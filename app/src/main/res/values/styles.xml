@@ -98,9 +98,9 @@
         <item name="android:clickable">true</item>
     </style>
     <!--MainActivity相关-->
-    <style name="ActionBarText_main" >
+    <style name="ActionBarText" >
         <item name="android:padding">10dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -115,8 +115,8 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     <!--团队页面专用-->
-    <style name="textView_item_team">
-        <item name="android:paddingLeft">5dp</item>
+    <style name="textView_item">
+        <item name="android:layout_marginLeft">5dp</item>
         <item name="android:textColor">@color/color_base_text_color</item>
         <item name="android:textSize">15sp</item>
         <item name="android:lines">1</item>
@@ -132,5 +132,14 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <!--项目页面专用-->
+    <style name="textView_project_team">
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textColor">@color/color_base_text_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lines">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
 </resources>

@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by Bright Van on 2015/9/7/007.
  */
-public class TeamFragment extends BaseFragment {
+public class ProjectFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private ProjectAdapter mAdapter;
     private List<ProjectBean> mData;
@@ -39,7 +40,7 @@ public class TeamFragment extends BaseFragment {
     private void initData() {
         mData = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
-            ProjectBean bean = new ProjectBean(R.drawable.default_user_image, "我的团队" + i, false);
+            ProjectBean bean = new ProjectBean(R.drawable.default_user_image, "项目" + i, false);
             mData.add(bean);
         }
     }

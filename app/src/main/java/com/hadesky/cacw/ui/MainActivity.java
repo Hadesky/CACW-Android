@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
+import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.fragment.TeamFragment;
 
 import java.util.ArrayList;
@@ -84,7 +86,7 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setTabTextColors(0xEEF5F5F5, Color.WHITE);
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new MyTaskFragment());
-        fragments.add(new TeamFragment());
+        fragments.add(new ProjectFragment());
         fragments.add(new MeFragment());
         FragmentAdapter adapter =
                 new FragmentAdapter(getSupportFragmentManager(), fragments, titles);

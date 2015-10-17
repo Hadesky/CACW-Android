@@ -90,6 +90,8 @@
         </activity>
         <activity android:name=".ui.SelectMemberActivity" >
         </activity>
+        <activity android:name=".ui.ProjectDetailActivity" >
+        </activity>
     </application>
 
 </manifest>

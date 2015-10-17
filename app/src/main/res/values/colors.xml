@@ -13,9 +13,5 @@
     <color name="color_base_tab_normal">#f2f2f2</color>
     <color name="color_base_tab_pressed">#DFDFDF</color>
     <!-- 其他color-->
-    <color name="color_bg_ibtn_white">#1fffffff</color>
-    <color name="color_text_tab_main">#888</color>
-    <color name="color_bg_tab_main">#fff</color>
-
-    <color name="setting_item_selected_bd">#77b6b6b6</color>
+    <color name="color_gray">#77b6b6b6</color>
 </resources>

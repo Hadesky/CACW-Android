@@ -38,6 +38,4 @@ public class SplashActivity extends BaseActivity {
     public void setupView() {
 
     }
-
-
 }
