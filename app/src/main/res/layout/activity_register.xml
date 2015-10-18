@@ -6,7 +6,7 @@
 
     <android.support.v7.widget.Toolbar
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:id="@+id/login_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -22,7 +22,7 @@
 
     <com.hadesky.cacw.widget.DeletableEditText
         style="@style/EditText_login"
-        android:id="@+id/reg_username"
+        android:id="@+id/det_username"
         android:inputType="textEmailAddress"
         android:layout_marginTop="150dp"
         android:hint="邮箱/手机号"
@@ -32,33 +32,33 @@
 
     <com.hadesky.cacw.widget.DeletableEditText
         style="@style/EditText_login"
-        android:id="@+id/reg_password"
+        android:id="@+id/det_password"
         android:inputType="textPassword"
         android:hint="密码"
         android:imeOptions="actionNext"
-        android:layout_alignTop="@id/reg_username"
+        android:layout_alignTop="@id/det_username"
         android:layout_marginTop="50dp"
         cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
         cacw:underline_color="@android:color/darker_gray"/>
 
     <com.hadesky.cacw.widget.DeletableEditText
         style="@style/EditText_login"
-        android:id="@+id/reg_password_confirm"
+        android:id="@+id/det_password_confirm"
         android:inputType="textPassword"
         android:hint="再次输入密码"
         android:imeOptions="actionNext"
-        android:layout_alignTop="@id/reg_password"
+        android:layout_alignTop="@id/det_password"
         android:layout_marginTop="50dp"
         cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
         cacw:underline_color="@android:color/darker_gray"/>
 
     <Button
         style="@style/LoginButton_login"
-        android:id="@+id/login_login_button"
+        android:id="@+id/bt_register"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="@string/register"
-        android:layout_alignTop="@id/reg_password_confirm"
+        android:layout_alignTop="@id/det_password_confirm"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"/>
 

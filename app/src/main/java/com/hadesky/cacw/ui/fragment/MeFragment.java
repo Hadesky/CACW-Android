@@ -2,7 +2,6 @@ package com.hadesky.cacw.ui.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
 
 /**
  * MeFragment
@@ -32,8 +30,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initViews(View view) {
-        userImageView = (ImageView) view.findViewById(R.id.iv_Me_UserImg);
-        userName = (TextView) view.findViewById(R.id.tv_Me_UserName);
+        userImageView = (ImageView) view.findViewById(R.id.iv_me_avatar);
+        userName = (TextView) view.findViewById(R.id.tv_me_username);
     }
 
     @Override

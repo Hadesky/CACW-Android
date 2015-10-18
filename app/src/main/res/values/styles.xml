@@ -115,7 +115,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     <!--团队页面专用-->
-    <style name="textView_item">
+    <style name="tv_title">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:textColor">@color/color_base_text_color</item>
         <item name="android:textSize">15sp</item>
@@ -133,7 +133,7 @@
     </style>
 
     <!--项目页面专用-->
-    <style name="textView_project_team">
+    <style name="tv_project_name">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:textColor">@color/color_base_text_color</item>
         <item name="android:textSize">15sp</item>

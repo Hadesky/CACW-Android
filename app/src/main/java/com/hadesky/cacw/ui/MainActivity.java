@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -20,7 +19,6 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
-import com.hadesky.cacw.ui.fragment.TeamFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,21 +42,21 @@ public class MainActivity extends BaseActivity {
         checkIfLogin();
 
         //ActionBar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         //icon和字体已经在xml里面定义，目的是为了让homeButton不能点击，只找到这个解决方法，即自定义Toolbar
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setTitle("");
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_main);
-        mTabLayout = (TabLayout) findViewById(R.id.tabs_activity_main);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         //初始化退出的Toast，并不需要Show出来
         exitToast = Toast.makeText(this, "再按返回键退出", Toast.LENGTH_SHORT);
 
 
-        mAppBarLayout  = (AppBarLayout) findViewById(R.id.AppBar);
+        mAppBarLayout  = (AppBarLayout) findViewById(R.id.appbar);
 
     }
 

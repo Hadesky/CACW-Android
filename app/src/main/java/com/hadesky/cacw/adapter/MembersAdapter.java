@@ -88,8 +88,8 @@ class MembersViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     public MembersViewHolder(View itemView, int viewType, OnItemClickListener listener) {
         super(itemView);
         if (viewType == MemberBean.TYPE_NORMAL) {
-            imageView = (ImageView) itemView.findViewById(R.id.iv_item_member);
-            textView = (TextView) itemView.findViewById(R.id.tv_item_member);
+            imageView = (ImageView) itemView.findViewById(R.id.iv);
+            textView = (TextView) itemView.findViewById(R.id.tv);
         }
 
         itemView.setOnClickListener(this);

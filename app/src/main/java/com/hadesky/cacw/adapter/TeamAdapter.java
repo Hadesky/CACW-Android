@@ -65,7 +65,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamViewHolder
         public TeamViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             iv_avatar = (ImageView) itemView.findViewById(R.id.iv_team_avatar);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_team_title);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_team_name);
             itemView.setOnClickListener(this);
             this.listener = listener;
         }

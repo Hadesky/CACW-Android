@@ -92,6 +92,12 @@
         </activity>
         <activity android:name=".ui.ProjectDetailActivity" >
         </activity>
+        <activity android:name=".TaskListActivity"
+            android:parentActivityName=".ui.TaskDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hadesky.cacw.ui.TaskDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

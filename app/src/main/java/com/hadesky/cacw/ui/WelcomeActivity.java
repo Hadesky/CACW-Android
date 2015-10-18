@@ -5,10 +5,8 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -45,9 +43,9 @@ public class WelcomeActivity extends BaseActivity {
 
         initImageView();
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_activity_welcome);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mAdapter = new WelcomePagerAdapter(imageViewList);
-        mIndicatorView = (IndicatorView) findViewById(R.id.indicator_activity_welcome);
+        mIndicatorView = (IndicatorView) findViewById(R.id.indicator);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class WelcomeActivity extends BaseActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
-        final View bg = findViewById(R.id.bg_activity_welcome);
+        final View bg = findViewById(R.id.view_bg);
         bg.setBackgroundColor(colorList.get(0));
         mViewPager.setAdapter(mAdapter);
         mIndicatorView.setViewPager(mViewPager);

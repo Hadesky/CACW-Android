@@ -32,8 +32,8 @@ public class StickView extends LinearLayout {
     public StickView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.item_stick, this, true);
-        titleView = (TextView) findViewById(R.id.tv_stick_title);
-        countView = (TextView) findViewById(R.id.tv_stick_count);
+        titleView = (TextView) findViewById(R.id.tv_title);
+        countView = (TextView) findViewById(R.id.tv_count);
 
         TypedArray typedArray = getResources().obtainAttributes(attrs, R.styleable.StickView);
         final int N = typedArray.getIndexCount();
@@ -58,6 +58,5 @@ public class StickView extends LinearLayout {
     public void setTaskCount(int taskCount) {
         this.taskCount = taskCount;
         countView.setText(taskCount + "个");
-
     }
 }

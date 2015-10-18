@@ -7,7 +7,7 @@
     tools:context="com.hadesky.cacw.ui.LoginActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/login_toolbar"
+        android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -34,7 +34,7 @@
 
     <com.hadesky.cacw.widget.DeletableEditText
         style="@style/EditText_login"
-        android:id="@+id/login_username"
+        android:id="@+id/editview_username"
         android:layout_marginTop="200dp"
         cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
         cacw:underline_color="@android:color/darker_gray"
@@ -43,14 +43,14 @@
         android:imeOptions="actionNext"/>
 
     <RelativeLayout
-        android:id="@+id/login_password_layout"
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/login_username"
+        android:layout_alignTop="@id/editview_username"
         android:layout_marginTop="50dp">
         <com.hadesky.cacw.widget.DeletableEditText
             style="@style/EditText_login"
-            android:id="@+id/login_password"
+            android:id="@+id/editview_password"
             cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
             cacw:underline_color="@android:color/darker_gray"
             android:paddingRight="35dp"
@@ -60,7 +60,7 @@
             android:imeOptions="actionGo"/>
 
         <ImageButton
-            android:id="@+id/login_password_eye"
+            android:id="@+id/password_eye"
             android:src="@drawable/activity_login_pw_eye"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
@@ -74,11 +74,11 @@
 
     <Button
         style="@style/LoginButton_login"
-        android:id="@+id/login_login_button"
+        android:id="@+id/bt_register"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="@string/login"
-        android:layout_alignTop="@id/login_password_layout"
+        android:layout_alignTop="@id/password_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:onClick="btOnClick"/>

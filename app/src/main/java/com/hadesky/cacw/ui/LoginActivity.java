@@ -52,12 +52,12 @@ public class LoginActivity extends BaseActivity{
         CircleImageView icon = (CircleImageView) findViewById(R.id.login_icon);
         icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
 
-        mLoginButton = (Button) findViewById(R.id.login_login_button);
+        mLoginButton = (Button) findViewById(R.id.bt_register);
 
-        mPwButton = (ImageButton) findViewById(R.id.login_password_eye);
+        mPwButton = (ImageButton) findViewById(R.id.password_eye);
 
-        mUsername = (EditText) findViewById(R.id.login_username);
-        mPassword = (EditText) findViewById(R.id.login_password);
+        mUsername = (EditText) findViewById(R.id.editview_username);
+        mPassword = (EditText) findViewById(R.id.editview_password);
 
         final MyApp app = (MyApp) getApplication();
         mSession = app.getSession();
@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity{
 
 
     private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;

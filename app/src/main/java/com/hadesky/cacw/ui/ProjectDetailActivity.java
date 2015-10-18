@@ -1,8 +1,11 @@
 package com.hadesky.cacw.ui;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.TaskListActivity;
 import com.hadesky.cacw.adapter.MembersAdapter;
 import com.hadesky.cacw.bean.MemberBean;
 import com.hadesky.cacw.LayoutManager.FullyGridLayoutManager;
@@ -28,7 +31,7 @@ public class ProjectDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        recyclerView = (RecyclerView) findViewById(R.id.rv_project_detail);
+        recyclerView = (RecyclerView) findViewById(R.id.rv_members);
 
         allTaskStick = (StickView) findViewById(R.id.stick_all);
         undoTaskStick = (StickView) findViewById(R.id.stick_undo);
@@ -60,19 +63,34 @@ public class ProjectDetailActivity extends BaseActivity {
     @Override
     public void setupView() {
         recyclerView.setAdapter(new MembersAdapter(members, context));
-        recyclerView.setLayoutManager(new FullyGridLayoutManager(context, getSpanCount()));
+        setupSpanCount();
 
+        setupStickView();
+    }
+
+    private void setupStickView() {
         allTaskStick.setTaskCount(10);
         undoTaskStick.setTaskCount(7);
         doneTaskStick.setTaskCount(3);
+        allTaskStick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, TaskListActivity.class));
+            }
+        });
     }
 
-    private int getSpanCount() {
-        int member_size = (int) getResources().getDimension(R.dimen.member_size);
-        System.out.println("size = " + member_size + "width = " + recyclerViewWidth);
-        //TODO
-        return 4;
+    private void setupSpanCount() {
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                int member_size = (int) getResources().getDimension(R.dimen.member_size);
+                int width = recyclerView.getWidth();
+                recyclerView.setLayoutManager(new FullyGridLayoutManager(context, width / member_size));
+            }
+        });
     }
+
 
     //TODO
     public boolean isAbleToAdd() {

@@ -31,7 +31,7 @@ public class TeamFragment extends BaseFragment {
 
     @Override
     protected void initViews(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.lv_project_List);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_project);
         initData();
         mAdapter = new ProjectAdapter(getContext(), mData);
     }

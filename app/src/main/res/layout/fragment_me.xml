@@ -21,19 +21,19 @@
 
         <ImageView
             android:layout_marginLeft="@dimen/Me_item_margin_left"
-            android:id="@+id/iv_Me_UserImg"
+            android:id="@+id/iv_me_avatar"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerVertical="true"
             android:src="@drawable/default_user_image"/>
 
         <TextView
-            android:id="@+id/tv_Me_UserName"
+            android:id="@+id/tv_me_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_Me_UserImg"
+            android:layout_toRightOf="@id/iv_me_avatar"
             android:text="uername"
             android:textSize="18sp"/>
 
@@ -61,7 +61,7 @@
         android:focusable="true">
 
         <ImageView
-            android:id="@+id/iv_Me_remind"
+            android:id="@+id/iv_remind"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
@@ -70,7 +70,7 @@
 
         <TextView
             style="@style/mTextView_Settings"
-            android:layout_toRightOf="@id/iv_Me_remind"
+            android:layout_toRightOf="@id/iv_remind"
             android:text="@string/setting_remind"
             />
 
@@ -95,7 +95,7 @@
         >
 
         <ImageView
-            android:id="@+id/iv_Me_complete"
+            android:id="@+id/iv_complete"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
@@ -103,9 +103,9 @@
             android:src="@drawable/me_complete_64"/>
 
         <TextView
-            android:id="@+id/tv_Me_complete"
+            android:id="@+id/tv_complete"
             style="@style/mTextView_Settings"
-            android:layout_toRightOf="@id/iv_Me_complete"
+            android:layout_toRightOf="@id/iv_complete"
             android:text="@string/setting_complete"
             />
 
@@ -129,7 +129,7 @@
         >
 
         <ImageView
-            android:id="@+id/iv_Me_memo"
+            android:id="@+id/iv_memo"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
@@ -137,9 +137,9 @@
             android:src="@drawable/me_memo_64"/>
 
         <TextView
-            android:id="@+id/tv_Me_memo"
+            android:id="@+id/tv_memo"
             style="@style/mTextView_Settings"
-            android:layout_toRightOf="@id/iv_Me_memo"
+            android:layout_toRightOf="@id/iv_memo"
             android:text="@string/setting_memo"
             />
 
@@ -153,7 +153,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/setting"
+        android:id="@+id/layout_setting"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -164,7 +164,7 @@
         >
 
         <ImageView
-            android:id="@+id/iv_Me_setting"
+            android:id="@+id/iv_setting"
             android:layout_width="25dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"
@@ -172,9 +172,9 @@
             android:src="@drawable/me_setting_64"/>
 
         <TextView
-            android:id="@+id/tv_Me_Setting"
+            android:id="@+id/tv_setting"
             style="@style/mTextView_Settings"
-            android:layout_toRightOf="@id/iv_Me_setting"
+            android:layout_toRightOf="@id/iv_setting"
             android:text="@string/setting"
             />
 

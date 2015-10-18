@@ -40,8 +40,8 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     protected void initViews(View view)
     {
-        mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.lv_task_my_task_fragment);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mContentView.findViewById(R.id.srl_my_task_fragment);
+        mRecyclerView = (RecyclerView) mContentView.findViewById(R.id.rv_task);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mContentView.findViewById(R.id.layout_swipe_refresh);
     }
 
     @Override
