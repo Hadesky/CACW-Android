@@ -6,7 +6,7 @@
     android:layout_width="@dimen/member_size"
     android:layout_height="@dimen/member_size">
     <com.hadesky.cacw.widget.CircleImageView
-        android:id="@+id/iv"
+        android:id="@+id/iv_avatar"
         android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"
         android:layout_marginTop="5dp"
@@ -14,6 +14,14 @@
         cacw:border_width="0dp"
         cacw:border_color="@android:color/transparent"
         tools:src="@drawable/default_user_image"
+        />
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="@dimen/image_more_small"
+        android:layout_height="@dimen/image_more_small"
+        android:layout_alignRight="@id/iv_avatar"
+        android:src="@drawable/delete"
+        android:visibility="invisible"
         />
     <TextView
         android:id="@+id/tv"

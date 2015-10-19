@@ -7,14 +7,14 @@
               android:clickable="true"
               android:paddingTop="2dp">
     <com.hadesky.cacw.widget.CircleImageView
-        android:src="@drawable/add"
+        android:src="@drawable/ic_delete"
         app:border_color="#a9b7b7"
         app:border_width="1dp"
         android:layout_width="@dimen/image_large"
         android:layout_gravity="center_horizontal"
         android:layout_height="@dimen/image_large"/>
     <TextView
-        android:text="添加成员"
+        android:text="移除成员"
         android:layout_marginTop="2dp"
         android:textSize="@dimen/font_small"
         android:layout_gravity="center_horizontal"

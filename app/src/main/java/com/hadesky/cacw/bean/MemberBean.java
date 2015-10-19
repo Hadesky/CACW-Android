@@ -6,7 +6,7 @@ package com.hadesky.cacw.bean;
 public class MemberBean {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_ADD = 1;
-    public static final int TYPE_REDUCE = 2;
+    public static final int TYPE_DELETE = 2;
     private String username;
     private int avatarResid;
     private int type = TYPE_NORMAL;

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.TaskListActivity;
 import com.hadesky.cacw.adapter.MembersAdapter;
 import com.hadesky.cacw.bean.MemberBean;
 import com.hadesky.cacw.LayoutManager.FullyGridLayoutManager;
@@ -17,8 +16,8 @@ import java.util.List;
 public class ProjectDetailActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
+    private MembersAdapter membersAdapter;
     private List<MemberBean> members;
-    private float recyclerViewWidth;
     private StickView allTaskStick;
     private StickView doneTaskStick;
     private StickView undoTaskStick;
@@ -37,13 +36,6 @@ public class ProjectDetailActivity extends BaseActivity {
         undoTaskStick = (StickView) findViewById(R.id.stick_undo);
         doneTaskStick = (StickView) findViewById(R.id.stick_done);
 
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                recyclerViewWidth = recyclerView.getWidth();
-            }
-        });
-
         initData();
     }
 
@@ -53,16 +45,17 @@ public class ProjectDetailActivity extends BaseActivity {
             members.add(new MemberBean("用户" + i, R.drawable.default_user_image));
         }
         if (isAbleToAdd()) {
-            members.add(new MemberBean("", R.drawable.fab_add, MemberBean.TYPE_ADD));
+            members.add(new MemberBean("", R.drawable.add, MemberBean.TYPE_ADD));
         }
-        if (isAbleToRed()) {
-            members.add(new MemberBean("", R.drawable.fab_add, MemberBean.TYPE_REDUCE));
+        if (isAbleToDelete()) {
+            members.add(new MemberBean("", R.drawable.delete, MemberBean.TYPE_DELETE));
         }
     }
 
     @Override
     public void setupView() {
-        recyclerView.setAdapter(new MembersAdapter(members, context));
+        membersAdapter = new MembersAdapter(members, context);
+        recyclerView.setAdapter(membersAdapter);
         setupSpanCount();
 
         setupStickView();
@@ -98,7 +91,16 @@ public class ProjectDetailActivity extends BaseActivity {
     }
 
     //TODO
-    public boolean isAbleToRed() {
-        return false;
+    public boolean isAbleToDelete() {
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (membersAdapter.getMode() == MembersAdapter.MODE_DELETE) {
+            membersAdapter.setMode(MembersAdapter.MODE_NORMAL);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
