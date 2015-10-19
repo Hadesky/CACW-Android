@@ -1,11 +1,15 @@
 package com.hadesky.cacw.adapter;
 
+import android.animation.FloatEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,11 +49,12 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
                 @Override
                 public void OnItemClick(View view, int position) {
+                    if (position>=0)
                     if (view.getId() == R.id.iv_avatar) {
                         mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
                     } else {
                         members.remove(position);
-                        notifyItemRemoved(position);
+                        notifyDataSetChanged();
                     }
                 }
             });
@@ -67,7 +72,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                 @Override
                 public void OnItemClick(View view, int position) {
                     mode = MODE_DELETE;
-                    notifyItemRangeChanged(0, members.size());
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -88,7 +93,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             if (mode == MODE_NORMAL) {
                 holder.itemView.setVisibility(View.VISIBLE);
             }else if (mode == MODE_DELETE) {
-                holder.itemView.setVisibility(View.INVISIBLE);
+                holder.itemView.setVisibility(View.GONE);
             }
         }
     }
@@ -105,7 +110,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
 
     public void setMode(int mode) {
         this.mode = mode;
-        notifyItemRangeChanged(0, members.size());
+        notifyDataSetChanged();
     }
 
     public int getMode() {
@@ -160,7 +165,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                 if (visible) {
                     deleteView.setVisibility(View.VISIBLE);
                 } else {
-                    deleteView.setVisibility(View.INVISIBLE);
+                    deleteView.setVisibility(View.GONE);
                 }
             }
         }
