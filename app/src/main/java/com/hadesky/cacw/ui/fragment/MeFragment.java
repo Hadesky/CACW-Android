@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +15,7 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.ui.MyInfoActivity;
 import com.hadesky.cacw.ui.SettingActivity;
-import com.hadesky.cacw.ui.UserInfoActivity;
+import com.hadesky.cacw.widget.AnimProgressDialog;
 
 import java.io.ByteArrayInputStream;
 
@@ -100,7 +99,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "已设置提醒", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.layout_memo:
-                Toast.makeText(getContext(), "备忘录", Toast.LENGTH_SHORT).show();
+                AnimProgressDialog dialog = new AnimProgressDialog(getContext(), true, null, "载入备忘录中...");
+                dialog.show();
                 break;
             default:
                 break;

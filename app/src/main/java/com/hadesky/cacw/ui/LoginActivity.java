@@ -29,6 +29,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.task.LoginTask;
+import com.hadesky.cacw.widget.AnimProgressDialog;
 import com.hadesky.cacw.widget.CircleImageView;
 
 import java.util.concurrent.ExecutionException;
@@ -165,8 +166,7 @@ public class LoginActivity extends BaseActivity{
      * @param password 密码
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
+        AnimProgressDialog progressDialog = new AnimProgressDialog(this, false, null, "登录中...");
         //隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {

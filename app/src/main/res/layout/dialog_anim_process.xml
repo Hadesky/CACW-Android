@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp">
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_ball1"
+                android:scaleType="matrix"
+                android:src="@drawable/round_red"
+                android:alpha="0"
+                android:layout_width="@dimen/image_tiny"
+                android:layout_height="@dimen/image_tiny" />
+            <ImageView
+                android:id="@+id/iv_ball2"
+                android:scaleType="matrix"
+                android:layout_margin="@dimen/spacing_small"
+                android:src="@drawable/round_orange"
+                android:alpha="0"
+                android:layout_width="@dimen/image_tiny"
+                android:layout_height="@dimen/image_tiny" />
+            <ImageView
+                android:id="@+id/iv_ball3"
+                android:scaleType="matrix"
+                android:src="@drawable/round_green"
+                android:alpha="0"
+                android:layout_width="@dimen/image_tiny"
+                android:layout_height="@dimen/image_tiny" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_ball4"
+        android:scaleType="matrix"
+        android:src="@drawable/round_blue"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@id/layout"
+        android:layout_marginLeft="75dp"
+        android:layout_width="@dimen/image_large"
+        android:layout_height="@dimen/image_large" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_toRightOf="@id/layout"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/spacing_huge"
+        android:text="载入中..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

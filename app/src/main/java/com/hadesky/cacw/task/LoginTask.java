@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,17 +19,7 @@ import com.hadesky.cacw.bean.ProfileBean;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.ui.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
-
-import org.json.JSONException;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpRetryException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.hadesky.cacw.widget.AnimProgressDialog;
 
 /**
  * 登陆时用到的Task
@@ -46,7 +34,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     public static final int SUCCESS_NORMAL = 4;//正常登陆
 
     //登陆时的进度Dialog
-    private ProgressDialog progressDialog;
+    private AnimProgressDialog progressDialog;
     //Context
     private Context mContext;
     //Session
@@ -54,7 +42,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     //Volley请求队列
     private RequestQueue mRequestQueue;
 
-    public LoginTask(ProgressDialog progressDialog, Context context,SessionManagement session) {
+    public LoginTask(AnimProgressDialog progressDialog, Context context,SessionManagement session) {
         this.progressDialog = progressDialog;
         mContext = context;
         mSession = session;
@@ -135,7 +123,6 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
 
     @Override
     protected void onPreExecute() {
-        progressDialog.setMessage("登录中...");
         progressDialog.show();
     }
 

@@ -20,6 +20,7 @@
     <dimen name="spacing_tiny">4dp</dimen>
 
     <!-- 头像大小 -->
+    <dimen name="image_tiny">15dp</dimen>
     <dimen name="image_more_small">20dp</dimen>
     <dimen name="image_small">30dp</dimen>
     <dimen name="image_normal">40dp</dimen>
