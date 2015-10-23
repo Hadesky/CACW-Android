@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
+import com.hadesky.cacw.ui.MyInfoActivity;
 import com.hadesky.cacw.ui.SettingActivity;
+import com.hadesky.cacw.ui.UserInfoActivity;
 
 import java.io.ByteArrayInputStream;
 
@@ -89,7 +91,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.layout_myinfo:
-                Toast.makeText(getContext(), "我的资料", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), MyInfoActivity.class));
                 break;
             case R.id.layout_complete:
                 Toast.makeText(getContext(), "已完成事项", Toast.LENGTH_SHORT).show();

@@ -12,11 +12,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-        <TextView
-            style="@style/ActionBarText"
-            android:text="项目详情"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
     <com.hadesky.cacw.widget.RevScrollView
         android:layout_width="match_parent"

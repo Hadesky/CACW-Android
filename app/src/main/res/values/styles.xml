@@ -124,8 +124,16 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="tv_task_info">
-        <item name="android:layout_marginLeft">16dp</item>
+    <style name="tv_task_info_title">
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="tv_task_info_content">
+        <item name="android:layout_marginLeft">75dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>

@@ -2,6 +2,7 @@ package com.hadesky.cacw.ui;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.hadesky.cacw.R;
@@ -54,6 +55,14 @@ public class ProjectDetailActivity extends BaseActivity {
 
     @Override
     public void setupView() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.project_detail);
+        }
+
         membersAdapter = new MembersAdapter(members, context);
         recyclerView.setAdapter(membersAdapter);
         setupSpanCount();

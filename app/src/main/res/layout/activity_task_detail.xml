@@ -40,72 +40,74 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                >
 
                 <TextView
                     android:text="时间:"
-                    style="@style/tv_task_info"/>
+                    style="@style/tv_task_info_title"/>
 
                 <TextView
                     android:id="@+id/tv_time"
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_content"
                     android:text="2015-01-01"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
-            <LinearLayout
+            <RelativeLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                >
 
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_title"
                     android:text="日期:"/>
 
                 <TextView
                     android:id="@+id/tv_date"
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_content"
                     android:text="2015-01-01"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
-            <LinearLayout
-
+            <RelativeLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                >
 
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_title"
                     android:text="项目:"
 
                     />
 
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_content"
                     android:text="这是项目名称"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
-            <LinearLayout
-
+            <RelativeLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                >
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_title"
                     android:text="地点:"
                     />
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_content"
                     android:text="工一214"/>
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
@@ -115,7 +117,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_title"
                     android:text="详情:"
                     />
 
@@ -137,7 +139,7 @@
 
                 <TextView
                     android:layout_marginTop="16dp"
-                    style="@style/tv_task_info"
+                    style="@style/tv_task_info_title"
                     android:text="成员："/>
 
                 <android.support.v7.widget.RecyclerView

@@ -10,8 +10,8 @@
         android:id="@+id/icon"
         android:layout_centerVertical="true"
         android:src="@drawable/default_user_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"/>
     <TextView
         android:layout_marginLeft="24dp"
         android:layout_centerVertical="true"

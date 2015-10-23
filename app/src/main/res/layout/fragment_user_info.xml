@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hadesky.cacw.ui.UserInfoActivity">
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+    <com.hadesky.cacw.widget.CircleImageView
+        android:layout_marginTop="-10dp"
+        android:id="@+id/iv_avatar"
+        android:layout_width="100dp"
+        android:src="@drawable/default_user_image"
+        android:layout_centerInParent="true"
+        android:layout_height="100dp"/>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/iv_avatar"
+            android:layout_centerHorizontal="true"
+            android:text="张树悦"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="ID"
+            style="@style/tv_task_info_title"/>
+
+        <TextView
+            style="@style/tv_task_info_content"
+            android:text="234324234"/>
+    </RelativeLayout>
+    <ImageView style="@style/paddingDividingLine"/>
+
+    <ImageView style="@style/paddingDividingLine"/>
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="电话"
+            style="@style/tv_task_info_title"/>
+
+        <TextView
+            style="@style/tv_task_info_content"
+            android:text="18825512124"/>
+    </RelativeLayout>
+    <ImageView style="@style/paddingDividingLine"/>
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="邮箱"
+            style="@style/tv_task_info_title"/>
+
+        <TextView
+
+            style="@style/tv_task_info_content"
+            android:text="569003420@qq.com"/>
+    </RelativeLayout>
+    <ImageView style="@style/paddingDividingLine"/>
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="地址"
+            style="@style/tv_task_info_title"/>
+
+        <TextView
+            style="@style/tv_task_info_content"
+            android:text="广东工业大学"/>
+    </RelativeLayout>
+    <ImageView style="@style/paddingDividingLine"/>
+    <RelativeLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:text="简介"
+            style="@style/tv_task_info_title"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/tv_task_info_content"
+            android:text="我是张树悦，你来打我啊"/>
+    </RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

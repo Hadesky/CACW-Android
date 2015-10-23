@@ -85,12 +85,16 @@
         </activity>
         <activity
             android:name=".ui.UserInfoActivity"
-            android:label="用户信息"
-            android:theme="@style/BaseActionbarTheme" >
+            android:label="用户信息" >
         </activity>
         <activity android:name=".ui.SelectMemberActivity" >
         </activity>
-        <activity android:name=".ui.ProjectDetailActivity" >
+        <activity
+            android:name=".ui.ProjectDetailActivity"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hadesky.cacw.ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.TaskListActivity"
@@ -100,6 +104,8 @@
                 android:value="com.hadesky.cacw.ui.TaskDetailActivity" />
         </activity>
         <activity android:name=".ui.AboutActivity" >
+        </activity>
+        <activity android:name=".ui.MyInfoActivity" >
         </activity>
     </application>
 
