@@ -7,7 +7,7 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MembersAdapter;
 import com.hadesky.cacw.bean.MemberBean;
-import com.hadesky.cacw.layoutManager.FullyGridLayoutManager;
+import com.hadesky.cacw.LayoutManager.FullyGridLayoutManager;
 import com.hadesky.cacw.widget.StickView;
 
 import java.util.ArrayList;
