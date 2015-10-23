@@ -14,4 +14,6 @@
     <color name="color_base_tab_pressed">#DFDFDF</color>
     <!-- 其他color-->
     <color name="color_gray">#77b6b6b6</color>
+
+    <color name="color_font_gray">#9f535353</color>
 </resources>

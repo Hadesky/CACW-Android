@@ -121,6 +121,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_about"
         android:layout_marginTop="@dimen/spacing_large"
         android:focusable="true"
         android:clickable="true"

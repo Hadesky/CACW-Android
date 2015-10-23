@@ -17,4 +17,6 @@
     <string name="edit">编辑</string>
     <string name="edit_task">编辑任务</string>
     <string name="OK">确定</string>
+    <string name="check_update">检查更新</string>
+    <string name="copyright_notice">Design by Hadesky\nCopyright @2015 Hadesky\nAll Rights Reserved</string>
 </resources>

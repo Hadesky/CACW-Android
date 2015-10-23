@@ -45,20 +45,23 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
         MembersViewHolder viewHolder;
         View view;
         if (viewType == MemberBean.TYPE_NORMAL) {
+            //头像
             view = inflater.inflate(R.layout.list_item_member, parent, false);
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
                 @Override
                 public void OnItemClick(View view, int position) {
-                    if (position>=0)
                     if (view.getId() == R.id.iv_avatar) {
+                        //点击到头像
                         mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
                     } else {
+                        //点击到头像的删除按钮
                         members.remove(position);
                         notifyDataSetChanged();
                     }
                 }
             });
         } else if (viewType == MemberBean.TYPE_ADD) {
+            //添加按钮
             view = inflater.inflate(R.layout.item_add_member, parent, false);
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
                 @Override
@@ -67,6 +70,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                 }
             });
         } else {
+            //删除按钮
             view = inflater.inflate(R.layout.item_delete_member, parent, false);
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
                 @Override
@@ -82,17 +86,25 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     @Override
     public void onBindViewHolder(MembersViewHolder holder, int position) {
         if (holder.getViewType() == MemberBean.TYPE_NORMAL) {
+            //当前要进行设置的是普通按钮
             if (mode == MODE_NORMAL) {
+//                普通模式
                 holder.setDeleteViewVisible(false);
+                holder.avatarView.setClickable(true);
             }else if (mode == MODE_DELETE) {
+//                删除模式
                 holder.setDeleteViewVisible(true);
+                holder.avatarView.setClickable(false);
             }
             holder.setText(members.get(position).getUsername());
             holder.setImageSrc(members.get(position).getAvatarResid());
         }else if (holder.getViewType() == MemberBean.TYPE_DELETE) {
+            //当前要进行设置的是删除按钮
             if (mode == MODE_NORMAL) {
+                //普通状态显示删除按钮
                 holder.itemView.setVisibility(View.VISIBLE);
-            }else if (mode == MODE_DELETE) {
+            } else if (mode == MODE_DELETE) {
+                //删除状态去除删除按钮
                 holder.itemView.setVisibility(View.GONE);
             }
         }

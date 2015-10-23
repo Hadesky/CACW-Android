@@ -61,7 +61,7 @@
 
         <ImageButton
             android:id="@+id/password_eye"
-            android:src="@drawable/activity_login_pw_eye"
+            android:src="@drawable/icon_pw_eye"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:layout_width="32dp"

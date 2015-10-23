@@ -20,9 +20,9 @@
             android:padding="5dp"
             android:layout_alignBottom="@id/viewpager"
             android:layout_marginBottom="150dp"
-            cacw:indicator_empty="@drawable/activity_welcome_indicator_empty"
+            cacw:indicator_empty="@drawable/indicator_empty"
             cacw:indicator_smooth="true"
-            cacw:indicator_selected="@drawable/activity_welcome_indicator_selected"
+            cacw:indicator_selected="@drawable/indicator_selected"
             cacw:indicator_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -30,13 +30,13 @@
             android:textColor="#ffffffff"
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:background="@drawable/activity_welcome_button"
+            android:background="@drawable/bg_rounded_transparent"
             android:layout_alignTop="@id/indicator"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:text="注册|登录"
             android:id="@+id/button"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/button_large_w"
+            android:layout_height="@dimen/button_large_h"
             android:onClick="startLoginActivity" />
 </RelativeLayout>
