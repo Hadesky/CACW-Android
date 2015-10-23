@@ -15,7 +15,7 @@ import android.widget.TimePicker;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.MemberBean;
-import com.hadesky.cacw.LayoutManager.FullyGridLayoutManager;
+import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
