@@ -15,6 +15,7 @@ import android.view.animation.CycleInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
@@ -49,7 +50,6 @@ public class AnimProgressDialog extends Dialog {
         this.title = title;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +70,19 @@ public class AnimProgressDialog extends Dialog {
         ball4.post(new Runnable() {
             @Override
             public void run() {
+                //计算ball4的位置
+                setupBall4();
+
                 createAnimator();
                 setupListener();
                 animatorSet.start();
             }
         });
+    }
+
+    private void setupBall4() {
+        ball4.setPivotX(ball3.getX() - ball2.getX() + ball3.getWidth() / 2);
+        ball4.setPivotY(ball3.getY() / 2f - ball3.getHeight() / 4);
     }
 
     private void setupListener() {

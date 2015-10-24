@@ -103,7 +103,7 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
 
         public interface OnItemClickListener
         {
-            public void onClick(View view, int pos);
+            void onClick(View view, int pos);
 
         }
 

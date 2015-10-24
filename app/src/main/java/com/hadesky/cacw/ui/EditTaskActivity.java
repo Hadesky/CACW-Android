@@ -45,10 +45,10 @@ public class EditTaskActivity extends BaseActivity
     public void initView()
     {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mTime = (View) findViewById(R.id.time);
-        mDate = (View) findViewById(R.id.date);
-        mProject = (View) findViewById(R.id.project);
-        mOk = (View) findViewById(R.id.ok);
+        mTime = findViewById(R.id.time);
+        mDate = findViewById(R.id.date);
+        mProject = findViewById(R.id.project);
+        mOk = findViewById(R.id.ok);
         mTvDate = (TextView) findViewById(R.id.tv_date);
         mTvTime = (TextView) findViewById(R.id.tv_time);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
