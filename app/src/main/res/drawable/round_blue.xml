@@ -5,6 +5,6 @@
     <solid
         android:color="@android:color/holo_blue_light" />
     <size
-        android:height="@dimen/image_large"
-        android:width="@dimen/image_large" />
+        android:height="@dimen/image_normal"
+        android:width="@dimen/image_normal" />
 </shape>

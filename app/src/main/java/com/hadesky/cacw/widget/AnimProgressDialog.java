@@ -8,9 +8,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.CycleInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +28,8 @@ public class AnimProgressDialog extends Dialog {
     private AnimatorSet animatorSet;
     private ImageView ball1,ball2,ball3, ball4;
     private Matrix matrix;
+
+    private double speed_factor = 1.0;
 
     private TextView titleView;
     private String title;
@@ -48,7 +53,9 @@ public class AnimProgressDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_anim_process);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);//去标题栏
+
+        setContentView(R.layout.dialog_anim_progress);
 
         titleView = (TextView) findViewById(R.id.tv_title);
         if (!title.isEmpty()) {
@@ -112,51 +119,57 @@ public class AnimProgressDialog extends Dialog {
     }
 
     private void createAnimator() {
+        final int upDownDuration = (int) (2000 * speed_factor);//上下浮动动画时长
+        final int preAnimDuration = (int) (600 * speed_factor);//预动画时长，即一开始的圆形缩放和位移动画
+        final int alphaInDuration = (int) (200 * speed_factor);//圆形淡出动画时长
 
-        animator1 = ValueAnimator.ofFloat(0.8f, 0.3f);
-        animator1.setDuration(600);
-        animator1.setInterpolator(new BounceInterpolator());
-
+        //圆缩放动画
+        animator1 = ValueAnimator.ofFloat(1f, 0.25f);
+        animator1.setDuration(preAnimDuration);
+        animator1.setInterpolator(new OvershootInterpolator());
+        //路径动画
         animator2 = ValueAnimator.ofFloat(0f, -getTranX());
-        animator2.setDuration(600);
-        animator2.setInterpolator(new AccelerateInterpolator());
+        animator2.setDuration(preAnimDuration);
+        animator2.setInterpolator(new LinearInterpolator());
 
         //淡出动画
         animatorAlphaIn1 = ObjectAnimator.ofObject(ball1, "alpha", new FloatEvaluator(), 0f, 1f);
-        animatorAlphaIn1.setDuration(200);
+        animatorAlphaIn1.setDuration(alphaInDuration);
 
-        animatorUpDown1 = ValueAnimator.ofFloat(0f, 50f);
-        animatorUpDown1.setDuration(2000);
+        animatorUpDown1 = ValueAnimator.ofFloat(0f, 20f);
+        animatorUpDown1.setDuration(upDownDuration);
         animatorUpDown1.setInterpolator(new CycleInterpolator(1));
         animatorUpDown1.setRepeatCount(ValueAnimator.INFINITE);
 
         animatorAlphaIn2 = ObjectAnimator.ofObject(ball2, "alpha", new FloatEvaluator(), 0f, 1f);
-        animatorAlphaIn2.setDuration(200);
+        animatorAlphaIn2.setDuration(alphaInDuration);
 
         animatorUpDown2 = animatorUpDown1.clone();
 
         animatorAlphaIn3 = ObjectAnimator.ofObject(ball3, "alpha", new FloatEvaluator(), 0f, 1f);
-        animatorAlphaIn3.setDuration(200);
+        animatorAlphaIn3.setDuration(alphaInDuration);
         animatorUpDown3 = animatorUpDown1.clone();
 
         animatorUpDown4 = animatorUpDown1.clone();
 
         animatorSet = new AnimatorSet();
-        animatorSet.play(animator1).before(animator2);//600
-        animatorSet.play(animator2).with(animatorUpDown3);//600
-        animatorSet.play(animatorUpDown2).after(800);
-        animatorSet.play(animatorUpDown1).after(1000);
-        animatorSet.play(animatorUpDown4).after(1200);
-        animatorSet.play(animatorAlphaIn3).after(600);
-        animatorSet.play(animatorAlphaIn2).after(800);
-        animatorSet.play(animatorAlphaIn1).after(1000);
+        animatorSet.play(animator1).before(animator2);
+        animatorSet.play(animator2).with(animatorUpDown3);//播放完预动画，时间为2*preAnimDuration，而animatorUpDown3播放的具体时间是preAnimDuration
 
-        animatorSet.setStartDelay(200);
+        animatorSet.play(animatorUpDown2).after(preAnimDuration + alphaInDuration);//preAnimDuration+alphaInDuration
+        animatorSet.play(animatorUpDown1).after(preAnimDuration + (2 * alphaInDuration));
+        animatorSet.play(animatorUpDown4).after(preAnimDuration + (3 * alphaInDuration));
+
+        animatorSet.play(animatorAlphaIn3).after(preAnimDuration); //preAnimDuration
+        animatorSet.play(animatorAlphaIn2).after(preAnimDuration + alphaInDuration);
+        animatorSet.play(animatorAlphaIn1).after(preAnimDuration + (2 * alphaInDuration));
+
+        animatorSet.setStartDelay(200);//以上动画延时200毫秒执行，解决一开始的缩放动画卡顿问题
     }
 
     private float getTranX() {
         final float width = ball1.getWidth();
-        final float perX = width + getContext().getResources().getDimension(R.dimen.spacing_small);
+        final float perX = width + getContext().getResources().getDimension(R.dimen.spacing_more_small);
         return 3f * perX;
     }
 

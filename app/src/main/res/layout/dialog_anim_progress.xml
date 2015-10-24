@@ -5,9 +5,9 @@
     android:gravity="center_vertical"
     android:layout_width="wrap_content"
     android:layout_height="100dp">
+
     <LinearLayout
         android:id="@+id/layout"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:gravity="center"
         android:layout_width="150dp"
         android:layout_height="match_parent">
@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/iv_ball2"
                 android:scaleType="matrix"
-                android:layout_margin="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_more_small"
                 android:src="@drawable/round_orange"
                 android:alpha="0"
                 android:layout_width="@dimen/image_tiny"
@@ -42,9 +42,9 @@
         android:src="@drawable/round_blue"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@id/layout"
-        android:layout_marginLeft="75dp"
-        android:layout_width="@dimen/image_large"
-        android:layout_height="@dimen/image_large" />
+        android:layout_marginLeft="70dp"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal" />
 
     <TextView
         android:id="@+id/tv_title"
