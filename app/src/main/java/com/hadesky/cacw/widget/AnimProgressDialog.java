@@ -30,7 +30,7 @@ public class AnimProgressDialog extends Dialog {
     private ImageView ball1,ball2,ball3, ball4;
     private Matrix matrix;
 
-    private double speed_factor = 1.0;
+    private double speed_factor = 0.6;
 
     private TextView titleView;
     private String title;

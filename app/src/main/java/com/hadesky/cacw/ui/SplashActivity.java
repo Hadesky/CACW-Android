@@ -1,8 +1,13 @@
 package com.hadesky.cacw.ui;
 
+import android.animation.Animator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.ImageView;
 
 import com.hadesky.cacw.R;
 /**
@@ -20,6 +25,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉状态栏
 
@@ -36,6 +42,5 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void setupView() {
-
     }
 }

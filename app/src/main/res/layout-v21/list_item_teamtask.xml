@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/ripple_drawable"
+    >
+    <com.hadesky.cacw.widget.CircleImageView
+        android:layout_marginLeft="16dp"
+        android:id="@+id/icon"
+        android:layout_centerVertical="true"
+        android:src="@drawable/default_user_image"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"/>
+    <TextView
+        android:layout_marginLeft="24dp"
+        android:layout_centerVertical="true"
+        android:text="任务标题"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:text="2015-07-01"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+
