@@ -45,12 +45,6 @@ public class ProjectDetailActivity extends BaseActivity {
         for (int i = 0; i < 30; i++) {
             members.add(new MemberBean("用户" + i, R.drawable.default_user_image));
         }
-        if (isAbleToAdd()) {
-            members.add(new MemberBean("", R.drawable.add, MemberBean.TYPE_ADD));
-        }
-        if (isAbleToDelete()) {
-            members.add(new MemberBean("", R.drawable.delete, MemberBean.TYPE_DELETE));
-        }
     }
 
     @Override
@@ -64,6 +58,10 @@ public class ProjectDetailActivity extends BaseActivity {
         }
 
         membersAdapter = new MembersAdapter(members, context);
+
+        membersAdapter.setAbleToDelete(true);
+        membersAdapter.setAbleToAdd(true);
+
         recyclerView.setAdapter(membersAdapter);
         setupSpanCount();
 

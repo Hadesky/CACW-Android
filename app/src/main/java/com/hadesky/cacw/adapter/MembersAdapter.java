@@ -29,6 +29,14 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     public static final int MODE_NORMAL = 0;
     public static final int MODE_DELETE = 1;
 
+    public static final int BUTTON_TYPE_AVATAR = 0;
+    public static final int BUTTON_TYPE_ADD = 1;
+    public static final int BUTTON_TYPE_DELETE = 2;
+
+    private boolean ableToDelete = false;
+
+    private boolean ableToAdd = false;
+
     private List<MemberBean> members;
     private Context mContext;
     private LayoutInflater inflater;
@@ -44,7 +52,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     public MembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MembersViewHolder viewHolder;
         View view;
-        if (viewType == MemberBean.TYPE_NORMAL) {
+        if (viewType == BUTTON_TYPE_AVATAR) {
             //头像
             view = inflater.inflate(R.layout.list_item_member, parent, false);
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
@@ -60,7 +68,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                     }
                 }
             });
-        } else if (viewType == MemberBean.TYPE_ADD) {
+        } else if (viewType == BUTTON_TYPE_ADD) {
             //添加按钮
             view = inflater.inflate(R.layout.item_add_member, parent, false);
             viewHolder = new MembersViewHolder(view, viewType, new MembersViewHolder.OnItemClickListener() {
@@ -85,7 +93,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
 
     @Override
     public void onBindViewHolder(MembersViewHolder holder, int position) {
-        if (holder.getViewType() == MemberBean.TYPE_NORMAL) {
+        if (holder.getViewType() == BUTTON_TYPE_AVATAR) {
             //当前要进行设置的是普通按钮
             if (mode == MODE_NORMAL) {
 //                普通模式
@@ -98,7 +106,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
             }
             holder.setText(members.get(position).getUsername());
             holder.setImageSrc(members.get(position).getAvatarResid());
-        }else if (holder.getViewType() == MemberBean.TYPE_DELETE) {
+        }else if (holder.getViewType() == BUTTON_TYPE_DELETE) {
             //当前要进行设置的是删除按钮
             if (mode == MODE_NORMAL) {
                 //普通状态显示删除按钮
@@ -112,12 +120,40 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
 
     @Override
     public int getItemCount() {
-        return members.size();
+        if (isAbleToAdd())
+            if (isAbleToDelete()) {
+                return members.size() + 2;
+            }else return members.size() + 1;
+        else return members.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return members.get(position).getType();
+        if (position < members.size()) {
+            return BUTTON_TYPE_AVATAR;
+        } else {
+            if (position == members.size()) return BUTTON_TYPE_ADD;
+            else if (position == members.size() + 1) {
+                return BUTTON_TYPE_DELETE;
+            }
+        }
+        throw new RuntimeException("Item Count Error!");
+    }
+
+    private boolean isAbleToAdd() {
+        return ableToAdd;
+    }
+
+    public boolean isAbleToDelete() {
+        return ableToDelete;
+    }
+
+    public void setAbleToDelete(boolean ableToDelete) {
+        this.ableToDelete = ableToDelete;
+    }
+
+    public void setAbleToAdd(boolean ableToAdd) {
+        this.ableToAdd = ableToAdd;
     }
 
     public void setMode(int mode) {
@@ -142,7 +178,7 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
 
         public MembersViewHolder(View itemView, int viewType, OnItemClickListener listener) {
             super(itemView);
-            if (viewType == MemberBean.TYPE_NORMAL) {
+            if (viewType == BUTTON_TYPE_AVATAR) {
                 avatarView = (ImageView) itemView.findViewById(R.id.iv_avatar);
                 textView = (TextView) itemView.findViewById(R.id.tv);
                 deleteView = (ImageView) itemView.findViewById(R.id.iv_delete);

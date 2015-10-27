@@ -91,8 +91,9 @@ public class EditTaskActivity extends BaseActivity
         List<MemberBean> list = new ArrayList<>();
         for (int i = 0;i<5;i++)
                 list.add(new MemberBean("谢伟鹏",R.drawable.default_user_image));
-        list.add(new MemberBean("添加成员", R.drawable.add, MemberBean.TYPE_ADD));
-            mRcv_members.setAdapter(new TaskMembersAdapter(this, list));
+        TaskMembersAdapter adapter = new TaskMembersAdapter(this, list);
+        adapter.setAbleToAdd(true);
+            mRcv_members.setAdapter(adapter);
 
 
 

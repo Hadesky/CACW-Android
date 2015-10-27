@@ -21,8 +21,15 @@ import java.util.List;
  */
 public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.TaskMemberVH>
 {
+    public static final int BUTTON_TYPE_AVATAR = 0;
+    public static final int BUTTON_TYPE_ADD = 1;
+    public static final int BUTTON_TYPE_DELETE = 2;
+
     private Context mContext;
     private List<MemberBean> mDatas;
+    private boolean ableToDelete = false;
+
+    private boolean ableToAdd = false;
 
     public TaskMembersAdapter(Context context, List<MemberBean> datas)
     {
@@ -35,7 +42,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     {
         View view = null;
         TaskMemberVH holder;
-        if (viewType == MemberBean.TYPE_NORMAL) {
+        if (viewType == BUTTON_TYPE_AVATAR) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_task_members, parent, false);
 
             holder = new TaskMemberVH(view, new OnItemClickListener()
@@ -68,15 +75,41 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
 
 
     @Override
-    public int getItemViewType(int position)
-    {
-        return mDatas.get(position).getType();
+    public int getItemViewType(int position) {
+        if (position < mDatas.size()) {
+            return BUTTON_TYPE_AVATAR;
+        } else {
+            if (position == mDatas.size()) return BUTTON_TYPE_ADD;
+                else if (position == mDatas.size() + 1) {
+                return BUTTON_TYPE_DELETE;
+            }
+        }
+        throw new RuntimeException("Item Count Error!");
     }
 
     @Override
-    public int getItemCount()
-    {
-        return mDatas.size();
+    public int getItemCount() {
+        if (isAbleToAdd())
+            if (isAbleToDelete()) {
+                return mDatas.size() + 2;
+            }else return mDatas.size() + 1;
+        else return mDatas.size();
+    }
+
+    private boolean isAbleToAdd() {
+        return ableToAdd;
+    }
+
+    public boolean isAbleToDelete() {
+        return ableToDelete;
+    }
+
+    public void setAbleToDelete(boolean ableToDelete) {
+        this.ableToDelete = ableToDelete;
+    }
+
+    public void setAbleToAdd(boolean ableToAdd) {
+        this.ableToAdd = ableToAdd;
     }
 
     public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener
