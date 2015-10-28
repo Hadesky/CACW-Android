@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
 
@@ -26,12 +26,12 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static final int BUTTON_TYPE_DELETE = 2;
 
     private Context mContext;
-    private List<MemberBean> mDatas;
+    private List<UserBean> mDatas;
     private boolean ableToDelete = false;
 
     private boolean ableToAdd = false;
 
-    public TaskMembersAdapter(Context context, List<MemberBean> datas)
+    public TaskMembersAdapter(Context context, List<UserBean> datas)
     {
         mContext = context;
         mDatas = datas;

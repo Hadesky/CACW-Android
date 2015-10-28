@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SelectMemberAdapter;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ public class SelectMemberActivity extends BaseActivity
     {
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<MemberBean> list = new ArrayList<>();
+        List<UserBean> list = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            list.add(new MemberBean("谢伟鹏",R.drawable.default_user_image));
+            list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
         }
         mAdapter = new SelectMemberAdapter(this,list);
         mRecyclerView.setAdapter(mAdapter);

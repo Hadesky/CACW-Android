@@ -1,22 +1,27 @@
 package com.hadesky.cacw.bean;
 
 /**
+ *
  * Created by 45517 on 2015/10/17.
  */
-public class MemberBean {
+public class UserBean {
 
     private String username;
+
+    private long user_id;
+
     private int avatarResid;
 
-    public MemberBean() {
+
+    public UserBean() {
     }
 
-    public MemberBean(String username, int  avatarResid) {
+    public UserBean(String username, int avatarResid) {
         this.username = username;
         this.avatarResid = avatarResid;
     }
 
-    public MemberBean(String username, int avatarResid, int type) {
+    public UserBean(String username, int avatarResid, int type) {
         this.username = username;
         this.avatarResid = avatarResid;
     }
@@ -35,5 +40,13 @@ public class MemberBean {
 
     public void setAvatarResid(int avatarResid) {
         this.avatarResid = avatarResid;
+    }
+
+    public long getUserid() {
+        return user_id;
+    }
+
+    public void setUserid(long user_id) {
+        this.user_id = user_id;
     }
 }

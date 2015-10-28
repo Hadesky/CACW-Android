@@ -14,7 +14,7 @@ import android.widget.TimePicker;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
@@ -88,9 +88,9 @@ public class EditTaskActivity extends BaseActivity
 
 
 
-        List<MemberBean> list = new ArrayList<>();
+        List<UserBean> list = new ArrayList<>();
         for (int i = 0;i<5;i++)
-                list.add(new MemberBean("谢伟鹏",R.drawable.default_user_image));
+                list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
         TaskMembersAdapter adapter = new TaskMembersAdapter(this, list);
         adapter.setAbleToAdd(true);
             mRcv_members.setAdapter(adapter);

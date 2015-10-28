@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MembersAdapter;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 import com.hadesky.cacw.widget.StickView;
 
@@ -18,11 +18,10 @@ public class ProjectDetailActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private MembersAdapter membersAdapter;
-    private List<MemberBean> members;
+    private List<UserBean> members;
     private StickView allTaskStick;
     private StickView doneTaskStick;
     private StickView undoTaskStick;
-
 
     @Override
     public int getLayoutId() {
@@ -41,9 +40,18 @@ public class ProjectDetailActivity extends BaseActivity {
     }
 
     private void initData() {
+//        mHelper = new DatabaseHelper(context);
+//        DatabaseHelper.UserCursor userCursor = mHelper.queryUser();
+//        userCursor.moveToFirst();
+//        if (userCursor.getUserBean() == null) {
+//            for (int i = 0; i < 20; i++) {
+//                insertUser();
+//            }
+//        }
+
         members = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            members.add(new MemberBean("用户" + i, R.drawable.default_user_image));
+        for (int i = 0; i < 10; i++) {
+            members.add(new UserBean("蚂蚁测试员", R.drawable.default_user_image));
         }
     }
 
@@ -90,7 +98,6 @@ public class ProjectDetailActivity extends BaseActivity {
             }
         });
     }
-
 
     //TODO
     public boolean isAbleToAdd() {

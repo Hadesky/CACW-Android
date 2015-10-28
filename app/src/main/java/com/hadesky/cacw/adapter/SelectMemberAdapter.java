@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +20,11 @@ import java.util.Map;
 public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapter.SelectMemberVH>
 {
 
-    private List<MemberBean> mDatas;
+    private List<UserBean> mDatas;
     private Context              mContext;
     private Map<Integer, Boolean> mSelectMap = new HashMap<>();
 
-    public SelectMemberAdapter(Context context, List<MemberBean> datas)
+    public SelectMemberAdapter(Context context, List<UserBean> datas)
     {
         mDatas = datas;
         mContext = context;

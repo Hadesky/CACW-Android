@@ -1,21 +1,16 @@
 package com.hadesky.cacw.adapter;
 
-import android.animation.FloatEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
 
@@ -37,12 +32,12 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
 
     private boolean ableToAdd = false;
 
-    private List<MemberBean> members;
+    private List<UserBean> members;
     private Context mContext;
     private LayoutInflater inflater;
     private int mode = 0;
 
-    public MembersAdapter(List<MemberBean> members, Context context) {
+    public MembersAdapter(List<UserBean> members, Context context) {
         this.mContext = context;
         this.members = members;
         inflater = LayoutInflater.from(context);

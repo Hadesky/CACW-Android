@@ -68,7 +68,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                LogUtils.d("ERROR Response", error.getMessage());
+                LogUtils.d("ERROR Response", "" + error.getMessage());
             }
         }));
         return SUCCESS_NORMAL;

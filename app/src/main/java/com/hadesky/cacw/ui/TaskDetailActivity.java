@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
-import com.hadesky.cacw.bean.MemberBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
@@ -49,9 +49,9 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        List<MemberBean> list = new ArrayList<>();
+        List<UserBean> list = new ArrayList<>();
         for (int i=0;i<10;i++)
-            list.add(new MemberBean("谢伟鹏",R.drawable.default_user_image));
+            list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
 
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
         manager.setOrientation(GridLayoutManager.VERTICAL);
