@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.hadesky.cacw.bean.ProfileBean;
-import com.hadesky.cacw.database.DataBaseManager;
 import com.hadesky.cacw.ui.LoginActivity;
 
 import java.io.ByteArrayOutputStream;

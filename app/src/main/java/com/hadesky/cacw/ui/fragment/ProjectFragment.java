@@ -12,7 +12,6 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.database.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;

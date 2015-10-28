@@ -8,7 +8,6 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.database.DataBaseManager;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 import com.hadesky.cacw.widget.StickView;

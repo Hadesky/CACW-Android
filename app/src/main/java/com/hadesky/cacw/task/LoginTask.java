@@ -19,7 +19,6 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.database.DataBaseManager;
 import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.ui.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
