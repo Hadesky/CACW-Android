@@ -19,7 +19,6 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.database.DataBaseManager;
 import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.ui.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
@@ -157,7 +156,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
      */
     private void onSuccessLogin() {
         //模拟数据
-        DataBaseManager manager = DataBaseManager.getInstance(mContext);
+        DatabaseManager manager = DatabaseManager.getInstance(mContext);
 
         for (int i = 0; i < SimData.user_list.length; i++) {
             manager.insertUser(new UserBean(SimData.user_list[i], i));
