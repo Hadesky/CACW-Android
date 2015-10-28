@@ -12,6 +12,7 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
+import com.hadesky.cacw.database.DataBaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,15 @@ public class ProjectFragment extends BaseFragment {
     }
 
     private void initData() {
+        DataBaseManager manager = DataBaseManager.getInstance(getContext());
+
+        //查询操作
+        DataBaseManager.ProjectCursor projectCursor = manager.queryProjectByUserId(0);//0换为当前用户的UserID
+        projectCursor.moveToFirst();
         mData = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            ProjectBean bean = new ProjectBean(R.drawable.default_user_image, "项目" + i, false);
-            mData.add(bean);
+        for (int i = 0; i < projectCursor.getCount(); i++) {
+            mData.add(projectCursor.getProjectBean());
+            projectCursor.moveToNext();
         }
     }
 

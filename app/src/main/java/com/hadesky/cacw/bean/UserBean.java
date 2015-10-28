@@ -1,5 +1,7 @@
 package com.hadesky.cacw.bean;
 
+import com.hadesky.cacw.R;
+
 /**
  *
  * Created by 45517 on 2015/10/17.
@@ -10,21 +12,17 @@ public class UserBean {
 
     private long user_id;
 
-    private int avatarResid;
+    private int avatarResid = R.drawable.default_user_image;
 
 
     public UserBean() {
     }
 
-    public UserBean(String username, int avatarResid) {
+    public UserBean(String username, int userId) {
         this.username = username;
-        this.avatarResid = avatarResid;
+        this.user_id = userId;
     }
 
-    public UserBean(String username, int avatarResid, int type) {
-        this.username = username;
-        this.avatarResid = avatarResid;
-    }
 
     public String getUsername() {
         return username;
@@ -42,11 +40,11 @@ public class UserBean {
         this.avatarResid = avatarResid;
     }
 
-    public long getUserid() {
+    public long getUserId() {
         return user_id;
     }
 
-    public void setUserid(long user_id) {
+    public void setUserId(long user_id) {
         this.user_id = user_id;
     }
 }

@@ -14,8 +14,16 @@ public class TaskBean {
     private String mRemark;
     private Date mStartDate;
     private Date mEndDate;
-    private int ID;
+    private long task_id;
     private int mTaskStatus;
+
+    public TaskBean() {
+    }
+
+    public TaskBean(String title, long task_id) {
+        this.mTitle = title;
+        this.task_id = task_id;
+    }
 
     public String getTitle() {
         return mTitle;
@@ -41,12 +49,12 @@ public class TaskBean {
         mStartDate = startDate;
     }
 
-    public int getID() {
-        return ID;
+    public long getTaskId() {
+        return task_id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setTaskID(long ID) {
+        this.task_id = ID;
     }
 
     public int getTaskStatus() {

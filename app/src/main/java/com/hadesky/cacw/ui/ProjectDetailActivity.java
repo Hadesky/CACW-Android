@@ -6,8 +6,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.MembersAdapter;
+import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.database.DataBaseManager;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 import com.hadesky.cacw.widget.StickView;
 
@@ -17,11 +19,15 @@ import java.util.List;
 public class ProjectDetailActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
-    private MembersAdapter membersAdapter;
+    private EditableMembersAdapter editableMembersAdapter;
     private List<UserBean> members;
     private StickView allTaskStick;
     private StickView doneTaskStick;
     private StickView undoTaskStick;
+
+    private DataBaseManager manager;
+    private long projectId;
+
 
     @Override
     public int getLayoutId() {
@@ -40,18 +46,18 @@ public class ProjectDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-//        mHelper = new DatabaseHelper(context);
-//        DatabaseHelper.UserCursor userCursor = mHelper.queryUser();
-//        userCursor.moveToFirst();
-//        if (userCursor.getUserBean() == null) {
-//            for (int i = 0; i < 20; i++) {
-//                insertUser();
-//            }
-//        }
+        manager = DataBaseManager.getInstance(context);
+        projectId = getIntent().getLongExtra(IntentTag.TAG_PROJECT_ID, 0);
 
+        DataBaseManager manager = DataBaseManager.getInstance(context);
+
+        //查询操作
+        DataBaseManager.UserCursor userCursor = manager.queryUserFromProject(projectId);
+        userCursor.moveToFirst();
         members = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            members.add(new UserBean("蚂蚁测试员", R.drawable.default_user_image));
+        for (int i = 0; i < userCursor.getCount(); i++) {
+            members.add(userCursor.getUserBean());
+            userCursor.moveToNext();
         }
     }
 
@@ -65,12 +71,17 @@ public class ProjectDetailActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.project_detail);
         }
 
-        membersAdapter = new MembersAdapter(members, context);
+        editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
+            @Override
+            public void onMemberDelete(long user_id) {
+                manager.deleteUserFromProject(user_id, projectId);
+            }
+        });
 
-        membersAdapter.setAbleToDelete(true);
-        membersAdapter.setAbleToAdd(true);
+        editableMembersAdapter.setAbleToDelete(true);
+        editableMembersAdapter.setAbleToAdd(true);
 
-        recyclerView.setAdapter(membersAdapter);
+        recyclerView.setAdapter(editableMembersAdapter);
         setupSpanCount();
 
         setupStickView();
@@ -111,8 +122,8 @@ public class ProjectDetailActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (membersAdapter.getMode() == MembersAdapter.MODE_DELETE) {
-            membersAdapter.setMode(MembersAdapter.MODE_NORMAL);
+        if (editableMembersAdapter.getMode() == EditableMembersAdapter.MODE_DELETE) {
+            editableMembersAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
         } else {
             super.onBackPressed();
         }

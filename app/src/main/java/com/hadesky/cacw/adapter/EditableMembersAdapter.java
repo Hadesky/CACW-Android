@@ -20,7 +20,7 @@ import java.util.List;
  *
  * Created by 45517 on 2015/10/17.
  */
-public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersViewHolder> {
+public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembersAdapter.MembersViewHolder> {
     public static final int MODE_NORMAL = 0;
     public static final int MODE_DELETE = 1;
 
@@ -37,7 +37,14 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
     private LayoutInflater inflater;
     private int mode = 0;
 
-    public MembersAdapter(List<UserBean> members, Context context) {
+    private OnMemberDeleteListener onMemberDeleteListener;
+
+    public interface OnMemberDeleteListener {
+        void onMemberDelete(long user_id);
+    }
+
+    public EditableMembersAdapter(List<UserBean> members, Context context, OnMemberDeleteListener listener) {
+        this.onMemberDeleteListener = listener;
         this.mContext = context;
         this.members = members;
         inflater = LayoutInflater.from(context);
@@ -58,6 +65,8 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.MembersV
                         mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
                     } else {
                         //点击到头像的删除按钮
+                        onMemberDeleteListener.onMemberDelete(members.get(position).getUserId());
+
                         members.remove(position);
                         notifyDataSetChanged();
                     }

@@ -177,6 +177,7 @@ public class MainActivity extends BaseActivity {
         final int count = preferences.getInt("runCount", 0);
         editor.putInt("runCount", count + 1);
         editor.apply();
+
     }
 
     public void goSettingActivity(View view) {

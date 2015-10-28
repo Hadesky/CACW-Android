@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProjectBean;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.ProjectDetailActivity;
-import com.hadesky.cacw.util.LogUtils;
 
 import java.util.List;
 
@@ -40,6 +40,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
             public void OnItemClick(View view, int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProjectDetailActivity.class);
+                intent.putExtra(IntentTag.TAG_PROJECT_ID, mData.get(position).getProjectId());
+
                 mContext.startActivity(intent);
             }
         });
@@ -48,8 +50,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     @Override
     public void onBindViewHolder(ProjectViewHolder holder, int position) {
         ProjectBean bean = mData.get(position);
-        holder.tv_title.setText(bean.getTitle());
-        holder.iv_avatar.setImageResource(bean.getResId());
+        holder.tv_title.setText(bean.getProjectName());
+        holder.iv_avatar.setImageResource(bean.getAvatarResId());
     }
 
 

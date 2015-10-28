@@ -1,6 +1,5 @@
 package com.hadesky.cacw.task;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +15,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProfileBean;
+import com.hadesky.cacw.bean.ProjectBean;
+import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
+import com.hadesky.cacw.database.DataBaseManager;
+import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.ui.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
 import com.hadesky.cacw.widget.AnimProgressDialog;
@@ -152,6 +156,42 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
      * 在账户密码一切正确正常的时候调用
      */
     private void onSuccessLogin() {
+        //模拟数据
+        DataBaseManager manager = DataBaseManager.getInstance(mContext);
+
+        for (int i = 0; i < SimData.user_list.length; i++) {
+            manager.insertUser(new UserBean(SimData.user_list[i], i));
+        }
+        for (int i = 0; i < SimData.project_list.length; i++) {
+            manager.insertProject(new ProjectBean(SimData.project_list[i], i));
+        }
+        for (int i = 0; i < SimData.task_list.length; i++) {
+            manager.insertTask(new TaskBean(SimData.task_list[i], i));
+        }
+        //把用户插进Task
+
+        for (int i = 0, j = 0; i < SimData.task_list.length; i++) {
+            for (int k = 0; k < 10 && j < SimData.user_list.length; j++, k++) {
+                manager.putUserIntoTask(j, i);
+            }
+        }
+        //把用户插进project
+        for (int i = 0, j = 0; i < SimData.project_list.length; i++) {
+            for (int k = 0; k < 15 && j < SimData.user_list.length; j++, k++) {
+                manager.putUserIntoProject(j, i);
+            }
+        }
+        //手动把id为0的USER放进project1和2
+        manager.putUserIntoProject(0, 1);
+        manager.putUserIntoProject(0, 2);
+
+        //把task插进project
+        for (int i = 0; i < SimData.project_list.length; i++) {
+            for (int j = 0; j < SimData.task_list.length; j++) {
+                manager.putTaskIntoProject(j, i);
+            }
+        }
+
         ProfileBean bean = getProfileBean();
         mSession.createLoginSession(bean);
 
@@ -169,7 +209,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
      */
     public ProfileBean getProfileBean() {
         ProfileBean bean = new ProfileBean();
-        bean.setUserName("蚂蚁测试员");
+        bean.setUserName(SimData.user_list[0]);
         bean.setUserEmail("abc@mayi.com");
         bean.setUserPhoneNumber("123456");
         Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_user_image);

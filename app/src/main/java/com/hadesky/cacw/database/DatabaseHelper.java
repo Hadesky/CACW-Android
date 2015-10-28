@@ -16,10 +16,7 @@ import com.hadesky.cacw.bean.UserBean;
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "cacw.sqlite";
     public static final int VERSION = 1;
-    public static final String TABLE_USER = "user";
-    public static final String COLUMN_USER_USERID = "user_id";
-    public static final String COLUMN_USER_USERNAME = "username";
-    public static final String COLUMN_USER_AVATAR = "avatar";
+
 
     public DatabaseHelper(Context context) {
         this(context, DB_NAME, null, VERSION);
@@ -32,13 +29,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //创建表格task
-                db.execSQL("CREATE TABLE task (" +
-                        "task_id INT PRIMARY KEY NOT NULL," +
-                        "title TEXT NOT NULL," +
-                        "date TEXT NOT NULL," +
-                        "time TEXT NOT NULL," +
-                        "location TEXT" +
-                        ")");
+        db.execSQL("CREATE TABLE task (" +
+                "task_id INT PRIMARY KEY NOT NULL," +
+                "title TEXT NOT NULL," +
+                "date TEXT," +
+                "time TEXT," +
+                "location TEXT" +
+                ")");
+        //创建表格team
+        db.execSQL("CREATE TABLE team(" +
+                "team_id INT PRIMARY KEY NOT NULL," +
+                "team_name TEXT NOT NULL" +
+                ")");
         //创建表格task_user
         db.execSQL("CREATE TABLE task_user(" +
                 "task_id INT NOT NULL," +
@@ -49,18 +51,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ")");
 
         //创建表格project
-                db.execSQL("CREATE TABLE project (" +
-                        "project _id INT PRIMARY KEY NOT NULL," +
-                        "project_name TEXT NOT NULL" +
-                        ")");
+        db.execSQL("CREATE TABLE project (" +
+                "project_id INT PRIMARY KEY NOT NULL," +
+                "project_name TEXT NOT NULL" +
+                ")");
         //创建表格project_user
-                db.execSQL("CREATE TABLE project_user (" +
-                        "project_id INT NOT NULL," +
-                        "user_id INT NOT NULL," +
-                        "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
-                        "foreign key (user_id) references user(user_id) on delete cascade on update cascade," +
-                        "PRIMARY KEY(project_id,user_id)" +
-                        ")");
+        db.execSQL("CREATE TABLE project_user (" +
+                "project_id INT NOT NULL," +
+                "user_id INT NOT NULL," +
+                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
+                "foreign key (user_id) references user(user_id) on delete cascade on update cascade," +
+                "PRIMARY KEY(project_id,user_id)" +
+                ")");
         //创建表格user
         db.execSQL("CREATE TABLE user (" +
                 "user_id INT PRIMARY KEY NOT NULL," +
@@ -71,6 +73,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "address TEXT," +
                 "signature TEXT" +
                 ")");
+        //创建表格project_task
+        db.execSQL("CREATE TABLE project_task (" +
+                "project_id INT NOT NULL," +
+                "task_id INT NOT NULL," +
+                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
+                "foreign key (task_id) references task(task_id) on delete cascade on update cascade," +
+                "PRIMARY KEY(project_id,task_id)" +
+                ")");
     }
 
     @Override
@@ -78,52 +88,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertUser(UserBean bean) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_USER_USERID, bean.getUserid());
-        cv.put(COLUMN_USER_USERNAME, bean.getUsername());
-        return getWritableDatabase().insert(TABLE_USER, null, cv);
-    }
-
-    public UserCursor queryUser() {
-        Cursor wrapped = getReadableDatabase().query(TABLE_USER, null, null, null, null, null, COLUMN_USER_USERID);
-        UserCursor userCursor = new UserCursor(wrapped);
-        return userCursor;
-    }
-
-
-    /**
-     * 内部类
-     * 用于格式化查询结果
-     */
-    public static class UserCursor extends CursorWrapper {
-
-        /**
-         * Creates a cursor wrapper.
-         *
-         * @param cursor The underlying cursor to wrap.
-         */
-        public UserCursor(Cursor cursor) {
-            super(cursor);
-        }
-
-        /**
-         *从Cursor提取出UserBean，如果对应行为空，则返回Null
-         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
-         */
-        public UserBean getUserBean() {
-            if (isBeforeFirst() || isAfterLast()) {
-                return null;
-            }
-            UserBean bean = new UserBean();
-            long user_id = getLong(getColumnIndex(COLUMN_USER_USERID));
-            bean.setUserid(user_id);
-            String username = getString(getColumnIndex(COLUMN_USER_USERNAME));
-            bean.setUsername(username);
-            if (isNull(getColumnIndex(COLUMN_USER_AVATAR))) {
-                bean.setAvatarResid(R.drawable.default_user_image);
-            }
-            return bean;
-        }
-    }
 }
