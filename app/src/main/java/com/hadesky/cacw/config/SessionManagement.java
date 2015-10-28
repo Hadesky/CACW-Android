@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.hadesky.cacw.bean.ProfileBean;
+import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.LoginActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -86,7 +87,7 @@ public class SessionManagement {
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         //退出登录清除数据库所有数据
-        DataBaseManager manager = DataBaseManager.getInstance(mContext);
+        DatabaseManager manager = DatabaseManager.getInstance(mContext);
         manager.cleanAllData();
 
         // Staring Login Activity

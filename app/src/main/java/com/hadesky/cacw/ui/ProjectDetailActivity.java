@@ -8,6 +8,7 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 import com.hadesky.cacw.widget.StickView;
@@ -24,7 +25,7 @@ public class ProjectDetailActivity extends BaseActivity {
     private StickView doneTaskStick;
     private StickView undoTaskStick;
 
-    private DataBaseManager manager;
+    private DatabaseManager manager;
     private long projectId;
 
 
@@ -45,13 +46,13 @@ public class ProjectDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        manager = DataBaseManager.getInstance(context);
+        manager = DatabaseManager.getInstance(context);
         projectId = getIntent().getLongExtra(IntentTag.TAG_PROJECT_ID, 0);
 
-        DataBaseManager manager = DataBaseManager.getInstance(context);
+        DatabaseManager manager = DatabaseManager.getInstance(context);
 
         //查询操作
-        DataBaseManager.UserCursor userCursor = manager.queryUserFromProject(projectId);
+        DatabaseManager.UserCursor userCursor = manager.queryUserFromProject(projectId);
         userCursor.moveToFirst();
         members = new ArrayList<>();
         for (int i = 0; i < userCursor.getCount(); i++) {
