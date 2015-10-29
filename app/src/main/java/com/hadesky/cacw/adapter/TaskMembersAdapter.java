@@ -53,12 +53,13 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                     mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
                 }
             });
-        } else
-        {
+        } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_add_member, parent, false);
-            holder = new TaskMemberVH(view, new OnItemClickListener() {
+            holder = new TaskMemberVH(view, new OnItemClickListener()
+            {
                 @Override
-                public void OnItemClick(View view, int position) {
+                public void OnItemClick(View view, int position)
+                {
                     mContext.startActivity(new Intent(mContext, SelectMemberActivity.class));
                 }
             });
@@ -115,7 +116,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private OnItemClickListener mOnItemClickListener;
-        private TextView            mName;
+        private TextView mName;
 
 
         public TaskMemberVH(View itemView, OnItemClickListener listener)

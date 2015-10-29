@@ -128,7 +128,6 @@ public class EditTaskActivity extends BaseActivity
                     }
                 }, nyear, nmonth, nday);
                 d.show();
-
             }
         });
     }

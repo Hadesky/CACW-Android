@@ -7,10 +7,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.presenter.MyTaskPresenter;
+import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import java.util.List;
  * 我的任务Fragment
  * Created by Bright Van on 2015/9/7/007.
  */
-public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener
+public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,TaskView
 {
 
 
@@ -31,7 +34,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private MyTaskPresenter mPresenter;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my_task;
@@ -69,8 +72,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
             {
                 super.onScrollStateChanged(recyclerView, newState);
                 //当第一个item完全显示的时候，刷新可用
-                if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-                        mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
                     mSwipeRefreshLayout.setEnabled(true);
                 else
                     mSwipeRefreshLayout.setEnabled(false);
@@ -83,6 +85,9 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
 
+
+        mPresenter = new MyTaskPresenterImpl(this);
+        mPresenter.LoadTasks();
     }
 
     @Override
@@ -98,4 +103,28 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         }, 1000);
     }
 
+    @Override
+    public void showDatas(List<TaskBean> tasks)
+    {
+        mAdapter.setDatas(tasks);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showProgress()
+    {
+
+    }
+
+    @Override
+    public void hideProgress()
+    {
+
+    }
+
+    @Override
+    public void onFalure()
+    {
+        Toast.makeText(getContext(),"操作失败",Toast.LENGTH_SHORT).show();
+    }
 }

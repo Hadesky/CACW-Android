@@ -33,7 +33,11 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
         mInflater = LayoutInflater.from(context);
         mContext = context;
         mDatas = list;
+    }
 
+    public void setDatas(List<TaskBean> list)
+    {
+        mDatas = list;
     }
 
     @Override
@@ -69,22 +73,15 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
     {
 
         //设置属性
-
-
+        viewHolder.title.setText(mDatas.get(pos).getTitle());
     }
 
-    @Override
-    public void onViewRecycled(MyTaskViewHolder holder)
-    {
-        super.onViewRecycled(holder);
-    }
 
     @Override
     public int getItemCount()
     {
         return mDatas.size();
     }
-
 
     public static class MyTaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener
     {
@@ -100,6 +97,7 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
             itemView.setOnLongClickListener(this);
             mListener = listener;
             mLongClickListener = longClickListener;
+            title = (TextView) itemView.findViewById(R.id.title);
         }
 
         @Override

@@ -15,9 +15,37 @@ public class TaskBean {
     private Date mStartDate;
     private Date mEndDate;
     private long task_id;
-    private int mTaskStatus;
+    private int mTaskStatus = 1;//完成为0,没完成为1
+
+    public int getProjectId()
+    {
+        return mProjectId;
+    }
+
+    public void setProjectId(int projectId)
+    {
+        mProjectId = projectId;
+    }
+
+    public long getTask_id()
+    {
+        return task_id;
+    }
+
+    public void setTask_id(long task_id)
+    {
+        this.task_id = task_id;
+    }
+
+    private int mProjectId;
 
     public TaskBean() {
+    }
+
+    public TaskBean(String title, long task_id,int projectId) {
+        this.mTitle = title;
+        this.task_id = task_id;
+        this.mProjectId = projectId;
     }
 
     public TaskBean(String title, long task_id) {

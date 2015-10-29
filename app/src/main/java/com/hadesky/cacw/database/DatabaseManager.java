@@ -27,7 +27,7 @@ public class DatabaseManager {
     public static final String COLUMN_TASK_TASK_ID = "task_id";
     public static final String COLUMN_TASK_TITLE = "title";
     public static final String COLUMN_TEAM_TEAM_ID = "team_id";
-
+    public static  final String CLOUMN_TASK_IS_COMPLETE_="is_complete";
 
 
     public static final String TABLE_USER = "user";
@@ -35,7 +35,7 @@ public class DatabaseManager {
     public static final String TABLE_TASK = "task";
     public static final String TABLE_PROJECT_USER = "project_user";
     public static final String TABLE_TASK_USER = "task_user";
-    public static final String TABLE_PROJECT_TASK = "project_task";
+    //public static final String TABLE_PROJECT_TASK = "project_task";
 
     private DatabaseHelper mHelper;
     private SQLiteDatabase db;
@@ -78,6 +78,8 @@ public class DatabaseManager {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TASK_TASK_ID, bean.getTaskId());
         cv.put(COLUMN_TASK_TITLE, bean.getTitle());
+        cv.put(CLOUMN_TASK_IS_COMPLETE_,bean.getTaskStatus());
+        cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
         return db.insert(TABLE_TASK, null, cv);
     }
 
@@ -108,25 +110,21 @@ public class DatabaseManager {
         }
     }
 
-    public void putTaskIntoProject(long task_id, long project_id) {
-        Cursor taskCursor = db.rawQuery("SELECT * FROM " + TABLE_TASK + " WHERE task_id = " + String.valueOf(task_id), null);
-        Cursor projectCursor = db.rawQuery("SELECT * FROM " + TABLE_PROJECT + " WHERE project_id = " + String.valueOf(project_id), null);
-        if (taskCursor != null && projectCursor != null) {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_TASK_TASK_ID, task_id);
-            cv.put(COLUMN_PROJECT_PROJECT_ID, project_id);
-            db.insert(TABLE_PROJECT_TASK, null, cv);
-        }
+    public void deleteTask(long task_id)
+    {
+        db.execSQL("DELETE FORM" + TABLE_TASK + " WHERE task_id= " +
+                String.valueOf(task_id));
+    }
+
+    public void updateTaskComplete(int task_id,int complete)
+    {
+        db.execSQL("update " + TABLE_TASK + "set is_complete ="+complete+" where task_id ="+
+                String.valueOf(task_id));
     }
 
     public void deleteUserFromTask(long user_id, long task_id) {
         db.execSQL("DELETE FORM" + TABLE_TASK_USER + " WHERE user_id= " +
                 String.valueOf(user_id) + " AND task_id= " + String.valueOf(task_id));
-    }
-
-    public void deleteTaskFromProject(long task_id, long project_id) {
-        db.execSQL("DELETE FROM " + TABLE_PROJECT_TASK + " WHERE task_id= " +
-                String.valueOf(task_id) + " AND project_id= " + String.valueOf(project_id));
     }
 
     public void deleteUserFromProject(long user_id,long project_id) {
@@ -165,15 +163,15 @@ public class DatabaseManager {
         return new TaskCursor(wrapped);
     }
 
-    public TaskCursor queryTaskFromProject(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT task.* FROM " + TABLE_TASK + "," + TABLE_PROJECT_TASK +
-                " WHERE task.task_id=project_task.task_id AND " + "project_task.project_id= " + String.valueOf(project_id), null);
+    public TaskCursor queryUncompleteTask()
+    {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
+                " WHERE is_complete =?",new String[]{"1"});
         return new TaskCursor(wrapped);
     }
 
     public void cleanAllData() {
         db.execSQL("DELETE FROM " + TABLE_USER);
-        db.execSQL("DELETE FROM " + TABLE_PROJECT_TASK);
         db.execSQL("DELETE FROM " + TABLE_PROJECT);
         db.execSQL("DELETE FROM " + TABLE_TASK);
         db.execSQL("DELETE FROM " + TABLE_PROJECT_USER);
@@ -254,8 +252,8 @@ public class DatabaseManager {
             bean.setProjectId(project_id);
             String project_name = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_NAME));
             bean.setTitle(project_name);
-
-            bean.setAvatarResId(R.drawable.default_user_image);//后期要改！！！
+            // TODO: 2015/10/28 0028  后期要改！！！
+            bean.setAvatarResId(R.drawable.default_user_image);
 
             return bean;
         }

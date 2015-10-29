@@ -59,6 +59,7 @@ public class ProjectDetailActivity extends BaseActivity {
             members.add(userCursor.getUserBean());
             userCursor.moveToNext();
         }
+        userCursor.close();
     }
 
     @Override
@@ -80,9 +81,9 @@ public class ProjectDetailActivity extends BaseActivity {
 
         editableMembersAdapter.setAbleToDelete(true);
         editableMembersAdapter.setAbleToAdd(true);
-
-        recyclerView.setAdapter(editableMembersAdapter);
         setupSpanCount();
+        recyclerView.setAdapter(editableMembersAdapter);
+
 
         setupStickView();
     }

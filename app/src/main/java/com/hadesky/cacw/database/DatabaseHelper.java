@@ -1,21 +1,15 @@
 package com.hadesky.cacw.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
 
 /**
  * Created by 45517 on 2015/10/14.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "cacw.sqlite";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 
 
     public DatabaseHelper(Context context) {
@@ -34,7 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "title TEXT NOT NULL," +
                 "date TEXT," +
                 "time TEXT," +
-                "location TEXT" +
+                "location TEXT," +
+                "is_complete int,"+
+                "project_id INT NOT NULL,"+
+                "foreign key (project_id) references project(project_id) on delete cascade on update cascade"+
                 ")");
         //创建表格team
         db.execSQL("CREATE TABLE team(" +
@@ -74,13 +71,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "signature TEXT" +
                 ")");
         //创建表格project_task
-        db.execSQL("CREATE TABLE project_task (" +
-                "project_id INT NOT NULL," +
-                "task_id INT NOT NULL," +
-                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
-                "foreign key (task_id) references task(task_id) on delete cascade on update cascade," +
-                "PRIMARY KEY(project_id,task_id)" +
-                ")");
+//        db.execSQL("CREATE TABLE project_task (" +
+//                "project_id INT NOT NULL," +
+//                "task_id INT NOT NULL," +
+//                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
+//                "foreign key (task_id) references task(task_id) on delete cascade on update cascade," +
+//                "PRIMARY KEY(project_id,task_id)" +
+//                ")");
     }
 
     @Override

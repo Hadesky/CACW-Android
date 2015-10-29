@@ -14,6 +14,7 @@
         cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
     <com.hadesky.cacw.widget.RevScrollView
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -33,9 +34,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.hadesky.cacw.widget.StickView
+                    android:duplicateParentState="true"
+                    android:clickable="true"
                     cacw:stick_title="所有任务"
                     android:focusable="true"
-                    android:clickable="true"
                     android:background="@drawable/list_item_bg"
                     android:id="@+id/stick_all"
                     android:layout_weight="1"

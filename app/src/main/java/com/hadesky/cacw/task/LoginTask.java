@@ -15,12 +15,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProfileBean;
-import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.database.SimData;
+import com.hadesky.cacw.test.testData;
 import com.hadesky.cacw.ui.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
 import com.hadesky.cacw.widget.AnimProgressDialog;
@@ -56,6 +53,10 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     @Override
     protected Integer doInBackground(String... params) {
         try {
+
+            // TODO: 2015/10/29 0029 生成模拟数据,后期删除
+            testData.createTestData();
+
             return login(params);
         } catch (Exception e) {
             return ERROR_OTHER;
@@ -156,41 +157,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
      * 在账户密码一切正确正常的时候调用
      */
     private void onSuccessLogin() {
-        //模拟数据
-        DatabaseManager manager = DatabaseManager.getInstance(mContext);
 
-        for (int i = 0; i < SimData.user_list.length; i++) {
-            manager.insertUser(new UserBean(SimData.user_list[i], i));
-        }
-        for (int i = 0; i < SimData.project_list.length; i++) {
-            manager.insertProject(new ProjectBean(SimData.project_list[i], i));
-        }
-        for (int i = 0; i < SimData.task_list.length; i++) {
-            manager.insertTask(new TaskBean(SimData.task_list[i], i));
-        }
-        //把用户插进Task
-
-        for (int i = 0, j = 0; i < SimData.task_list.length; i++) {
-            for (int k = 0; k < 10 && j < SimData.user_list.length; j++, k++) {
-                manager.putUserIntoTask(j, i);
-            }
-        }
-        //把用户插进project
-        for (int i = 0, j = 0; i < SimData.project_list.length; i++) {
-            for (int k = 0; k < 15 && j < SimData.user_list.length; j++, k++) {
-                manager.putUserIntoProject(j, i);
-            }
-        }
-        //手动把id为0的USER放进project1和2
-        manager.putUserIntoProject(0, 1);
-        manager.putUserIntoProject(0, 2);
-
-        //把task插进project
-        for (int i = 0; i < SimData.project_list.length; i++) {
-            for (int j = 0; j < SimData.task_list.length; j++) {
-                manager.putTaskIntoProject(j, i);
-            }
-        }
 
         ProfileBean bean = getProfileBean();
         mSession.createLoginSession(bean);

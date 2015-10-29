@@ -45,7 +45,7 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
                 CheckBox cb = (CheckBox) view.findViewById(R.id.cb);
                 boolean b = !cb.isChecked();
                 cb.setChecked(b);
-                mSelectMap.put(pos,b);
+                mSelectMap.put(pos, b);
             }
         });
         return holder;
@@ -59,16 +59,15 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
 
     public void selectAll()
     {
-        for(Map.Entry<Integer,Boolean> item:mSelectMap.entrySet())
-        {
+        for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
             item.setValue(true);
         }
         notifyDataSetChanged();
     }
+
     public void reverse()
     {
-        for(Map.Entry<Integer,Boolean> item:mSelectMap.entrySet())
-        {
+        for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
             item.setValue(!item.getValue());
         }
         notifyDataSetChanged();

@@ -31,6 +31,7 @@ public class RevScrollView extends ScrollView {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
         int action = e.getAction();

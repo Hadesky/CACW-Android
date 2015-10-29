@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 
 /**
+ * 类似小纸条的控件
+ * ues in {@link com.hadesky.cacw.ui.ProjectDetailActivity}
  * Created by 45517 on 2015/10/17.
  */
 public class StickView extends LinearLayout {
@@ -53,6 +55,7 @@ public class StickView extends LinearLayout {
     public void setStickTitle(String title) {
         this.title = title;
         titleView.setText(title);
+
     }
 
     public void setTaskCount(int taskCount) {

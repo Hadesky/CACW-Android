@@ -7,7 +7,7 @@
         android:id="@+id/action_add"
         android:title="新建"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_add"
+        android:icon="@drawable/add"
         />
     <item
         android:id="@+id/action_settings"
