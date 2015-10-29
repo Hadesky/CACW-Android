@@ -31,10 +31,38 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         }
     };
 
+    MyTaskModel.DelTaskCallBack mDelTaskCallBack = new MyTaskModel.DelTaskCallBack() {
+        @Override
+        public void onSucceed()
+        {
+            mTaskView.showWaitingDialog(false);
+        }
+
+        @Override
+        public void onFalure(String error)
+        {
+
+        }
+    };
+
+    MyTaskModel.CompleteTaskCallBack mCompleteTaskCallBack = new MyTaskModel.CompleteTaskCallBack() {
+        @Override
+        public void onSucceed()
+        {
+            mTaskView.showWaitingDialog(false);
+        }
+
+        @Override
+        public void onFalure(String error)
+        {
+
+        }
+    };
+
     public MyTaskPresenterImpl(TaskView view)
     {
         mTaskView = view;
-        mTaskModel = new MyTaskModel(mCallBack);
+        mTaskModel = new MyTaskModel(mCallBack,mDelTaskCallBack,mCompleteTaskCallBack);
     }
 
 
@@ -43,7 +71,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     public void LoadTasks()
     {
         mTaskView.showProgress();
-        mTaskModel.LoadTaskByCache();//先拿本地数据显示,再请求网络
+        mTaskModel.LoadTaskByCache();//先拿本地络数据显示,再请求网
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
             mTaskModel.LoadTaskByNetwork();

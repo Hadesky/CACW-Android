@@ -12,10 +12,17 @@ public class MyTaskModel
 {
     //必须在主线程调用这个接口
     private GetDateCallBack mCallBack;
+    private DelTaskCallBack mDelTaskCallBack;
+    private CompleteTaskCallBack mCompleteTaskCallBack;
+
+
     private MyTaskDAO mDAO = new MyTaskDAO();
-    public MyTaskModel(GetDateCallBack callBack)
+
+    public MyTaskModel(GetDateCallBack callBack,DelTaskCallBack delTaskCallBack,CompleteTaskCallBack completeTaskCallBack)
     {
         mCallBack = callBack;
+        mDelTaskCallBack = delTaskCallBack;
+        mCompleteTaskCallBack = completeTaskCallBack;
     }
 
     public void LoadTaskByCache()
@@ -26,17 +33,16 @@ public class MyTaskModel
 
     public void LoadTaskByNetwork()
     {
-
-
+        mCallBack.onFalure("无网络数据");
     }
 
     public void deleteTask(long id)
     {
-
+        mDelTaskCallBack.onSucceed();
     }
     public void taskComplete(long id)
     {
-
+        mCompleteTaskCallBack.onSucceed();
     }
 
 

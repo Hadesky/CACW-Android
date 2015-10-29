@@ -29,7 +29,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private MyTaskRecyclerAdapter mAdapter;
     private List<TaskBean> mDatas;
-    private AnimProgressDialog mDialog = new AnimProgressDialog(getContext(), false, null, "正在发送请求");
+    private AnimProgressDialog mDialog ;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -49,6 +49,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     protected void setupViews(Bundle bundle)
     {
+        mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
         mPresenter = new MyTaskPresenterImpl(this);
 
         mDatas = new ArrayList<>();
@@ -85,7 +86,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
 
-        mPresenter = new MyTaskPresenterImpl(this);
         mPresenter.LoadTasks();
     }
 
