@@ -16,7 +16,6 @@ import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.widget.AnimProgressDialog;
 import com.hadesky.cacw.widget.RecyclerViewItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +27,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 {
 
     private MyTaskRecyclerAdapter mAdapter;
-    private List<TaskBean> mDatas;
     private AnimProgressDialog mDialog ;
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
@@ -52,11 +50,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
         mPresenter = new MyTaskPresenterImpl(this);
 
-        mDatas = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            mDatas.add(new TaskBean());
-        }
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -78,14 +71,12 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
                 else
                     mSwipeRefreshLayout.setEnabled(false);
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-
         mPresenter.LoadTasks();
     }
 
