@@ -14,18 +14,20 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
 {
     TaskView mTaskView;
     MyTaskModel mTaskModel;
+    List<TaskBean> mDatas;
 
     MyTaskModel.GetDateCallBack mCallBack = new MyTaskModel.GetDateCallBack() {
         @Override
         public void onSucceed(List<TaskBean> list)
         {
             mTaskView.showDatas(list);
+            mDatas = list;
         }
 
         @Override
         public void onFalure(String error)
         {
-            mTaskView.onFalure();
+            mTaskView.onFalure(error);
         }
     };
 
@@ -48,25 +50,27 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         }
     }
 
+
     @Override
-    public void CompleteTask(int taskid)
+    public void CompleteTask(int pos)
     {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
-            // TODO: 2015/10/29 0029 网络请求
+            mTaskView.showWaitingDialog(true);
+            mTaskModel.taskComplete(mDatas.get(pos).getTaskId());
         }
         else
-        mTaskView.onFalure();
+        mTaskView.onFalure("操作失败");
     }
 
     @Override
-    public void DeleteTask(int taskid)
+    public void DeleteTask(int pos)
     {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
-            mTaskModel.deleteTask(taskid);
+            mTaskModel.deleteTask(mDatas.get(pos).getTaskId());
         }
        else
-            mTaskView.onFalure();
+            mTaskView.onFalure("删除失败");
     }
 }

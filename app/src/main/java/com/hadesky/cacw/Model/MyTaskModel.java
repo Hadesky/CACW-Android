@@ -27,9 +27,14 @@ public class MyTaskModel
     public void LoadTaskByNetwork()
     {
 
+
     }
 
-    public void deleteTask(int id)
+    public void deleteTask(long id)
+    {
+
+    }
+    public void taskComplete(long id)
     {
 
     }
@@ -39,4 +44,15 @@ public class MyTaskModel
         public void onSucceed(List<TaskBean> list);
         public void onFalure(String error);
     }
+    public interface DelTaskCallBack
+    {
+        public void onSucceed();
+        public void onFalure(String error);
+    }
+    public interface CompleteTaskCallBack
+    {
+        public void onSucceed();
+        public void onFalure(String error);
+    }
+
 }

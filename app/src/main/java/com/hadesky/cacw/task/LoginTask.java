@@ -84,7 +84,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
 //        InputStream is = null;
 //        HttpURLConnection connection;
 //        try {
-//            //TODO 需要修改
+//
 //            URL url = new URL(parms[0]);
 //            connection = (HttpURLConnection) url.openConnection();
 //            connection.setRequestMethod("POST");

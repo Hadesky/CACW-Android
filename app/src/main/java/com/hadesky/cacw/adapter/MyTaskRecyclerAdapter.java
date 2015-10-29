@@ -1,10 +1,10 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +12,30 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.ui.TaskDetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**任务列表Adapter
+/**
+ * 任务列表Adapter
  * Created by ziyue on 2015/7/24 0024.
  */
 public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAdapter.MyTaskViewHolder>
 {
 
     private Context mContext;
-    private List<TaskBean> mDatas;
+    private List<TaskBean> mDatas = new ArrayList<>();
     private LayoutInflater mInflater;
+    private MyTaskPresenter mPresenter;
 
-
-    public MyTaskRecyclerAdapter(Context context, List<TaskBean> list)
+    public MyTaskRecyclerAdapter(Context context, MyTaskPresenter presenter)
     {
 
         mInflater = LayoutInflater.from(context);
         mContext = context;
-        mDatas = list;
+        mPresenter = presenter;
     }
 
     public void setDatas(List<TaskBean> list)
@@ -57,12 +60,20 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
         }, new MyTaskViewHolder.OnItemLongClickListener()
         {
             @Override
-            public boolean OnItemLongClick(View view, int position)
+            public boolean OnItemLongClick(View view, final int position)
             {
-                Log.i("Tag", "on item long click");
-                new AlertDialog.Builder(mContext)
-                        .setItems(new String[]{"完成", "删除"}, null)
-                        .show();
+
+                new AlertDialog.Builder(mContext).setItems(new String[]{"完成", "删除"}, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if (which == 0)
+                            mPresenter.CompleteTask(position);
+                        else
+                            mPresenter.DeleteTask(position);
+                    }
+                }).show();
                 return true;
             }
         });

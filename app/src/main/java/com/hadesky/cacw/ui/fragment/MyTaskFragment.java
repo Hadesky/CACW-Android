@@ -1,7 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +13,7 @@ import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
+import com.hadesky.cacw.widget.AnimProgressDialog;
 import com.hadesky.cacw.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -27,10 +27,9 @@ import java.util.List;
 public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,TaskView
 {
 
-
     private MyTaskRecyclerAdapter mAdapter;
     private List<TaskBean> mDatas;
-
+    private AnimProgressDialog mDialog = new AnimProgressDialog(getContext(), false, null, "正在发送请求");
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -50,6 +49,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     protected void setupViews(Bundle bundle)
     {
+        mPresenter = new MyTaskPresenterImpl(this);
 
         mDatas = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -60,7 +60,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(getContext(), mDatas);
+        mAdapter = new MyTaskRecyclerAdapter(getContext(),mPresenter);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
@@ -85,7 +85,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
 
-
         mPresenter = new MyTaskPresenterImpl(this);
         mPresenter.LoadTasks();
     }
@@ -93,14 +92,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh()
     {
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 1000);
+        mPresenter.LoadTasks();
     }
 
     @Override
@@ -115,16 +107,24 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     {
 
     }
-
     @Override
     public void hideProgress()
     {
-
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void onFalure()
+    public void onFalure(String msg)
     {
         Toast.makeText(getContext(),"操作失败",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showWaitingDialog(boolean is)
+    {
+        if (is)
+            mDialog.show();
+        else
+            mDialog.cancel();
     }
 }

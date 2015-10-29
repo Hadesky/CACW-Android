@@ -12,5 +12,7 @@ public interface TaskView
     public void showDatas(List<TaskBean> tasks);
     public void showProgress();
     public void hideProgress();
-    public void onFalure();
+    public void onFalure(String msg);
+    public void showWaitingDialog(boolean is);
+
 }
