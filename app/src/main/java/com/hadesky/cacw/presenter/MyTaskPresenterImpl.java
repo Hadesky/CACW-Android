@@ -27,6 +27,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         @Override
         public void onFalure(String error)
         {
+            mTaskView.hideProgress();
             mTaskView.onFalure(error);
         }
     };
