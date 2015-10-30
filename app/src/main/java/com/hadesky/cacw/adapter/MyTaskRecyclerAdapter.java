@@ -81,11 +81,8 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
     }
 
     @Override
-    public void onBindViewHolder(MyTaskViewHolder viewHolder, int pos)
-    {
-
-        //设置属性
-        viewHolder.title.setText(mDatas.get(pos).getTitle());
+    public void onBindViewHolder(MyTaskViewHolder viewHolder, int pos) {
+            viewHolder.title.setText(mDatas.get(pos).getTitle());
     }
 
 
