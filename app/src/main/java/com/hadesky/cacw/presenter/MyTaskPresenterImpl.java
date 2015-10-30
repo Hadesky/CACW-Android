@@ -7,7 +7,6 @@ import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.TaskView;
 import com.hadesky.cacw.util.NetworkUtils;
-
 import java.util.List;
 
 /**控制任务页面数据加载逻辑impl

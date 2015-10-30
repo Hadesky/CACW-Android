@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
@@ -177,11 +178,8 @@ public class MainActivity extends BaseActivity {
         final int count = preferences.getInt("runCount", 0);
         editor.putInt("runCount", count + 1);
         editor.apply();
-
+//        关闭数据库
+        DatabaseManager.getInstance(this).closeDB();
     }
 
-    public void goSettingActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), SettingActivity.class);
-        startActivity(i);
-    }
 }

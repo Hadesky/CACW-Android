@@ -50,8 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //创建表格project
         db.execSQL("CREATE TABLE project (" +
                 "project_id INT PRIMARY KEY NOT NULL," +
-                "project_name TEXT NOT NULL" +
+                "project_name TEXT NOT NULL," +
+                "team_id INT NOT NULL," +
+                "foreign key (team_id) references team(team_id) on delete cascade on update cascade" +
                 ")");
+
         //创建表格project_user
         db.execSQL("CREATE TABLE project_user (" +
                 "project_id INT NOT NULL," +
@@ -70,6 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "address TEXT," +
                 "signature TEXT" +
                 ")");
+        //用于加入Project必须先加入
         //创建表格project_task
 //        db.execSQL("CREATE TABLE project_task (" +
 //                "project_id INT NOT NULL," +

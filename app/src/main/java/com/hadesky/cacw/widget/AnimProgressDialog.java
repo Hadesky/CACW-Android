@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.Window;
@@ -187,6 +188,23 @@ public class AnimProgressDialog extends Dialog {
         if (!title.isEmpty() && titleView != null) {
             titleView.setText(title);
         }
+    }
+
+    @Override
+    public void cancel() {
+        if (isShowing() && animator1 != null) {
+            removeAllUpdateListeners();
+        }
+        super.cancel();
+    }
+
+    private void removeAllUpdateListeners() {
+        animator1.removeAllUpdateListeners();
+        animator2.removeAllUpdateListeners();
+        animatorUpDown1.removeAllUpdateListeners();
+        animatorUpDown2.removeAllUpdateListeners();
+        animatorUpDown3.removeAllUpdateListeners();
+        animatorUpDown4.removeAllUpdateListeners();
     }
 }
 

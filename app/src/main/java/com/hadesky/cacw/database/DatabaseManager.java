@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 
 /**
@@ -27,7 +28,8 @@ public class DatabaseManager {
     public static final String COLUMN_TASK_TASK_ID = "task_id";
     public static final String COLUMN_TASK_TITLE = "title";
     public static final String COLUMN_TEAM_TEAM_ID = "team_id";
-    public static  final String CLOUMN_TASK_IS_COMPLETE_="is_complete";
+    public static final String COLUMN_TEAM_TEAM_NAME = "team_name";
+    public static final String COLUMN_TASK_IS_COMPLETE_ ="is_complete";
 
 
     public static final String TABLE_USER = "user";
@@ -35,6 +37,7 @@ public class DatabaseManager {
     public static final String TABLE_TASK = "task";
     public static final String TABLE_PROJECT_USER = "project_user";
     public static final String TABLE_TASK_USER = "task_user";
+    public static final String TABLE_TEAM = "team";
     //public static final String TABLE_PROJECT_TASK = "project_task";
 
     private DatabaseHelper mHelper;
@@ -50,7 +53,7 @@ public class DatabaseManager {
     public static synchronized DatabaseManager getInstance(Context context) {
         if (instance == null) {
             instance = new DatabaseManager(context);
-        }
+        }else if (!instance.db.isOpen()) instance.db = instance.mHelper.getWritableDatabase();
         return instance;
     }
 
@@ -71,6 +74,7 @@ public class DatabaseManager {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_PROJECT_PROJECT_ID, bean.getProjectId());
         cv.put(COLUMN_PROJECT_PROJECT_NAME,bean.getProjectName());
+        cv.put(COLUMN_TEAM_TEAM_ID, bean.getTeamId());
         return db.insert(TABLE_PROJECT, null, cv);
     }
 
@@ -78,9 +82,16 @@ public class DatabaseManager {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TASK_TASK_ID, bean.getTaskId());
         cv.put(COLUMN_TASK_TITLE, bean.getTitle());
-        cv.put(CLOUMN_TASK_IS_COMPLETE_,bean.getTaskStatus());
+        cv.put(COLUMN_TASK_IS_COMPLETE_,bean.getTaskStatus());
         cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
         return db.insert(TABLE_TASK, null, cv);
+    }
+
+    public long insertTeam(TeamBean bean) {
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TEAM_TEAM_ID, bean.getTeamId());
+        cv.put(COLUMN_TEAM_TEAM_NAME, bean.getTeamName());
+        return db.insert(TABLE_TEAM, null, cv);
     }
 
     /**
@@ -109,6 +120,7 @@ public class DatabaseManager {
             db.insert(TABLE_TASK_USER, null, cv);
         }
     }
+
 
     public void deleteTask(long task_id)
     {
@@ -163,7 +175,8 @@ public class DatabaseManager {
         return new TaskCursor(wrapped);
     }
 
-    public TaskCursor queryUncompleteTask()
+
+    public TaskCursor queryUncompletedTask()
     {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE is_complete =?",new String[]{"1"});
@@ -266,6 +279,9 @@ public class DatabaseManager {
             bean.setTitle(project_name);
             // TODO: 2015/10/28 0028  后期要改！！！
             bean.setAvatarResId(R.drawable.default_user_image);
+
+            long team_id = getLong(getColumnIndex(COLUMN_TEAM_TEAM_ID));
+            bean.setTeamId(team_id);
 
             return bean;
         }

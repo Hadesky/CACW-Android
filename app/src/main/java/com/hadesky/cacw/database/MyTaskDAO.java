@@ -53,6 +53,4 @@ public class MyTaskDAO
         DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
         manager.updateTaskComplete(id, 0);
     }
-
-
 }

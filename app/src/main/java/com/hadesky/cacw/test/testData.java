@@ -2,6 +2,7 @@ package com.hadesky.cacw.test;
 
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.database.DatabaseManager;
@@ -17,12 +18,20 @@ public class testData
         //模拟数据
         DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
 
+        for (int i = 0; i < SimData.team_list.length; i++) {
+            manager.insertTeam(new TeamBean(SimData.team_list[i], i));
+        }
+
         for (int i = 0; i < SimData.user_list.length; i++) {
             manager.insertUser(new UserBean(SimData.user_list[i], i));
         }
-        for (int i = 0; i < SimData.project_list.length; i++) {
-            manager.insertProject(new ProjectBean(SimData.project_list[i], i));
+        for (int i = 0; i < SimData.project_list.length / 2; i++) {
+            manager.insertProject(new ProjectBean(SimData.project_list[i], i, 0));
         }
+        for (int i = SimData.project_list.length / 2; i < SimData.project_list.length; i++) {
+            manager.insertProject(new ProjectBean(SimData.project_list[i], i, 1));
+        }
+
         for (int i = 0; i < SimData.task_list.length; i++) {
             manager.insertTask(new TaskBean(SimData.task_list[i], i,1));
         }

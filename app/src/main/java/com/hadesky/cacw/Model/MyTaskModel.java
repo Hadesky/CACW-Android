@@ -5,7 +5,8 @@ import com.hadesky.cacw.database.MyTaskDAO;
 
 import java.util.List;
 
-/**MyTask这个页面的数据层,负责从本地或网络获取数据
+/**
+ * MyTask这个页面的数据层,负责从本地或网络获取数据
  * Created by dzysg on 2015/10/29 0029.
  */
 public class MyTaskModel

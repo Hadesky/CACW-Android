@@ -1,25 +1,24 @@
 package com.hadesky.cacw.bean;
 
+import com.hadesky.cacw.R;
+
 /**
  * Created by 45517 on 2015/9/18.
  */
 public class ProjectBean {
     private long project_id;
     private String project_name;//Item的文字
-    private int avatar_resId;
+    private int avatar_resId = R.drawable.default_user_image;
+    private long team_id;//团队所属Team
 
     public ProjectBean() {
     }
 
-    public ProjectBean(long projectId, String projectName, int avatarResId) {
-        this.project_id = projectId;
-        this.project_name = projectName;
-        this.avatar_resId = avatarResId;
-    }
 
-    public ProjectBean(String title,long project_id) {
+    public ProjectBean(String title,long project_id,long teamId) {
         this.project_name = title;
         this.project_id = project_id;
+        this.team_id = teamId;
     }
 
 
@@ -47,6 +46,14 @@ public class ProjectBean {
 
     public void setAvatarResId(int avatarResId) {
         this.avatar_resId = avatarResId;
+    }
+
+    public long getTeamId() {
+        return team_id;
+    }
+
+    public void setTeamId(long teamId) {
+        this.team_id = teamId;
     }
 
     @Override
