@@ -169,6 +169,19 @@ public class DatabaseManager {
                 " WHERE is_complete =?",new String[]{"1"});
         return new TaskCursor(wrapped);
     }
+    public TaskCursor queryAllcompleteTask()
+    {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK,null);
+        return new TaskCursor(wrapped);
+    }
+    public TaskCursor queryCompleteTask()
+    {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
+                " WHERE is_complete =?",new String[]{"0"});
+        return new TaskCursor(wrapped);
+    }
+
+
 
     public void cleanAllData() {
         db.execSQL("DELETE FROM " + TABLE_USER);
@@ -177,7 +190,6 @@ public class DatabaseManager {
         db.execSQL("DELETE FROM " + TABLE_PROJECT_USER);
         db.execSQL("DELETE FROM " + TABLE_TASK_USER);
     }
-
 
 
     /**

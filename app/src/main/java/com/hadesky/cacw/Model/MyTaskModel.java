@@ -11,29 +11,28 @@ import java.util.List;
 public class MyTaskModel
 {
     //必须在主线程调用这个接口
-    private GetDateCallBack mCallBack;
+    private GetDateCallBack mGetTasksCallBack;
     private DelTaskCallBack mDelTaskCallBack;
     private CompleteTaskCallBack mCompleteTaskCallBack;
-
 
     private MyTaskDAO mDAO = new MyTaskDAO();
 
     public MyTaskModel(GetDateCallBack callBack,DelTaskCallBack delTaskCallBack,CompleteTaskCallBack completeTaskCallBack)
     {
-        mCallBack = callBack;
+        mGetTasksCallBack = callBack;
         mDelTaskCallBack = delTaskCallBack;
         mCompleteTaskCallBack = completeTaskCallBack;
     }
 
     public void LoadTaskByCache()
     {
-        List<TaskBean> list = mDAO.getUnCompleteTask();
-        mCallBack.onSucceed(list);
+        List<TaskBean> list = mDAO.getTask(-1);
+        mGetTasksCallBack.onSucceed(list);
     }
 
     public void LoadTaskByNetwork()
     {
-        mCallBack.onFalure("无网络数据");
+        mGetTasksCallBack.onFailure("无网络数据");
     }
 
     public void deleteTask(long id)
@@ -48,17 +47,17 @@ public class MyTaskModel
 
     public interface GetDateCallBack{
         public void onSucceed(List<TaskBean> list);
-        public void onFalure(String error);
+        public void onFailure(String error);
     }
     public interface DelTaskCallBack
     {
         public void onSucceed();
-        public void onFalure(String error);
+        public void onFailure(String error);
     }
     public interface CompleteTaskCallBack
     {
         public void onSucceed();
-        public void onFalure(String error);
+        public void onFailure(String error);
     }
 
 }

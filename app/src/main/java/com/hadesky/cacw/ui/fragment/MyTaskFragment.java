@@ -50,6 +50,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
         mPresenter = new MyTaskPresenterImpl(this);
 
+
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -105,9 +106,9 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void onFalure(String msg)
+    public void onFailure(String msg)
     {
-        Toast.makeText(getContext(),"操作失败",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override

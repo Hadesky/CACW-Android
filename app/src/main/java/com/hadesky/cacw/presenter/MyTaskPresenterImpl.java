@@ -1,13 +1,16 @@
 package com.hadesky.cacw.presenter;
 
+import android.util.Log;
+
 import com.hadesky.cacw.Model.MyTaskModel;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.TaskView;
 import com.hadesky.cacw.util.NetworkUtils;
+
 import java.util.List;
 
-/**
+/**控制任务页面数据加载逻辑impl
  * Created by dzysg on 2015/10/29 0029.
  */
 public class MyTaskPresenterImpl implements MyTaskPresenter
@@ -22,13 +25,14 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         {
             mTaskView.showDatas(list);
             mDatas = list;
+            mTaskView.hideProgress();
         }
 
         @Override
-        public void onFalure(String error)
+        public void onFailure(String error)
         {
             mTaskView.hideProgress();
-            mTaskView.onFalure(error);
+            mTaskView.onFailure(error);
         }
     };
 
@@ -40,7 +44,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         }
 
         @Override
-        public void onFalure(String error)
+        public void onFailure(String error)
         {
 
         }
@@ -54,7 +58,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         }
 
         @Override
-        public void onFalure(String error)
+        public void onFailure(String error)
         {
 
         }
@@ -66,8 +70,6 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         mTaskModel = new MyTaskModel(mCallBack,mDelTaskCallBack,mCompleteTaskCallBack);
     }
 
-
-
     @Override
     public void LoadTasks()
     {
@@ -76,6 +78,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
             mTaskModel.LoadTaskByNetwork();
+            Log.i("tag", "have network");
         }
     }
 
@@ -89,7 +92,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
             mTaskModel.taskComplete(mDatas.get(pos).getTaskId());
         }
         else
-        mTaskView.onFalure("操作失败");
+        mTaskView.onFailure("操作失败");
     }
 
     @Override
@@ -97,9 +100,10 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
+            mTaskView.showWaitingDialog(true);
             mTaskModel.deleteTask(mDatas.get(pos).getTaskId());
         }
        else
-            mTaskView.onFalure("删除失败");
+            mTaskView.onFailure("删除失败");
     }
 }
