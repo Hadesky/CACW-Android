@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 
 /**

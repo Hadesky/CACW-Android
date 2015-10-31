@@ -6,12 +6,11 @@
               android:layout_height="@dimen/member_size"
               android:clickable="true"
               android:paddingTop="2dp">
-    <com.hadesky.cacw.widget.CircleImageView
-        android:src="@drawable/add"
-        app:border_color="#a9b7b7"
-        app:border_width="1dp"
-        android:layout_width="@dimen/image_large"
+    <ImageView
+        android:src="@drawable/ic_add_circle_outline"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
+        android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"/>
     <TextView
         android:text="添加成员"

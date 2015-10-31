@@ -59,6 +59,10 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         recyclerView.addItemDecoration(new Decoration(getContext()));
     }
 
+    public void setRefreshable(boolean refreshable) {
+        swipeRefreshLayout.setEnabled(refreshable);
+    }
+
     @Override
     public void showProgress() {
     }
