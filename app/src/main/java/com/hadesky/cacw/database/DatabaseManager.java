@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 
 /**
@@ -107,6 +106,9 @@ public class DatabaseManager {
             cv.put(COLUMN_PROJECT_PROJECT_ID, project_id);
             cv.put(COLUMN_USER_USER_ID, user_id);
             db.insert(TABLE_PROJECT_USER, null, cv);
+
+            userCursor.close();
+            projectCursor.close();
         }
     }
 
@@ -118,9 +120,12 @@ public class DatabaseManager {
             cv.put(COLUMN_TASK_TASK_ID, task_id);
             cv.put(COLUMN_USER_USER_ID, user_id);
             db.insert(TABLE_TASK_USER, null, cv);
+
+
+            userCursor.close();
+            taskCursor.close();
         }
     }
-
 
     public void deleteTask(long task_id)
     {
@@ -175,19 +180,14 @@ public class DatabaseManager {
         return new TaskCursor(wrapped);
     }
 
-
-    public TaskCursor queryUncompletedTask()
+    public TaskCursor queryUncompleteTask()
     {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE is_complete =?",new String[]{"1"});
         return new TaskCursor(wrapped);
     }
-    public TaskCursor queryAllTask()
-    {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK,null);
-        return new TaskCursor(wrapped);
-    }
-    public TaskCursor queryCompletedTask()
+
+    public TaskCursor queryCompleteTask()
     {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE is_complete =?",new String[]{"0"});
