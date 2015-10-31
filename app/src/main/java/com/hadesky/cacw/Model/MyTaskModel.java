@@ -27,7 +27,7 @@ public class MyTaskModel
 
     public void LoadTaskByCache()
     {
-        List<TaskBean> list = mDAO.getTask(-1);
+        List<TaskBean> list = mDAO.getTask(1);
         mGetTasksCallBack.onSucceed(list);
     }
 
