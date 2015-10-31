@@ -47,6 +47,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
     protected void setupViews(Bundle bundle) {
         myProjectPresenter.loadProject();
 
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -57,10 +58,6 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new Decoration(getContext()));
-    }
-
-    public void setRefreshable(boolean refreshable) {
-        swipeRefreshLayout.setEnabled(refreshable);
     }
 
     @Override

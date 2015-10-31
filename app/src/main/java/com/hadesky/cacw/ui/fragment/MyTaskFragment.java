@@ -52,6 +52,8 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
