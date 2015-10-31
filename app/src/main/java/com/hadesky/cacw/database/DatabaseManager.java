@@ -182,26 +182,47 @@ public class DatabaseManager {
                 " WHERE is_complete =?",new String[]{"1"});
         return new TaskCursor(wrapped);
     }
-    public TaskCursor queryAllcompleteTask()
+    public TaskCursor queryAllTask()
     {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK,null);
         return new TaskCursor(wrapped);
     }
-    public TaskCursor queryCompleteTask()
+    public TaskCursor queryCompletedTask()
     {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE is_complete =?",new String[]{"0"});
         return new TaskCursor(wrapped);
     }
 
+    public TaskCursor queryAllTaskFromPj(long project_id) {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
+                " WHERE project_id = ?", new String[]{String.valueOf(project_id)});
+        return new TaskCursor(wrapped);
+    }
 
+    public TaskCursor queryUnCompletedTaskFromPj(long project_id) {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
+                " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "1"});
+        return new TaskCursor(wrapped);
+    }
 
+    public TaskCursor queryCompletedTaskFromPj(long project_id) {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
+                " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "0"});
+        return new TaskCursor(wrapped);
+    }
+
+    /**
+     * 清除所有数据，可以在退出登录的时候调用
+     * 或者清理缓存的时候调用
+     */
     public void cleanAllData() {
         db.execSQL("DELETE FROM " + TABLE_USER);
         db.execSQL("DELETE FROM " + TABLE_PROJECT);
         db.execSQL("DELETE FROM " + TABLE_TASK);
         db.execSQL("DELETE FROM " + TABLE_PROJECT_USER);
         db.execSQL("DELETE FROM " + TABLE_TASK_USER);
+        db.execSQL("DELETE FROM " + TABLE_TEAM);
     }
 
 

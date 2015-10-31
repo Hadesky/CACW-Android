@@ -2,8 +2,6 @@ package com.hadesky.cacw.task;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -14,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.ProfileBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.test.testData;
@@ -159,7 +157,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     private void onSuccessLogin() {
 
 
-        ProfileBean bean = getProfileBean();
+        UserBean bean = getProfileBean();
         mSession.createLoginSession(bean);
 
         Intent intent = new Intent();
@@ -172,15 +170,14 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
 
     /**
      * 生成账户信息,TODO,需要改成从网络获取
-     * @return ProfileBean
+     * @return UserBean
      */
-    public ProfileBean getProfileBean() {
-        ProfileBean bean = new ProfileBean();
-        bean.setUserName(SimData.user_list[0]);
-        bean.setUserEmail("abc@mayi.com");
-        bean.setUserPhoneNumber("123456");
-        Bitmap avatar = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.default_user_image);
-        bean.setUserAvatar(avatar);
+    public UserBean getProfileBean() {
+        UserBean bean = new UserBean();
+        bean.setUsername(SimData.user_list[0]);
+        bean.setAvatarResid(R.drawable.default_user_image);
+        bean.setUserId(0);
+
         return bean;
     }
 }

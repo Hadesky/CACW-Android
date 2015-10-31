@@ -59,7 +59,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      */
     private String getUserName(MyApp app) {
         if (app != null) {
-            return app.getSession().getUserDetails().get(SessionManagement.KEY_NAME);
+            return app.getSession().getUserDetails().getUsername();
         }
         return "";
     }
@@ -71,12 +71,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      */
     private Bitmap getUserAvatar(MyApp app) {
         if (app != null) {
-            String byteString = app.getSession().getUserDetails().get(SessionManagement.KEY_AVATAR);
-            if (byteString != null) {
-                byte[] byteArray= Base64.decode(byteString, Base64.DEFAULT);
-                ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(byteArray);
-                return BitmapFactory.decodeStream(byteArrayInputStream);
-            }
+            int resid = app.getSession().getUserDetails().getAvatarResid();
+            return BitmapFactory.decodeResource(app.getResources(), resid);
         }
         return null;
     }

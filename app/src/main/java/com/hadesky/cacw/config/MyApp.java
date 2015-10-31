@@ -13,7 +13,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class MyApp extends Application {
 
-    private SessionManagement session;
+    private static SessionManagement session;
     private String URL;
     private static Context mContext;
 
@@ -35,7 +35,7 @@ public class MyApp extends Application {
         return mContext;
     }
 
-    public SessionManagement getSession() {
+    public static SessionManagement getSession() {
         return session;
     }
 

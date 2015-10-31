@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
-import com.hadesky.cacw.bean.ProfileBean;
+import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.LoginActivity;
 
@@ -28,6 +30,7 @@ public class SessionManagement {
     public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_AVATAR = "avatar";//头像
+    public static final String KEY_USER_ID = "user_id";
 
     private Context mContext;
 
@@ -46,20 +49,14 @@ public class SessionManagement {
         editor.apply();
     }
 
-    public void createLoginSession(ProfileBean bean) {
+    public void createLoginSession(UserBean bean) {
         final SharedPreferences.Editor editor = mPref.edit();
         editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_NAME, bean.getUserName());
-        editor.putString(KEY_EMAIL, bean.getUserEmail());
-        editor.putString(KEY_PHONE, bean.getUserPhoneNumber());
+        editor.putString(KEY_NAME, bean.getUsername());
 
         //放入头像
-        Bitmap bitmap = bean.getUserAvatar();
-        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray=byteArrayOutputStream.toByteArray();
-        String imageString= Base64.encodeToString(byteArray, Base64.DEFAULT);
-        editor.putString(KEY_AVATAR, imageString);
+
+        editor.putInt(KEY_AVATAR, bean.getAvatarResid());
 
         editor.apply();
     }
@@ -95,20 +92,18 @@ public class SessionManagement {
     }
 
 
-    public HashMap<String, String> getUserDetails(){
-        HashMap<String, String> user = new HashMap<>();
-        // user name
-        user.put(KEY_NAME, mPref.getString(KEY_NAME, null));
+    public UserBean getUserDetails() {
+        UserBean bean = new UserBean();
+        bean.setUserId(mPref.getLong(KEY_USER_ID, 0));
+        bean.setAvatarResid(mPref.getInt(KEY_AVATAR, 0));
+        bean.setUsername(mPref.getString(KEY_NAME, "蚂蚁"));
 
-        // user email id
-        user.put(KEY_EMAIL, mPref.getString(KEY_EMAIL, null));
-
-        user.put(KEY_PHONE, mPref.getString(KEY_PHONE, null));
-
-        user.put(KEY_AVATAR, mPref.getString(KEY_AVATAR, null));
+        if (bean.getAvatarResid() == 0) {
+            bean.setAvatarResid(R.drawable.default_user_image);
+        }
 
         // return user
-        return user;
+        return bean;
     }
 
     public boolean isLoggedIn() {

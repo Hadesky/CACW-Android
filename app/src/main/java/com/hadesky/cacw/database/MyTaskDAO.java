@@ -13,7 +13,6 @@ import java.util.List;
 public class MyTaskDAO
 {
 
-
     /**
      * 查询任务
      *
@@ -27,11 +26,11 @@ public class MyTaskDAO
 
         DatabaseManager.TaskCursor cursor;
         if (complete == 1)
-            cursor = manager.queryUncompleteTask();
+            cursor = manager.queryUncompletedTask();
         else if (complete == 0)
-            cursor = manager.queryCompleteTask();
+            cursor = manager.queryCompletedTask();
         else
-            cursor = manager.queryAllcompleteTask();
+            cursor = manager.queryAllTask();
 
 
         while (cursor.moveToNext()) {
