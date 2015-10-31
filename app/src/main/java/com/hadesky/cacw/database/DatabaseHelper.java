@@ -73,7 +73,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "address TEXT," +
                 "signature TEXT" +
                 ")");
-        //用于加入Project必须先加入
         //创建表格project_task
 //        db.execSQL("CREATE TABLE project_task (" +
 //                "project_id INT NOT NULL," +

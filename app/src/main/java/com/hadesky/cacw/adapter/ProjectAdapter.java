@@ -14,6 +14,7 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.ProjectDetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,12 +22,12 @@ import java.util.List;
  */
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
 
-    private List<ProjectBean> mData;
+    private List<ProjectBean> mData = new ArrayList<>();
+
     private LayoutInflater mInflater;
     private Context mContext;
 
-    public ProjectAdapter(Context context, List<ProjectBean> data) {
-        this.mData = data;
+    public ProjectAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
         mContext = context;
     }
@@ -35,7 +36,16 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_project, parent, false);
 
-        return new ProjectViewHolder(view, new ProjectViewHolder.OnItemClickListener() {
+        return new ProjectViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ProjectViewHolder holder, int position) {
+        ProjectBean bean = mData.get(position);
+        holder.tv_title.setText(bean.getProjectName());
+        holder.iv_avatar.setImageResource(bean.getAvatarResId());
+
+        holder.setOnItemClickListener(new ProjectViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
                 Intent intent = new Intent();
@@ -47,19 +57,16 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         });
     }
 
-    @Override
-    public void onBindViewHolder(ProjectViewHolder holder, int position) {
-        ProjectBean bean = mData.get(position);
-        holder.tv_title.setText(bean.getProjectName());
-        holder.iv_avatar.setImageResource(bean.getAvatarResId());
-    }
-
 
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
+    public void setData(List<ProjectBean> data) {
+        this.mData = data;
+        notifyDataSetChanged();
+    }
 
     /**
      * ViewHolder内部类
@@ -70,11 +77,14 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         private ImageView iv_avatar;
         private TextView tv_title;
 
-        public ProjectViewHolder(View itemView, OnItemClickListener listener) {
+        public ProjectViewHolder(View itemView) {
             super(itemView);
             iv_avatar = (ImageView) itemView.findViewById(R.id.iv_project_avatar);
             tv_title = (TextView) itemView.findViewById(R.id.tv_project_title);
             itemView.setOnClickListener(this);
+        }
+
+        public void setOnItemClickListener(OnItemClickListener listener) {
             this.listener = listener;
         }
 

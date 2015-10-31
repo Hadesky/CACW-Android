@@ -30,6 +30,8 @@ public class MainActivity extends BaseActivity {
     private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
 
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
