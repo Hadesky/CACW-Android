@@ -13,7 +13,9 @@
     <dimen name="font_small">12sp</dimen>
 
     <!-- typical spacing between two views -->
+    <dimen name="spacing_more_huge">50dp</dimen>
     <dimen name="spacing_huge">40dp</dimen>
+    <dimen name="spacing_more_large">30dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_normal">14dp</dimen>
     <dimen name="spacing_small">10dp</dimen>
@@ -30,6 +32,8 @@
     <dimen name="image_huge">90dp</dimen>
 
 
+    <dimen name="line_width_normal">200dp</dimen>
+    
     <!-- Button大小 -->
     <dimen name="button_large_w">300dp</dimen>
     <dimen name="button_large_h">50dp</dimen>

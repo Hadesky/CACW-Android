@@ -48,6 +48,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         myProjectPresenter.loadProject();
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        swipeRefreshLayout.setProgressViewOffset(true, -100, 50);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

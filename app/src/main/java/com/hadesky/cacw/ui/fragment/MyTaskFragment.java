@@ -53,6 +53,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        mSwipeRefreshLayout.setProgressViewOffset(true, -100, 50);
 
 
         mLayoutManager = new LinearLayoutManager(getContext());

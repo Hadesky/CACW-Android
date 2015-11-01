@@ -105,7 +105,12 @@
         </activity>
         <activity android:name=".ui.AboutActivity" >
         </activity>
-        <activity android:name=".ui.MyInfoActivity" >
+        <activity
+            android:name=".ui.MyInfoActivity"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hadesky.cacw.ui.MainActivity" />
         </activity>
     </application>
 
