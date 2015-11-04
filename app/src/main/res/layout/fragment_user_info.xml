@@ -1,151 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/header"
-                />
-            <com.hadesky.cacw.widget.CircleImageView
-                android:id="@+id/iv_avatar"
-                android:layout_width="@dimen/image_more_large"
-                android:src="@drawable/default_user_image"
-                android:layout_height="@dimen/image_more_large"
-                android:scaleType="centerCrop"
-                android:layout_margin="@dimen/spacing_normal"
-                android:layout_alignParentBottom="true"
-                app:border_width="0dp"
-                app:border_color="@android:color/transparent"
-                />
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_toRightOf="@id/iv_avatar"
-                android:layout_alignTop="@id/iv_avatar"
-                android:layout_marginTop="@dimen/spacing_more_small"
-                android:text="武藤兰同学"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/font_large"
-                android:textColor="@android:color/white"
-                />
-            <View
-                android:id="@+id/view_line"
-                android:background="@android:color/white"
-                android:layout_width="@dimen/line_width_normal"
-                android:layout_height="1px"
-                android:layout_toRightOf="@id/iv_avatar"
-                android:layout_alignTop="@id/iv_avatar"
-                android:layout_marginTop="@dimen/spacing_more_large"
-
-                />
-            <TextView
-                android:layout_below="@id/view_line"
-                android:layout_marginTop="@dimen/spacing_more_small"
-                android:text="我就是武藤兰"
-                android:layout_marginLeft="@dimen/image_huge"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </RelativeLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <com.hadesky.cacw.widget.PullToZoomScrollViewEx
+        android:id="@+id/zoom_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="ID"
-                    style="@style/tv_task_info_title"/>
-
-                <TextView
-                    style="@style/tv_task_info_content"
-                    android:text="234324234"/>
-            </RelativeLayout>
-            <ImageView style="@style/paddingDividingLine"/>
-
-            <ImageView style="@style/paddingDividingLine"/>
-            <RelativeLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="电话"
-                    style="@style/tv_task_info_title"/>
-
-                <TextView
-                    style="@style/tv_task_info_content"
-                    android:text="18825512124"/>
-            </RelativeLayout>
-            <ImageView style="@style/paddingDividingLine"/>
-            <RelativeLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="邮箱"
-                    style="@style/tv_task_info_title"/>
-
-                <TextView
-
-                    style="@style/tv_task_info_content"
-                    android:text="569003420@qq.com"/>
-            </RelativeLayout>
-            <ImageView style="@style/paddingDividingLine"/>
-            <RelativeLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="地址"
-                    style="@style/tv_task_info_title"/>
-
-                <TextView
-                    style="@style/tv_task_info_content"
-                    android:text="广东工业大学"/>
-            </RelativeLayout>
-            <ImageView style="@style/paddingDividingLine"/>
-            <RelativeLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-                <TextView
-                    android:text="简介"
-                    style="@style/tv_task_info_title"/>
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    style="@style/tv_task_info_content"
-                    android:text="我是张树悦，你来打我啊"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-
-</LinearLayout>
+        app:zoomView="@layout/zoomview_user_info"
+        app:headerView="@layout/header_user_info"
+        app:contentView="@layout/content_user_info"
+        app:isHeaderParallax="false"
+        app:headerViewHeight="@dimen/header_normal"
+        />
+</FrameLayout>
