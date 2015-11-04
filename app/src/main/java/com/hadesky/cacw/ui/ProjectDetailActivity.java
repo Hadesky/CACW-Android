@@ -46,10 +46,10 @@ public class ProjectDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        manager = DatabaseManager.getInstance(context);
+        manager = DatabaseManager.getInstance(getApplicationContext());
         projectId = getIntent().getLongExtra(IntentTag.TAG_PROJECT_ID, 0);
 
-        DatabaseManager manager = DatabaseManager.getInstance(context);
+        DatabaseManager manager = DatabaseManager.getInstance(getApplicationContext());
 
         //查询操作
         DatabaseManager.UserCursor userCursor = manager.queryUserFromProject(projectId);

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -30,13 +32,6 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
     private View mContentView;
     private int mHeaderHeight;
     private ScalingRunnable mScalingRunnable;
-
-    private static final Interpolator sInterpolator = new Interpolator() {
-        public float getInterpolation(float paramAnonymousFloat) {
-            float f = paramAnonymousFloat - 1.0F;
-            return 1.0F + f * (f * (f * (f * f)));
-        }
-    };
 
     public PullToZoomScrollViewEx(Context context) {
         this(context, null);
@@ -262,7 +257,8 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
                 ViewGroup.LayoutParams localLayoutParams;
                 if ((!mIsFinished) && (mScale > 1.0D)) {
                     float f1 = ((float) SystemClock.currentThreadTimeMillis() - (float) mStartTime) / (float) mDuration;
-                    f2 = mScale - (mScale - 1.0F) * PullToZoomScrollViewEx.sInterpolator.getInterpolation(f1);
+                    DecelerateInterpolator interpolator = new DecelerateInterpolator(3);
+                    f2 = mScale - (mScale - 1.0F) * interpolator.getInterpolation(f1);
                     localLayoutParams = mHeaderContainer.getLayoutParams();
                     Log.d(TAG, "ScalingRunnable --> f2 = " + f2);
                     if (f2 > 1.0F) {

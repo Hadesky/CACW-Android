@@ -182,7 +182,7 @@ public class MainActivity extends BaseActivity {
         editor.putInt("runCount", count + 1);
         editor.apply();
 //        关闭数据库
-        DatabaseManager.getInstance(this).closeDB();
+        DatabaseManager.getInstance(getApplicationContext()).closeDB();
     }
 
 }
