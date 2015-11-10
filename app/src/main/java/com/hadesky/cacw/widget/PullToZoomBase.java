@@ -1,11 +1,11 @@
 package com.hadesky.cacw.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -34,11 +34,13 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
 
     private int mTouchSlop;
     private boolean mIsBeingDragged = false;
-    private float mLastMotionY;
-    private float mLastMotionX;
-    private float mInitialMotionY;
-    private float mInitialMotionX;
+    private float mLastMotionY1, mLastMotionY2 = 0;
+    private float mLastMotionX1, mLastMotionX2 = 0;
+    private float mInitialMotionY1, mInitialMotionY2 = 0;
+    private float mInitialMotionX1, mInitialMotionX2 = 0;
     private OnPullZoomListener onPullZoomListener;
+
+    private int newScrollValue = 0;
 
     public PullToZoomBase(Context context) {
         this(context, null);
@@ -155,7 +157,7 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
             return true;
         }
 
-        switch (action) {
+        switch (action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_MOVE: {
                 if (isReadyForPullStart()) {
                     final float y = event.getY(), x = event.getX();
@@ -163,14 +165,14 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
 
                     // We need to use the correct values, based on scroll
                     // direction
-                    diff = y - mLastMotionY;
-                    oppositeDiff = x - mLastMotionX;
+                    diff = y - mLastMotionY1;
+                    oppositeDiff = x - mLastMotionX1;
                     absDiff = Math.abs(diff);
 
                     if (absDiff > mTouchSlop && absDiff > Math.abs(oppositeDiff)) {
                         if (diff >= 1f) {
-                            mLastMotionY = y;
-                            mLastMotionX = x;
+                            mLastMotionY1 = y;
+                            mLastMotionX1 = x;
                             mIsBeingDragged = true;
                         }
                     }
@@ -179,14 +181,20 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
             }
             case MotionEvent.ACTION_DOWN: {
                 if (isReadyForPullStart()) {
-                    mLastMotionY = mInitialMotionY = event.getY();
-                    mLastMotionX = mInitialMotionX = event.getX();
+                    mLastMotionY1 = mInitialMotionY1 = event.getY(0);
+                    mLastMotionX1 = mInitialMotionX1 = event.getX(0);
                     mIsBeingDragged = false;
                 }
                 break;
             }
+            case MotionEvent.ACTION_POINTER_DOWN: {
+                if (isReadyForPullStart()) {
+                    mLastMotionY2 = mInitialMotionY2 = event.getY(1);
+                    mLastMotionX2 = mInitialMotionX2 = event.getX(1);
+                }
+                break;
+            }
         }
-
         return mIsBeingDragged;
     }
 
@@ -199,23 +207,32 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
         if (event.getAction() == MotionEvent.ACTION_DOWN && event.getEdgeFlags() != 0) {
             return false;
         }
-
-        switch (event.getAction()) {
+        boolean multTouch = event.getPointerCount() >= 2;
+        switch (event.getAction()&MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_MOVE: {
                 if (mIsBeingDragged) {
-                    mLastMotionY = event.getY();
-                    mLastMotionX = event.getX();
-                    pullEvent();
+                    mLastMotionY1 = event.getY(0);
+                    mLastMotionX1 = event.getX(0);
+                    if (multTouch) {
+                        mLastMotionX2 = event.getX(1);
+                        mLastMotionY2 = event.getY(1);
+                    }
+                    pullEvent(multTouch);
                     isZooming = true;
                     return true;
                 }
                 break;
             }
-
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if (isReadyForPullStart()) {
+                    mLastMotionY2 = mInitialMotionY2 = event.getY(1);
+                    mLastMotionX2 = mInitialMotionX2 = event.getX(1);
+                    return true;
+                }
             case MotionEvent.ACTION_DOWN: {
                 if (isReadyForPullStart()) {
-                    mLastMotionY = mInitialMotionY = event.getY();
-                    mLastMotionX = mInitialMotionX = event.getX();
+                    mLastMotionY1 = mInitialMotionY1 = event.getY(0);
+                    mLastMotionX1 = mInitialMotionX1 = event.getX(0);
                     return true;
                 }
                 break;
@@ -238,18 +255,23 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
                 }
                 break;
             }
+            case MotionEvent.ACTION_POINTER_UP:
+                mInitialMotionY2 = 0;
+                mLastMotionY2 = 0;
         }
         return false;
     }
 
-    private void pullEvent() {
-        final int newScrollValue;
-        final float initialMotionValue, lastMotionValue;
+    public int getNewScrollValue() {
+            newScrollValue = Math.round(Math.min(mInitialMotionY1 - mLastMotionY1, 0) / FRICTION) +
+                    Math.round(Math.min(mInitialMotionY2 - mLastMotionY2, 0) / FRICTION);
 
-        initialMotionValue = mInitialMotionY;
-        lastMotionValue = mLastMotionY;
+        return newScrollValue;
+    }
 
-        newScrollValue = Math.round(Math.min(initialMotionValue - lastMotionValue, 0) / FRICTION);
+
+    private void pullEvent(boolean multTouch) {
+        newScrollValue = getNewScrollValue();
 
         pullHeaderToZoom(newScrollValue);
         if (onPullZoomListener != null) {

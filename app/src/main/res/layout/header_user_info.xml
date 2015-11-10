@@ -21,7 +21,7 @@
         android:layout_toRightOf="@id/iv_avatar"
         android:layout_alignTop="@id/iv_avatar"
         android:layout_marginTop="@dimen/spacing_more_small"
-        android:text="武藤兰同学"
+        android:text="小学生"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_large"
@@ -40,7 +40,7 @@
     <TextView
         android:layout_below="@id/view_line"
         android:layout_marginTop="@dimen/spacing_more_small"
-        android:text="我就是武藤兰"
+        android:text="我就是小学生"
         android:layout_marginLeft="@dimen/image_huge"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:textAppearance="?android:attr/textAppearanceSmall"

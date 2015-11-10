@@ -44,4 +44,5 @@ public class MyInfoActivity extends BaseActivity {
                     .commit();
         }
     }
+
 }

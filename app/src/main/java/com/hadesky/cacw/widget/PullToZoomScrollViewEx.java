@@ -1,5 +1,6 @@
 package com.hadesky.cacw.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.SystemClock;
@@ -8,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -22,6 +21,7 @@ import com.hadesky.cacw.R;
  * Edit:Microstudent
  * centerCrop与Layout的ClipChild(false)不兼容，会导致视图超出范围
  * 增加了在xml中设置height的选项
+ * 增加了最大下拉长度
  * Created by 45517 on 2015/11/4.
  */
 public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
@@ -32,6 +32,10 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
     private View mContentView;
     private int mHeaderHeight;
     private ScalingRunnable mScalingRunnable;
+
+    private ValueAnimator reducerAnimator;  //设置下拉时的最大下拉值
+
+    private int mMaxDragHeight = 600;//最长下拉高度
 
     public PullToZoomScrollViewEx(Context context) {
         this(context, null);
@@ -59,6 +63,7 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
                 }
             }
         });
+
     }
 
     @Override
@@ -69,13 +74,17 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
             mScalingRunnable.abortAnimation();
         }
 
+        reducerAnimator.setCurrentPlayTime(Math.abs(newScrollValue));
+
+        Log.d(TAG, "pullHeaderToZoom --> wrappedInt = " + reducerAnimator.getAnimatedValue());
+
         ViewGroup.LayoutParams localLayoutParams = mHeaderContainer.getLayoutParams();
-        localLayoutParams.height = Math.abs(newScrollValue) + mHeaderHeight;
+        localLayoutParams.height = (int)reducerAnimator.getAnimatedValue() + mHeaderHeight;
         mHeaderContainer.setLayoutParams(localLayoutParams);
 
         if (isCustomHeaderHeight) {
             ViewGroup.LayoutParams zoomLayoutParams = mZoomView.getLayoutParams();
-            zoomLayoutParams.height = Math.abs(newScrollValue) + mHeaderHeight;
+            zoomLayoutParams.height = (int)reducerAnimator.getAnimatedValue() + mHeaderHeight;
             mZoomView.setLayoutParams(zoomLayoutParams);
         }
     }
@@ -174,6 +183,7 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
         }
 
         mHeaderHeight = (int) a.getDimension(R.styleable.PullToZoomView_headerViewHeight, 0);
+        mMaxDragHeight = (int) a.getDimension(R.styleable.PullToZoomView_maxDragHeight, 600);
 
         mRootContainer.addView(mHeaderContainer);
         if (mContentView != null) {
@@ -189,6 +199,10 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
         mHeaderContainer.setClipChildren(false);
 
         mRootView.addView(mRootContainer);
+
+        reducerAnimator = ValueAnimator.ofInt(0, mMaxDragHeight);
+        reducerAnimator.setInterpolator(new DecelerateInterpolator());
+        reducerAnimator.setDuration(mContentView.getMeasuredHeight() + mHeaderHeight);
     }
 
     /**
@@ -234,6 +248,12 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
         }
     }
 
+    public void stopRunable() {
+        if (mScalingRunnable != null) {
+            mScalingRunnable.abortAnimation();
+        }
+    }
+
     class ScalingRunnable implements Runnable {
         protected long mDuration;
         protected boolean mIsFinished = true;
@@ -254,13 +274,20 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
         public void run() {
             if (mZoomView != null) {
                 float f2;
+
                 ViewGroup.LayoutParams localLayoutParams;
+
                 if ((!mIsFinished) && (mScale > 1.0D)) {
+                    //经过时间比例值
                     float f1 = ((float) SystemClock.currentThreadTimeMillis() - (float) mStartTime) / (float) mDuration;
+
                     DecelerateInterpolator interpolator = new DecelerateInterpolator(3);
+
                     f2 = mScale - (mScale - 1.0F) * interpolator.getInterpolation(f1);
                     localLayoutParams = mHeaderContainer.getLayoutParams();
+
                     Log.d(TAG, "ScalingRunnable --> f2 = " + f2);
+
                     if (f2 > 1.0F) {
                         localLayoutParams.height = ((int) (f2 * mHeaderHeight));
                         mHeaderContainer.setLayoutParams(localLayoutParams);

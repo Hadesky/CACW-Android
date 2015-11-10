@@ -30,7 +30,7 @@
 
             <TextView
                 style="@style/tv_task_info_content"
-                android:text="18825512124"/>
+                android:text="18825512345"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -44,7 +44,7 @@
             <TextView
 
                 style="@style/tv_task_info_content"
-                android:text="569003420@qq.com"/>
+                android:text="123456789@qq.com"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -57,7 +57,7 @@
 
             <TextView
                 style="@style/tv_task_info_content"
-                android:text="广东工业大学"/>
+                android:text="广东供热大学"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -71,6 +71,6 @@
             <TextView
                 android:id="@+id/tv_time"
                 style="@style/tv_task_info_content"
-                android:text="我是张树悦，你来打我啊"/>
+                android:text="我是小学生，你来打我啊"/>
         </RelativeLayout>
 </LinearLayout>

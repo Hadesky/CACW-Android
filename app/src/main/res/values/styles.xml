@@ -157,8 +157,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:layout_marginTop">@dimen/status_bar_height</item>
     </style>
 
-
+    <style name="translucent_status" parent="AppTheme">
+    </style>
 </resources>

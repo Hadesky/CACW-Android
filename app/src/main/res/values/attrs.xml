@@ -27,5 +27,6 @@
         <attr name="zoomView" format="reference" />
         <attr name="isHeaderParallax" format="boolean" />
         <attr name="headerViewHeight" format="dimension" />
+        <attr name="maxDragHeight" format="dimension" />
     </declare-styleable>
 </resources>

@@ -13,5 +13,6 @@
         app:contentView="@layout/content_user_info"
         app:isHeaderParallax="false"
         app:headerViewHeight="@dimen/header_normal"
+        app:maxDragHeight="200dp"
         />
 </FrameLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="translucent_status" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <style name="toolbar_transparent">
+        <item name="android:layout_marginTop">@dimen/status_bar_height</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+</resources>

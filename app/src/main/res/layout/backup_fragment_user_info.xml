@@ -54,7 +54,7 @@
                 app:layout_collapseMode="parallax"
                 />
             <TextView
-                android:text="我就是武藤兰"
+                android:text="我就是小学生"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="@dimen/image_huge"
                 android:layout_marginBottom="@dimen/spacing_normal"

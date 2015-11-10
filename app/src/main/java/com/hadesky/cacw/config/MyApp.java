@@ -26,7 +26,7 @@ public class MyApp extends Application {
         session  = new SessionManagement(this);
         URL = "http://www.baidu.com";
         mContext = this;
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
     }
 
 
