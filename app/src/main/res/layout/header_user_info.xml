@@ -20,12 +20,22 @@
         android:id="@+id/tv_username"
         android:layout_toRightOf="@id/iv_avatar"
         android:layout_alignTop="@id/iv_avatar"
-        android:layout_marginTop="@dimen/spacing_more_small"
         android:text="小学生"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_large"
         android:textColor="@android:color/white"
+        />
+    <ImageView
+        android:id="@+id/iv_sex"
+        android:layout_width="@dimen/image_more_small"
+        android:layout_height="@dimen/image_more_small"
+        android:src="@drawable/ic_male"
+        android:scaleType="centerCrop"
+        android:layout_toRightOf="@id/tv_username"
+        android:layout_alignTop="@id/tv_username"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="@dimen/spacing_small"
         />
     <View
         android:id="@+id/view_line"

@@ -37,7 +37,7 @@ import java.util.concurrent.ExecutionException;
 public class LoginActivity extends BaseActivity{
 
     private EditText mUsername, mPassword;
-    private ImageButton mPwButton;
+    private Button mPwButton;
     private Button mLoginButton;
     private boolean mIsPwVisitable = false;
     private SessionManagement mSession;
@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity{
 
         mLoginButton = (Button) findViewById(R.id.bt_register);
 
-        mPwButton = (ImageButton) findViewById(R.id.password_eye);
+        mPwButton = (Button) findViewById(R.id.password_eye);
 
         mUsername = (EditText) findViewById(R.id.editview_username);
         mPassword = (EditText) findViewById(R.id.editview_password);
@@ -103,11 +103,11 @@ public class LoginActivity extends BaseActivity{
             public void onClick(View v) {
                 setIsPwVisible(!mIsPwVisitable);
                 if (mIsPwVisitable) {
-                    mPwButton.setSelected(false);
+                    mPwButton.setText("HIDE");
                     mIsPwVisitable = false;
                     setIsPwVisible(false);
                 } else {
-                    mPwButton.setSelected(true);
+                    mPwButton.setText("SHOW");
                     mIsPwVisitable = true;
                     setIsPwVisible(true);
                 }
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity{
 
     private void setIsPwVisible(boolean visible) {
         if (visible) {
-            mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            mPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             //定位到最后
             CharSequence text = mPassword.getText();
             if (text != null) {
