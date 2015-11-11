@@ -26,4 +26,7 @@
         <attr name="headerViewHeight" format="dimension" />
         <attr name="maxDragHeight" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="ColorfulAnim">
+        <attr name="speed_factor" format="float" />
+    </declare-styleable>
 </resources>
