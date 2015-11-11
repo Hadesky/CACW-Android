@@ -1,5 +1,6 @@
 package com.hadesky.cacw.widget;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -15,6 +16,8 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
@@ -39,6 +42,9 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private boolean isFocused = false;
     private boolean isTouch = false;
     private Resources mResources;
+
+    private float animProportion = 0;//下划线动画的进度比例，0f~1f
+    private ObjectAnimator underLineAnim;
 
 
     public DeletableEditText(Context context) {
@@ -72,6 +78,11 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         HintColor = getResources().getColor(R.color.color_primary);
 
         init();
+
+        underLineAnim = ObjectAnimator.ofFloat(this, "animProportion", 0f, 1f);
+        underLineAnim.setDuration(250);
+        underLineAnim.setInterpolator(new DecelerateInterpolator());
+        underLineAnim.setStartDelay(100);
     }
 
     private void init() {
@@ -149,13 +160,28 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private void drawUnderLine(Canvas canvas,boolean foucsed) {
         mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 1));
         mPaint.setColor(mUnderlineColor);
-        if (foucsed && HintColor != 0) {
-            mPaint.setColor(HintColor);
-        }
+
         int x = this.getScrollX();
         int w = this.getMeasuredWidth();
+        int halfWidth = (x + w) / 2;
         canvas.drawLine(0, this.getHeight() - 1, w + x,
                 this.getHeight() - 1, mPaint);
+        if (foucsed && HintColor != 0) {
+            mPaint.setColor(HintColor);
+            mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 2));
+        }
+        canvas.drawLine(halfWidth - halfWidth * animProportion, this.getHeight() - 1, halfWidth + halfWidth * animProportion,
+                this.getHeight() - 1, mPaint);
+    }
+
+
+    public float getAnimProportion() {
+        return animProportion;
+    }
+
+    public void setAnimProportion(float animProportion) {
+        this.animProportion = animProportion;
+        invalidate();
     }
 
     public void setUnderlineColor(int Color) {
@@ -174,6 +200,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         isFocused = hasFocus;
         if (hasFocus) {
             setIsClearIconVisible(getText().length() > 0);
+            animProportion = 0;
+            underLineAnim.start();
         } else {
             setIsClearIconVisible(false);
         }
