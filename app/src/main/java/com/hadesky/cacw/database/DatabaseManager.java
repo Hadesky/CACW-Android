@@ -30,7 +30,8 @@ public class DatabaseManager {
     public static final String COLUMN_TEAM_TEAM_ID = "team_id";
     public static final String COLUMN_TEAM_TEAM_NAME = "team_name";
     public static final String COLUMN_TASK_IS_COMPLETE_ ="is_complete";
-
+    public static final String COLUMN_TASK_CONTENT ="content";
+    public static final String COLUMN_TASK_LOCATION ="location";
 
     public static final String TABLE_USER = "user";
     public static final String TABLE_PROJECT = "project";
@@ -84,6 +85,8 @@ public class DatabaseManager {
         cv.put(COLUMN_TASK_TITLE, bean.getTitle());
         cv.put(COLUMN_TASK_IS_COMPLETE_,bean.getTaskStatus());
         cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
+        cv.put(COLUMN_TASK_CONTENT,bean.getContent());
+        cv.put(COLUMN_TASK_LOCATION,bean.getLocation());
         return db.insert(TABLE_TASK, null, cv);
     }
 
@@ -340,9 +343,14 @@ public class DatabaseManager {
             }
             TaskBean bean = new TaskBean();
             long task_id = getLong(getColumnIndex(COLUMN_TASK_TASK_ID));
-            bean.setTaskID(task_id);
+            bean.setTaskId(task_id);
             String title = getString(getColumnIndex(COLUMN_TASK_TITLE));
             bean.setTitle(title);
+            int pjid = getInt(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
+            bean.setProjectId(pjid);
+
+            String content = getString(getColumnIndex(COLUMN_TASK_CONTENT));
+            bean.setContent(content);
             return bean;
         }
     }

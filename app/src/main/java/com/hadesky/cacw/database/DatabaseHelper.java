@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
+/**dbHelper
  * Created by 45517 on 2015/10/14.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "location TEXT," +
                 "is_complete int,"+
                 "project_id INT NOT NULL,"+
+                "content TEXT,"+
                 "foreign key (project_id) references project(project_id) on delete cascade on update cascade"+
                 ")");
         //创建表格team

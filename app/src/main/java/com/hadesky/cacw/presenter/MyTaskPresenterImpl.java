@@ -5,7 +5,7 @@ import android.util.Log;
 import com.hadesky.cacw.Model.MyTaskModel;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.fragment.TaskView;
+import com.hadesky.cacw.ui.View.TaskView;
 import com.hadesky.cacw.util.NetworkUtils;
 import java.util.List;
 

@@ -28,6 +28,10 @@ public class SimData {
 
         public static String[] task_list = new String[]{
                 "搬运物资", "做PPT", "做视频", "去工一调试音响"};
+        public static String[] task_content = new String[]{
+                "去工一搬运物资", "全体大会要用", "女生节要用", "今晚7.30"};
+        public static String[] task_location = new String[]{
+                "东十三", "西二233", "工一222", "教3-233"};
 
         public static String[] team_list = new String[]{
                 "计算机学院学生会","木棉菁英学生会信技部","死神天空"};

@@ -3,12 +3,12 @@ package com.hadesky.cacw.presenter;
 import com.hadesky.cacw.Model.MyProjectModel;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.fragment.MyProjectView;
+import com.hadesky.cacw.ui.View.MyProjectView;
 import com.hadesky.cacw.util.NetworkUtils;
 
 import java.util.List;
 
-/**
+/**我的项目Presenter实现
  * Created by 45517 on 2015/10/31.
  */
 public class MyProjectPresenterImpl implements MyProjectPresenter {

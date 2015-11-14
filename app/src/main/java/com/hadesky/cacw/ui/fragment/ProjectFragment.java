@@ -13,17 +13,17 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.presenter.MyProjectPresenter;
 import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
+import com.hadesky.cacw.ui.View.MyProjectView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**项目页面
  * Created by Bright Van on 2015/9/7/007.
  */
-public class ProjectFragment extends BaseFragment implements MyProjectView {
+public class ProjectFragment extends BaseFragment implements MyProjectView
+{
     private RecyclerView recyclerView;
     private ProjectAdapter mAdapter;
     private MyProjectPresenter myProjectPresenter;

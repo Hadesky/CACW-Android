@@ -11,20 +11,33 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.presenter.TaskDetailPresenter;
+import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
+import com.hadesky.cacw.ui.View.TaskDetailView;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDetailActivity extends BaseActivity implements View.OnClickListener
+public class TaskDetailActivity extends BaseActivity implements View.OnClickListener,TaskDetailView
 {
 
     private Toolbar mToolbar;
     private TextView mTitle;
+    private TextView mLocation;
+    private TextView mDetail;
+    private TextView mProject;
+
     private RecyclerView mRcv_members;
     private View mEdit;
     private ScrollView mScrollView;
+    private TaskDetailPresenter mPresenter;
+    private Long mTaskId;
+    private TaskMembersAdapter mAdapter;
+
+
     @Override
     public int getLayoutId()
     {
@@ -39,6 +52,9 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
         mEdit =  findViewById(R.id.btn_edit);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mLocation = (TextView) findViewById(R.id.tv_location);
+        mDetail = (TextView) findViewById(R.id.tv_detail);
+        mProject = (TextView) findViewById(R.id.tv_projectname);
     }
 
     @Override
@@ -49,20 +65,26 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        List<UserBean> list = new ArrayList<>();
-        for (int i=0;i<10;i++)
-            list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
+
+
+
 
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
-        mRcv_members.setAdapter(new TaskMembersAdapter(this, list));
+        mAdapter = new TaskMembersAdapter(this, new ArrayList<UserBean>());
+        mRcv_members.setAdapter(mAdapter);
 
         mEdit.setOnClickListener(this);
 
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
+
+        mTaskId = getIntent().getLongExtra("id", 0);
+
+        mPresenter = new TaskDetailPresenterImpl(this);
+        mPresenter.LoadTask(mTaskId);
     }
 
     @Override
@@ -79,5 +101,39 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     {
         Intent i = new Intent(this,EditTaskActivity.class);
         startActivity(i);
+    }
+
+
+    @Override
+    public void showInfo(TaskBean task)
+    {
+        mTitle.setText(task.getTitle());
+        mProject.setText(task.getProjectName());
+        mDetail.setText(task.getContent());
+        mLocation.setText(task.getLocation());
+
+        List<UserBean> list = task.getMembers();
+
+
+        mAdapter.setDatas(list);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void ShowMember(List<UserBean> user)
+    {
+
+    }
+
+    @Override
+    public void showProgress()
+    {
+
+    }
+
+    @Override
+    public void hideProgress()
+    {
+
     }
 }

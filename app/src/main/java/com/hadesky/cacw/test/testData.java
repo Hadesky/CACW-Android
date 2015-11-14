@@ -33,7 +33,10 @@ public class testData
         }
 
         for (int i = 0; i < SimData.task_list.length; i++) {
-            manager.insertTask(new TaskBean(SimData.task_list[i], i,1));
+            TaskBean bean = new TaskBean(SimData.task_list[i], i,1);
+            bean.setContent(SimData.task_content[i]);
+            bean.setLocation(SimData.task_location[i]);
+            manager.insertTask(bean);
         }
         //把用户插进Task
 

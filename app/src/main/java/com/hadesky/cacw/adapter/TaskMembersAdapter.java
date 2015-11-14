@@ -38,6 +38,12 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         mDatas = datas;
     }
 
+    public void setDatas(List<UserBean> list)
+    {
+        mDatas = list;
+
+    }
+
     @Override
     public TaskMemberVH onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -67,14 +73,13 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 }
             });
         }
-
         return holder;
     }
 
     @Override
     public void onBindViewHolder(TaskMemberVH holder, int position)
     {
-
+        holder.setName(mDatas.get(position).getUsername());
     }
 
 
@@ -125,6 +130,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         public TaskMemberVH(View itemView, OnItemClickListener listener)
         {
             super(itemView);
+            mName = (TextView) itemView.findViewById(R.id.tv_name);
             itemView.setOnClickListener(this);
             mOnItemClickListener = listener;
         }
@@ -134,6 +140,11 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         {
             if (mOnItemClickListener != null)
                 mOnItemClickListener.OnItemClick(v, getLayoutPosition());
+        }
+
+        public void setName(String name)
+        {
+            this.mName.setText(name);
         }
     }
 

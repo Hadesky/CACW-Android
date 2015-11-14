@@ -89,6 +89,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_projectname"
                     style="@style/tv_task_info_content"
                     android:text="这是项目名称"/>
             </RelativeLayout>
@@ -106,6 +107,7 @@
                     />
                 <TextView
                     style="@style/tv_task_info_content"
+                    android:id="@+id/tv_location"
                     android:text="工一214"/>
             </RelativeLayout>
 
@@ -122,6 +124,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"

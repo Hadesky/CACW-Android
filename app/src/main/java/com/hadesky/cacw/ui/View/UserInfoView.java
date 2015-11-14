@@ -1,6 +1,6 @@
-package com.hadesky.cacw.ui.fragment;
+package com.hadesky.cacw.ui.View;
 
-/**
+/**用户资源界面接口
  * Created by 45517 on 2015/11/13.
  */
 public interface UserInfoView {
