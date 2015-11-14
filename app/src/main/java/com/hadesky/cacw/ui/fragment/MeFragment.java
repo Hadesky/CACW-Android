@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.MyInfoActivity;
 import com.hadesky.cacw.ui.SettingActivity;
 import com.hadesky.cacw.widget.AnimProgressDialog;
@@ -86,7 +87,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.layout_myinfo:
-                startActivity(new Intent(getContext(), MyInfoActivity.class));
+                Intent intent = new Intent(getContext(), MyInfoActivity.class);
+                intent.putExtra(IntentTag.TAG_USER_ID, (long)0);//因为暂时没联网，默认用0号当作为当前用户
+                startActivity(intent);
                 break;
             case R.id.layout_complete:
                 Toast.makeText(getContext(), "已完成事项", Toast.LENGTH_SHORT).show();

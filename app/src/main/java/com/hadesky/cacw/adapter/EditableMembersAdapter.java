@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
+import com.hadesky.cacw.util.LogUtils;
 
 import java.util.List;
 
@@ -62,7 +64,10 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 public void OnItemClick(View view, int position) {
                     if (view.getId() == R.id.iv_avatar) {
                         //点击到头像
-                        mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
+                        Intent intent = new Intent(mContext, UserInfoActivity.class);
+                        intent.putExtra(IntentTag.TAG_USER_ID, members.get(position).getUserId());
+                        LogUtils.d("EditableMembersAdapter.onCreateViewHolder", "position = " + position + " userId = " + members.get(position).getUserId());
+                        mContext.startActivity(intent);
                     } else {
                         //点击到头像的删除按钮
                         onMemberDeleteListener.onMemberDelete(members.get(position).getUserId());

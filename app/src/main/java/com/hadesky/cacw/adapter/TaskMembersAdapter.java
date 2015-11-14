@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
 
@@ -50,7 +51,9 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 @Override
                 public void OnItemClick(View view, int position)
                 {
-                    mContext.startActivity(new Intent(mContext, UserInfoActivity.class));
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
+                    intent.putExtra(IntentTag.TAG_USER_ID, mDatas.get(position).getUserId());
+                    mContext.startActivity(intent);
                 }
             });
         } else {

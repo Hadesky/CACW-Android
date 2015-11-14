@@ -207,6 +207,12 @@ public class DatabaseManager {
         return new TaskCursor(wrapped);
     }
 
+    public UserCursor queryUser(long user_id) {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_USER +
+                " WHERE user_id = ?", new String[]{String.valueOf(user_id)});
+        return new UserCursor(wrapped);
+    }
+
     public TaskCursor queryCompletedTaskFromPj(long project_id) {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "0"});

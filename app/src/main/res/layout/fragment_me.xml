@@ -53,46 +53,73 @@
             android:src="@drawable/arrow_right_64"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_remind"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:layout_height="48dp"
-        android:background="@drawable/list_item_bg"
-        android:clickable="true"
-        android:focusable="true">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:id="@+id/layout_my_team"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_item_bg"
+            android:clickable="true"
+            android:focusable="true">
 
+            <ImageView
+                android:id="@+id/iv_my_team"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/Me_item_margin_left"
+                android:src="@drawable/ic_team"/>
+
+            <TextView
+                style="@style/mTextView_Settings"
+                android:layout_toRightOf="@id/iv_my_team"
+                android:text="我的团队"
+                />
+        </RelativeLayout>
         <ImageView
-            android:id="@+id/iv_remind"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/Me_item_margin_left"
-            android:src="@drawable/me_remind_64"/>
-
-        <TextView
-            style="@style/mTextView_Settings"
-            android:layout_toRightOf="@id/iv_remind"
-            android:text="@string/setting_remind"
+            android:layout_height="match_parent"
+            android:layout_width="1px"
+            android:background="@android:color/white"
+            android:src="#ccc"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             />
+        <RelativeLayout
+            android:id="@+id/layout_remind"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/list_item_bg"
+            android:clickable="true"
+            android:focusable="true">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_remind"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/Me_item_margin_left"
+                android:src="@drawable/me_remind_64"/>
 
-    <ImageView style="@style/paddingDividingLine" />
-
+            <TextView
+                style="@style/mTextView_Settings"
+                android:layout_toRightOf="@id/iv_remind"
+                android:text="@string/setting_remind"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layout_complete"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/list_item_bg"
+        android:layout_marginTop="@dimen/spacing_large"
         android:clickable="true"
         android:focusable="true"
         >

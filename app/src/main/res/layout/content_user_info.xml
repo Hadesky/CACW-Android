@@ -14,6 +14,7 @@
                 style="@style/tv_task_info_title"/>
 
             <TextView
+                android:id="@+id/tv_id"
                 style="@style/tv_task_info_content"
                 android:text="234324234"/>
         </RelativeLayout>
@@ -29,6 +30,7 @@
                 style="@style/tv_task_info_title"/>
 
             <TextView
+                android:id="@+id/tv_phone"
                 style="@style/tv_task_info_content"
                 android:text="18825512345"/>
         </RelativeLayout>
@@ -42,7 +44,7 @@
                 style="@style/tv_task_info_title"/>
 
             <TextView
-
+                android:id="@+id/tv_email"
                 style="@style/tv_task_info_content"
                 android:text="123456789@qq.com"/>
         </RelativeLayout>
@@ -56,6 +58,7 @@
                 style="@style/tv_task_info_title"/>
 
             <TextView
+                android:id="@+id/tv_address"
                 style="@style/tv_task_info_content"
                 android:text="广东供热大学"/>
         </RelativeLayout>
