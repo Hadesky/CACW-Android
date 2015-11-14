@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
@@ -91,10 +90,12 @@ public class EditTaskActivity extends BaseActivity
         List<UserBean> list = new ArrayList<>();
         for (int i = 0;i<5;i++)
                 list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
-        TaskMembersAdapter adapter = new TaskMembersAdapter(this, list);
-        adapter.setAbleToAdd(true);
-            mRcv_members.setAdapter(adapter);
 
+
+        // TODO: 2015/11/14 0014 这里要用EditableMembersAdapter
+//        TaskMembersAdapter adapter = new TaskMembersAdapter(this, list);
+//        adapter.setAbleToAdd(true);
+//            mRcv_members.setAdapter(adapter);
 
 
         setupDataOnClick();
