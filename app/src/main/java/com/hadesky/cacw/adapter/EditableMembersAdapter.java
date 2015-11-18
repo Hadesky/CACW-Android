@@ -66,7 +66,6 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                         //点击到头像
                         Intent intent = new Intent(mContext, UserInfoActivity.class);
                         intent.putExtra(IntentTag.TAG_USER_ID, members.get(position).getUserId());
-                        LogUtils.d("EditableMembersAdapter.onCreateViewHolder", "position = " + position + " userId = " + members.get(position).getUserId());
                         mContext.startActivity(intent);
                     } else {
                         //点击到头像的删除按钮

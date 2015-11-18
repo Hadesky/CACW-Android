@@ -54,7 +54,6 @@ public class GetUserInfoTask extends AsyncTask<Long,Void,UserBean> {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext())) {
 //            bean = getUserInfoByNetwork(params[0]);
         }
-        LogUtils.d(TAG, "userId = " + params[0]);
         return bean;
     }
 
