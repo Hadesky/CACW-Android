@@ -2,7 +2,11 @@ package com.hadesky.cacw.config;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.squareup.leakcanary.LeakCanary;
 
 
@@ -13,9 +17,13 @@ import com.squareup.leakcanary.LeakCanary;
 
 public class MyApp extends Application {
 
-    private static SessionManagement session;
-    private String URL;
-    private static Context mContext;
+    private static final String TAG = MyApp.class.getSimpleName();
+
+    private static SessionManagement session;//本地账户session
+    private static String URL;//服务器地址
+    private static Context mContext;//App实例
+    private RequestQueue requestQueue;//Volley请求队列
+
 
 
     @Override
@@ -24,8 +32,9 @@ public class MyApp extends Application {
         //内存泄露检查
 
         session  = new SessionManagement(this);
-        URL = "http://www.baidu.com";
+        URL = "http://115.28.15.194:8000";
         mContext = this;
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 //        LeakCanary.install(this);
     }
 
@@ -39,7 +48,31 @@ public class MyApp extends Application {
         return session;
     }
 
-    public String getURL() {
+    public static String getURL() {
         return URL;
     }
+
+    public RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return requestQueue;
+    }
+
+    public <T> void addToRequestQueue(Request request, String tag) {
+        request.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        requestQueue.add(request);
+    }
+
+    public <T> void addToRequestQueue(Request request) {
+        request.setTag(TAG);
+        requestQueue.add(request);
+    }
+
+    public void cancelPendingRequest(String tag) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(tag);
+        }
+    }
+
 }

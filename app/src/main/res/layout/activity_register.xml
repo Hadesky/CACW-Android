@@ -41,6 +41,7 @@
             >
         <com.hadesky.cacw.widget.DeletableEditText
             style="@style/EditText_login"
+            android:paddingRight="@dimen/image_huge"
             android:id="@+id/det_username"
             android:inputType="textEmailAddress"
             android:hint="邮箱"
@@ -49,12 +50,13 @@
             cacw:underline_color="@android:color/darker_gray"/>
         </android.support.design.widget.TextInputLayout>
         <Button
-            android:background="@drawable/bg_rounded_primary"
+            android:id="@+id/bt_get_code"
+            android:background="@drawable/bg_reg_btn"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textColor="@android:color/white"
             android:text="获取验证码"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/image_huge"
             android:layout_height="@dimen/image_normal" />
     </RelativeLayout>
 

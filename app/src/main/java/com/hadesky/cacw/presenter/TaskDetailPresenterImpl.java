@@ -42,7 +42,4 @@ public class TaskDetailPresenterImpl implements TaskDetailPresenter
         mModel.getTask(taskId);
 
     }
-
-
-
 }
