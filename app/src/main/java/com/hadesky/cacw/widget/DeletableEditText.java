@@ -168,6 +168,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
                 this.getHeight() - 1, mPaint);
         if (foucsed && HintColor != 0) {
             mPaint.setColor(HintColor);
+            mPaint.setAlpha((int) (animProportion * 255));
             mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 2));
         }
         canvas.drawLine(halfWidth - halfWidth * animProportion, this.getHeight() - 1, halfWidth + halfWidth * animProportion,

@@ -65,10 +65,6 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-
-
-
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
