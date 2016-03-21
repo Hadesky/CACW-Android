@@ -36,7 +36,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TaskDetailPresenter mPresenter;
     private Long mTaskId;
     private TaskMembersAdapter mAdapter;
-
+    private TaskBean mTask;
 
     @Override
     public int getLayoutId()
@@ -96,13 +96,14 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v)
     {
         Intent i = new Intent(this,EditTaskActivity.class);
+        i.putExtra("task",mTask);
         startActivity(i);
     }
-
 
     @Override
     public void showInfo(TaskBean task)
     {
+        mTask = task;
         mTitle.setText(task.getTitle());
         mProject.setText(task.getProjectName());
         mDetail.setText(task.getContent());

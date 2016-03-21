@@ -2,11 +2,13 @@ package com.hadesky.cacw.bean;
 
 import com.hadesky.cacw.R;
 
+import java.io.Serializable;
+
 /**
  *
  * Created by 45517 on 2015/10/17.
  */
-public class UserBean {
+public class UserBean implements Serializable{
 
     private String username;
 

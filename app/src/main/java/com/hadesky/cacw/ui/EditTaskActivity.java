@@ -13,15 +13,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.EditableMembersAdapter;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 
-public class EditTaskActivity extends BaseActivity
+public class EditTaskActivity extends BaseActivity implements EditableMembersAdapter.OnMemberDeleteListener
 {
 
     private  Toolbar mToolbar;
@@ -33,6 +34,9 @@ public class EditTaskActivity extends BaseActivity
     private TextView mTvProject;
     private View mOk;
     private RecyclerView mRcv_members;
+    private TaskBean mTask;
+    private EditableMembersAdapter mAdapter;
+
 
     @Override
     public int getLayoutId()
@@ -61,6 +65,7 @@ public class EditTaskActivity extends BaseActivity
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //点击确定
         mOk.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -70,6 +75,7 @@ public class EditTaskActivity extends BaseActivity
             }
         });
 
+        //选择项目
         mProject.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -79,7 +85,7 @@ public class EditTaskActivity extends BaseActivity
             }
         });
 
-
+        //初始化RecycleView
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
@@ -87,22 +93,30 @@ public class EditTaskActivity extends BaseActivity
 
 
 
-        List<UserBean> list = new ArrayList<>();
-        for (int i = 0;i<5;i++)
-                list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
+//        List<UserBean> list = new ArrayList<>();
+//        for (int i = 0;i<5;i++)
+//                list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
 
 
-        // TODO: 2015/11/14 0014 这里要用EditableMembersAdapter
-//        TaskMembersAdapter adapter = new TaskMembersAdapter(this, list);
-//        adapter.setAbleToAdd(true);
-//            mRcv_members.setAdapter(adapter);
+        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(),this,this);
+        mAdapter.setAbleToAdd(true);
+        mAdapter.setAbleToDelete(true);
+
+        mRcv_members.setAdapter(mAdapter);
+
+        mTask = (TaskBean) getIntent().getSerializableExtra("task");
+        if (mTask!=null)
+            showInfo(mTask);
 
 
         setupDataOnClick();
         setupTimeOnclick();
     }
 
-
+    private void showInfo(TaskBean task)
+    {
+        mAdapter.setDatas(task.getMembers());
+    }
 
     private void setupDataOnClick()
     {
@@ -165,7 +179,7 @@ public class EditTaskActivity extends BaseActivity
     public void setTime(int hour,int min)
     {
 
-        mTvTime.setText(String.format("%02d : %02d",hour,min));
+        mTvTime.setText(String.format("%02d : %02d", hour, min));
     }
 
    public void setDate(int year,int month,int day)
@@ -181,5 +195,20 @@ public class EditTaskActivity extends BaseActivity
         if (item.getItemId()==android.R.id.home)
             onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mAdapter.getMode() == EditableMembersAdapter.MODE_DELETE) {
+            mAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onMemberDelete(long user_id)
+    {
+
     }
 }

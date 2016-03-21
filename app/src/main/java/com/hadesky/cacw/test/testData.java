@@ -9,6 +9,7 @@ import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.database.SimData;
 
 /**
+ *
  * Created by dzysg on 2015/10/29 0029.
  */
 public class testData

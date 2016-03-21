@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 
 /**
+ *
  * Created by 45517 on 2016/3/21.
  */
 public abstract class BaseRvAdapter<VH extends BaseViewHolder> extends RecyclerView.Adapter<VH>{

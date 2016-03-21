@@ -14,7 +14,6 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.SelectMemberActivity;
 import com.hadesky.cacw.ui.UserInfoActivity;
-import com.hadesky.cacw.util.LogUtils;
 
 import java.util.List;
 
@@ -51,6 +50,13 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         this.members = members;
         inflater = LayoutInflater.from(context);
     }
+
+    public void setDatas(List<UserBean> list)
+    {
+        members = list;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public MembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -1,5 +1,6 @@
 package com.hadesky.cacw.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 
-public class TaskBean
+public class TaskBean implements Serializable
 {
 
 

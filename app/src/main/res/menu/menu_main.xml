@@ -2,13 +2,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.hadesky.cacw.ui.MainActivity">
+    tools:context="com.hadesky.cacw.ui.MainActivity"
+
+    >
+
     <item
         android:id="@+id/action_add"
         android:title="新建"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_add"
-        />
+        >
+        <menu
+            >
+            <item
+                android:id="@+id/action_new_task"
+                android:title="新建任务"
+                />
+            <item
+                android:id="@+id/action_new_project"
+                android:title="新建项目"
+                />
+        </menu>
+
+    </item>
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"

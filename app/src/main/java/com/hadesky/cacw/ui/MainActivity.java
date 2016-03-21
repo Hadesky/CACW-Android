@@ -1,7 +1,5 @@
 package com.hadesky.cacw.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -13,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
@@ -22,7 +21,6 @@ import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
-import com.hadesky.cacw.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +30,8 @@ public class MainActivity extends BaseActivity {
     private TabLayout mTabLayout;//主界面Fragment的容器
     private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
-
-
+    private PopupMenu mPopupMenu;
+    private View addView;
 
     @Override
     public int getLayoutId() {
@@ -99,39 +97,54 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setTabsFromPagerAdapter(adapter);
 
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
 
-            }
-            @Override
-            public void onPageSelected(int position) {
-                if (position==2)
-                mAppBarLayout.setExpanded(true,true);
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageSelected(int position)
+            {
+                if (position == 2)
+                    mAppBarLayout.setExpanded(true, true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
 
             }
         });
+
+
+
+
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem addItem = menu.getItem(0);
+
+
+
+        //mPopupMenu = new PopupMenu(this,addView);
+        //getMenuInflater().inflate(R.menu.menu_task_popup,addItem.getSubMenu());
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         switch (id) {
-            case R.id.action_add:
-                if (item.getIcon() != null) {
-                    showToast("未实现");
-                }
+            case R.id.action_new_task:
+                startActivity(new Intent(this,EditTaskActivity.class));
                 break;
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingActivity.class);
