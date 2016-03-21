@@ -97,7 +97,6 @@ public class LoginActivity extends BaseActivity{
 
 
     private void setupPwButton() {
-
         mPwButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

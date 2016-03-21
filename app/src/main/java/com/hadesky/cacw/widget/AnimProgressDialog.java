@@ -1,25 +1,13 @@
 package com.hadesky.cacw.widget;
 
-import android.animation.AnimatorSet;
-import android.animation.FloatEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.widget.ColorfulAnimView.ColorfulAnimView;
 
 /**
  * Created by 45517 on 2015/10/23.
@@ -56,12 +44,9 @@ public class AnimProgressDialog extends Dialog {
             titleView.setText(title);
         }
         animView = (ColorfulAnimView) findViewById(R.id.view_anim);
-        titleView.post(new Runnable() {
-            @Override
-            public void run() {
-                animView.startAnim();
-            }
-        });
+
+        animView.startAnim();
+
     }
 
 }

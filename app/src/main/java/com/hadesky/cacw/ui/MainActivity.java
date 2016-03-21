@@ -1,5 +1,7 @@
 package com.hadesky.cacw.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -126,6 +128,11 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_add:
+                if (item.getIcon() != null) {
+                    showToast("未实现");
+                }
+                break;
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);
