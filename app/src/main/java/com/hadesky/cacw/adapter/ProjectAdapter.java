@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.ProjectDetailActivity;
@@ -20,22 +21,17 @@ import java.util.List;
 /**
  * Created by 45517 on 2015/9/18.
  */
-public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+public class ProjectAdapter extends BaseRvAdapter<ProjectAdapter.ProjectViewHolder> {
 
     private List<ProjectBean> mData = new ArrayList<>();
 
-    private LayoutInflater mInflater;
-    private Context mContext;
-
-    public ProjectAdapter(Context context) {
-        this.mInflater = LayoutInflater.from(context);
-        mContext = context;
+    public ProjectAdapter(Context mContext) {
+        super(mContext);
     }
 
     @Override
     public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_project, parent, false);
-
         return new ProjectViewHolder(view);
     }
 
@@ -71,33 +67,21 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     /**
      * ViewHolder内部类
      */
-    public static class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ProjectViewHolder extends BaseViewHolder {
 
-        private OnItemClickListener listener;
         private ImageView iv_avatar;
         private TextView tv_title;
 
         public ProjectViewHolder(View itemView) {
             super(itemView);
-            iv_avatar = (ImageView) itemView.findViewById(R.id.iv_project_avatar);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_project_title);
-            itemView.setOnClickListener(this);
-        }
-
-        public void setOnItemClickListener(OnItemClickListener listener) {
-            this.listener = listener;
         }
 
         @Override
-        public void onClick(View v) {
-            listener.OnItemClick(v,getLayoutPosition());
-        }
-
-        public interface OnItemClickListener {
-            void OnItemClick(View view, int position);
+        public void initView(View itemView) {
+            iv_avatar = (ImageView) itemView.findViewById(R.id.iv_project_avatar);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_project_title);
         }
     }
-
 }
 
 

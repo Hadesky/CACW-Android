@@ -1,19 +1,15 @@
 package com.hadesky.cacw.ui;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hadesky.cacw.R;
 
-public class AddTaskActivity extends BaseActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public class MyTeamActivity extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_add_task;
+        return R.layout.activity_my_team;
     }
 
     @Override
@@ -25,6 +21,4 @@ public class AddTaskActivity extends BaseActivity {
     public void setupView() {
 
     }
-
-
 }

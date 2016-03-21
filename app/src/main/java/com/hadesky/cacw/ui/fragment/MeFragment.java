@@ -15,6 +15,7 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.MyInfoActivity;
+import com.hadesky.cacw.ui.MyTeamActivity;
 import com.hadesky.cacw.ui.SettingActivity;
 import com.hadesky.cacw.widget.AnimProgressDialog;
 
@@ -44,7 +45,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         view.findViewById(R.id.layout_memo).setOnClickListener(this);
         view.findViewById(R.id.layout_myinfo).setOnClickListener(this);
         view.findViewById(R.id.layout_remind).setOnClickListener(this);
-
+        view.findViewById(R.id.layout_my_team).setOnClickListener(this);
     }
 
     @Override
@@ -100,6 +101,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.layout_memo:
                 AnimProgressDialog dialog = new AnimProgressDialog(getContext(), true, null, "载入备忘录中...");
                 dialog.show();
+                break;
+            case R.id.layout_my_team:
+                Intent intent1 = new Intent(getContext(), MyTeamActivity.class);
+                startActivity(intent1);
                 break;
             default:
                 break;

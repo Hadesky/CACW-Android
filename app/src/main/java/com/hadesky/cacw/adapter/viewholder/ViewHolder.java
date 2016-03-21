@@ -8,13 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
-
-
-
-
-
-
 public class ViewHolder {
     private SparseArray<View> mViews;
 
