@@ -17,8 +17,6 @@ import java.util.List;
 public class MyTeamAdapter extends BaseRvAdapter<MyTeamAdapter.VHolder>
 {
 
-
-
     private List<TeamBean> mDatas;
 
     public MyTeamAdapter(Context mContext)

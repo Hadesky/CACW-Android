@@ -26,9 +26,13 @@ public class testData
         for (int i = 0; i < SimData.user_list.length; i++) {
             manager.insertUser(new UserBean(SimData.user_list[i], i));
         }
+
+        //1 team的project
         for (int i = 0; i < SimData.project_list.length / 2; i++) {
             manager.insertProject(new ProjectBean(SimData.project_list[i], i, 0));
         }
+
+        //2 team的project
         for (int i = SimData.project_list.length / 2; i < SimData.project_list.length; i++) {
             manager.insertProject(new ProjectBean(SimData.project_list[i], i, 1));
         }

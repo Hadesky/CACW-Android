@@ -1,7 +1,6 @@
 package com.hadesky.cacw.Model;
 
 import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.database.ProjectDAO;
 
 import java.util.List;
@@ -26,8 +25,6 @@ public class MyProjectModel {
     public void GetMyProjectByNetwork() {
         getMyProjectCallBack.onFailure("服务器暂时无法使用！");
     }
-
-
 
     public interface GetMyProjectCallBack{
         void onSucceed(List<ProjectBean> list);

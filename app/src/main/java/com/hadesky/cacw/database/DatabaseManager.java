@@ -204,6 +204,11 @@ public class DatabaseManager {
         return new TaskCursor(wrapped);
     }
 
+    public TeamCursor queryAllTeam() {
+        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TEAM,null);
+        return new TeamCursor(wrapped);
+    }
+
     public TaskCursor queryUnCompletedTaskFromPj(long project_id) {
         Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
                 " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "1"});
@@ -354,4 +359,36 @@ public class DatabaseManager {
             return bean;
         }
     }
+
+    public static class TeamCursor extends CursorWrapper
+    {
+
+        /**
+         * Creates a cursor wrapper.
+         * @param cursor The underlying cursor to wrap.
+         */
+        public TeamCursor(Cursor cursor) {
+            super(cursor);
+        }
+
+        /**
+         *从Cursor提取出UserBean，如果对应行为空，则返回Null
+         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
+         */
+        public TeamBean getTaskBean()
+        {
+            if (isBeforeFirst() || isAfterLast())
+            {
+                return null;
+            }
+            TeamBean bean = new TeamBean();
+            long id = getLong(getColumnIndex(COLUMN_TEAM_TEAM_ID));
+            bean.setTeamId(id);
+
+            String name = getString(getColumnIndex(COLUMN_TEAM_TEAM_NAME));
+            bean.setTeamName(name);
+            return bean;
+        }
+    }
+
 }

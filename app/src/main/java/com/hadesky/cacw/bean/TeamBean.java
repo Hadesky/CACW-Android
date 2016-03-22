@@ -12,6 +12,11 @@ public class TeamBean {
         this.team_name = team_name;
         this.team_id = team_id;
     }
+    public TeamBean()
+    {
+
+    }
+
 
     public String getTeamName() {
         return team_name;

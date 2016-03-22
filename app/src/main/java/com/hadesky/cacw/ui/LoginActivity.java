@@ -5,7 +5,6 @@ package com.hadesky.cacw.ui;
  * Created by Bright Van on 2015/8/26/026.
  */
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -21,7 +20,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +27,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.task.LoginTask;
+import com.hadesky.cacw.ui.View.ForgetPswActivity;
 import com.hadesky.cacw.widget.AnimProgressDialog;
 import com.hadesky.cacw.widget.CircleImageView;
 
@@ -42,7 +41,7 @@ public class LoginActivity extends BaseActivity{
     private boolean mIsPwVisitable = false;
     private SessionManagement mSession;
     private String URL;
-
+    private View mForgetPsw;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -52,7 +51,7 @@ public class LoginActivity extends BaseActivity{
     public void initView() {
         CircleImageView icon = (CircleImageView) findViewById(R.id.login_icon);
         icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-
+        mForgetPsw = findViewById(R.id.tv_forget_psw);
         mLoginButton = (Button) findViewById(R.id.bt_register);
 
         mPwButton = (Button) findViewById(R.id.password_eye);
@@ -70,6 +69,10 @@ public class LoginActivity extends BaseActivity{
         setupPwButton();
         setupEditText();
         setupActionBar();
+
+
+
+
     }
 
 
@@ -110,6 +113,14 @@ public class LoginActivity extends BaseActivity{
                     mIsPwVisitable = true;
                     setIsPwVisible(true);
                 }
+            }
+        });
+
+        mForgetPsw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(LoginActivity.this, ForgetPswActivity.class));
             }
         });
     }
