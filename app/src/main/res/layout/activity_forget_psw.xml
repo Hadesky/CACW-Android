@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cacw="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.hadesky.cacw.ui.LoginActivity"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/forgetpsw"
+            android:textColor="@android:color/white"/>
+    </android.support.v7.widget.Toolbar>
+
+    <com.hadesky.cacw.widget.CircleImageView
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        cacw:border_color="@android:color/white"
+        cacw:border_width="1dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="180dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_username"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            >
+
+            <com.hadesky.cacw.widget.DeletableEditText
+                android:layout_margin="16dp"
+                android:id="@+id/editview_username"
+                style="@style/EditText_login"
+                android:hint="邮箱/手机号"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+                cacw:underline_color="@android:color/darker_gray"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_password"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="120dp"
+                >
+                <com.hadesky.cacw.widget.DeletableEditText
+                    android:id="@+id/editview_password"
+                    style="@style/EditText_login"
+                    android:layout_width="match_parent"
+                    android:hint="验证码"
+                    android:imeOptions="actionGo"
+                    android:inputType="textPassword"
+                    cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+                    cacw:underline_color="@android:color/darker_gray"
+
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/bt_code"
+                style="@style/LoginButton_login"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="@string/get_code"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                />
+        </RelativeLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_new_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/layout_code"
+            >
+
+            <com.hadesky.cacw.widget.DeletableEditText
+                android:id="@+id/editview_new_psw"
+                style="@style/EditText_login"
+                android:layout_margin="16dp"
+                android:hint="@string/new_psw"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+                cacw:underline_color="@android:color/darker_gray"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_confirm_psw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/layout_code"
+            >
+
+            <com.hadesky.cacw.widget.DeletableEditText
+                android:id="@+id/editview_confirm_psw"
+                style="@style/EditText_login"
+                android:layout_margin="16dp"
+                android:hint="@string/enter_psw_again"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                cacw:clear_icon="@drawable/ic_clear_grey600_48dp"
+                cacw:underline_color="@android:color/darker_gray"/>
+        </android.support.design.widget.TextInputLayout>
+        <Button
+        style="@style/LoginButton_login"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/bt_register"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="@string/OK"/>
+    </LinearLayout>
+
+</RelativeLayout>
+

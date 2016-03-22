@@ -72,7 +72,7 @@
     <style name="EditText_login">
         <item name="android:textColor">#666</item>
         <item name="android:drawablePadding">10dp</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColorHint">#bbb</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:layout_width">match_parent</item>
