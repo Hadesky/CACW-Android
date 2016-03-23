@@ -47,7 +47,7 @@ public class ProjectAdapter extends BaseRvAdapter<ProjectAdapter.ProjectViewHold
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProjectDetailActivity.class);
                 intent.putExtra(IntentTag.TAG_PROJECT_ID, mData.get(position).getProjectId());
-
+                intent.putExtra(IntentTag.TAG_PROJECT_NAME,mData.get(position).getProjectName());
                 mContext.startActivity(intent);
             }
         });

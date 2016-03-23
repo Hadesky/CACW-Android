@@ -21,24 +21,22 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_members"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                >
+
+            </android.support.v7.widget.RecyclerView>
             <LinearLayout
                 android:layout_marginTop="@dimen/spacing_large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.hadesky.cacw.widget.StickView
                     android:duplicateParentState="true"
-                    android:clickable="true"
-                    cacw:stick_title="所有任务"
-                    android:focusable="true"
-                    android:background="@drawable/list_item_bg"
+                    cacw:stick_title="@string/all_task"
                     android:id="@+id/stick_all"
                     android:layout_weight="1"
                     android:layout_width="0dp"
@@ -53,10 +51,8 @@
                     android:layout_height="match_parent" />
 
                 <com.hadesky.cacw.widget.StickView
-                    cacw:stick_title="未完成"
-                    android:background="@drawable/list_item_bg"
-                    android:clickable="true"
-                    android:id="@+id/stick_undo"
+                    cacw:stick_title="@string/done_task"
+                    android:id="@+id/stick_done"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="100dp"/>
@@ -71,37 +67,19 @@
                     android:layout_height="match_parent" />
 
                 <com.hadesky.cacw.widget.StickView
-                    cacw:stick_title="已完成"
-                    android:background="@drawable/list_item_bg"
-                    android:clickable="true"
-                    android:focusableInTouchMode="true"
-                    android:focusable="true"
-                    android:id="@+id/stick_done"
+                    cacw:stick_title="@string/undone_task"
+                    android:id="@+id/stick_undone"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="100dp"/>
             </LinearLayout>
-
-            <RelativeLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_task"
                 android:layout_marginTop="@dimen/spacing_large"
+                android:background="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/list_item_height"
-                android:gravity="center_vertical"
-                android:background="@drawable/list_item_bg"
-                >
-                <TextView
-                    style="@style/tv_title"
-                    android:text="项目名称："
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_projectname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    tools:text="电脑节"
-                    />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                />
         </LinearLayout>
     </com.hadesky.cacw.widget.RevScrollView>
 

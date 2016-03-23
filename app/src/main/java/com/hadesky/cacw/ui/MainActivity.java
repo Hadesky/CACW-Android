@@ -28,7 +28,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;//主界面
     private TabLayout mTabLayout;//主界面Fragment的容器
-    private Toast exitToast;    //退出软件时的Toast
     private AppBarLayout mAppBarLayout;
     private PopupMenu mPopupMenu;
     private View addView;
@@ -55,9 +54,6 @@ public class MainActivity extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        //初始化退出的Toast，并不需要Show出来
-        exitToast = Toast.makeText(this, "再按返回键退出", Toast.LENGTH_SHORT);
 
 
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.appbar);
@@ -160,11 +156,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (exitToast.getView().getParent() == null) {
-            exitToast.show();
-        } else {
             super.onBackPressed();
-        }
     }
 
     /**

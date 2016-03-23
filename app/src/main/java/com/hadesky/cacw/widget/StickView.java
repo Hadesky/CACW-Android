@@ -60,6 +60,6 @@ public class StickView extends LinearLayout {
 
     public void setTaskCount(int taskCount) {
         this.taskCount = taskCount;
-        countView.setText(taskCount + "个");
+        countView.setText(String.valueOf(taskCount));
     }
 }

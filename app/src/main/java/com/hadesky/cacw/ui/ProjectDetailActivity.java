@@ -16,14 +16,15 @@ import com.hadesky.cacw.widget.StickView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDetailActivity extends BaseActivity {
+public class ProjectDetailActivity extends BaseActivity implements View.OnClickListener{
 
-    private RecyclerView recyclerView;
+    private RecyclerView membersRecyclerView;
+    private RecyclerView taskRecyclerView;
     private EditableMembersAdapter editableMembersAdapter;
     private List<UserBean> members;
     private StickView allTaskStick;
     private StickView doneTaskStick;
-    private StickView undoTaskStick;
+    private StickView undoneTaskStick;
 
     private DatabaseManager manager;
     private long projectId;
@@ -36,18 +37,23 @@ public class ProjectDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        recyclerView = (RecyclerView) findViewById(R.id.rv_members);
+        membersRecyclerView = (RecyclerView) findViewById(R.id.rv_members);
 
         allTaskStick = (StickView) findViewById(R.id.stick_all);
-        undoTaskStick = (StickView) findViewById(R.id.stick_undo);
         doneTaskStick = (StickView) findViewById(R.id.stick_done);
+        undoneTaskStick = (StickView) findViewById(R.id.stick_undone);
+
+        taskRecyclerView = (RecyclerView) findViewById(R.id.rv_task);
 
         initData();
     }
 
     private void initData() {
         manager = DatabaseManager.getInstance(getApplicationContext());
-        projectId = getIntent().getLongExtra(IntentTag.TAG_PROJECT_ID, 0);
+        projectId = getIntent().getLongExtra(IntentTag.TAG_PROJECT_ID, -1);
+        if (projectId == -1) {
+            return;
+        }
 
         DatabaseManager manager = DatabaseManager.getInstance(getApplicationContext());
 
@@ -60,6 +66,7 @@ public class ProjectDetailActivity extends BaseActivity {
             userCursor.moveToNext();
         }
         userCursor.close();
+
     }
 
     @Override
@@ -69,7 +76,7 @@ public class ProjectDetailActivity extends BaseActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.project_detail);
+            getSupportActionBar().setTitle(getIntent().getStringExtra(IntentTag.TAG_PROJECT_NAME));
         }
 
         editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
@@ -82,34 +89,33 @@ public class ProjectDetailActivity extends BaseActivity {
         editableMembersAdapter.setAbleToDelete(true);
         editableMembersAdapter.setAbleToAdd(true);
         setupSpanCount();
-        recyclerView.setAdapter(editableMembersAdapter);
-
+        membersRecyclerView.setAdapter(editableMembersAdapter);
 
         setupStickView();
     }
 
     private void setupStickView() {
         allTaskStick.setTaskCount(10);
-        undoTaskStick.setTaskCount(7);
         doneTaskStick.setTaskCount(3);
-        allTaskStick.setOnClickListener(new View.OnClickListener() {
+        undoneTaskStick.setTaskCount(7);
+        allTaskStick.setOnClickListener(this);
+        doneTaskStick.setOnClickListener(this);
+        undoneTaskStick.setOnClickListener(this);
+    }
+
+
+
+    private void setupSpanCount() {
+        membersRecyclerView.post(new Runnable() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, TaskListActivity.class));
+            public void run() {
+                int member_size = (int) getResources().getDimension(R.dimen.member_size);
+                int width = membersRecyclerView.getWidth();
+                membersRecyclerView.setLayoutManager(new FullyGridLayoutManager(context, width / member_size));
             }
         });
     }
 
-    private void setupSpanCount() {
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                int member_size = (int) getResources().getDimension(R.dimen.member_size);
-                int width = recyclerView.getWidth();
-                recyclerView.setLayoutManager(new FullyGridLayoutManager(context, width / member_size));
-            }
-        });
-    }
 
     //TODO
     public boolean isAbleToAdd() {
@@ -127,6 +133,30 @@ public class ProjectDetailActivity extends BaseActivity {
             editableMembersAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v!=null){
+            Intent intent;
+            switch (v.getId()) {
+                case R.id.stick_all:
+                    intent = new Intent(context,TaskListActivity.class);
+                    intent.putExtra(IntentTag.TAG_TASK_STATUS, R.string.all_task);
+                    startActivity(intent);
+                    break;
+                case R.id.stick_done:
+                    intent = new Intent();
+                    intent.putExtra(IntentTag.TAG_TASK_STATUS, R.string.done_task);
+                    startActivity(new Intent(context, TaskListActivity.class));
+                    break;
+                case R.id.stick_undone:
+                    intent = new Intent();
+                    intent.putExtra(IntentTag.TAG_TASK_STATUS, R.string.undone_task);
+                    startActivity(new Intent(context, TaskListActivity.class));
+                    break;
+            }
         }
     }
 }
