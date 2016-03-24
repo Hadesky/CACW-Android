@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/layout_username"
             >
-        <com.hadesky.cacw.widget.DeletableEditText
+        <com.hadesky.cacw.ui.widget.DeletableEditText
             style="@style/EditText_login"
             android:paddingRight="@dimen/image_huge"
             android:id="@+id/det_username"
@@ -66,7 +66,7 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:id="@+id/layout_password"
         >
-    <com.hadesky.cacw.widget.DeletableEditText
+    <com.hadesky.cacw.ui.widget.DeletableEditText
         style="@style/EditText_login"
         android:id="@+id/det_password"
         android:inputType="textPassword"
@@ -82,7 +82,7 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:id="@+id/layout_password_confirm"
         >
-    <com.hadesky.cacw.widget.DeletableEditText
+    <com.hadesky.cacw.ui.widget.DeletableEditText
         style="@style/EditText_login"
         android:id="@+id/det_password_confirm"
         android:inputType="textPassword"
@@ -98,7 +98,7 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:id="@+id/layout_code"
         >
-        <com.hadesky.cacw.widget.DeletableEditText
+        <com.hadesky.cacw.ui.widget.DeletableEditText
             style="@style/EditText_login"
             android:id="@+id/det_code"
             android:inputType="textPassword"

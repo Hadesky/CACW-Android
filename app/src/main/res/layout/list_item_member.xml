@@ -5,7 +5,7 @@
     xmlns:cacw="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/member_size"
     android:layout_height="@dimen/member_size">
-    <com.hadesky.cacw.widget.CircleImageView
+    <com.hadesky.cacw.ui.widget.CircleImageView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"

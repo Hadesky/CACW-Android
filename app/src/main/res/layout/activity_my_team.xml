@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:cacw="http://schemas.android.com/apk/res-auto"
-    tools:context="com.hadesky.cacw.ui.MyTeamActivity"
+    tools:context=".ui.activity.MyTeamActivity"
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"

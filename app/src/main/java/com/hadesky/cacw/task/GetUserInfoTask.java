@@ -1,15 +1,13 @@
 package com.hadesky.cacw.task;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.database.UserInfoDAO;
-import com.hadesky.cacw.util.LogUtils;
 import com.hadesky.cacw.util.NetworkUtils;
-import com.hadesky.cacw.widget.AnimProgressDialog;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
  * Created by 45517 on 2015/11/13.

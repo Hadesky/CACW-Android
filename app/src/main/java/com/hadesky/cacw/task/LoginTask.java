@@ -16,9 +16,9 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.test.testData;
-import com.hadesky.cacw.ui.MainActivity;
+import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.util.LogUtils;
-import com.hadesky.cacw.widget.AnimProgressDialog;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
  * 登陆时用到的Task

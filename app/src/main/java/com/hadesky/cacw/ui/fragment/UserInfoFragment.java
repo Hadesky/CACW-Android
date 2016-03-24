@@ -1,25 +1,17 @@
 package com.hadesky.cacw.ui.fragment;
 
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.task.GetUserInfoTask;
-import com.hadesky.cacw.widget.PullToZoomScrollViewEx;
+import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
 
 /**
  * Created by 45517 on 2015/10/23.

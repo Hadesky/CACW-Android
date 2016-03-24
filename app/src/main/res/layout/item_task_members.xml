@@ -6,7 +6,7 @@
     android:paddingTop="2dp"
     android:clickable="true"
     android:layout_height="@dimen/member_size">
-<com.hadesky.cacw.widget.CircleImageView
+<com.hadesky.cacw.ui.widget.CircleImageView
     android:src="@drawable/default_user_image"
     android:layout_width="@dimen/image_large"
     android:id="@+id/iv_avatar"

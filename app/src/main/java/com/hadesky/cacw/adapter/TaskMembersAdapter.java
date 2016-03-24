@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
-import com.hadesky.cacw.ui.SelectMemberActivity;
-import com.hadesky.cacw.ui.UserInfoActivity;
+import com.hadesky.cacw.ui.activity.SelectMemberActivity;
+import com.hadesky.cacw.ui.activity.UserInfoActivity;
 
 import java.util.List;
 

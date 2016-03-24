@@ -3,18 +3,13 @@ package com.hadesky.cacw.config;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.database.DatabaseManager;
-import com.hadesky.cacw.ui.LoginActivity;
+import com.hadesky.cacw.ui.activity.LoginActivity;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 /**
  * session管理器

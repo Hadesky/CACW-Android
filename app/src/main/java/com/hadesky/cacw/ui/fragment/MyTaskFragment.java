@@ -14,8 +14,8 @@ import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.ui.View.TaskView;
-import com.hadesky.cacw.widget.AnimProgressDialog;
-import com.hadesky.cacw.widget.RecyclerViewItemDecoration;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 
 import java.util.List;
 

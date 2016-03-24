@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,14 +11,11 @@ import android.widget.Toast;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.tag.IntentTag;
-import com.hadesky.cacw.ui.MyInfoActivity;
-import com.hadesky.cacw.ui.MyTeamActivity;
-import com.hadesky.cacw.ui.SettingActivity;
-import com.hadesky.cacw.widget.AnimProgressDialog;
-
-import java.io.ByteArrayInputStream;
+import com.hadesky.cacw.ui.activity.MyInfoActivity;
+import com.hadesky.cacw.ui.activity.MyTeamActivity;
+import com.hadesky.cacw.ui.activity.SettingActivity;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
  * MeFragment

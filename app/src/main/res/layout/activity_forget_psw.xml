@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.hadesky.cacw.ui.LoginActivity"
+    tools:context=".ui.activity.LoginActivity"
     >
 
     <android.support.v7.widget.Toolbar
@@ -27,7 +27,7 @@
             android:textColor="@android:color/white"/>
     </android.support.v7.widget.Toolbar>
 
-    <com.hadesky.cacw.widget.CircleImageView
+    <com.hadesky.cacw.ui.widget.CircleImageView
         android:src="@mipmap/ic_launcher"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -48,7 +48,7 @@
             android:layout_height="60dp"
             >
 
-            <com.hadesky.cacw.widget.DeletableEditText
+            <com.hadesky.cacw.ui.widget.DeletableEditText
                 android:layout_margin="16dp"
                 android:id="@+id/editview_username"
                 style="@style/EditText_login"
@@ -72,7 +72,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="120dp"
                 >
-                <com.hadesky.cacw.widget.DeletableEditText
+                <com.hadesky.cacw.ui.widget.DeletableEditText
                     android:id="@+id/editview_password"
                     style="@style/EditText_login"
                     android:layout_width="match_parent"
@@ -107,7 +107,7 @@
             android:layout_alignTop="@id/layout_code"
             >
 
-            <com.hadesky.cacw.widget.DeletableEditText
+            <com.hadesky.cacw.ui.widget.DeletableEditText
                 android:id="@+id/editview_new_psw"
                 style="@style/EditText_login"
                 android:layout_margin="16dp"
@@ -124,7 +124,7 @@
             android:layout_alignTop="@id/layout_code"
             >
 
-            <com.hadesky.cacw.widget.DeletableEditText
+            <com.hadesky.cacw.ui.widget.DeletableEditText
                 android:id="@+id/editview_confirm_psw"
                 style="@style/EditText_login"
                 android:layout_margin="16dp"

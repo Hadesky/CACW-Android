@@ -11,7 +11,8 @@ import com.hadesky.cacw.bean.TeamBean;
 
 import java.util.List;
 
-/** 我的团队adapter
+/**
+ * 我的团队adapter
  * Created by 45517 on 2016/3/21.
  */
 public class MyTeamAdapter extends BaseRvAdapter<MyTeamAdapter.VHolder>
@@ -33,9 +34,7 @@ public class MyTeamAdapter extends BaseRvAdapter<MyTeamAdapter.VHolder>
     @Override
     public VHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = mInflater.inflate(R.layout.list_item_team,parent,false);
-
-
+        View view = mInflater.inflate(R.layout.list_item_team, parent, false);
         return new VHolder(view);
     }
 
@@ -63,7 +62,6 @@ public class MyTeamAdapter extends BaseRvAdapter<MyTeamAdapter.VHolder>
             super(itemView);
             mTeamName = (TextView) itemView.findViewById(R.id.team_name);
             mMembersCount = (TextView) itemView.findViewById(R.id.members_count);
-
         }
 
         @Override

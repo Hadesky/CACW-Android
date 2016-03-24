@@ -48,4 +48,7 @@
     <dimen name="header_normal">256dp</dimen>
     <!--状态栏高度-->
     <dimen name="status_bar_height">25dp</dimen>
+
+    <!--阴影大小-->
+    <dimen name="elevation_normal">3dp</dimen>
 </resources>

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
-import com.hadesky.cacw.ui.TaskDetailActivity;
+import com.hadesky.cacw.ui.activity.TaskDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

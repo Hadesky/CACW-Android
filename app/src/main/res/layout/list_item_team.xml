@@ -6,7 +6,7 @@
     android:background="@drawable/list_item_bg"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <com.hadesky.cacw.widget.CircleImageView
+    <com.hadesky.cacw.ui.widget.CircleImageView
         android:layout_marginLeft="16dp"
         android:id="@+id/icon"
         android:layout_centerVertical="true"

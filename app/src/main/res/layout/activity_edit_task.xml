@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hadesky.cacw.ui.TaskDetailActivity">
+    tools:context=".ui.activity.TaskDetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
         >
     </android.support.v7.widget.Toolbar>
 
-    <com.hadesky.cacw.widget.RevScrollView
+    <com.hadesky.cacw.ui.widget.RevScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar">
@@ -224,6 +224,6 @@
                     android:textSize="18sp"/>
             </RelativeLayout>
         </LinearLayout>
-    </com.hadesky.cacw.widget.RevScrollView>
+    </com.hadesky.cacw.ui.widget.RevScrollView>
 </RelativeLayout>
 
