@@ -1,8 +1,5 @@
-package com.hadesky.cacw.ui.View;
+package com.hadesky.cacw.ui.view;
 
-import android.app.Application;
-
-import com.android.volley.RequestQueue;
 import com.hadesky.cacw.config.MyApp;
 
 /**

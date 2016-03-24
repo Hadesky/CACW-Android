@@ -106,7 +106,7 @@
                 android:value=".ui.activity.MainActivity"/>
         </activity>
         <activity android:name=".ui.activity.MyTeamActivity"/>
-        <activity android:name=".ui.View.ForgetPswActivity">
+        <activity android:name=".ui.activity.ForgetPswActivity">
         </activity>
     </application>
 

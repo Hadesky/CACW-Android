@@ -1,4 +1,4 @@
-package com.hadesky.cacw.Model;
+package com.hadesky.cacw.model;
 
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.database.ProjectDAO;

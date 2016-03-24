@@ -1,9 +1,9 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.Model.MyProjectModel;
+import com.hadesky.cacw.model.MyProjectModel;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.View.MyProjectView;
+import com.hadesky.cacw.ui.view.MyProjectView;
 import com.hadesky.cacw.util.NetworkUtils;
 
 import java.util.List;

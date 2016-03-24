@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
+import java.io.FileDescriptor;
+
 /**
  * 简单的调整Bitmap大小
- * Created by Derek on 2015/8/1.
+ * Created by MicroStudent on 2015/8/1.
  */
-public class DecodeBitmap {
+public class ImageResizer {
     /**
      * 计算Bitmap缩小到请求的大小所需的insamplesize
      * @param options
@@ -29,6 +31,15 @@ public class DecodeBitmap {
             }
         }
         return inSampleSize;
+    }
+
+    public static Bitmap decodeSampledBitmapFromFileDescriptor(FileDescriptor fd, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFileDescriptor(fd, null, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFileDescriptor(fd, null, options);
     }
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,

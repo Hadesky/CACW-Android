@@ -2,10 +2,10 @@ package com.hadesky.cacw.presenter;
 
 import android.util.Log;
 
-import com.hadesky.cacw.Model.MyTaskModel;
+import com.hadesky.cacw.model.MyTaskModel;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.View.TaskView;
+import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.util.NetworkUtils;
 import java.util.List;
 

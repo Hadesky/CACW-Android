@@ -9,7 +9,7 @@ import com.hadesky.cacw.adapter.MyTeamAdapter;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.presenter.MyteamPresenter;
-import com.hadesky.cacw.ui.View.MyTeamView;
+import com.hadesky.cacw.ui.view.MyTeamView;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;

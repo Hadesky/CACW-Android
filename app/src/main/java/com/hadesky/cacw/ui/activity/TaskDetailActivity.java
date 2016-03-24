@@ -15,7 +15,7 @@ import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
-import com.hadesky.cacw.ui.View.TaskDetailView;
+import com.hadesky.cacw.ui.view.TaskDetailView;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;

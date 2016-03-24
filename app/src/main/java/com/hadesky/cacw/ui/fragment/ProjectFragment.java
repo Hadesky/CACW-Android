@@ -15,7 +15,7 @@ import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.presenter.MyProjectPresenter;
 import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
-import com.hadesky.cacw.ui.View.MyProjectView;
+import com.hadesky.cacw.ui.view.MyProjectView;
 
 import java.util.List;
 

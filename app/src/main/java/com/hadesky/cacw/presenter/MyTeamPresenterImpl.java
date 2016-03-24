@@ -1,7 +1,7 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.Model.MyTeamModel;
-import com.hadesky.cacw.ui.View.MyTeamView;
+import com.hadesky.cacw.model.MyTeamModel;
+import com.hadesky.cacw.ui.view.MyTeamView;
 
 /**
  *

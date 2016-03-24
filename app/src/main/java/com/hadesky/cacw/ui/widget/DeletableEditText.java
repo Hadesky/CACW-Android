@@ -5,23 +5,19 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.util.DecodeBitmap;
+import com.hadesky.cacw.util.ImageResizer;
 import com.hadesky.cacw.util.DensityUtil;
 
 /**
@@ -88,7 +84,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private void init() {
 
         //这里的18是调试出来的，估计换设备调试要跪
-        final Bitmap ClearIconBitmap = DecodeBitmap.decodeSampledBitmapFromResource(mResources, mClearIconId, 18, 18);
+        final Bitmap ClearIconBitmap = ImageResizer.decodeSampledBitmapFromResource(mResources, mClearIconId, 18, 18);
         mClearIcon = new BitmapDrawable(mResources, ClearIconBitmap);
 
         mPaint = new Paint();

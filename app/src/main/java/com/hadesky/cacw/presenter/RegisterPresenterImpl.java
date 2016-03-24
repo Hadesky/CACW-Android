@@ -7,10 +7,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.ui.View.RegisterView;
+import com.hadesky.cacw.ui.view.RegisterView;
 import com.hadesky.cacw.util.LogUtils;
 
 import org.json.JSONException;

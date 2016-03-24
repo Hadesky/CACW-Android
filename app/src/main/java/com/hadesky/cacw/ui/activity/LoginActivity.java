@@ -26,7 +26,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.task.LoginTask;
-import com.hadesky.cacw.ui.View.ForgetPswActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 

@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.RegisterPresenterImpl;
-import com.hadesky.cacw.ui.View.RegisterView;
+import com.hadesky.cacw.ui.view.RegisterView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.DeletableEditText;
 

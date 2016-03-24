@@ -1,4 +1,4 @@
-package com.hadesky.cacw.Model;
+package com.hadesky.cacw.model;
 
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.database.MyTaskDAO;
