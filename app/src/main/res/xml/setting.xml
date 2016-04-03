@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceScreen android:title="通用">
+        <Preference
+            android:key="clearCache"
+            android:title="这里没选项"
+            />
+    </PreferenceScreen>
+
+    <PreferenceCategory android:title="通知">
+        <SwitchPreference
+            android:key="news"
+            android:title="新消息提醒"
+            />
+        <SwitchPreference
+
+            android:key="voilce"
+            android:title="声音"
+            />
+        <SwitchPreference
+
+            android:key="shake"
+            android:title="震动"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:orderingFromXml="true"
+        android:title="">
+        <Preference android:title="关于"
+            >
+            <intent
+                android:action="android.intent.action.about"
+                android:targetClass="com.hadesky.cacw.ui.AboutActivity"
+                android:targetPackage="com.hadesky.cacw"
+                />
+        </Preference>
+        <Preference android:title="退出"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

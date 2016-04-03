@@ -11,7 +11,6 @@
         android:layout_height="@dimen/image_large"
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
-        cacw:border_width="0dp"
         cacw:border_color="@android:color/transparent"
         tools:src="@drawable/default_user_image"
         />

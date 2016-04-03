@@ -1,11 +1,5 @@
 package com.hadesky.cacw.ui.widget;
 
-import android.widget.ImageView;
-
-/**自定义圆形ImageView
- * @author BirghtVan
- * @data 2015/08/22
- */
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -23,6 +17,13 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.hadesky.cacw.R;
+
+/**
+ * 自定义圆形ImageView
+ *
+ * @author BirghtVan
+ * @data 2015/08/22
+ */
 
 public class CircleImageView extends ImageView {
 
@@ -81,6 +82,8 @@ public class CircleImageView extends ImageView {
             setup();
             mSetupPending = false;
         }
+
+
     }
 
     @Override
@@ -104,6 +107,7 @@ public class CircleImageView extends ImageView {
 
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius,
                 mBitmapPaint);
+        if (mBorderWidth>0)
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius,
                 mBorderPaint);
     }
