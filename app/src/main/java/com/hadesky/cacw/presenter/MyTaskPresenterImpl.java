@@ -88,7 +88,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
             mTaskView.showWaitingDialog(true);
-            mTaskModel.taskComplete(mDatas.get(pos).getTaskId());
+            mTaskModel.taskComplete(mDatas.get(pos).getObjectId());
         }
         else
         mTaskView.onFailure("操作失败");
@@ -100,7 +100,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
             mTaskView.showWaitingDialog(true);
-            mTaskModel.deleteTask(mDatas.get(pos).getTaskId());
+            mTaskModel.deleteTask(mDatas.get(pos).getObjectId());
         }
        else
             mTaskView.onFailure("删除失败");

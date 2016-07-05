@@ -48,7 +48,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     protected void setupViews(Bundle bundle) {
         MyApp app = (MyApp) getActivity().getApplication();
         userName.setText(getUserName(app));
-        userImageView.setImageBitmap(getUserAvatar(app));
+//        userImageView.setImageBitmap(getUserAvatar(app));
     }
 
     /**
@@ -69,8 +69,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
      */
     private Bitmap getUserAvatar(MyApp app) {
         if (app != null) {
-            int resid = app.getSession().getUserDetails().getAvatarResid();
-            return BitmapFactory.decodeResource(app.getResources(), resid);
+//            int resid = app.getSession().getUserDetails().getAvatarResid();
+            return BitmapFactory.decodeResource(app.getResources(), R.drawable.default_user_image);
         }
         return null;
     }

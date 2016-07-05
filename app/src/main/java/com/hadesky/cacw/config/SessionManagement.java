@@ -50,9 +50,6 @@ public class SessionManagement {
         editor.putString(KEY_NAME, bean.getUsername());
 
         //放入头像
-
-        editor.putInt(KEY_AVATAR, bean.getAvatarResid());
-
         editor.apply();
     }
 
@@ -90,12 +87,8 @@ public class SessionManagement {
     public UserBean getUserDetails() {
         UserBean bean = new UserBean();
         bean.setObjectId(mPref.getString(KEY_USER_ID,""));
-        bean.setAvatarResid(mPref.getInt(KEY_AVATAR, 0));
         bean.setUsername(mPref.getString(KEY_NAME, "蚂蚁"));
 
-        if (bean.getAvatarResid() == 0) {
-            bean.setAvatarResid(R.drawable.default_user_image);
-        }
 
         // return user
         return bean;

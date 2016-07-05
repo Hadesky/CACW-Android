@@ -105,14 +105,14 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     {
         mTask = task;
         mTitle.setText(task.getTitle());
-        mProject.setText(task.getProjectName());
+        mProject.setText(task.getTitle());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-        List<UserBean> list = task.getMembers();
+//        List<UserBean> list = task.getMembers();
 
 
-        mAdapter.setDatas(list);
+//        mAdapter.setDatas(list);
         mAdapter.notifyDataSetChanged();
     }
 

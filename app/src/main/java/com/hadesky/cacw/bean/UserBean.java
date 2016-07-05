@@ -5,6 +5,7 @@ import com.hadesky.cacw.R;
 import java.io.Serializable;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  *
@@ -12,10 +13,13 @@ import cn.bmob.v3.BmobUser;
  */
 public class UserBean extends BmobUser implements Serializable{
 
+    private BmobFile mUserAvatar;
 
-    private int avatarResid = R.drawable.default_user_image;
     private String mNickName;
 
+    private Byte mSex;//0是男，1是女，2是保密
+
+    private String mShortNumber;//短号
 
     public String getNickName()
     {
@@ -28,6 +32,7 @@ public class UserBean extends BmobUser implements Serializable{
     }
 
     public UserBean() {
+
     }
 
     public UserBean(String nickName)
@@ -35,12 +40,28 @@ public class UserBean extends BmobUser implements Serializable{
         mNickName = nickName;
     }
 
-    public int getAvatarResid() {
-        return avatarResid;
+    public BmobFile getUserAvatar() {
+        return mUserAvatar;
     }
 
-    public void setAvatarResid(int avatarResid) {
-        this.avatarResid = avatarResid;
+    public void setUserAvatar(BmobFile mUserAvatar) {
+        this.mUserAvatar = mUserAvatar;
     }
 
+
+    public Byte getSex() {
+        return mSex;
+    }
+
+    public void setSex(Byte mSex) {
+        this.mSex = mSex;
+    }
+
+    public String getShortNumber() {
+        return mShortNumber;
+    }
+
+    public void setShortNumber(String mShortNumber) {
+        this.mShortNumber = mShortNumber;
+    }
 }

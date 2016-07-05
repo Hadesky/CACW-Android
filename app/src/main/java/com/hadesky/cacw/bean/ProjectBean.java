@@ -1,63 +1,54 @@
 package com.hadesky.cacw.bean;
 
-import com.hadesky.cacw.R;
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
+ * project的表
  * Created by 45517 on 2015/9/18.
  */
-public class ProjectBean {
-    private long project_id;
-    private String project_name;//Item的文字
-    private int avatar_resId = R.drawable.default_user_image;
-    private long team_id;//团队所属Team
+public class ProjectBean extends BmobObject {
+
+    private String mProjectName;//Item的文字
+    private BmobFile mProjectAvatar;
+    private String mTeamId;//团队所属Team
+    private BmobRelation mTasks;//与之关联的Task
+    private TeamBean mTeam;//所属团队
+
 
     public ProjectBean() {
     }
 
 
-    public ProjectBean(String title,long project_id,long teamId) {
-        this.project_name = title;
-        this.project_id = project_id;
-        this.team_id = teamId;
+    public ProjectBean(String title, String teamId) {
+        this.mProjectName = title;
+        this.mTeamId = teamId;
     }
-
 
     public String getProjectName() {
-        return project_name;
+        return mProjectName;
     }
-
-
 
     public void setTitle(String title) {
-        this.project_name = title;
+        this.mProjectName = title;
     }
 
-    public long getProjectId() {
-        return project_id;
+
+    public BmobFile getProjectAvatar() {
+        return mProjectAvatar;
     }
 
-    public void setProjectId(long project_id) {
-        this.project_id = project_id;
+    public void setProjectAvatar(BmobFile mProjectAvatar) {
+        this.mProjectAvatar = mProjectAvatar;
     }
 
-    public int getAvatarResId() {
-        return avatar_resId;
+    public String getTeamId() {
+        return mTeamId;
     }
 
-    public void setAvatarResId(int avatarResId) {
-        this.avatar_resId = avatarResId;
+    public void setTeamId(String teamId) {
+        this.mTeamId = teamId;
     }
 
-    public long getTeamId() {
-        return team_id;
-    }
-
-    public void setTeamId(long teamId) {
-        this.team_id = teamId;
-    }
-
-    @Override
-    public String toString() {
-        return "project_id = " + project_id + " ,project_name = " + project_name;
-    }
 }

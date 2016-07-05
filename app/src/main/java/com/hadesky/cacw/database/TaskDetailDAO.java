@@ -18,13 +18,13 @@ public class TaskDetailDAO
 
     public TaskBean getTask(long id)
     {
-        TaskBean task  = null;
+        TaskBean task;
         //获取任务
         DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
         DatabaseManager.TaskCursor cursor = manager.queryTask(id);
         cursor.moveToFirst();
         task = cursor.getTaskBean();
-        Log.i("tag", "taskid dao" + task.getTaskId());
+        Log.i("tag", "taskid dao" + task.getObjectId());
         cursor.close();
 
         if (task!=null)
@@ -38,13 +38,13 @@ public class TaskDetailDAO
 
             userCursor.close();
 
-            task.setMembers(list);
-            //获取任务所属项目
-            DatabaseManager.ProjectCursor projectCursor = manager.queryProject(task.getProjectId());
-            if (projectCursor.moveToNext()) {
-                task.setProjectName(projectCursor.getProjectBean().getProjectName());
-            }
-            projectCursor.close();
+//            task.setMembers(list);
+//            //获取任务所属项目
+//            DatabaseManager.ProjectCursor projectCursor = manager.queryProject(task.getProjectId());
+//            if (projectCursor.moveToNext()) {
+//                task.setProjectName(projectCursor.getProjectBean().getProjectName());
+//            }
+//            projectCursor.close();
 
         }
         return task;

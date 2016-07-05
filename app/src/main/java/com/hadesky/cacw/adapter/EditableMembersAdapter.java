@@ -119,7 +119,6 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 holder.avatarView.setClickable(false);
             }
             holder.setText(members.get(position).getUsername());
-            holder.setImageSrc(members.get(position).getAvatarResid());
         }else if (holder.getViewType() == BUTTON_TYPE_DELETE) {
             //当前要进行设置的是删除按钮
             if (mode == MODE_NORMAL) {

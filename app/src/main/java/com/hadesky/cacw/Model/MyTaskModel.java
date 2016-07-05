@@ -36,11 +36,11 @@ public class MyTaskModel
         mGetTasksCallBack.onFailure("无网络数据");
     }
 
-    public void deleteTask(long id)
+    public void deleteTask(String id)
     {
         mDelTaskCallBack.onSucceed();
     }
-    public void taskComplete(long id)
+    public void taskComplete(String id)
     {
         mCompleteTaskCallBack.onSucceed();
     }

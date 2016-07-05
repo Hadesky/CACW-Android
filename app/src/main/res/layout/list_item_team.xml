@@ -8,14 +8,16 @@
     >
     <com.hadesky.cacw.ui.widget.CircleImageView
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:id="@+id/icon"
         android:layout_centerVertical="true"
         android:src="@drawable/default_user_image"
         android:layout_width="@dimen/image_normal"
         android:layout_height="@dimen/image_normal"/>
     <TextView
-        android:id="@+id/team_name"
+        android:id="@+id/mTeamName"
         android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_centerVertical="true"
         tools:text="计院学生会"
         android:layout_toRightOf="@id/icon"

@@ -47,10 +47,10 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
         mPresenter = new MyTeamPresenterImpl(this);
         List<TeamBean> list = new ArrayList<>();
-        for(int i = 0; i < 10; i++)
-        {
-            list.add(new TeamBean("生学会",1));
-        }
+//        for(int i = 0; i < 10; i++)
+//        {
+//            list.add(new TeamBean("生学会",1));
+//        }
         mMyTeamAdapter.setDatas(list);
     }
 

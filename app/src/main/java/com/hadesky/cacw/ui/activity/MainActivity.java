@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkIfLogin() {
-        if (!isFirstRun()) {
+        if (isFirstRun()) {
             final MyApp app = (MyApp) getApplication();
             app.getSession().checkLogin();
         }

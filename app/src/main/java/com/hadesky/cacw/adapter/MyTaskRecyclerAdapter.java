@@ -55,7 +55,7 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
             public void OnItemClick(View view, int position)
             {
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
-                i.putExtra("id",mDatas.get(position).getTaskId());
+                i.putExtra("id",mDatas.get(position).getObjectId());
                 mContext.startActivity(i);
             }
         }, new MyTaskViewHolder.OnItemLongClickListener()

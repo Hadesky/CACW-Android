@@ -73,7 +73,7 @@ public class DatabaseManager {
 
     public long insertProject(ProjectBean bean) {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_PROJECT_PROJECT_ID, bean.getProjectId());
+        cv.put(COLUMN_PROJECT_PROJECT_ID, bean.getObjectId());
         cv.put(COLUMN_PROJECT_PROJECT_NAME,bean.getProjectName());
         cv.put(COLUMN_TEAM_TEAM_ID, bean.getTeamId());
         return db.insert(TABLE_PROJECT, null, cv);
@@ -81,9 +81,8 @@ public class DatabaseManager {
 
     public long insertTask(TaskBean bean) {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TASK_TASK_ID, bean.getTaskId());
+        cv.put(COLUMN_TASK_TASK_ID, bean.getObjectId());
         cv.put(COLUMN_TASK_TITLE, bean.getTitle());
-        cv.put(COLUMN_TASK_IS_COMPLETE_,bean.getTaskStatus());
         cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
         cv.put(COLUMN_TASK_CONTENT,bean.getContent());
         cv.put(COLUMN_TASK_LOCATION,bean.getLocation());
@@ -92,7 +91,7 @@ public class DatabaseManager {
 
     public long insertTeam(TeamBean bean) {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TEAM_TEAM_ID, bean.getTeamId());
+        cv.put(COLUMN_TEAM_TEAM_ID, bean.getObjectId());
         cv.put(COLUMN_TEAM_TEAM_NAME, bean.getTeamName());
         return db.insert(TABLE_TEAM, null, cv);
     }
@@ -278,9 +277,6 @@ public class DatabaseManager {
             bean.setObjectId(String.valueOf(user_id));
             String username = getString(getColumnIndex(COLUMN_USER_USERNAME));
             bean.setUsername(username);
-            if (isNull(getColumnIndex(COLUMN_USER_AVATAR))) {
-                bean.setAvatarResid(R.drawable.default_user_image);
-            }
             return bean;
         }
     }
@@ -309,14 +305,13 @@ public class DatabaseManager {
                 return null;
             }
             ProjectBean bean = new ProjectBean();
-            long project_id = getLong(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
-            bean.setProjectId(project_id);
+            String project_id = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
+            bean.setObjectId(project_id);
             String project_name = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_NAME));
             bean.setTitle(project_name);
             // TODO: 2015/10/28 0028  后期要改！！！
-            bean.setAvatarResId(R.drawable.default_user_image);
 
-            long team_id = getLong(getColumnIndex(COLUMN_TEAM_TEAM_ID));
+            String team_id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));
             bean.setTeamId(team_id);
 
             return bean;
@@ -347,12 +342,10 @@ public class DatabaseManager {
                 return null;
             }
             TaskBean bean = new TaskBean();
-            long task_id = getLong(getColumnIndex(COLUMN_TASK_TASK_ID));
-            bean.setTaskId(task_id);
+            String task_id = getString(getColumnIndex(COLUMN_TASK_TASK_ID));
+            bean.setObjectId(task_id);
             String title = getString(getColumnIndex(COLUMN_TASK_TITLE));
             bean.setTitle(title);
-            int pjid = getInt(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
-            bean.setProjectId(pjid);
 
             String content = getString(getColumnIndex(COLUMN_TASK_CONTENT));
             bean.setContent(content);
@@ -382,8 +375,8 @@ public class DatabaseManager {
                 return null;
             }
             TeamBean bean = new TeamBean();
-            long id = getLong(getColumnIndex(COLUMN_TEAM_TEAM_ID));
-            bean.setTeamId(id);
+            String id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));
+            bean.setObjectId(id);
 
             String name = getString(getColumnIndex(COLUMN_TEAM_TEAM_NAME));
             bean.setTeamName(name);

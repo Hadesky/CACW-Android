@@ -1,11 +1,15 @@
 package com.hadesky.cacw.bean;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * 一项任务的实体对象类
@@ -15,31 +19,45 @@ import cn.bmob.v3.BmobObject;
 
 public class TaskBean extends BmobObject implements Serializable
 {
-
     private String mTitle = "";
-    private String mRemark = "";
-    private Date mStartDate;
-    private Date mEndDate;
+    private BmobDate mStartDate;
+    private BmobDate mEndDate;
     //private long mTaskId = -1;
-    private int mTaskStatus = 1;//完成为0,没完成为1
-    private List<UserBean> mMembers = new ArrayList<>();
-    private int mProjectId = -1;
+    private String mProjectId = "";
     private String mContent="";
-    private String mlocation ="";
+    private String mLocation = "";
 
+    private ProjectBean mProjectBean;
+
+    public ProjectBean getProjectBean() {
+        return mProjectBean;
+    }
+
+    public void setProjectBean(ProjectBean projectBean) {
+        mProjectBean = projectBean;
+    }
+
+    public TaskBean()
+    {
+    }
+
+    public String getProjectId() {
+        return mProjectId;
+    }
+
+    public void setProjectId(String projectId) {
+        mProjectId = projectId;
+    }
 
     public String getLocation()
     {
-        return mlocation;
+        return mLocation;
     }
 
     public void setLocation(String mlocation)
     {
-        this.mlocation = mlocation;
+        this.mLocation = mlocation;
     }
-
-
-
     public String getContent()
     {
         return mContent;
@@ -52,62 +70,6 @@ public class TaskBean extends BmobObject implements Serializable
 
 
 
-    public String getProjectName()
-    {
-        return mProjectName;
-    }
-
-    public void setProjectName(String projectName)
-    {
-        mProjectName = projectName;
-    }
-
-    private String mProjectName ="";
-
-    public List<UserBean> getMembers()
-    {
-        return mMembers;
-    }
-
-    public void setMembers(List<UserBean> members)
-    {
-        mMembers = members;
-    }
-
-
-    public void addMember(UserBean bean)
-    {
-        mMembers.add(bean);
-    }
-
-    public void delMember(String userid)
-    {
-        for (int i = 0; i < mMembers.size(); i++) {
-            if (mMembers.get(i).getObjectId().equals(userid)) {
-                mMembers.remove(i);
-                break;
-            }
-        }
-    }
-
-    public int getProjectId()
-    {
-        return mProjectId;
-    }
-
-    public void setProjectId(int projectId)
-    {
-        mProjectId = projectId;
-    }
-
-
-
-
-    public TaskBean()
-    {
-    }
-
-
     public String getTitle()
     {
         return mTitle;
@@ -118,44 +80,20 @@ public class TaskBean extends BmobObject implements Serializable
         mTitle = title;
     }
 
-    public String getRemark()
-    {
-        return mRemark;
-    }
-
-    public void setRemark(String remark)
-    {
-        mRemark = remark;
-    }
-
-    public Date getStartDate()
-    {
+    public BmobDate getStartDate() {
         return mStartDate;
     }
 
-    public void setStartDate(Date startDate)
-    {
+    public void setStartDate(BmobDate startDate) {
         mStartDate = startDate;
     }
 
-
-    public int getTaskStatus()
-    {
-        return mTaskStatus;
-    }
-
-    public void setTaskStatus(int taskStatus)
-    {
-        mTaskStatus = taskStatus;
-    }
-
-    public Date getEndDate()
-    {
+    public BmobDate getEndDate() {
         return mEndDate;
     }
 
-    public void setEndDate(Date endDate)
-    {
+    public void setEndDate(BmobDate endDate) {
         mEndDate = endDate;
     }
+
 }

@@ -36,7 +36,7 @@ public class MyApp extends Application {
         URL = "http://115.28.15.194:8000";
         mContext = this;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        Bmob.initialize(this,"9840ab2d3565b71aec5c22be01317c0f");
+        Bmob.initialize(this,"e3eaf0e8f1712c6cb3dee7ba7cc995de");
     }
 
 

@@ -115,7 +115,7 @@ public class EditTaskActivity extends BaseActivity implements EditableMembersAda
 
     private void showInfo(TaskBean task)
     {
-        mAdapter.setDatas(task.getMembers());
+//        mAdapter.setDatas(task.getMembers());
     }
 
     private void setupDataOnClick()

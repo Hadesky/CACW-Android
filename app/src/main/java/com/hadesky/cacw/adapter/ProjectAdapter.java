@@ -37,14 +37,13 @@ public class ProjectAdapter extends BaseRvAdapter<ProjectAdapter.ProjectViewHold
     public void onBindViewHolder(ProjectViewHolder holder, int position) {
         ProjectBean bean = mData.get(position);
         holder.tv_title.setText(bean.getProjectName());
-        holder.iv_avatar.setImageResource(bean.getAvatarResId());
 
         holder.setOnItemClickListener(new ProjectViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProjectDetailActivity.class);
-                intent.putExtra(IntentTag.TAG_PROJECT_ID, mData.get(position).getProjectId());
+                intent.putExtra(IntentTag.TAG_PROJECT_ID, mData.get(position).getObjectId());
                 intent.putExtra(IntentTag.TAG_PROJECT_NAME,mData.get(position).getProjectName());
                 mContext.startActivity(intent);
             }

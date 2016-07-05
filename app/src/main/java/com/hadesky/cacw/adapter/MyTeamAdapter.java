@@ -60,7 +60,7 @@ public class MyTeamAdapter extends BaseRvAdapter<MyTeamAdapter.VHolder>
         public VHolder(View itemView)
         {
             super(itemView);
-            mTeamName = (TextView) itemView.findViewById(R.id.team_name);
+            mTeamName = (TextView) itemView.findViewById(R.id.mTeamName);
             mMembersCount = (TextView) itemView.findViewById(R.id.members_count);
         }
 
