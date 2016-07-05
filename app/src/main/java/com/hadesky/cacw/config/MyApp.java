@@ -2,11 +2,8 @@ package com.hadesky.cacw.config;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import com.hadesky.cacw.bean.UserBean;
 
 import cn.bmob.v3.Bmob;
 
@@ -19,11 +16,10 @@ import cn.bmob.v3.Bmob;
 public class MyApp extends Application {
 
     private static final String TAG = MyApp.class.getSimpleName();
-
     private static SessionManagement session;//本地账户session
     private static String URL;//服务器地址
     private static Context mContext;//App实例
-    private RequestQueue requestQueue;//Volley请求队列
+    private static UserBean mCurrentUser;
 
 
 
@@ -35,8 +31,17 @@ public class MyApp extends Application {
         session  = new SessionManagement(this);
         URL = "http://115.28.15.194:8000";
         mContext = this;
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         Bmob.initialize(this,"e3eaf0e8f1712c6cb3dee7ba7cc995de");
+    }
+
+    public static UserBean getCurrentUser()
+    {
+        return mCurrentUser;
+    }
+
+    public static void setCurrentUser(UserBean u)
+    {
+        mCurrentUser = u;
     }
 
 
@@ -52,28 +57,4 @@ public class MyApp extends Application {
     public static String getURL() {
         return URL;
     }
-
-    public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(getApplicationContext());
-        }
-        return requestQueue;
-    }
-
-    public <T> void addToRequestQueue(Request request, String tag) {
-        request.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
-        requestQueue.add(request);
-    }
-
-    public <T> void addToRequestQueue(Request request) {
-        request.setTag(TAG);
-        requestQueue.add(request);
-    }
-
-    public void cancelPendingRequest(String tag) {
-        if (requestQueue != null) {
-            requestQueue.cancelAll(tag);
-        }
-    }
-
 }

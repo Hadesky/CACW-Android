@@ -24,8 +24,9 @@ public class SplashActivity extends BaseActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉状态栏
 
-        new Handler().postDelayed(new Runnable() {
 
+
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(context, MainActivity.class);
@@ -37,5 +38,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void setupView() {
+
+
     }
 }

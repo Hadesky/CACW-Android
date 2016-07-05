@@ -23,13 +23,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.task.LoginTask;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 
 import java.util.concurrent.ExecutionException;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 
 public class LoginActivity extends BaseActivity{
 
@@ -38,8 +41,9 @@ public class LoginActivity extends BaseActivity{
     private Button mLoginButton;
     private boolean mIsPwVisitable = false;
     private SessionManagement mSession;
-    private String URL;
     private View mForgetPsw;
+
+    private AnimProgressDialog mProgressDialog ;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -59,7 +63,9 @@ public class LoginActivity extends BaseActivity{
 
         final MyApp app = (MyApp) getApplication();
         mSession = app.getSession();
-        URL = app.getURL();
+
+        mProgressDialog = new AnimProgressDialog(this, false, null, "登录中...");
+
     }
 
     @Override
@@ -67,9 +73,6 @@ public class LoginActivity extends BaseActivity{
         setupPwButton();
         setupEditText();
         setupActionBar();
-
-
-
 
     }
 
@@ -174,15 +177,30 @@ public class LoginActivity extends BaseActivity{
      * @param password 密码
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
-        AnimProgressDialog progressDialog = new AnimProgressDialog(this, false, null, "登录中...");
+
         //隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
         }
+        mProgressDialog.show();
+        UserBean.loginByAccount(username, password, new LogInListener<UserBean>() {
 
-        LoginTask loginTask = new LoginTask(progressDialog, context, mSession);
-        loginTask.execute(URL, username, password);
+            @Override
+            public void done(UserBean userBean, BmobException e) {
+                mProgressDialog.cancel();
+                if (e!=null)
+                {
+                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    MyApp.setCurrentUser(userBean);
+                    navigateTo(MainActivity.class,true);
+                    LoginActivity.this.finish();
+                }
+
+            }
+        });
     }
 
     public void goRegisterActivity(View view) {

@@ -5,23 +5,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
 import com.hadesky.cacw.test.testData;
 import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
-import com.hadesky.cacw.util.LogUtils;
 
 /**
- * 登陆时用到的Task
+ * 登陆时用到的Task ，过期
  * Created by 45517 on 2015/9/9.
  */
+@Deprecated
 public class LoginTask extends AsyncTask <String, Void, Integer>{
 
     public static final int ERROR_ACCOUNT_NO_EXIST = 1;//用户名不存在
@@ -36,14 +30,12 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
     private Context mContext;
     //Session
     private SessionManagement mSession;
-    //Volley请求队列
-    private RequestQueue mRequestQueue;
+
 
     public LoginTask(AnimProgressDialog progressDialog, Context context,SessionManagement session) {
         this.progressDialog = progressDialog;
         mContext = context;
         mSession = session;
-        mRequestQueue = Volley.newRequestQueue(mContext);
     }
 
     @Override
@@ -61,17 +53,7 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
 
     private Integer login(String[] params) {
         int[] a = {1, 2};
-        mRequestQueue.add(new StringRequest(Request.Method.POST, params[0], new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                LogUtils.d("ResponseTAG", "" + response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                LogUtils.d("ERROR Response", "" + error.getMessage());
-            }
-        }));
+
         return SUCCESS_NORMAL;
     }
 

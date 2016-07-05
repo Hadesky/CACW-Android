@@ -15,6 +15,7 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
@@ -23,6 +24,8 @@ import com.hadesky.cacw.ui.fragment.ProjectFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;//主界面
@@ -60,10 +63,22 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkIfLogin() {
-        if (isFirstRun()) {
-            final MyApp app = (MyApp) getApplication();
-            app.getSession().checkLogin();
+//        if (isFirstRun()) {
+//            final MyApp app = (MyApp) getApplication();
+//            app.getSession().checkLogin();
+//        }
+        UserBean bean = BmobUser.getCurrentUser(UserBean.class);
+        if (bean!=null)
+        {
+            MyApp.setCurrentUser(bean);
+        }else
+        {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
+
     }
 
     @Override
@@ -146,17 +161,21 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.action_logout:
-                final MyApp app = (MyApp) getApplication();
-                app.getSession().logoutUser();
+               logout();
                 break;
         }
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
+    private void logout()
+    {
+        BmobUser.logOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
+
 
     /**
      * 检查是否第一次运行程序

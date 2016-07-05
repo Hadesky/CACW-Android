@@ -142,6 +142,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
         }
     }
 
+    @Override
+    public void close() {
+        this.finish();
+    }
+
     /**
      * 临时禁用获取验证码的按钮，防止连续获取验证码
      */

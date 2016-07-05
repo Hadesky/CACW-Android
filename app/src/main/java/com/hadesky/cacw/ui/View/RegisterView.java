@@ -15,4 +15,6 @@ public interface RegisterView {
     MyApp getMyApp();
 
     void disableGetCodeBt();
+
+    void close();
 }

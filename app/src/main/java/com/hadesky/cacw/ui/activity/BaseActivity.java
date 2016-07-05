@@ -1,6 +1,7 @@
 package com.hadesky.cacw.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,20 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 设置界面
      */
     public abstract  void setupView();
+
+
+    protected void navigateTo(Class<?> activity,boolean newTask)
+    {
+        Intent intent = new Intent();
+        intent.setClass(this,activity);
+        if (newTask)
+        {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
+        startActivity(intent);
+    }
+
 
     /**
      * 之类直接调用该方法显示toast
