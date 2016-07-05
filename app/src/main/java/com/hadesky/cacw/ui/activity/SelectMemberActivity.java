@@ -37,7 +37,7 @@ public class SelectMemberActivity extends BaseActivity
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<UserBean> list = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            list.add(new UserBean("谢伟鹏",R.drawable.default_user_image));
+            list.add(new UserBean("谢伟鹏"));
         }
         mAdapter = new SelectMemberAdapter(this,list);
         mRecyclerView.setAdapter(mAdapter);

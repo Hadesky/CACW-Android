@@ -8,6 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import cn.bmob.v3.Bmob;
+
 
 /**
  * 单例模式，只会有一个实例，所以可以保留或共享一些数据变量
@@ -34,8 +36,7 @@ public class MyApp extends Application {
         URL = "http://115.28.15.194:8000";
         mContext = this;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-
+        Bmob.initialize(this,"9840ab2d3565b71aec5c22be01317c0f");
     }
 
 

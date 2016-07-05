@@ -76,8 +76,8 @@ public class UserInfoFragment extends BaseFragment {
 
     private void updateData(UserBean bean) {
         if (bean != null) {
-            userNameView.setText(bean.getUsername());
-            idView.setText("" + bean.getUserId());
+            userNameView.setText(bean.getNickName());
+            idView.setText(bean.getObjectId());
         }
     }
 }

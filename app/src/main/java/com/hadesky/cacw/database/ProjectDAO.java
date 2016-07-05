@@ -13,18 +13,19 @@ import java.util.List;
 public class ProjectDAO {
     /**
      * 获取当前用户所有的Project
-     *
      * @return 包含ProjectBean的List
      */
     public List<ProjectBean> getAllMyProject() {
-        DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
-        DatabaseManager.ProjectCursor projectCursor = manager.queryProjectByUserId(MyApp.getSession().getUserDetails().getUserId());
+
+
+        //DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
+        //DatabaseManager.ProjectCursor projectCursor = manager.queryProjectByUserId(MyApp.getSession().getUserDetails().getObjectId());
         List<ProjectBean> list = new ArrayList<>();
 
-        while (projectCursor.moveToNext()) {
-            list.add(projectCursor.getProjectBean());
-        }
-        projectCursor.close();
+        //while (projectCursor.moveToNext()) {
+        //    list.add(projectCursor.getProjectBean());
+        //}
+        //projectCursor.close();
         return list;
     }
 
@@ -33,7 +34,7 @@ public class ProjectDAO {
      * @param user_id
      * @param project_id
      */
-    public void quitProject(long user_id, long project_id) {
+    public void quitProject(String user_id, long project_id) {
         DatabaseManager manager = DatabaseManager.getInstance(MyApp.getAppContext());
         manager.deleteUserFromProject(user_id, project_id);
     }

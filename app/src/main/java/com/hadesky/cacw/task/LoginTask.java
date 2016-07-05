@@ -11,14 +11,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.SessionManagement;
-import com.hadesky.cacw.database.SimData;
 import com.hadesky.cacw.test.testData;
 import com.hadesky.cacw.ui.activity.MainActivity;
-import com.hadesky.cacw.util.LogUtils;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.util.LogUtils;
 
 /**
  * 登陆时用到的Task
@@ -174,9 +172,6 @@ public class LoginTask extends AsyncTask <String, Void, Integer>{
      */
     public UserBean getProfileBean() {
         UserBean bean = new UserBean();
-        bean.setUsername(SimData.user_list[0]);
-        bean.setAvatarResid(R.drawable.default_user_image);
-        bean.setUserId(0);
 
         return bean;
     }

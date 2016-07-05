@@ -180,6 +180,7 @@ public class LoginActivity extends BaseActivity{
         if (imm != null) {
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
         }
+
         LoginTask loginTask = new LoginTask(progressDialog, context, mSession);
         loginTask.execute(URL, username, password);
     }

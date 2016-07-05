@@ -207,7 +207,7 @@ public class EditTaskActivity extends BaseActivity implements EditableMembersAda
     }
 
     @Override
-    public void onMemberDelete(long user_id)
+    public void onMemberDelete(String user_id)
     {
 
     }

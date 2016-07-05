@@ -5,21 +5,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * 一项任务的实体对象类
  * Created by dzysg on 2015/9/14 0014.
  */
 
 
-public class TaskBean implements Serializable
+public class TaskBean extends BmobObject implements Serializable
 {
-
 
     private String mTitle = "";
     private String mRemark = "";
     private Date mStartDate;
     private Date mEndDate;
-    private long mTaskId = -1;
+    //private long mTaskId = -1;
     private int mTaskStatus = 1;//完成为0,没完成为1
     private List<UserBean> mMembers = new ArrayList<>();
     private int mProjectId = -1;
@@ -79,10 +80,10 @@ public class TaskBean implements Serializable
         mMembers.add(bean);
     }
 
-    public void delMember(int userid)
+    public void delMember(String userid)
     {
         for (int i = 0; i < mMembers.size(); i++) {
-            if (mMembers.get(i).getUserId() == userid) {
+            if (mMembers.get(i).getObjectId().equals(userid)) {
                 mMembers.remove(i);
                 break;
             }
@@ -106,18 +107,6 @@ public class TaskBean implements Serializable
     {
     }
 
-    public TaskBean(String title, long task_id, int projectId)
-    {
-        this.mTitle = title;
-        this.mTaskId = task_id;
-        this.mProjectId = projectId;
-    }
-
-    public TaskBean(String title, long task_id)
-    {
-        this.mTitle = title;
-        this.mTaskId = task_id;
-    }
 
     public String getTitle()
     {
@@ -149,15 +138,6 @@ public class TaskBean implements Serializable
         mStartDate = startDate;
     }
 
-    public long getTaskId()
-    {
-        return mTaskId;
-    }
-
-    public void setTaskId(long ID)
-    {
-        this.mTaskId = ID;
-    }
 
     public int getTaskStatus()
     {

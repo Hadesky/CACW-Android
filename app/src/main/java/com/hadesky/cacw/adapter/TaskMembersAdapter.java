@@ -58,7 +58,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 public void OnItemClick(View view, int position)
                 {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_ID, mDatas.get(position).getUserId());
+                    intent.putExtra(IntentTag.TAG_USER_ID, mDatas.get(position).getObjectId());
                     mContext.startActivity(intent);
                 }
             });

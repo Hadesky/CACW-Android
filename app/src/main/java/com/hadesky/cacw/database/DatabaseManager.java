@@ -65,7 +65,7 @@ public class DatabaseManager {
      */
     public long insertUser(UserBean bean) {
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_USER_USER_ID, bean.getUserId());
+        cv.put(COLUMN_USER_USER_ID, bean.getObjectId());
         cv.put(COLUMN_USER_USERNAME, bean.getUsername());
         return db.insert(TABLE_USER, null, cv);
     }
@@ -148,9 +148,9 @@ public class DatabaseManager {
                 String.valueOf(user_id) + " AND task_id= " + String.valueOf(task_id));
     }
 
-    public void deleteUserFromProject(long user_id,long project_id) {
+    public void deleteUserFromProject(String user_id,long project_id) {
         db.execSQL("DELETE FROM " + TABLE_PROJECT_USER + " WHERE user_id= " +
-                String.valueOf(user_id) + " AND project_id= " + String.valueOf(project_id));
+                user_id + " AND project_id= " + String.valueOf(project_id));
     }
 
 
@@ -275,7 +275,7 @@ public class DatabaseManager {
             }
             UserBean bean = new UserBean();
             long user_id = getLong(getColumnIndex(COLUMN_USER_USER_ID));
-            bean.setUserId(user_id);
+            bean.setObjectId(String.valueOf(user_id));
             String username = getString(getColumnIndex(COLUMN_USER_USERNAME));
             bean.setUsername(username);
             if (isNull(getColumnIndex(COLUMN_USER_AVATAR))) {

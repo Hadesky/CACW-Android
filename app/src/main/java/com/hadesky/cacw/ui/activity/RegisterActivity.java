@@ -18,13 +18,17 @@ import com.hadesky.cacw.ui.widget.DeletableEditText;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class RegisterActivity extends BaseActivity implements RegisterView {
     private Button getCodeButton;
+    private Button registerButton;
+
     private AnimProgressDialog progressDialog;
     private DeletableEditText emailEditText;
+    private DeletableEditText pswEditText;
+    private DeletableEditText pswConfirmEditText;
 
     private RegisterPresenterImpl presenter;
-
     private DisableBtHandler handler;
 
     @Override
@@ -35,6 +39,11 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     @Override
     public void initView() {
         getCodeButton = (Button) findViewById(R.id.bt_get_code);
+        registerButton = (Button) findViewById(R.id.bt_register);
+        pswEditText = (DeletableEditText) findViewById(R.id.det_password);
+        pswConfirmEditText = (DeletableEditText) findViewById(R.id.det_password_confirm);
+
+
         progressDialog = new AnimProgressDialog(this);
         emailEditText = (DeletableEditText) findViewById(R.id.det_username);
         presenter = new RegisterPresenterImpl(this);
@@ -55,6 +64,34 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                 }else showMsg("请输入正确格式的邮箱地址！");
             }
         });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                String email = emailEditText.getText().toString();
+                if (!isEmail(email))
+                {
+                    showMsg("请输入正确格式的邮箱地址！");
+                    return;
+                }
+                if (!pswEditText.getText().toString().equals(pswConfirmEditText.getText().toString()))
+                {
+                    showMsg("两次密码不一致");
+                    return;
+                }
+                if (pswEditText.getText().length()<6)
+                {
+                    showMsg("密码至少6位数");
+                    return;
+                }
+                // TODO: 2016/7/5 0005 这里没用到验证码
+                presenter.register(email,pswEditText.getText().toString(),"0");
+            }
+        });
+
+
+
     }
 
     /**
