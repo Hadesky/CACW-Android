@@ -8,7 +8,7 @@ import java.io.Serializable;
  *
  * Created by 45517 on 2015/10/17.
  */
-public class UserBean implements Serializable{
+public class UserBean  implements Serializable{
 
     private String username;
 

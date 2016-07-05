@@ -46,6 +46,7 @@
     <!--给项目详情里的list_item_member布局用的-->
     <dimen name="member_size">70dp</dimen>
     <dimen name="header_normal">256dp</dimen>
+
     <!--状态栏高度-->
     <dimen name="status_bar_height">25dp</dimen>
 

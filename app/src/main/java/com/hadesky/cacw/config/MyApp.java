@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.squareup.leakcanary.LeakCanary;
 
 
 /**
@@ -35,7 +34,8 @@ public class MyApp extends Application {
         URL = "http://115.28.15.194:8000";
         mContext = this;
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-//        LeakCanary.install(this);
+
+
     }
 
 

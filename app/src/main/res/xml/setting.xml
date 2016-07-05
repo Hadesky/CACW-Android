@@ -33,9 +33,8 @@
         <Preference android:title="关于"
             >
             <intent
-                android:action="android.intent.action.about"
-                android:targetClass="com.hadesky.cacw.ui.AboutActivity"
-                android:targetPackage="com.hadesky.cacw"
+                android:action="com.hadesky.cacw.about"
+
                 />
         </Preference>
         <Preference android:title="退出"
