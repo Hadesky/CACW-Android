@@ -76,10 +76,11 @@
                 android:src="@drawable/ic_team"/>
 
             <TextView
-                style="@style/mTextView_Settings"
+                style="@style/list_item_tv_title_relative"
                 android:layout_toRightOf="@id/iv_my_team"
                 android:text="我的团队"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
         <ImageView
             android:layout_height="match_parent"
@@ -107,7 +108,7 @@
                 android:src="@drawable/me_remind_64"/>
 
             <TextView
-                style="@style/mTextView_Settings"
+                style="@style/list_item_tv_title_relative"
                 android:layout_toRightOf="@id/iv_remind"
                 android:text="@string/setting_remind"
                 />
@@ -134,7 +135,9 @@
 
         <TextView
             android:id="@+id/tv_complete"
-            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/list_item_tv_title_relative"
             android:layout_toRightOf="@id/iv_complete"
             android:text="@string/setting_complete"
             />
@@ -169,7 +172,9 @@
 
         <TextView
             android:id="@+id/tv_memo"
-            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/list_item_tv_title_relative"
             android:layout_toRightOf="@id/iv_memo"
             android:text="@string/setting_memo"
             />
@@ -203,7 +208,9 @@
 
         <TextView
             android:id="@+id/tv_setting"
-            style="@style/mTextView_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/list_item_tv_title_relative"
             android:layout_toRightOf="@id/iv_setting"
             android:text="@string/setting"
             />

@@ -35,7 +35,6 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'cn.bmob.android:bmob-sdk:3.5.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
 }

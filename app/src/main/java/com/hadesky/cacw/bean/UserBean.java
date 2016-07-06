@@ -21,6 +21,16 @@ public class UserBean extends BmobUser implements Serializable{
 
     private String mShortNumber;//短号
 
+    private String mSummary;//个人简介
+
+    public String getSummary() {
+        return mSummary;
+    }
+
+    public void setSummary(String summary) {
+        mSummary = summary;
+    }
+
     public String getNickName()
     {
         return mNickName;
@@ -32,7 +42,6 @@ public class UserBean extends BmobUser implements Serializable{
     }
 
     public UserBean() {
-
     }
 
     public UserBean(String nickName)

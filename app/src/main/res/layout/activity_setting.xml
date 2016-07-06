@@ -32,7 +32,7 @@
         android:background="@drawable/list_item_bg" >
         <TextView
             android:id="@+id/tv_general"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -57,7 +57,7 @@
         >
         <TextView
             android:id="@+id/tv_receive_alarm"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -81,7 +81,7 @@
         >
         <TextView
             android:id="@+id/tv_sound"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -105,7 +105,7 @@
         >
         <TextView
             android:id="@+id/tv_vibration"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -131,7 +131,7 @@
         >
         <TextView
             android:id="@+id/tv_about"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -150,7 +150,7 @@
         >
         <TextView
             android:id="@+id/tv_exit"
-            style="@style/mTextView_Settings"
+            style="@style/list_item_tv_title_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
