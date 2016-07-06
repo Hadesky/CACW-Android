@@ -14,7 +14,7 @@
         android:id="@+id/layout_myinfo"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/list_item_height_large"
         android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
@@ -23,8 +23,8 @@
         <ImageView
             android:layout_marginLeft="@dimen/Me_item_margin_left"
             android:id="@+id/iv_me_avatar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="@dimen/image_more_large"
+            android:layout_height="@dimen/image_more_large"
             android:layout_centerVertical="true"
             android:src="@drawable/default_user_image"/>
 

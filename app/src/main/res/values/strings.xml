@@ -28,4 +28,5 @@
     <string name="all_task">所有任务</string>
     <string name="done_task">已完成</string>
     <string name="undone_task">未完成</string>
+    <string name="avatar">头像</string>
 </resources>

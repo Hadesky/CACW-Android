@@ -11,11 +11,11 @@
             android:layout_height="50dp">
             <TextView
                 android:text="ID"
-                style="@style/tv_task_info_title"/>
+                style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_id"
-                style="@style/tv_task_info_content"
+                style="@style/tv_list_item_content"
                 android:text="234324234"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
@@ -26,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:text="电话"
-                style="@style/tv_task_info_title"/>
-
+                android:text="手机"
+                style="@style/tv_list_item_title"/>
             <TextView
                 android:id="@+id/tv_phone"
-                style="@style/tv_task_info_content"
-                android:text="18825512345"/>
+                android:text="18825512345"
+                style="@style/tv_list_item_content"
+                />
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -41,11 +41,11 @@
             android:layout_height="50dp">
             <TextView
                 android:text="邮箱"
-                style="@style/tv_task_info_title"/>
+                style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_email"
-                style="@style/tv_task_info_content"
+                style="@style/tv_list_item_content"
                 android:text="123456789@qq.com"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
@@ -55,11 +55,11 @@
             android:layout_height="50dp">
             <TextView
                 android:text="地址"
-                style="@style/tv_task_info_title"/>
+                style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_address"
-                style="@style/tv_task_info_content"
+                style="@style/tv_list_item_content"
                 android:text="广东供热大学"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
@@ -69,11 +69,11 @@
             android:layout_height="50dp">
             <TextView
                 android:text="简介"
-                style="@style/tv_task_info_title"/>
+                style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_time"
-                style="@style/tv_task_info_content"
-                android:text="我是小学生，你来打我啊"/>
+                style="@style/tv_list_item_content"
+                android:text="我是小学生"/>
         </RelativeLayout>
 </LinearLayout>

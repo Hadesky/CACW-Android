@@ -17,7 +17,7 @@
         <item name="android:textColor">@color/color_base_text_color</item>
     </style>
 
-    <style name="BaseActionbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseActionbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/color_primary</item>
@@ -36,6 +36,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <!-- 默认的分割线 -->
@@ -126,7 +127,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="tv_task_info_title">
+    <style name="tv_list_item_title">
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -134,7 +135,7 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="tv_task_info_content">
+    <style name="tv_list_item_content">
         <item name="android:layout_marginLeft">75dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -161,4 +162,5 @@
 
     <style name="translucent_status" parent="AppTheme">
     </style>
+
 </resources>

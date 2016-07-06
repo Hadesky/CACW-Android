@@ -41,7 +41,7 @@
     <dimen name="button_large_h">50dp</dimen>
 
 
-    <dimen name="list_item_height">50dp</dimen>
+    <dimen name="list_item_height_normal">50dp</dimen>
 
     <!--给项目详情里的list_item_member布局用的-->
     <dimen name="member_size">70dp</dimen>
@@ -52,4 +52,5 @@
 
     <!--阴影大小-->
     <dimen name="elevation_normal">3dp</dimen>
+    <dimen name="list_item_height_large">80dp</dimen>
 </resources>

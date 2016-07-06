@@ -48,11 +48,11 @@
 
                 <TextView
                     android:text="时间:"
-                    style="@style/tv_task_info_title"/>
+                    style="@style/tv_list_item_title"/>
 
                 <TextView
                     android:id="@+id/tv_time"
-                    style="@style/tv_task_info_content"
+                    style="@style/tv_list_item_content"
                     android:text="2015-01-01"/>
             </RelativeLayout>
 
@@ -65,12 +65,12 @@
                 >
 
                 <TextView
-                    style="@style/tv_task_info_title"
+                    style="@style/tv_list_item_title"
                     android:text="日期:"/>
 
                 <TextView
                     android:id="@+id/tv_date"
-                    style="@style/tv_task_info_content"
+                    style="@style/tv_list_item_content"
                     android:text="2015-01-01"/>
             </RelativeLayout>
 
@@ -83,14 +83,14 @@
                 >
 
                 <TextView
-                    style="@style/tv_task_info_title"
+                    style="@style/tv_list_item_title"
                     android:text="项目:"
 
                     />
 
                 <TextView
                     android:id="@+id/tv_projectname"
-                    style="@style/tv_task_info_content"
+                    style="@style/tv_list_item_content"
                     android:text="这是项目名称"/>
             </RelativeLayout>
 
@@ -102,11 +102,11 @@
                 android:layout_height="50dp"
                 >
                 <TextView
-                    style="@style/tv_task_info_title"
+                    style="@style/tv_list_item_title"
                     android:text="地点:"
                     />
                 <TextView
-                    style="@style/tv_task_info_content"
+                    style="@style/tv_list_item_content"
                     android:id="@+id/tv_location"
                     android:text="工一214"/>
             </RelativeLayout>
@@ -119,7 +119,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/tv_task_info_title"
+                    style="@style/tv_list_item_title"
                     android:text="详情:"
                     />
 
@@ -142,7 +142,7 @@
 
                 <TextView
                     android:layout_marginTop="16dp"
-                    style="@style/tv_task_info_title"
+                    style="@style/tv_list_item_title"
                     android:text="成员："/>
 
                 <android.support.v7.widget.RecyclerView
