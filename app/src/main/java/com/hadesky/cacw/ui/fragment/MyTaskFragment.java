@@ -1,7 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
+import com.hadesky.cacw.ui.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         mSwipeRefreshLayout.setProgressViewOffset(true, -100, 50);
-
+        mSwipeRefreshLayout.setScrollUpChild(mRecyclerView);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -64,24 +64,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
-            {
-                super.onScrollStateChanged(recyclerView, newState);
-                //当第一个item完全显示的时候，刷新可用
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && mLayoutManager.findFirstCompletelyVisibleItemPosition() == 0)
-                    mSwipeRefreshLayout.setEnabled(true);
-                else
-                    mSwipeRefreshLayout.setEnabled(false);
-            }
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+
         mPresenter.LoadTasks();
     }
 
