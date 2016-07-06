@@ -1,15 +1,9 @@
 package com.hadesky.cacw.bean;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobDate;
-import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * 一项任务的实体对象类
@@ -26,7 +20,6 @@ public class TaskBean extends BmobObject implements Serializable
     private String mProjectId = "";
     private String mContent="";
     private String mLocation = "";
-
     private ProjectBean mProjectBean;
 
     public ProjectBean getProjectBean() {
@@ -39,6 +32,7 @@ public class TaskBean extends BmobObject implements Serializable
 
     public TaskBean()
     {
+
     }
 
     public String getProjectId() {

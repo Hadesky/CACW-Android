@@ -25,7 +25,7 @@ public class ProjectDAO {
         //while (projectCursor.moveToNext()) {
         //    list.add(projectCursor.getProjectBean());
         //}
-        //projectCursor.close();
+        //projectCursor.closeActivity();
         return list;
     }
 

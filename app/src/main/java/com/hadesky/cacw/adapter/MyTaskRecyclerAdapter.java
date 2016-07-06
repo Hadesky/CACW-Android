@@ -54,6 +54,7 @@ public class MyTaskRecyclerAdapter extends RecyclerView.Adapter<MyTaskRecyclerAd
             @Override
             public void OnItemClick(View view, int position)
             {
+                //打开任务详情
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
                 i.putExtra("id",mDatas.get(position).getObjectId());
                 mContext.startActivity(i);

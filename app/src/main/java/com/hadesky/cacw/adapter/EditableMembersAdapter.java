@@ -41,7 +41,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
     private OnMemberDeleteListener onMemberDeleteListener;
 
     public interface OnMemberDeleteListener {
-        void onMemberDelete(String user_id);
+        void onMemberDelete(UserBean user_id);
     }
 
     public EditableMembersAdapter(List<UserBean> members, Context context, OnMemberDeleteListener listener) {
@@ -75,7 +75,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                         mContext.startActivity(intent);
                     } else {
                         //点击到头像的删除按钮
-                        onMemberDeleteListener.onMemberDelete(members.get(position).getObjectId());
+                        onMemberDeleteListener.onMemberDelete(members.get(position));
 
                         members.remove(position);
                         notifyDataSetChanged();

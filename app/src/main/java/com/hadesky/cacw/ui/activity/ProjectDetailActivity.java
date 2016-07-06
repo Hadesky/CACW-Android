@@ -91,8 +91,8 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
 
         editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
             @Override
-            public void onMemberDelete(String user_id) {
-                manager.deleteUserFromProject(user_id, projectId);
+            public void onMemberDelete(UserBean user) {
+                //manager.deleteUserFromProject(user_id, projectId);
             }
         });
 

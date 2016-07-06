@@ -44,7 +44,7 @@ public class TaskDetailDAO
 //            if (projectCursor.moveToNext()) {
 //                task.setProjectName(projectCursor.getProjectBean().getProjectName());
 //            }
-//            projectCursor.close();
+//            projectCursor.closeActivity();
 
         }
         return task;
