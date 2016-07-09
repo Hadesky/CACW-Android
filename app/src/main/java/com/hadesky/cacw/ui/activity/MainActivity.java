@@ -150,6 +150,12 @@ public class MainActivity extends BaseActivity {
             case R.id.action_new_task:
                 startActivity(new Intent(this,EditTaskActivity.class));
                 break;
+            case R.id.action_new_team:
+                startActivity(new Intent(this,NewTeamActivity.class));
+                break;
+
+
+
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);

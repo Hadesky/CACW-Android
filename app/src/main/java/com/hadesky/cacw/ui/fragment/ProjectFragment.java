@@ -17,6 +17,7 @@ import com.hadesky.cacw.presenter.MyProjectPresenter;
 import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
 import com.hadesky.cacw.ui.view.MyProjectView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**项目页面
@@ -39,7 +40,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         myProjectPresenter = new MyProjectPresenterImpl(this);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_project);
-        mAdapter = new ProjectAdapter(getContext());
+        mAdapter = new ProjectAdapter(new ArrayList<ProjectBean>(),R.layout.list_item_project);
     }
 
 
@@ -72,7 +73,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
 
     @Override
     public void showData(List<ProjectBean> data) {
-        mAdapter.setData(data);
+        mAdapter.setDatas(data);
     }
 
     @Override

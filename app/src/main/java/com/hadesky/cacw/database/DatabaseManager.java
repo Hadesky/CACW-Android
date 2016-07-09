@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TeamBean;
@@ -75,7 +74,7 @@ public class DatabaseManager {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_PROJECT_PROJECT_ID, bean.getObjectId());
         cv.put(COLUMN_PROJECT_PROJECT_NAME,bean.getProjectName());
-        cv.put(COLUMN_TEAM_TEAM_ID, bean.getTeamId());
+        cv.put(COLUMN_TEAM_TEAM_ID, bean.getObjectId());
         return db.insert(TABLE_PROJECT, null, cv);
     }
 
@@ -312,7 +311,7 @@ public class DatabaseManager {
             // TODO: 2015/10/28 0028  后期要改！！！
 
             String team_id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));
-            bean.setTeamId(team_id);
+            //bean.setTeamId(team_id);
 
             return bean;
         }

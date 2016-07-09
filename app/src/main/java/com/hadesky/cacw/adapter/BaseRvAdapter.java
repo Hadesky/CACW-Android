@@ -18,4 +18,7 @@ public abstract class BaseRvAdapter<VH extends BaseViewHolder> extends RecyclerV
         this.mInflater = LayoutInflater.from(mContext);
         this.mContext = mContext;
     }
+
+
+
 }

@@ -12,7 +12,6 @@ public class ProjectBean extends BmobObject {
 
     private String mProjectName;//Item的文字
     private BmobFile mProjectAvatar;
-    private String mTeamId;//团队所属Team
     private BmobRelation mTasks;//与之关联的Task
     private TeamBean mTeam;//所属团队
 
@@ -21,9 +20,16 @@ public class ProjectBean extends BmobObject {
     }
 
 
-    public ProjectBean(String title, String teamId) {
+    public ProjectBean(String title) {
         this.mProjectName = title;
-        this.mTeamId = teamId;
+    }
+
+    public TeamBean getmTeam() {
+        return mTeam;
+    }
+
+    public void setmTeam(TeamBean mTeam) {
+        this.mTeam = mTeam;
     }
 
     public String getProjectName() {
@@ -43,12 +49,6 @@ public class ProjectBean extends BmobObject {
         this.mProjectAvatar = mProjectAvatar;
     }
 
-    public String getTeamId() {
-        return mTeamId;
-    }
 
-    public void setTeamId(String teamId) {
-        this.mTeamId = teamId;
-    }
 
 }

@@ -40,17 +40,13 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mMyTeamAdapter = new MyTeamAdapter(this);
+        mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamBean>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
         mPresenter = new MyTeamPresenterImpl(this);
         List<TeamBean> list = new ArrayList<>();
-//        for(int i = 0; i < 10; i++)
-//        {
-//            list.add(new TeamBean("生学会",1));
-//        }
         mMyTeamAdapter.setDatas(list);
     }
 
