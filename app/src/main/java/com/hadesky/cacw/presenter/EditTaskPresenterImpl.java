@@ -225,6 +225,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
     @Override
     public void onDestroy() {
+        if (mSubscription!=null)
         mSubscription.unsubscribe();
     }
 

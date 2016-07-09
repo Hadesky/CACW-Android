@@ -31,4 +31,6 @@
     <string name="avatar">头像</string>
     <string name="male">男</string>
     <string name="female">女</string>
+    <string name="createTeam">新建团队</string>
+    <string name="submit">提交</string>
 </resources>

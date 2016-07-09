@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.hadesky.cacw.ui.activity.NewTeamActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="新建团队" />
+
+    <com.hadesky.cacw.ui.widget.CircleImageView
+        app:border_width="1dp"
+        app:border_color="#FFD3D3D3"
+        android:src="@drawable/fab_add"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="120dp"
+        android:layout_height="120dp" />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:id="@+id/layout_username"
+        >
+    <EditText
+        android:hint="团队名称"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="300dp"
+        android:gravity="center_horizontal"
+        android:layout_height="50dp" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        style="@style/LoginButton_login"
+        android:id="@+id/bt_register"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="@string/submit"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="140dp" />
+</LinearLayout>
