@@ -29,4 +29,6 @@
     <string name="done_task">已完成</string>
     <string name="undone_task">未完成</string>
     <string name="avatar">头像</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
 </resources>

@@ -10,9 +10,12 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,13 +28,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener {
+public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     private static final String TAG = "EditMyInfoActivity";
 
     private static final String TEMP_FILE_NAME = "cache_bitmap";//存放临时存放头像的文件名
 
     private ImageView mAvatarImageView;
+    private View mSexLayout;
+    private PopupMenu mSexPopupMenu;
 
     @Override
     public int getLayoutId() {
@@ -41,11 +46,22 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     @Override
     public void initView() {
         mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
+        mSexLayout = findViewById(R.id.layout_sex);
+        mSexPopupMenu = new PopupMenu(this, mSexLayout, Gravity.END);
     }
 
     @Override
     public void setupView() {
         registerOnClickListener(findViewById(R.id.layout_avatar));
+
+        getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
+        mSexPopupMenu.setOnMenuItemClickListener(this);
+        mSexLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSexPopupMenu.show();
+            }
+        });
     }
 
 
@@ -96,7 +112,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         switch (requestCode) {
             case 0:
                 if (resultCode == RESULT_OK) {
-                    if (data != null) {
+                    if (data != null && data.getData() != null) {
                         Uri filePath = data.getData();
                         System.out.println("path " + filePath);
                         Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
@@ -136,5 +152,20 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.male:
+                showToast("male");
+                break;
+            case R.id.female:
+                showToast("female");
+                break;
+            default:
+                return false;
+        }
+        return true;
     }
 }

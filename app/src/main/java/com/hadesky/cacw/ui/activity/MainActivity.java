@@ -1,5 +1,6 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -104,7 +105,6 @@ public class MainActivity extends BaseActivity {
                 new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.setTabsFromPagerAdapter(adapter);
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
