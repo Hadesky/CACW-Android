@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- *
+ * 通用ViewHolder，大部分情况只需重写setDatas方法，通过setXXxX方法更新控件内容
  * Created by 45517 on 2016/3/21.
  */
 public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -26,6 +26,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
     }
 
     public abstract void setData(T t);
+
 
     public void setTextView(@IdRes int id, String text) {
         TextView view = findView(id);
@@ -44,11 +45,11 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
             view.setBackgroundResource(id);
     }
 
-    public <T> T findView(@IdRes int id) {
+    public <Tv> Tv findView(@IdRes int id) {
         View view = mViews.get(id);
         if (view == null)
             view = itemView.findViewById(id);
-        return (T) view;
+        return (Tv) view;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

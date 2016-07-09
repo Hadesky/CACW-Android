@@ -12,7 +12,7 @@ import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import java.util.List;
 
 /**
- * 主页list的adapter，三个页面共用
+ * 通用adapter，大部分情况下只需重写createHolder方法
  * Created by dzysg on 2015/10/9 0009.
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>>
@@ -44,6 +44,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     {
         mDatas = datas;
         notifyDataSetChanged();
+    }
+
+    public List<T> getDatas()
+    {
+        return mDatas;
     }
 
     @Override
