@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
@@ -45,9 +46,7 @@ public class MyTaskModel
 
         // TODO: 2016/7/6 0006 没测试
         BmobQuery<TaskMember> tm = new BmobQuery<>();
-        BmobQuery<UserBean> userquery = new BmobQuery<>();
-        userquery.addWhereEqualTo("mUser",mUser);
-        tm.addWhereMatchesQuery("mUser","UserBeam",userquery);
+        tm.addWhereEqualTo("mUser", new BmobPointer(mUser));
 
         tm.findObjects(new FindListener<TaskMember>() {
             @Override

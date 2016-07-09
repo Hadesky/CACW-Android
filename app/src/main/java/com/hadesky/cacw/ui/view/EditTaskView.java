@@ -13,7 +13,7 @@ public interface EditTaskView {
 
     void showTaskMember(List<UserBean> members);
 
-    void closeActivity();
+    void closePage();
 
     void selectProject(List<ProjectBean> projectBeen);
 

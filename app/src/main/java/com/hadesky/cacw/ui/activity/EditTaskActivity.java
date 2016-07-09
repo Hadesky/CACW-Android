@@ -19,6 +19,7 @@ import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.EditTaskView;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
@@ -31,22 +32,23 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private Toolbar mToolbar;
     private View mDate;
     private View mTime;
-    private View mProject;
     private TextView mTvDate;
     private TextView mTvTime;
     private TextView mTvProject;
     private EditText mEdtTitle;
     private EditText mEdtLocation;
     private EditText mEdtDetail;
-
+    private View mProject;
 
     private View mOk;
     private RecyclerView mRcv_members;
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
+    // TODO: 2016/7/6 0006 换成接口
+    private EditTaskPresenterImpl mPresenter;
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务
-
+    private List<ProjectBean> mProjectList;
     @Override
     public int getLayoutId() {
         return R.layout.activity_edit_task;
@@ -65,6 +67,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mEdtTitle = (EditText) findViewById(R.id.edtTItle);
         mEdtLocation = (EditText) findViewById(R.id.edtLoaction);
         mEdtDetail = (EditText) findViewById(R.id.edtDetail);
+        mTvProject = (TextView) findViewById(R.id.tvProject);
 
     }
 
@@ -78,8 +81,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016/7/6 0006  完成编辑
-                onBackPressed();
+                mPresenter.saveTask(mAdapter.getDatas());
             }
         });
 
@@ -89,7 +91,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
-
 
         mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this);
         mAdapter.setAbleToAdd(true);
@@ -109,8 +110,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             newTask = true;
             mTask = new TaskBean();
         }
+
+        mPresenter = new EditTaskPresenterImpl(this,mTask,newTask);
+        mPresenter.loadTaskMember();
+
         setupDataOnClick();
         setupTimeOnclick();
+        setupProjectClick();
     }
 
 
@@ -159,6 +165,18 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         });
     }
 
+
+    private void setupProjectClick()
+    {
+        //选择项目
+        mProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.loadProjects();
+            }
+        });
+    }
+
     public void setTime(int hour, int min) {
 
         mTvTime.setText(String.format("%02d : %02d", hour, min));
@@ -185,48 +203,50 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
     }
 
-    @Override
-    public void onMemberDelete(UserBean user_id) {
 
+    @Override
+    public boolean onMemberDelete(UserBean user_id) {
+
+        return true;
     }
 
     @Override
     public void showTaskMember(List<UserBean> members) {
             mAdapter.setDatas(members);
-
     }
 
     @Override
-    public void closeActivity() {
+    public void closePage() {
         this.finish();
     }
 
     @Override
     public void selectProject(List<ProjectBean> beanList) {
 
+        if (beanList==null||beanList.size()==0)
+        {
+            showMsg("当前没有项目");
+            return;
+        }
+
+        mProjectList = beanList;
         final String[] items = new String[beanList.size()];
         for (int i = 0; i < beanList.size(); i++) {
             items[i] = beanList.get(i).getProjectName();
         }
 
-        //选择项目
-        mProject.setOnClickListener(new View.OnClickListener() {
+        new AlertDialog.Builder(EditTaskActivity.this).setItems(items, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(EditTaskActivity.this).setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO: 2016/7/6 0006 选择项目
-                    }
-                })
-
-                        .show();
+            public void onClick(DialogInterface dialog, int which) {
+                mTask.setProjectBean(mProjectList.get(which));
+                mTvProject.setText(mProjectList.get(which).getProjectName());
             }
-        });
+        }).show();
     }
 
     @Override
     public void showTaskDetail(TaskBean b) {
+
         mEdtTitle.setText(b.getTitle());
         mTvDate.setText(b.getStartDate().getDate());
         // TODO: 2016/7/6 0006 这里BmobData只有 getDate，没有时间？
@@ -250,5 +270,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     @Override
     public void showMsg(String msg) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
     }
 }
