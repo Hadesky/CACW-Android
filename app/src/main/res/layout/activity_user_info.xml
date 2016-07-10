@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
@@ -14,4 +14,30 @@
         android:id="@+id/toolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         style="@style/toolbar_transparent" />
+    <LinearLayout
+        android:id="@+id/layout_menu"
+        style="?android:attr/buttonBarStyle"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="Call"
+            android:layout_margin="@dimen/spacing_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="SMS"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_margin="@dimen/spacing_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="Email"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_margin="@dimen/spacing_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </FrameLayout>

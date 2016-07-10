@@ -2,6 +2,8 @@ package com.hadesky.cacw.ui.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -11,18 +13,23 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.task.GetUserInfoTask;
+import com.hadesky.cacw.ui.widget.PullToZoomBase;
 import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
 import com.hadesky.cacw.util.ImageLoader;
 
 /**
+ *
  * Created by 45517 on 2015/10/23.
  */
 public class UserInfoFragment extends BaseFragment {
+    private static final String TAG = "UserInfoFragment";
     private PullToZoomScrollViewEx pullToZoomScrollView;
     private TextView userNameView,descView,idView,phoneView,emailView, addressView;
     private ImageView sexView,avatarView,zoomView;
 
     private long userId;
+
+    private PullToZoomBase.OnPullZoomListener mOnPullZoomListener;
 
     @Override
     public int getLayoutId() {
@@ -32,7 +39,6 @@ public class UserInfoFragment extends BaseFragment {
     @Override
     protected void initViews(View view) {
         pullToZoomScrollView = (PullToZoomScrollViewEx) view.findViewById(R.id.zoom_scrollView);
-
         userNameView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_username);
         descView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_desc);
         idView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_id);
@@ -71,6 +77,9 @@ public class UserInfoFragment extends BaseFragment {
             }
         });
         task.execute(userId);
+        if (mOnPullZoomListener != null) {
+            pullToZoomScrollView.setOnPullZoomListener(mOnPullZoomListener);
+        }
     }
 
 
@@ -79,5 +88,9 @@ public class UserInfoFragment extends BaseFragment {
             userNameView.setText(bean.getNickName());
             idView.setText(bean.getObjectId());
         }
+    }
+
+    public void setOnPullZoomListener(PullToZoomBase.OnPullZoomListener listener) {
+        mOnPullZoomListener = listener;
     }
 }

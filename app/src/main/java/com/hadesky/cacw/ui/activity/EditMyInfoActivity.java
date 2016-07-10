@@ -56,6 +56,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
 
         getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
         mSexPopupMenu.setOnMenuItemClickListener(this);
+        mSexLayout.setOnTouchListener(mSexPopupMenu.getDragToOpenListener());
         mSexLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

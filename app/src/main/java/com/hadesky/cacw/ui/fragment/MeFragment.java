@@ -15,6 +15,7 @@ import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
+import com.hadesky.cacw.ui.activity.UserInfoActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
@@ -62,11 +63,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         return "";
     }
 
-    /**
-     *
-     * @param app
-     * @return
-     */
     private Bitmap getUserAvatar(MyApp app) {
         if (app != null) {
 //            int resid = app.getSession().getUserDetails().getAvatarResid();
@@ -93,6 +89,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.layout_remind:
                 Toast.makeText(getContext(), "已设置提醒", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getContext(), UserInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.layout_memo:
                 AnimProgressDialog dialog = new AnimProgressDialog(getContext(), true, null, "载入备忘录中...");
