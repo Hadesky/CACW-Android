@@ -24,11 +24,11 @@ public class TeamBean extends BmobObject {
 
     }
 
-    public BmobRelation getmProjects() {
+    public BmobRelation getProjects() {
         return mProjects;
     }
 
-    public void setmProjects(BmobRelation mProjects) {
+    public void setProjects(BmobRelation mProjects) {
         this.mProjects = mProjects;
     }
 

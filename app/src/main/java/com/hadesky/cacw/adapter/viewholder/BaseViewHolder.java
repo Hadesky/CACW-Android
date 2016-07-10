@@ -39,10 +39,10 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         cb.setChecked(b);
     }
 
-    public void setImageBitmap(@DrawableRes int id, @IdRes int imageid) {
-        ImageView view = findView(imageid);
+    public void setImageBitmap(@DrawableRes int id, @IdRes int viewid) {
+        ImageView view = findView(viewid);
         if (view != null)
-            view.setBackgroundResource(id);
+            view.setImageResource(id);
     }
 
     public <Tv> Tv findView(@IdRes int id) {

@@ -2,8 +2,6 @@ package com.hadesky.cacw.ui.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -65,6 +63,7 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void setupViews(Bundle bundle) {
+        // TODO: 2016/7/10 0010 逻辑不应该写在这
         GetUserInfoTask task = new GetUserInfoTask(getActivity(), new GetUserInfoTask.Callback() {
             @Override
             public void onSuccess(UserBean bean) {

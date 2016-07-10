@@ -17,6 +17,7 @@
         app:title="新建团队" />
 
     <com.hadesky.cacw.ui.widget.CircleImageView
+        android:id="@+id/cv_team_avatar"
         app:border_width="1dp"
         app:border_color="#FFD3D3D3"
         android:src="@drawable/fab_add"
@@ -31,6 +32,7 @@
         android:id="@+id/layout_username"
         >
     <EditText
+        android:id="@+id/edt_team_name"
         android:hint="填写团队名称"
         android:layout_gravity="center_horizontal"
         android:layout_width="300dp"
@@ -40,7 +42,7 @@
 
     <Button
         style="@style/LoginButton_login"
-        android:id="@+id/bt_register"
+        android:id="@+id/btn_submit"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:text="@string/submit"

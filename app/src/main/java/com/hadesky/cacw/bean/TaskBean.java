@@ -22,15 +22,6 @@ public class TaskBean extends BmobObject implements Serializable
     private String mLocation = "";
     private ProjectBean mProjectBean;
 
-    private Boolean mIsFinish = false;
-
-    public Boolean getFinish() {
-        return mIsFinish;
-    }
-
-    public void setFinish(Boolean finish) {
-        mIsFinish = finish;
-    }
 
     public ProjectBean getProjectBean() {
         return mProjectBean;

@@ -10,8 +10,16 @@ import cn.bmob.v3.BmobObject;
 public class TaskMember extends BmobObject {
     private UserBean mUser;
     private TaskBean mTask;
+    private Boolean mIsFinish;
 
 
+    public Boolean getFinish() {
+        return mIsFinish;
+    }
+
+    public void setFinish(Boolean finish) {
+        mIsFinish = finish;
+    }
 
     public UserBean getUser() {
         return mUser;
