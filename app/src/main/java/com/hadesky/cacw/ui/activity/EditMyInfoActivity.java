@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.util.FileUtil;
 import com.hadesky.cacw.util.ImageResizer;
 
 import java.io.File;
@@ -126,7 +127,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                             intent.putExtra("outputY", 600);
                             intent.putExtra("scale", true);
                             intent.putExtra("return-data", false);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, getTempUri());
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(EditMyInfoActivity.this, TEMP_FILE_NAME));
                             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
                             intent.putExtra("noFaceDetection", true); // 关闭人脸检测
                             startActivityForResult(intent, 0);
@@ -155,38 +156,6 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         if (view != null) {
             view.setOnClickListener(this);
         }
-    }
-
-    private Uri getTempUri() {
-        File file = getTempFile();
-        if (file != null) {
-            return Uri.fromFile(file);
-        }
-        return null;
-    }
-
-    private File getTempFile() {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File file = new File(getExternalCacheDir(), TEMP_FILE_NAME);
-            boolean deleted = false, created = false; // both should be instantiatd to false by default
-            try {
-                if (file.exists()) {
-                    deleted = file.delete(); //this returns a boolean variable.
-                }
-                if (deleted) {
-                    created = file.createNewFile();
-                }
-                if (!deleted || !created) {
-                    // log some type of warning here or even throw an exception
-                    Log.e(TAG, "IOException happened");
-                    return null;
-                }
-                return file;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
     @Override
