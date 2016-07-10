@@ -5,15 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.presenter.EditMyInfoPresenter;
+import com.hadesky.cacw.presenter.EditMyInfoPresenterImpl;
+import com.hadesky.cacw.ui.view.BaseView;
+import com.hadesky.cacw.ui.view.EditMyInfoView;
 import com.hadesky.cacw.util.FileUtil;
-import com.hadesky.cacw.util.ImageResizer;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, EditMyInfoView {
 
     private static final String TAG = "EditMyInfoActivity";
 
@@ -41,7 +34,8 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
     private AlertDialog mNickNameDialog;
-    private TextView mNickNameTextView;
+    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView;
+    private EditMyInfoPresenter mPresenter;
 
     @Override
     public int getLayoutId() {
@@ -53,7 +47,10 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
         mSexLayout = findViewById(R.id.layout_sex);
         mSexPopupMenu = new PopupMenu(this, mSexLayout, Gravity.END);
+        mSexTextView = (TextView) findViewById(R.id.tv_sex);
+        mSummaryTextView = (TextView) findViewById(R.id.tv_summary);
         mNickNameTextView = (TextView) findViewById(R.id.tv_nick_name);
+        mUserNameTextView = (TextView) findViewById(R.id.tv_username);
         mNickNameDialog = new AlertDialog.Builder(this)
                 .setTitle("修改昵称")
                 .setView(R.layout.dialog_nick_name)
@@ -67,6 +64,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                     }
                 })
                 .create();
+        mPresenter = new EditMyInfoPresenterImpl(this);
     }
 
     @Override
@@ -88,6 +86,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        mPresenter.loadInfo();
     }
 
 
@@ -162,10 +161,10 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.male:
-                showToast("male");
+                mPresenter.updateSexual(UserBean.SEX_MALE);
                 break;
             case R.id.female:
-                showToast("female");
+                mPresenter.updateSexual(UserBean.SEX_FEMALE);
                 break;
             default:
                 return false;
@@ -184,4 +183,63 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         }
         return true;
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showMsg(String s) {
+        showToast(s);
+    }
+
+    @Override
+    public void setAvatar(Bitmap avatar) {
+        if (avatar != null && mAvatarImageView != null) {
+            mAvatarImageView.setImageBitmap(avatar);
+        }
+    }
+
+    @Override
+    public void setSex(Byte sex) {
+        if (mSexTextView == null) {
+            return;
+        }
+        if (sex.equals(UserBean.SEX_MALE)) {
+            mSexTextView.setText("男");
+        } else if (sex.equals(UserBean.SEX_FEMALE)) {
+            mSexTextView.setText("女");
+        } else {
+            mSexTextView.setText("保密");
+        }
+    }
+
+    @Override
+    public void setSummary(String summary) {
+        if (mSummaryTextView == null) {
+            return;
+        }
+        mSummaryTextView.setText(summary);
+    }
+
+    @Override
+    public void setNickName(String nickName) {
+        if (mNickNameTextView != null) {
+            mNickNameTextView.setText(nickName);
+        }
+    }
+
+    @Override
+    public void setUserName(String userName) {
+        if (mUserNameTextView != null) {
+            mUserNameTextView.setText(userName);
+        }
+    }
+
 }

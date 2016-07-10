@@ -13,6 +13,10 @@ import cn.bmob.v3.datatype.BmobFile;
  */
 public class UserBean extends BmobUser implements Serializable{
 
+    public static final Byte SEX_MALE = 0;//性别男
+    public static final Byte SEX_FEMALE = 1;//性别女
+    public static final Byte SEX_UNKNOW = 2;//性别保密
+
     private BmobFile mUserAvatar;
 
     private String mNickName;
