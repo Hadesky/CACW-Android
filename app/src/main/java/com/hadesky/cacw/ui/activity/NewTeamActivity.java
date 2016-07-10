@@ -45,7 +45,7 @@ public class NewTeamActivity extends BaseActivity {
     @Override
     public void initView() {
         mCircleImageViews = (CircleImageView) findViewById(R.id.cv_team_avatar);
-        mBtnSubmit = (Button) findViewById(R.id.bt_submit);
+        mBtnSubmit = (Button) findViewById(R.id.btn_submit);
         mToolbars = (Toolbar) findViewById(R.id.toolbar);
         mEdtTeamName = (EditText) findViewById(R.id.edt_team_name);
 

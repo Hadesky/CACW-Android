@@ -8,22 +8,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.adapter.LatestNewsAdapter;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.tag.IntentTag;
-import com.hadesky.cacw.util.FullyGridLayoutManager;
 import com.hadesky.cacw.ui.widget.StickView;
+import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 2016/7/10 0010 项目没有成员，需要大改
 public class ProjectDetailActivity extends BaseActivity implements View.OnClickListener{
 
     private RecyclerView membersRecyclerView;
     private RecyclerView latestNewsRecyclerView;
-    private EditableMembersAdapter editableMembersAdapter;
+    //private EditableMembersAdapter editableMembersAdapter;
     private List<UserBean> members;
     private StickView allTaskStick;
     private StickView doneTaskStick;
@@ -89,18 +89,18 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
             allTaskStick.setElevation(elevation);
         }
 
-        editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
-            @Override
-            public boolean onMemberDelete(UserBean user) {
-                //manager.deleteUserFromProject(user_id, projectId);
-                return true;
-            }
-        });
-
-        editableMembersAdapter.setAbleToDelete(true);
-        editableMembersAdapter.setAbleToAdd(true);
+//        editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
+//            @Override
+//            public boolean onMemberDelete(UserBean user) {
+//                //manager.deleteUserFromProject(user_id, projectId);
+//                return true;
+//            }
+//        });
+//
+//        editableMembersAdapter.setAbleToDelete(true);
+//        editableMembersAdapter.setAbleToAdd(true);
         setupSpanCount();
-        membersRecyclerView.setAdapter(editableMembersAdapter);
+        //membersRecyclerView.setAdapter(editableMembersAdapter);
         latestNewsRecyclerView.setAdapter(new LatestNewsAdapter(context));
         latestNewsRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         setupStickView();
@@ -141,11 +141,11 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (editableMembersAdapter.getMode() == EditableMembersAdapter.MODE_DELETE) {
-            editableMembersAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
-        } else {
-            super.onBackPressed();
-        }
+//        if (editableMembersAdapter.getMode() == EditableMembersAdapter.MODE_DELETE) {
+//            editableMembersAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @Override

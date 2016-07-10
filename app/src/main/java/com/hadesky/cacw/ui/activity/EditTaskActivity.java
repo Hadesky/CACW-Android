@@ -18,6 +18,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.EditTaskView;
@@ -92,7 +93,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
 
-        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this);
+        mAdapter = new EditableMembersAdapter(new ArrayList<TaskMember>(), this, this);
         mAdapter.setAbleToAdd(true);
         mAdapter.setAbleToDelete(true);
 
@@ -211,7 +212,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
     @Override
-    public void showTaskMember(List<UserBean> members) {
+    public void showTaskMember(List<TaskMember> members) {
             mAdapter.setDatas(members);
     }
 

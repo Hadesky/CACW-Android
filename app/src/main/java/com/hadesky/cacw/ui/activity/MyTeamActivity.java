@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTeamAdapter;
-import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.presenter.MyteamPresenter;
 import com.hadesky.cacw.ui.view.MyTeamView;
@@ -40,18 +40,18 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamBean>(),R.layout.list_item_team);
+        mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
         mPresenter = new MyTeamPresenterImpl(this);
-        List<TeamBean> list = new ArrayList<>();
+        List<TeamMember> list = new ArrayList<>();
         mMyTeamAdapter.setDatas(list);
     }
 
     @Override
-    public void showTeamList(List<TeamBean> list)
+    public void showTeamList(List<TeamMember> list)
     {
         mMyTeamAdapter.setDatas(list);
     }
@@ -67,4 +67,5 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     {
 
     }
+
 }

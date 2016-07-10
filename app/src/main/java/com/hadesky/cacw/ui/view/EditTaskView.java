@@ -2,7 +2,7 @@ package com.hadesky.cacw.ui.view;
 
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.bean.TaskMember;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface EditTaskView {
 
-    void showTaskMember(List<UserBean> members);
+    void showTaskMember(List<TaskMember> members);
 
     void closePage();
 

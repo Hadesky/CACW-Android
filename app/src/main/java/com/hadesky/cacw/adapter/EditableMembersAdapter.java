@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.SelectMemberActivity;
@@ -33,7 +34,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
 
     private boolean ableToAdd = false;
 
-    private List<UserBean> members;
+    private List<TaskMember> members;
     private Context mContext;
     private LayoutInflater inflater;
     private int mode = 0;
@@ -45,20 +46,20 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         boolean onMemberDelete(UserBean user_id);
     }
 
-    public EditableMembersAdapter(List<UserBean> members, Context context, OnMemberDeleteListener listener) {
+    public EditableMembersAdapter(List<TaskMember> members, Context context, OnMemberDeleteListener listener) {
         this.onMemberDeleteListener = listener;
         this.mContext = context;
         this.members = members;
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDatas(List<UserBean> list)
+    public void setDatas(List<TaskMember> list)
     {
         members = list;
         notifyDataSetChanged();
     }
 
-    public List<UserBean> getDatas()
+    public List<TaskMember> getDatas()
     {
         return members;
     }
@@ -81,7 +82,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                         mContext.startActivity(intent);
                     } else {
                         //点击到头像的删除按钮
-                        if(onMemberDeleteListener.onMemberDelete(members.get(position)))
+                        if(onMemberDeleteListener.onMemberDelete(members.get(position).getUser()))
                         {
                             members.remove(position);
                             notifyDataSetChanged();
@@ -126,7 +127,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 holder.setDeleteViewVisible(true);
                 holder.avatarView.setClickable(false);
             }
-            holder.setText(members.get(position).getUsername());
+            holder.setText(members.get(position).getUser().getUsername());
         }else if (holder.getViewType() == BUTTON_TYPE_DELETE) {
             //当前要进行设置的是删除按钮
             if (mode == MODE_NORMAL) {

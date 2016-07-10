@@ -1,7 +1,18 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.MyTeamModel;
 import com.hadesky.cacw.ui.view.MyTeamView;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import rx.Subscription;
 
 /**
  *
@@ -13,18 +24,41 @@ public class MyTeamPresenterImpl implements MyteamPresenter
 
     MyTeamModel mModel;
     MyTeamView mTeamView;
-
-
+    Subscription mSubscriptions;
+    UserBean mUser;
 
     public MyTeamPresenterImpl(MyTeamView TeamView)
     {
         mModel = new MyTeamModel();
         mTeamView = TeamView;
+        mUser = MyApp.getCurrentUser();
     }
 
     @Override
     public void LoadAllTeams()
     {
+        mTeamView.showProgressBar(true);
+        BmobQuery<TeamMember> q = new BmobQuery<>();
+        q.addWhereEqualTo("mUser", new BmobPointer(mUser));
+        mSubscriptions =  q.findObjects(new FindListener<TeamMember>() {
+            @Override
+            public void done(List<TeamMember> list, BmobException e) {
+                mTeamView.showProgressBar(false);
+                if (e==null)
+                {
+                    mTeamView.showTeamList(list);
+                }else
+                {
+                    mTeamView.showMessage(e.getMessage());
+                }
+            }
+        });
 
+    }
+
+    @Override
+    public void onDestory() {
+        if (mSubscriptions!=null)
+            mSubscriptions.unsubscribe();
     }
 }

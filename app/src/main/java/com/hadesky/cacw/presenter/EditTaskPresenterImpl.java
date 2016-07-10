@@ -34,7 +34,8 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
 
     TaskBean mTask;
-    List<UserBean> mMembers;
+
+    List<TaskMember> mMembers;
     List<TaskMember> mOldMembers;
     boolean newTask;
     UserBean mCurrentUser;
@@ -50,15 +51,14 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
     }
 
     @Override
-    public void createNewTask() {
-
-    }
-
-    @Override
     public void loadTaskMember() {
         if (newTask) {
+
             mMembers = new ArrayList<>();
-            mMembers.add(mCurrentUser);//如果是新建任务，则默认将自己加入成员列表
+            TaskMember tm = new TaskMember();
+            tm.setTask(mTask);
+            tm.setUser(mCurrentUser);
+            mMembers.add(tm);
             mView.showTaskMember(mMembers);
             return;
         }
@@ -74,9 +74,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 mView.hideProgess();
                 mOldMembers = list;
                 if (e == null) {
-                    for (TaskMember tm : list) {
-                        mMembers.add(tm.getUser());
-                    }
                     mView.showTaskMember(mMembers);
                 } else {
                     mView.showMsg(e.getMessage());
@@ -91,7 +88,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
     /** 保存新建任务
      * @param members
      */
-    private void saveNewTask(List<UserBean> members)
+    private void saveNewTask(List<TaskMember> members)
     {
 
         mView.showProgress();
@@ -121,7 +118,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
     }
 
     //保存编辑后的任务
-    private void updateTask(List<UserBean> members)
+    private void updateTask(List<TaskMember> members)
     {
         mView.showProgress();
         BmobBatch batch = new BmobBatch();
@@ -133,14 +130,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
         //再将编辑后的成员加回来
         List<BmobObject> newMember = new ArrayList<>();
-        for (UserBean user:members)
-        {
-
-            TaskMember tm = new TaskMember();
-            tm.setUser(user);
-            tm.setTask(mTask);
-            newMember.add(tm);
-        }
+        newMember.addAll(members);
         batch.insertBatch(newMember);
 
         mSubscription =  batch.doBatch(new QueryListListener<BatchResult>() {
@@ -163,7 +153,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
 
     @Override
-    public void saveTask(List<UserBean> members) {
+    public void saveTask(List<TaskMember> members) {
         // TODO: 2016/7/9 0009 没测试
         if (mMembers==null)
             return;

@@ -1,6 +1,6 @@
 package com.hadesky.cacw.ui.view;
 
-import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.TeamMember;
 
 import java.util.List;
 
@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface MyTeamView
 {
-    void showTeamList(List<TeamBean> list);
+    void showTeamList(List<TeamMember> list);
     void showProgressBar(boolean visibility);
     void showMessage(String msg);
+
 }

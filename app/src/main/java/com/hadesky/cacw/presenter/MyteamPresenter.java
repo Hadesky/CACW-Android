@@ -8,6 +8,5 @@ public interface MyteamPresenter
 {
 
     void LoadAllTeams();
-
-
+    void onDestory();
 }
