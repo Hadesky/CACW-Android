@@ -66,7 +66,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         mView.showProgress();
         BmobQuery<TaskMember> tm = new BmobQuery<>();
         tm.addWhereEqualTo("mTask", new BmobPointer(mTask));
-
+        tm.include("mTask,mUser");
 
         tm.findObjects(new FindListener<TaskMember>() {
             @Override
