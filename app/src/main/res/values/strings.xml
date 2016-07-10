@@ -33,4 +33,8 @@
     <string name="female">女</string>
     <string name="createTeam">新建团队</string>
     <string name="submit">提交</string>
+    <string name="nick_name">昵称</string>
+    <string name="user_name">用户名</string>
+    <string name="sex">性别</string>
+    <string name="personal_summary">个性签名</string>
 </resources>

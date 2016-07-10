@@ -17,7 +17,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.util.ImageResizer;
@@ -37,6 +39,8 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private ImageView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
+    private AlertDialog mNickNameDialog;
+    private TextView mNickNameTextView;
 
     @Override
     public int getLayoutId() {
@@ -48,11 +52,26 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
         mSexLayout = findViewById(R.id.layout_sex);
         mSexPopupMenu = new PopupMenu(this, mSexLayout, Gravity.END);
+        mNickNameTextView = (TextView) findViewById(R.id.tv_nick_name);
+        mNickNameDialog = new AlertDialog.Builder(this)
+                .setTitle("修改昵称")
+                .setView(R.layout.dialog_nick_name)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText et = (EditText) mNickNameDialog.findViewById(R.id.edit_text);
+                        if (et != null) {
+                            mNickNameTextView.setText(et.getText());
+                        }
+                    }
+                })
+                .create();
     }
 
     @Override
     public void setupView() {
         registerOnClickListener(findViewById(R.id.layout_avatar));
+        registerOnClickListener(findViewById(R.id.layout_nick_name));
 
         getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
         mSexPopupMenu.setOnMenuItemClickListener(this);
@@ -63,6 +82,11 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 mSexPopupMenu.show();
             }
         });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 
@@ -71,6 +95,10 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.layout_avatar:
                 showPictureChooserDialog();
+                break;
+            case R.id.layout_nick_name:
+                mNickNameDialog.show();
+                break;
         }
     }
 
@@ -139,15 +167,21 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
 
     private File getTempFile() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File file = new File(getExternalCacheDir(),TEMP_FILE_NAME);
+            File file = new File(getExternalCacheDir(), TEMP_FILE_NAME);
+            boolean deleted = false, created = false; // both should be instantiatd to false by default
             try {
-                if (file.createNewFile()) {
-                    return file;
-                } else {
-                    file.delete();
-                    file.createNewFile();
-                    return file;
+                if (file.exists()) {
+                    deleted = file.delete(); //this returns a boolean variable.
                 }
+                if (deleted) {
+                    created = file.createNewFile();
+                }
+                if (!deleted || !created) {
+                    // log some type of warning here or even throw an exception
+                    Log.e(TAG, "IOException happened");
+                    return null;
+                }
+                return file;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -163,6 +197,18 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.female:
                 showToast("female");
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
                 break;
             default:
                 return false;
