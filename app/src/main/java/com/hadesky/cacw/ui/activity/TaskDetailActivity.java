@@ -109,17 +109,13 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-//        List<UserBean> list = task.getMembers();
-
-
-//        mAdapter.setDatas(list);
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void ShowMember(List<UserBean> user)
     {
-
+        // TODO: 2016/7/10 0010 待修改
     }
 
     @Override
@@ -131,6 +127,11 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void hideProgress()
     {
+
+    }
+
+    @Override
+    public void showMsg(String s) {
 
     }
 }

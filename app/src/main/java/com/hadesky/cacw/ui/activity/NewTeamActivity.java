@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.NewTeamPresenter;
+import com.hadesky.cacw.presenter.NewTeamPresenterImpl;
+import com.hadesky.cacw.ui.view.NewTeamView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 import com.hadesky.cacw.util.FileUtil;
@@ -24,22 +24,16 @@ import com.hadesky.cacw.util.FileUtil;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
-import cn.bmob.v3.BmobBatch;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BatchResult;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListListener;
-
-public class NewTeamActivity extends BaseActivity {
+public class NewTeamActivity extends BaseActivity implements NewTeamView{
 
     CircleImageView mCircleImageViews;
     Toolbar mToolbars;
     Button mBtnSubmit;
     EditText mEdtTeamName;
+    NewTeamPresenter mPresenters;
+
+
 
     private static final String TEMP_FILE_NAME = "team_cache_bitmap";
     private File mAvatarFile;
@@ -56,7 +50,7 @@ public class NewTeamActivity extends BaseActivity {
         mBtnSubmit = (Button) findViewById(R.id.btn_submit);
         mToolbars = (Toolbar) findViewById(R.id.toolbar);
         mEdtTeamName = (EditText) findViewById(R.id.edt_team_name);
-        mProgressDialog = new AnimProgressDialog(this, false, null, "登录中...");
+        mProgressDialog = new AnimProgressDialog(this, false, null, "创建中...");
     }
 
     @Override
@@ -77,6 +71,8 @@ public class NewTeamActivity extends BaseActivity {
 
         setSupportActionBar(mToolbars);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mPresenters = new NewTeamPresenterImpl(this);
     }
 
 
@@ -94,43 +90,8 @@ public class NewTeamActivity extends BaseActivity {
         // TODO: 2016/7/10 0010 这里逻辑简单，暂时不用MVP
 
         String tname = mEdtTeamName.getText().toString();
-        if (tname.trim().length() == 0) {
-            showToast("团队名称不能为空");
-            return;
-        }
 
-
-        TeamBean teamBean = new TeamBean(tname);
-
-        teamBean.setAdminUserId(MyApp.getCurrentUser().getObjectId());
-        if (mAvatarFile != null)
-            teamBean.setTeamAvatar(new BmobFile(mAvatarFile));
-
-        TeamMember tm = new TeamMember();
-        tm.setTeam(teamBean);
-        tm.setUser(MyApp.getCurrentUser());
-        BmobBatch bmobBatch = new BmobBatch();
-
-
-        mProgressDialog.show();
-
-        List<BmobObject> teamlist = new ArrayList<>();
-        teamlist.add(teamBean);
-        teamlist.add(tm);
-        bmobBatch.insertBatch(teamlist);
-
-        bmobBatch.doBatch(new QueryListListener<BatchResult>() {
-            @Override
-            public void done(List<BatchResult> list, BmobException e) {
-                mProgressDialog.dismiss();
-                if (e != null)
-                    showToast(e.getMessage());
-                else {
-                    showToast("创建成功");
-                    finish();
-                }
-            }
-        });
+        mPresenters.createTeam(tname,mAvatarFile);
     }
 
     /**
@@ -188,4 +149,18 @@ public class NewTeamActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void showMsg(String msg) {
+        showToast(msg);
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressDialog.dismiss();
+    }
 }

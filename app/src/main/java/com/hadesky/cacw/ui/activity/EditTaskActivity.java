@@ -264,7 +264,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
     @Override
-    public void hideProgess() {
+    public void hideProgress() {
 
     }
 

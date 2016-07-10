@@ -7,9 +7,10 @@ import com.hadesky.cacw.bean.TaskMember;
 import java.util.List;
 
 /**
+ *
  * Created by dzysg on 2016/7/6 0006.
  */
-public interface EditTaskView {
+public interface EditTaskView extends BaseView{
 
     void showTaskMember(List<TaskMember> members);
 
@@ -18,12 +19,5 @@ public interface EditTaskView {
     void selectProject(List<ProjectBean> projectBeen);
 
     void showTaskDetail(TaskBean b);
-
-    void showProgress();
-
-    void hideProgess();
-
-    void showMsg(String msg);
-
 
 }

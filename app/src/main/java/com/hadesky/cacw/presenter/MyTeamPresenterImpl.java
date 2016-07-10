@@ -37,19 +37,19 @@ public class MyTeamPresenterImpl implements MyteamPresenter
     @Override
     public void LoadAllTeams()
     {
-        mTeamView.showProgressBar(true);
+        mTeamView.showProgress();
         BmobQuery<TeamMember> q = new BmobQuery<>();
         q.addWhereEqualTo("mUser", new BmobPointer(mUser));
         mSubscriptions =  q.findObjects(new FindListener<TeamMember>() {
             @Override
             public void done(List<TeamMember> list, BmobException e) {
-                mTeamView.showProgressBar(false);
+                mTeamView.hideProgress();
                 if (e==null)
                 {
                     mTeamView.showTeamList(list);
                 }else
                 {
-                    mTeamView.showMessage(e.getMessage());
+                    mTeamView.showMsg(e.getMessage());
                 }
             }
         });

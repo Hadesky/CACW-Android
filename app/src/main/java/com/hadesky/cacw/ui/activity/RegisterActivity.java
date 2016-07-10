@@ -109,7 +109,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     }
 
     @Override
-    public void showProgressDialog() {
+    public void showProgress() {
         if (progressDialog != null) {
             progressDialog.setTitle("请稍后...");
             progressDialog.show();
@@ -117,7 +117,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     }
 
     @Override
-    public void hideProgressDialog() {
+    public void hideProgress() {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.cancel();
         }

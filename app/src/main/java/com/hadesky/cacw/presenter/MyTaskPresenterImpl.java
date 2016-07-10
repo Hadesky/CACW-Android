@@ -31,7 +31,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         public void onFailure(String error)
         {
             mTaskView.hideProgress();
-            mTaskView.onFailure(error);
+            mTaskView.showMsg(error);
         }
     };
 
@@ -39,7 +39,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         @Override
         public void onSucceed()
         {
-            mTaskView.showWaitingDialog(false);
+            mTaskView.showProgress();
         }
 
         @Override
@@ -53,7 +53,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         @Override
         public void onSucceed()
         {
-            mTaskView.showWaitingDialog(false);
+            mTaskView.hideProgress();
         }
 
         @Override
@@ -88,11 +88,11 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
-            mTaskView.showWaitingDialog(true);
+            mTaskView.showProgress();
             mTaskModel.taskComplete(mDatas.get(pos).getObjectId());
         }
         else
-        mTaskView.onFailure("操作失败");
+        mTaskView.showMsg("操作失败");
     }
 
     @Override
@@ -100,10 +100,10 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     {
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {
-            mTaskView.showWaitingDialog(true);
+            mTaskView.showProgress();
             mTaskModel.deleteTask(mDatas.get(pos).getObjectId());
         }
        else
-            mTaskView.onFailure("删除失败");
+            mTaskView.showMsg("删除失败");
     }
 }

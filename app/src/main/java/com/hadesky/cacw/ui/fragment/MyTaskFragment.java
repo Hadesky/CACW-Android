@@ -5,7 +5,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
@@ -93,17 +92,9 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void onFailure(String msg)
+    public void showMsg(String msg)
     {
-        Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
-    @Override
-    public void showWaitingDialog(boolean is)
-    {
-        if (is)
-            mDialog.show();
-        else
-            mDialog.cancel();
-    }
 }

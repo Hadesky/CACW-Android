@@ -10,6 +10,7 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.presenter.MyteamPresenter;
 import com.hadesky.cacw.ui.view.MyTeamView;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     private RecyclerView mRecyclerView;
     private MyTeamAdapter mMyTeamAdapter;
     private MyteamPresenter mPresenter;
+    private AnimProgressDialog mProgressDialog;
 
 
     @Override
@@ -38,6 +40,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     @Override
     public void setupView() {
 
+        mProgressDialog = new AnimProgressDialog(this, false, null, "获取中...");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
@@ -58,15 +61,19 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     }
 
     @Override
-    public void showProgressBar(boolean visibility)
-    {
-        // TODO: 2016/7/10 0010 progrssbar
+    public void showProgress() {
+        mProgressDialog.show();
     }
 
     @Override
-    public void showMessage(String msg)
-    {
+    public void hideProgress() {
+        mProgressDialog.dismiss();
+    }
 
+    @Override
+    public void showMsg(String msg)
+    {
+        showToast(msg);
     }
 
 }

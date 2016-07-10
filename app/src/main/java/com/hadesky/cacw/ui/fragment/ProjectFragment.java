@@ -64,11 +64,17 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
 
     @Override
     public void showProgress() {
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showMsg(String s) {
+        showToast(s);
     }
 
     @Override

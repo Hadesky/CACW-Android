@@ -37,7 +37,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
             @Override
             public void done(UserBean userBean, BmobException e)
             {
-                mView.hideProgressDialog();
+                mView.hideProgress();
                 if (e==null)
                 {
                     mView.showMsg("注册成功");
@@ -51,7 +51,7 @@ public class RegisterPresenterImpl implements RegisterPresenter {
             @Override
             public void onStart()
             {
-                mView.showProgressDialog();
+                mView.showProgress();
             }
         });
     }

@@ -8,10 +8,7 @@ import java.util.List;
  *
  * Created by dzysg on 2016/3/21 0021.
  */
-public interface MyTeamView
+public interface MyTeamView extends BaseView
 {
     void showTeamList(List<TeamMember> list);
-    void showProgressBar(boolean visibility);
-    void showMessage(String msg);
-
 }

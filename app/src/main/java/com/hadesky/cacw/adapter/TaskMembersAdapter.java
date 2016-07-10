@@ -20,6 +20,7 @@ import java.util.List;
  * 这是任务成员列表的adapter
  * Created by dzysg on 2015/10/16 0016.
  */
+// TODO: 2016/7/10 0010 待修改
 public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.TaskMemberVH>
 {
     public static final int BUTTON_TYPE_AVATAR = 0;

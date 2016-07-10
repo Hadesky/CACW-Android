@@ -71,7 +71,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         tm.findObjects(new FindListener<TaskMember>() {
             @Override
             public void done(List<TaskMember> list, BmobException e) {
-                mView.hideProgess();
+                mView.hideProgress();
                 mOldMembers = list;
                 if (e == null) {
                     mView.showTaskMember(mMembers);
@@ -102,7 +102,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         mSubscription =  bmobBatch.doBatch(new QueryListListener<BatchResult>() {
             @Override
             public void done(List<BatchResult> list, BmobException e) {
-                mView.hideProgess();
+                mView.hideProgress();
                 if (e==null)
                 {
                     mView.showMsg("新建任务成功");
@@ -136,7 +136,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         mSubscription =  batch.doBatch(new QueryListListener<BatchResult>() {
             @Override
             public void done(List<BatchResult> list, BmobException e) {
-                mView.hideProgess();
+                mView.hideProgress();
                 if (e==null)
                 {
                     mView.showMsg("保存成功");
@@ -195,7 +195,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 .subscribe(new Subscriber<List<ProjectBean>>() {
             @Override
             public void onCompleted() {
-                mView.hideProgess();
+                mView.hideProgress();
             }
 
             @Override
