@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-            <TextView
-                android:text="ID"
-                style="@style/tv_list_item_title"/>
-
-            <TextView
-                android:id="@+id/tv_id"
-                style="@style/tv_list_item_content"
-                android:text="234324234"/>
-        </RelativeLayout>
-        <ImageView style="@style/paddingDividingLine"/>
 
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -26,27 +12,27 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:text="手机"
+                android:text="@string/phone"
                 style="@style/tv_list_item_title"/>
             <TextView
                 android:id="@+id/tv_phone"
-                android:text="18825512345"
+                tools:text="18825512345"
                 style="@style/tv_list_item_content"
                 />
         </RelativeLayout>
-        <ImageView style="@style/paddingDividingLine"/>
+    <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:text="邮箱"
+                android:text="@string/email"
                 style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_email"
                 style="@style/tv_list_item_content"
-                android:text="123456789@qq.com"/>
+                tools:text="123456789@qq.com"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
@@ -54,26 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <TextView
-                android:text="地址"
+                android:text="@string/address"
                 style="@style/tv_list_item_title"/>
 
             <TextView
                 android:id="@+id/tv_address"
                 style="@style/tv_list_item_content"
-                android:text="广东供热大学"/>
-        </RelativeLayout>
-        <ImageView style="@style/paddingDividingLine"/>
-        <RelativeLayout
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-            <TextView
-                android:text="简介"
-                style="@style/tv_list_item_title"/>
-
-            <TextView
-                android:id="@+id/tv_time"
-                style="@style/tv_list_item_content"
-                android:text="我是小学生"/>
+                tools:text="广东供热大学"/>
         </RelativeLayout>
 </LinearLayout>

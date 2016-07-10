@@ -48,27 +48,25 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void setupViews(Bundle bundle) {
         MyApp app = (MyApp) getActivity().getApplication();
-        userName.setText(getUserName(app));
+        userName.setText(getNickName());
 //        userImageView.setImageBitmap(getUserAvatar(app));
     }
 
     /**
-     * 在Session中获取用户名
+     * 在Session中获取昵称
      * @return 用户名
      */
-    private String getUserName(MyApp app) {
-        if (app != null) {
-            return app.getSession().getUserDetails().getUsername();
+    private String getNickName() {
+        String nickName = MyApp.getCurrentUser().getNickName();
+        if (nickName == null) {
+            return "蚂蚁";
         }
-        return "";
+        return nickName;
     }
 
-    private Bitmap getUserAvatar(MyApp app) {
-        if (app != null) {
-//            int resid = app.getSession().getUserDetails().getAvatarResid();
-            return BitmapFactory.decodeResource(app.getResources(), R.drawable.default_user_image);
-        }
-        return null;
+    private Bitmap getUserAvatar() {
+
+        return BitmapFactory.decodeResource(getResources(), R.drawable.default_user_image);
     }
 
 
@@ -80,6 +78,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
             case R.id.layout_myinfo:
+                //这里不需要传入任何信息
                 Intent intent = new Intent(getContext(), MyInfoActivity.class);
                 intent.putExtra(IntentTag.TAG_USER_ID, (long)0);//因为暂时没联网，默认用0号当作为当前用户
                 startActivity(intent);

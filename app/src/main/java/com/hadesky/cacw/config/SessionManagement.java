@@ -22,14 +22,14 @@ public class SessionManagement {
     private final static int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "CACWPref";
     private static final String IS_LOGIN = "IsLogIn";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_EMAIL = "email";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_EMAIL = "email";
     public static final String KEY_AVATAR = "avatar";//头像
-    public static final String KEY_USER_ID = "user_id";
+    private static final String KEY_USER_ID = "user_id";
 
     private Context mContext;
 
-    public SessionManagement(Context context) {
+    SessionManagement(Context context) {
         contextWeakReference = new WeakReference<>(context);
         mPref = contextWeakReference.get().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         mContext = context;
@@ -85,6 +85,7 @@ public class SessionManagement {
 
 
     public UserBean getUserDetails() {
+
         UserBean bean = new UserBean();
         bean.setObjectId(mPref.getString(KEY_USER_ID,""));
         bean.setUsername(mPref.getString(KEY_NAME, "蚂蚁"));

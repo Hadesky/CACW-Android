@@ -8,6 +8,7 @@ package com.hadesky.cacw.ui.activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -40,7 +41,6 @@ public class LoginActivity extends BaseActivity{
     private Button mPwButton;
     private Button mLoginButton;
     private boolean mIsPwVisitable = false;
-    private SessionManagement mSession;
     private View mForgetPsw;
 
     private AnimProgressDialog mProgressDialog ;
@@ -52,7 +52,9 @@ public class LoginActivity extends BaseActivity{
     @Override
     public void initView() {
         CircleImageView icon = (CircleImageView) findViewById(R.id.login_icon);
-        icon.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
+        if (icon != null) {
+            icon.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.ic_launcher));
+        }
         mForgetPsw = findViewById(R.id.tv_forget_psw);
         mLoginButton = (Button) findViewById(R.id.bt_register);
 
@@ -60,9 +62,6 @@ public class LoginActivity extends BaseActivity{
 
         mUsername = (EditText) findViewById(R.id.editview_username);
         mPassword = (EditText) findViewById(R.id.editview_password);
-
-        final MyApp app = (MyApp) getApplication();
-        mSession = app.getSession();
 
         mProgressDialog = new AnimProgressDialog(this, false, null, "登录中...");
 
@@ -106,11 +105,11 @@ public class LoginActivity extends BaseActivity{
             public void onClick(View v) {
                 setIsPwVisible(!mIsPwVisitable);
                 if (mIsPwVisitable) {
-                    mPwButton.setText("HIDE");
+                    mPwButton.setText(getResources().getString(R.string.hide));
                     mIsPwVisitable = false;
                     setIsPwVisible(false);
                 } else {
-                    mPwButton.setText("SHOW");
+                    mPwButton.setText(getResources().getString(R.string.show));
                     mIsPwVisitable = true;
                     setIsPwVisible(true);
                 }
@@ -177,7 +176,6 @@ public class LoginActivity extends BaseActivity{
      * @param password 密码
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
-
         //隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (imm != null) {

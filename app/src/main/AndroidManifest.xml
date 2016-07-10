@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hadesky.cacw">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.hadesky.cacw">
 
     <!-- 允许应用程序写数据到外部存储设备（主要是SD卡） -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -29,6 +30,8 @@
     <!-- 蓝牙分享所需的权限 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 读取账户权限 -->
     <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS" />
     <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS_PRIVILEGED" />
@@ -67,7 +70,8 @@
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".ui.activity.LoginActivity">
+            android:parentActivityName=".ui.activity.LoginActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.LoginActivity" />
@@ -84,14 +88,16 @@
         <activity android:name=".ui.activity.SelectMemberActivity" />
         <activity
             android:name=".ui.activity.ProjectDetailActivity"
-            android:parentActivityName=".ui.activity.MainActivity">
+            android:parentActivityName=".ui.activity.MainActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activity.TaskListActivity"
-            android:parentActivityName=".ui.activity.TaskDetailActivity">
+            android:parentActivityName=".ui.activity.TaskDetailActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.TaskDetailActivity" />
@@ -106,15 +112,22 @@
         <activity
             android:name=".ui.activity.MyInfoActivity"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/translucent_status">
+            android:theme="@style/translucent_status"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity" />
         </activity>
         <activity android:name=".ui.activity.MyTeamActivity" />
-        <activity android:name=".ui.activity.ForgetPswActivity"></activity>
-        <activity android:name=".ui.activity.EditMyInfoActivity"></activity>
-        <activity android:name=".ui.activity.NewTeamActivity"></activity>
+        <activity android:name=".ui.activity.ForgetPswActivity">
+
+        </activity>
+        <activity android:name=".ui.activity.EditMyInfoActivity">
+
+        </activity>
+        <activity android:name=".ui.activity.NewTeamActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -10,13 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 
 public class MyInfoActivity extends BaseActivity {
     private Toolbar toolbar;
 
-    private long userId;
 
     @Override
     public int getLayoutId() {
@@ -26,7 +27,6 @@ public class MyInfoActivity extends BaseActivity {
     @Override
     public void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        userId = getIntent().getLongExtra(IntentTag.TAG_USER_ID, -1);
     }
 
 
@@ -45,7 +45,7 @@ public class MyInfoActivity extends BaseActivity {
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-            bundle.putLong(IntentTag.TAG_USER_ID, userId);
+            bundle.putString(IntentTag.TAG_USER_ID, MyApp.getCurrentUser().getObjectId());
             fragment.setArguments(bundle);
             fm.beginTransaction()
                     .add(R.id.container, fragment)

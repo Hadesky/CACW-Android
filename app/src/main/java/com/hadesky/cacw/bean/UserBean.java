@@ -17,11 +17,13 @@ public class UserBean extends BmobUser implements Serializable{
 
     private String mNickName;
 
-    private Byte mSex;//0是男，1是女，2是保密
+    private Byte mSex = 0;//0是男，1是女，2是保密
 
     private String mShortNumber;//短号
 
     private String mSummary;//个人简介
+
+    private String mAddress;//地址
 
     public String getSummary() {
         return mSummary;
@@ -34,6 +36,14 @@ public class UserBean extends BmobUser implements Serializable{
     public String getNickName()
     {
         return mNickName;
+    }
+
+    public String getAddress() {
+        return mAddress;
+    }
+
+    public void setAddress(String address) {
+        mAddress = address;
     }
 
     public void setNickName(String nickName)
