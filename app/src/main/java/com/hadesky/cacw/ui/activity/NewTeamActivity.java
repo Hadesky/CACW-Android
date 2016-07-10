@@ -15,17 +15,24 @@ import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 import com.hadesky.cacw.util.FileUtil;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.QueryListListener;
 
 public class NewTeamActivity extends BaseActivity {
 
@@ -36,6 +43,7 @@ public class NewTeamActivity extends BaseActivity {
 
     private static final String TEMP_FILE_NAME = "team_cache_bitmap";
     private File mAvatarFile;
+    private AnimProgressDialog mProgressDialog;
 
     @Override
     public int getLayoutId() {
@@ -48,7 +56,7 @@ public class NewTeamActivity extends BaseActivity {
         mBtnSubmit = (Button) findViewById(R.id.btn_submit);
         mToolbars = (Toolbar) findViewById(R.id.toolbar);
         mEdtTeamName = (EditText) findViewById(R.id.edt_team_name);
-
+        mProgressDialog = new AnimProgressDialog(this, false, null, "登录中...");
     }
 
     @Override
@@ -90,14 +98,31 @@ public class NewTeamActivity extends BaseActivity {
             showToast("团队名称不能为空");
             return;
         }
+
+
         TeamBean teamBean = new TeamBean(tname);
 
         teamBean.setAdminUserId(MyApp.getCurrentUser().getObjectId());
         if (mAvatarFile != null)
             teamBean.setTeamAvatar(new BmobFile(mAvatarFile));
-        teamBean.save(new SaveListener<String>() {
+
+        TeamMember tm = new TeamMember();
+        tm.setTeam(teamBean);
+        tm.setUser(MyApp.getCurrentUser());
+        BmobBatch bmobBatch = new BmobBatch();
+
+
+        mProgressDialog.show();
+
+        List<BmobObject> teamlist = new ArrayList<>();
+        teamlist.add(teamBean);
+        teamlist.add(tm);
+        bmobBatch.insertBatch(teamlist);
+
+        bmobBatch.doBatch(new QueryListListener<BatchResult>() {
             @Override
-            public void done(String s, BmobException e) {
+            public void done(List<BatchResult> list, BmobException e) {
+                mProgressDialog.dismiss();
                 if (e != null)
                     showToast(e.getMessage());
                 else {
@@ -107,7 +132,6 @@ public class NewTeamActivity extends BaseActivity {
             }
         });
     }
-
 
     /**
      * 弹出选择照片的Dialog

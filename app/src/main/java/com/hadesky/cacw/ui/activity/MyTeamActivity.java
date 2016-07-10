@@ -46,6 +46,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
         mPresenter = new MyTeamPresenterImpl(this);
+        mPresenter.LoadAllTeams();
         List<TeamMember> list = new ArrayList<>();
         mMyTeamAdapter.setDatas(list);
     }
@@ -59,7 +60,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     @Override
     public void showProgressBar(boolean visibility)
     {
-
+        // TODO: 2016/7/10 0010 progrssbar
     }
 
     @Override
