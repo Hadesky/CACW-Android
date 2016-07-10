@@ -1,13 +1,12 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.annotation.LayoutRes;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
 
 import java.util.HashMap;
@@ -15,33 +14,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *  选择任务成员
  * Created by dzysg on 2015/10/16 0016.
  */
-public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapter.SelectMemberVH>
-{
+public class SelectMemberAdapter extends BaseAdapter<UserBean> {
 
-    private List<UserBean> mDatas;
-    private Context              mContext;
+
     private Map<Integer, Boolean> mSelectMap = new HashMap<>();
 
-    public SelectMemberAdapter(Context context, List<UserBean> datas)
-    {
-        mDatas = datas;
-        mContext = context;
+
+
+    public SelectMemberAdapter(List<UserBean> datas, @LayoutRes int id) {
+        super(datas,id);
         for (int i = 0; i < mDatas.size(); i++) {
             mSelectMap.put(i, false);
         }
     }
 
     @Override
-    public SelectMemberVH onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_select_members, parent, false);
-        SelectMemberVH holder = new SelectMemberVH(v, new SelectMemberVH.OnItemClickListener()
-        {
+    public BaseViewHolder<UserBean> createHolder(View v, Context context) {
+
+
+        BaseViewHolder<UserBean> holder = new BaseViewHolder<UserBean>(v) {
             @Override
-            public void onClick(View view, int pos)
-            {
+            public void setData(UserBean bean) {
+                setCheckBox(R.id.cb,mSelectMap.get(getLayoutPosition()));
+            }
+        };
+        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int pos) {
                 CheckBox cb = (CheckBox) view.findViewById(R.id.cb);
                 boolean b = !cb.isChecked();
                 cb.setChecked(b);
@@ -49,24 +51,17 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
             }
         });
         return holder;
+
     }
 
-    @Override
-    public void onBindViewHolder(SelectMemberVH holder, int position)
-    {
-        holder.cb.setChecked(mSelectMap.get(position));
-    }
-
-    public void selectAll()
-    {
+    public void selectAll() {
         for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
             item.setValue(true);
         }
         notifyDataSetChanged();
     }
 
-    public void reverse()
-    {
+    public void reverse() {
         for (Map.Entry<Integer, Boolean> item : mSelectMap.entrySet()) {
             item.setValue(!item.getValue());
         }
@@ -74,37 +69,4 @@ public class SelectMemberAdapter extends RecyclerView.Adapter<SelectMemberAdapte
     }
 
 
-    @Override
-    public int getItemCount()
-    {
-        return mDatas.size();
-    }
-
-    public static class SelectMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
-
-        private OnItemClickListener mListener;
-        public  CheckBox            cb;
-
-        public SelectMemberVH(View itemView, OnItemClickListener listener)
-        {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            mListener = listener;
-            cb = (CheckBox) itemView.findViewById(R.id.cb);
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            if (mListener != null) mListener.onClick(v, getAdapterPosition());
-        }
-
-        public interface OnItemClickListener
-        {
-            void onClick(View view, int pos);
-
-        }
-
-    }
 }

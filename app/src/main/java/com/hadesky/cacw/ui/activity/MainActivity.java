@@ -1,6 +1,5 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -129,10 +128,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-
-
-
     }
 
     @Override
@@ -140,7 +135,6 @@ public class MainActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem addItem = menu.getItem(0);
-
 
 
         //mPopupMenu = new PopupMenu(this,addView);
@@ -156,6 +150,12 @@ public class MainActivity extends BaseActivity {
             case R.id.action_new_task:
                 startActivity(new Intent(this,EditTaskActivity.class));
                 break;
+            case R.id.action_new_team:
+                startActivity(new Intent(this,NewTeamActivity.class));
+                break;
+
+
+
             case R.id.action_settings:
                 Intent intent = new Intent(this, SettingActivity.class);
                 startActivity(intent);

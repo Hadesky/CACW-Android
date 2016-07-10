@@ -9,6 +9,8 @@
     tools:context="com.hadesky.cacw.ui.activity.EditMyInfoActivity"
     >
     <android.support.v7.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:id="@+id/toolbar"
         app:title="修改资料"
         android:layout_width="match_parent"

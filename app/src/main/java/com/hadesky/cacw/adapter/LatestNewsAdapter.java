@@ -1,18 +1,20 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
+import com.hadesky.cacw.bean.ProjectBean;
 
 /**
  * 这是项目详情里面的最新动态adapter
  * Created by MicroStudent on 2016/3/23.
  */
-public class LatestNewsAdapter extends BaseRvAdapter<LatestNewsAdapter.ViewHolder>{
+// TODO: 2016/7/9 0009 该功能的实现暂时无计划
+public class LatestNewsAdapter extends BaseRvAdapter<LatestNewsAdapter.ViewHolder>
+{
 
     public LatestNewsAdapter(Context mContext) {
         super(mContext);
@@ -34,14 +36,15 @@ public class LatestNewsAdapter extends BaseRvAdapter<LatestNewsAdapter.ViewHolde
         return 100;
     }
 
-    class ViewHolder extends BaseViewHolder{
+
+    public static  class ViewHolder extends BaseViewHolder<ProjectBean>{
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
         @Override
-        public void initView(View itemView) {
+        public void setData(ProjectBean projectBean) {
 
         }
     }

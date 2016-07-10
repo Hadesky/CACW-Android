@@ -20,6 +20,18 @@ public class TeamBean extends BmobObject {
 
     private BmobRelation mProjects;
 
+    public TeamBean() {
+
+    }
+
+    public BmobRelation getmProjects() {
+        return mProjects;
+    }
+
+    public void setmProjects(BmobRelation mProjects) {
+        this.mProjects = mProjects;
+    }
+
     public String getSummary() {
         return mSummary;
     }
@@ -48,9 +60,7 @@ public class TeamBean extends BmobObject {
         this.mTeamName = mTeamName;
     }
 
-    public TeamBean() {
 
-    }
 
 
     public String getTeamName() {

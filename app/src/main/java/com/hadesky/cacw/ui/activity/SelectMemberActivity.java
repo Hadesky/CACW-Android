@@ -39,10 +39,9 @@ public class SelectMemberActivity extends BaseActivity
         for (int i = 0; i < 20; i++) {
             list.add(new UserBean("谢伟鹏"));
         }
-        mAdapter = new SelectMemberAdapter(this,list);
+        mAdapter = new SelectMemberAdapter(list,R.layout.item_select_members);
         mRecyclerView.setAdapter(mAdapter);
     }
-
 
     public void onSelectAll(View v)
     {

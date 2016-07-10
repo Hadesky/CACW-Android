@@ -17,6 +17,7 @@ import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 import com.hadesky.cacw.ui.widget.SwipeRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,12 +60,11 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(getContext(),mPresenter);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(),mPresenter,R.layout.list_item_teamtask);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mPresenter.LoadTasks();
     }
 

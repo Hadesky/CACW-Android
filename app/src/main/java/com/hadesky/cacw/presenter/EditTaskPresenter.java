@@ -1,7 +1,8 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
+
+import java.util.List;
 
 /**
  * 编辑任务或新建任务
@@ -9,13 +10,15 @@ import com.hadesky.cacw.bean.UserBean;
  */
 public interface EditTaskPresenter {
 
-    void createNewTask(TaskBean taskBean);
-    void loadTask();
+    void createNewTask();
 
-    void saveTask();
+    void loadTaskMember();
+
+    void saveTask(List<UserBean> Members);
 
     void loadProjects();
 
-    void deleteMember(UserBean bean);
+    void onDestroy();
+
 
 }

@@ -2,10 +2,8 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.LayoutRes;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
@@ -13,72 +11,43 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.ProjectDetailActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by 45517 on 2015/9/18.
  */
-public class ProjectAdapter extends BaseRvAdapter<ProjectAdapter.ProjectViewHolder> {
+public class ProjectAdapter extends BaseAdapter<ProjectBean> {
 
-    private List<ProjectBean> mData = new ArrayList<>();
 
-    public ProjectAdapter(Context mContext) {
-        super(mContext);
+    public ProjectAdapter(List<ProjectBean> list, @LayoutRes int layoutid) {
+        super(list, layoutid);
     }
 
     @Override
-    public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.list_item_project, parent, false);
-        return new ProjectViewHolder(view);
-    }
+    public BaseViewHolder<ProjectBean> createHolder(View v, Context context) {
 
-    @Override
-    public void onBindViewHolder(ProjectViewHolder holder, int position) {
-        ProjectBean bean = mData.get(position);
-        holder.tv_title.setText(bean.getProjectName());
+        BaseViewHolder<ProjectBean> holder  = new BaseViewHolder<ProjectBean> (v) {
+            @Override
+            public void setData(ProjectBean o) {
+                setTextView(R.id.tv_project_title,o.getProjectName());
+            }
+        };
 
-        holder.setOnItemClickListener(new ProjectViewHolder.OnItemClickListener() {
+        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener(){
             @Override
             public void OnItemClick(View view, int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProjectDetailActivity.class);
-                intent.putExtra(IntentTag.TAG_PROJECT_ID, mData.get(position).getObjectId());
-                intent.putExtra(IntentTag.TAG_PROJECT_NAME,mData.get(position).getProjectName());
+                intent.putExtra(IntentTag.TAG_PROJECT_ID, mDatas.get(position).getObjectId());
+                intent.putExtra(IntentTag.TAG_PROJECT_NAME,mDatas.get(position).getProjectName());
                 mContext.startActivity(intent);
             }
         });
+
+        return holder;
     }
 
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
-    public void setData(List<ProjectBean> data) {
-        this.mData = data;
-        notifyDataSetChanged();
-    }
-
-    /**
-     * ViewHolder内部类
-     */
-    public class ProjectViewHolder extends BaseViewHolder {
-
-        private ImageView iv_avatar;
-        private TextView tv_title;
-
-        public ProjectViewHolder(View itemView) {
-            super(itemView);
-        }
-
-        @Override
-        public void initView(View itemView) {
-            iv_avatar = (ImageView) itemView.findViewById(R.id.iv_project_avatar);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_project_title);
-        }
-    }
 }
 
 

@@ -11,6 +11,8 @@ public class TaskMember extends BmobObject {
     private UserBean mUser;
     private TaskBean mTask;
 
+
+
     public UserBean getUser() {
         return mUser;
     }
