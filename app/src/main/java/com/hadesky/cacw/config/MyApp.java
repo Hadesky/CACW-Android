@@ -3,6 +3,7 @@ package com.hadesky.cacw.config;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hadesky.cacw.bean.UserBean;
 
 import cn.bmob.v3.Bmob;
@@ -30,6 +31,7 @@ public class MyApp extends Application {
         URL = "http://115.28.15.194:8000";
         mContext = this;
         Bmob.initialize(this,"e3eaf0e8f1712c6cb3dee7ba7cc995de");
+        Fresco.initialize(this);
     }
 
     public static UserBean getCurrentUser()
