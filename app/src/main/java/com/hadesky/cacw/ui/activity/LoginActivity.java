@@ -192,7 +192,6 @@ public class LoginActivity extends BaseActivity{
                     Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                 }else
                 {
-                    MyApp.setCurrentUser(userBean);
                     navigateTo(MainActivity.class,true);
                     LoginActivity.this.finish();
                 }

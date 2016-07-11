@@ -68,17 +68,13 @@ public class MainActivity extends BaseActivity {
 //            app.getSession().checkLogin();
 //        }
         UserBean bean = BmobUser.getCurrentUser(UserBean.class);
-        if (bean!=null)
-        {
-            MyApp.setCurrentUser(bean);
-        }else
+        if (bean==null)
         {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }
-
     }
 
     @Override

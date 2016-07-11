@@ -16,6 +16,7 @@ import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
 import com.hadesky.cacw.util.ImageLoader;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 
@@ -137,5 +138,11 @@ public class UserInfoFragment extends BaseFragment {
 
     public void setOnPullZoomListener(PullToZoomBase.OnPullZoomListener listener) {
         mOnPullZoomListener = listener;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserInfo();
     }
 }
