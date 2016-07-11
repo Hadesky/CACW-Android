@@ -116,6 +116,7 @@ public class UserInfoFragment extends BaseFragment {
             }
             mEmailView.setText(bean.getEmail());
             mPhoneView.setText(bean.getMobilePhoneNumber());
+            mSummaryView.setText(bean.getSummary());
             mAddressView.setText(bean.getAddress());
             if (bean.getSex() != null) {
                 mSexView.setImageLevel(bean.getSex());

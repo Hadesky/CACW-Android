@@ -60,8 +60,21 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
     }
 
     @Override
-    public void updateSummary(String summary) {
+    public void updateSummary(final String summary) {
+        UserBean newUser = new UserBean();
+        newUser.setSummary(summary);
+        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
 
+        newUser.update(currentUser.getObjectId(),new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    mEditMyInfoView.setSummary(summary);
+                }else{
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.EditMyInfoPresenter;
 import com.hadesky.cacw.presenter.EditMyInfoPresenterImpl;
-import com.hadesky.cacw.ui.view.BaseView;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
 import com.hadesky.cacw.util.FileUtil;
 
@@ -60,6 +59,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     public void setupView() {
         registerOnClickListener(findViewById(R.id.layout_avatar));
         registerOnClickListener(findViewById(R.id.layout_nick_name));
+        registerOnClickListener(findViewById(R.id.layout_summary));
 
         getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
         mSexPopupMenu.setOnMenuItemClickListener(this);
@@ -88,7 +88,26 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.layout_nick_name:
                 showNickNameDialog();
                 break;
+            case R.id.layout_summary:
+                showSummaryDialog();
+                break;
         }
+    }
+
+    private void showSummaryDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_personal_summary, null);
+        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+        editText.setText(mSummaryTextView.getText());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.personal_summary))
+                .setView(view)
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.updateSummary(editText.getText().toString());
+                    }
+                });
+        builder.create().show();
     }
 
     private void showNickNameDialog() {
