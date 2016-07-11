@@ -40,10 +40,10 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void setupViews(Bundle bundle);
 
     public void showToast(String info) {
-        Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
     }
 
     public void showToast(int resId) {
-        Toast.makeText(getActivity(), resId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
     }
 }

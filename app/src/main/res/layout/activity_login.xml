@@ -103,7 +103,7 @@
         android:onClick="btOnClick"/>
     <TextView
         style="@style/LinkButton_login"
-        android:text="忘记密码？"
+        android:text="@string/forget_password"
         android:id="@+id/tv_forget_psw"
         android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
