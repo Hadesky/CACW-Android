@@ -25,7 +25,6 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //内存泄露检查
 
 //        session  = new SessionManagement(this);
         URL = "http://115.28.15.194:8000";

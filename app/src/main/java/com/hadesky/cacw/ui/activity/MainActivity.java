@@ -34,6 +34,7 @@ public class MainActivity extends BaseActivity {
     private PopupMenu mPopupMenu;
     private View addView;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
@@ -41,11 +42,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        //Check if firstRun,if true, start Welcome Activity
-        checkIfFirstRun();
-        //Check if had login,if no, start Login Activity
-        checkIfLogin();
-
         //ActionBar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,21 +56,6 @@ public class MainActivity extends BaseActivity {
 
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.appbar);
 
-    }
-
-    private void checkIfLogin() {
-//        if (isFirstRun()) {
-//            final MyApp app = (MyApp) getApplication();
-//            app.getSession().checkLogin();
-//        }
-        UserBean bean = BmobUser.getCurrentUser(UserBean.class);
-        if (bean==null)
-        {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
     }
 
     @Override
@@ -174,39 +155,11 @@ public class MainActivity extends BaseActivity {
 
 
     /**
-     * 检查是否第一次运行程序
-     */
-    private void checkIfFirstRun() {
-        if (isFirstRun()) {
-            Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), WelcomeActivity.class);
-            startActivity(intent);
-            this.finish();
-        }
-    }
-
-    /**
-     *检查是否第一次运行程序，返回值表示是否第一次运行
-     * @return  true表示第一次运行
-     */
-    private boolean isFirstRun() {
-        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
-        int count = preferences.getInt("runCount", 0);
-        return count == 0;
-    }
-
-    /**
      * onDestroy的时候增加一次使用记录
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //退出自动增加一次使用次数
-        SharedPreferences preferences = getSharedPreferences("runCount", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        final int count = preferences.getInt("runCount", 0);
-        editor.putInt("runCount", count + 1);
-        editor.apply();
 //        关闭数据库
         DatabaseManager.getInstance(getApplicationContext()).closeDB();
     }
