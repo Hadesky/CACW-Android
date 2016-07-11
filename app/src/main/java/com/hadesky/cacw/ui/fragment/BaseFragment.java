@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 /**
+ *
  * Created by Bright Van on 2015/8/22/022.
  */
 public abstract class BaseFragment extends Fragment {
