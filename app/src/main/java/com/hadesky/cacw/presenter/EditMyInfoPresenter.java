@@ -14,5 +14,7 @@ public interface EditMyInfoPresenter {
 
     void updateSummary(String summary);
 
+    void updateNickName(String nickName);
+
     void loadInfo();
 }

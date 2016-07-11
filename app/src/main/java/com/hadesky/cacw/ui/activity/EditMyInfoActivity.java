@@ -10,8 +10,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +35,6 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private ImageView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
-    private AlertDialog mNickNameDialog;
     private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView;
     private EditMyInfoPresenter mPresenter;
 
@@ -51,19 +52,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mSummaryTextView = (TextView) findViewById(R.id.tv_summary);
         mNickNameTextView = (TextView) findViewById(R.id.tv_nick_name);
         mUserNameTextView = (TextView) findViewById(R.id.tv_username);
-        mNickNameDialog = new AlertDialog.Builder(this)
-                .setTitle("修改昵称")
-                .setView(R.layout.dialog_nick_name)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText et = (EditText) mNickNameDialog.findViewById(R.id.edit_text);
-                        if (et != null) {
-                            mNickNameTextView.setText(et.getText());
-                        }
-                    }
-                })
-                .create();
+
         mPresenter = new EditMyInfoPresenterImpl(this);
     }
 
@@ -97,9 +86,25 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 showPictureChooserDialog();
                 break;
             case R.id.layout_nick_name:
-                mNickNameDialog.show();
+                showNickNameDialog();
                 break;
         }
+    }
+
+    private void showNickNameDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
+        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+        editText.setText(mNickNameTextView.getText());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.edit_nick_name))
+                .setView(view)
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.updateNickName(editText.getText().toString());
+                    }
+                });
+        builder.create().show();
     }
 
     /**

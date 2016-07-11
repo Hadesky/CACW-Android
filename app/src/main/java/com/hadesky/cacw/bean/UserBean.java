@@ -39,6 +39,9 @@ public class UserBean extends BmobUser implements Serializable{
 
     public String getNickName()
     {
+        if (mNickName == null) {
+            return "蚂蚁";
+        }
         return mNickName;
     }
 

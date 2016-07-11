@@ -65,6 +65,28 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
     }
 
     @Override
+    public void updateNickName(final String nickName) {
+        if (nickName == null || nickName.isEmpty()) {
+            mEditMyInfoView.showMsg("不能设置为空");
+            return;
+        }
+        UserBean newUser = new UserBean();
+        newUser.setNickName(nickName);
+        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+
+        newUser.update(currentUser.getObjectId(),new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    mEditMyInfoView.setNickName(nickName);
+                }else{
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
     public void loadInfo() {
         if (mCurrentUser != null) {
             mEditMyInfoView.setSex(mCurrentUser.getSex());

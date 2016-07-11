@@ -48,6 +48,10 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void setupViews(Bundle bundle) {
         MyApp app = (MyApp) getActivity().getApplication();
+        loadUserInfo();
+    }
+
+    private void loadUserInfo() {
         userName.setText(getNickName());
 //        userImageView.setImageBitmap(getUserAvatar(app));
     }
@@ -102,5 +106,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserInfo();
     }
 }

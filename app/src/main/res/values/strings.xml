@@ -44,4 +44,5 @@
     <string name="hide">HIDE</string>
     <string name="show">SHOW</string>
     <string name="default_user_name">蚂蚁</string>
+    <string name="edit_nick_name">修改昵称</string>
 </resources>
