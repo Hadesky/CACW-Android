@@ -43,7 +43,6 @@ public class LoginActivity extends BaseActivity{
     private boolean mIsPwVisitable = false;
     private View mForgetPsw;
 
-    private AnimProgressDialog mProgressDialog ;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -62,9 +61,6 @@ public class LoginActivity extends BaseActivity{
 
         mUsername = (EditText) findViewById(R.id.editview_username);
         mPassword = (EditText) findViewById(R.id.editview_password);
-
-        mProgressDialog = new AnimProgressDialog(this, false, null, "登录中...");
-
     }
 
     @Override
@@ -176,17 +172,19 @@ public class LoginActivity extends BaseActivity{
      * @param password 密码
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
+        final AnimProgressDialog progressDialog = new AnimProgressDialog(this, false, null, "登录中...");
+
         //隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
         }
-        mProgressDialog.show();
+        progressDialog.show();
         UserBean.loginByAccount(username, password, new LogInListener<UserBean>() {
 
             @Override
             public void done(UserBean userBean, BmobException e) {
-                mProgressDialog.cancel();
+                progressDialog.cancel();
                 if (e!=null)
                 {
                     Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
