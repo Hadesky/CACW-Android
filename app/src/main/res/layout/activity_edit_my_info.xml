@@ -25,9 +25,10 @@
         android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_large">
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_avatar"
             android:contentDescription="@string/avatar"
+            app:placeholderImage="@drawable/default_user_image"
             android:src="@drawable/default_user_image"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"

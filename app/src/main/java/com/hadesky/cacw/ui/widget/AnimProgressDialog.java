@@ -23,6 +23,10 @@ public class AnimProgressDialog extends Dialog {
         this(context, true, null);
     }
 
+    public AnimProgressDialog(Context context, String title) {
+        this(context, true, null, title);
+    }
+
     public AnimProgressDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
         this(context, cancelable, cancelListener, "载入中...");
     }
@@ -44,10 +48,18 @@ public class AnimProgressDialog extends Dialog {
             titleView.setText(title);
         }
         animView = (ColorfulAnimView) findViewById(R.id.view_anim);
-
-        animView.startAnim();
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        animView.startAnim();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        animView.stopAnim();
+    }
 }
 

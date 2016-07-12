@@ -73,7 +73,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     public void LoadTasks()
     {
         mTaskView.showProgress();
-        mTaskModel.LoadTaskByCache();//先拿本地络数据显示,再请求网
+        mTaskModel.LoadTaskByCache();//先拿本地数据显示,再请求网络
 
         if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
         {

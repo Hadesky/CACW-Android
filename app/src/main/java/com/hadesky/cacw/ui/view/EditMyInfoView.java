@@ -9,7 +9,7 @@ import com.hadesky.cacw.bean.UserBean;
  */
 
 public interface EditMyInfoView extends BaseView {
-    void setAvatar(Bitmap avatar);
+    void setAvatar(String avatarUrl);
 
     void setSex(Byte sex);
 

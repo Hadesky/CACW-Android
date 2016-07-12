@@ -8,7 +8,7 @@ import android.net.Uri;
 
 public interface EditMyInfoPresenter {
 
-    void updateUserAvatar(Uri avatarPath);
+    void updateAvatar(String avatarPath);
 
     void updateSexual(Byte sex);
 

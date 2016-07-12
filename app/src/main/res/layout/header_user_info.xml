@@ -9,16 +9,15 @@
     android:gravity="bottom"
     tools:background="@color/color_font_gray"
     >
-    <com.hadesky.cacw.ui.widget.CircleImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
         android:layout_width="@dimen/image_more_large"
-        android:src="@drawable/default_user_image"
         android:layout_height="@dimen/image_more_large"
         android:scaleType="centerCrop"
         android:layout_margin="@dimen/spacing_normal"
         android:layout_alignParentBottom="true"
-        app:border_width="0dp"
-        app:border_color="@android:color/transparent"
+        app:placeholderImage="@drawable/default_user_image"
+        app:roundAsCircle="true"
         />
     <TextView
         android:id="@+id/tv_username"

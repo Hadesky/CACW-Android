@@ -1,15 +1,15 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
@@ -24,7 +24,7 @@ import com.hadesky.cacw.ui.widget.AnimProgressDialog;
  */
 
 public class MeFragment extends BaseFragment implements View.OnClickListener {
-    private ImageView userImageView;
+    private SimpleDraweeView mAvatarImageView;
     private TextView userName;
 
     @Override
@@ -34,7 +34,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initViews(View view) {
-        userImageView = (ImageView) view.findViewById(R.id.iv_me_avatar);
+        mAvatarImageView = (SimpleDraweeView) view.findViewById(R.id.iv_avatar);
         userName = (TextView) view.findViewById(R.id.tv_me_username);
         //暂时使用这种方式设置listener
         view.findViewById(R.id.layout_setting).setOnClickListener(this);
@@ -47,13 +47,20 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        MyApp app = (MyApp) getActivity().getApplication();
         loadUserInfo();
     }
 
     private void loadUserInfo() {
         userName.setText(getNickName());
-//        userImageView.setImageBitmap(getUserAvatar(app));
+        mAvatarImageView.setImageURI(getAvatarUrl());
+    }
+
+    private String getAvatarUrl() {
+        UserBean bean = MyApp.getCurrentUser();
+        if (bean != null && bean.getUserAvatar() != null) {
+            return bean.getUserAvatar().getUrl();
+        }
+        return null;
     }
 
     /**
@@ -66,11 +73,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             return "蚂蚁";
         }
         return nickName;
-    }
-
-    private Bitmap getUserAvatar() {
-
-        return BitmapFactory.decodeResource(getResources(), R.drawable.default_user_image);
     }
 
 

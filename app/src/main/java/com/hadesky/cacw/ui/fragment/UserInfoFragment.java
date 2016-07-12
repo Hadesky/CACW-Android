@@ -30,8 +30,8 @@ public class UserInfoFragment extends BaseFragment {
     private static final String TAG = "UserInfoFragment";
     private PullToZoomScrollViewEx pullToZoomScrollView;
     private TextView mNickNameView, mSummaryView, mPhoneView, mEmailView, mAddressView;
-    private ImageView mSexView, mAvatarView, mZoomView;
-
+    private ImageView mSexView, mZoomView;
+    private SimpleDraweeView mAvatarView;
     private String userId;
 
     private PullToZoomBase.OnPullZoomListener mOnPullZoomListener;
@@ -50,7 +50,7 @@ public class UserInfoFragment extends BaseFragment {
         mEmailView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_email);
         mAddressView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_address);
         mSexView = (ImageView) pullToZoomScrollView.findViewById(R.id.iv_sex);
-        mAvatarView = (ImageView) pullToZoomScrollView.findViewById(R.id.iv_avatar);
+        mAvatarView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_avatar);
         mZoomView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_zoom);
 
         userId = getArguments().getString(IntentTag.TAG_USER_ID);
@@ -127,19 +127,9 @@ public class UserInfoFragment extends BaseFragment {
             if (bean.getSex() != null) {
                 mSexView.setImageLevel(bean.getSex());
             }
-//            if (bean.getUserAvatar() != null) {
-//                bean.getUserAvatar().download(new DownloadFileListener() {
-//                    @Override
-//                    public void done(String s, BmobException e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onProgress(Integer integer, long l) {
-//
-//                    }
-//                });
-//            }
+            if (bean.getUserAvatar() != null) {
+                mAvatarView.setImageURI(bean.getUserAvatar().getUrl());
+            }
         }
     }
 

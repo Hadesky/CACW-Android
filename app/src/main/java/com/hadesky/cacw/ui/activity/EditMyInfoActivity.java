@@ -3,26 +3,25 @@ package com.hadesky.cacw.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.EditMyInfoPresenter;
 import com.hadesky.cacw.presenter.EditMyInfoPresenterImpl;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FileUtil;
 
 public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, EditMyInfoView {
@@ -31,11 +30,12 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
 
     private static final String TEMP_FILE_NAME = "cache_bitmap";//存放临时存放头像的文件名
 
-    private ImageView mAvatarImageView;
+    private SimpleDraweeView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
     private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView;
     private EditMyInfoPresenter mPresenter;
+    private AnimProgressDialog mProgressDialog;
 
     @Override
     public int getLayoutId() {
@@ -44,7 +44,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void initView() {
-        mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
+        mAvatarImageView = (SimpleDraweeView) findViewById(R.id.iv_avatar);
         mSexLayout = findViewById(R.id.layout_sex);
         mSexPopupMenu = new PopupMenu(this, mSexLayout, Gravity.END);
         mSexTextView = (TextView) findViewById(R.id.tv_sex);
@@ -167,9 +167,9 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 if (resultCode == RESULT_OK) {
                     if (data != null && data.getData() != null) {
                         Uri filePath = data.getData();
-                        System.out.println("path " + filePath);
-                        Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
-                        mAvatarImageView.setImageBitmap(selectedImage);
+                        mPresenter.updateAvatar(filePath.getPath());
+//                        Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
+//                        mAvatarImageView.setImageBitmap(selectedImage);
                     }
                 }
         }
@@ -210,12 +210,17 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void showProgress() {
-
+        if (mProgressDialog == null) {
+            mProgressDialog = new AnimProgressDialog(this, "上传中...");
+        }
+        mProgressDialog.show();
     }
 
     @Override
     public void hideProgress() {
-
+        if (mProgressDialog != null) {
+            mProgressDialog.cancel();
+        }
     }
 
     @Override
@@ -224,9 +229,9 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void setAvatar(Bitmap avatar) {
-        if (avatar != null && mAvatarImageView != null) {
-            mAvatarImageView.setImageBitmap(avatar);
+    public void setAvatar(String avatarUrl) {
+        if (avatarUrl != null && mAvatarImageView != null) {
+            mAvatarImageView.setImageURI(avatarUrl);
         }
     }
 
