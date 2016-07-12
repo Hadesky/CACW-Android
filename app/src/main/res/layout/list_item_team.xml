@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:background="@drawable/list_item_bg"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     >
-    <com.hadesky.cacw.ui.widget.CircleImageView
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_team_icon"
+        android:layout_width="@dimen/image_normal"
+        android:layout_height="@dimen/image_normal"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:id="@+id/icon"
-        android:layout_centerVertical="true"
-        android:src="@drawable/default_user_image"
-        android:layout_width="@dimen/image_normal"
-        android:layout_height="@dimen/image_normal"/>
+        app:placeholderImage="@drawable/default_user_image"
+        app:roundAsCircle="true"/>
+
     <TextView
         android:id="@+id/mTeamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:layout_centerVertical="true"
-        tools:text="计院学生会"
         android:layout_toRightOf="@id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        tools:text="计院学生会"/>
+
     <TextView
         android:id="@+id/members_count"
-        tools:text="110人"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_height="wrap_content"/>
+        android:layout_marginRight="16dp"
+        tools:text="110人"/>
 </RelativeLayout>
 

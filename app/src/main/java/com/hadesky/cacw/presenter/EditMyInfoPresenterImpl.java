@@ -1,8 +1,5 @@
 package com.hadesky.cacw.presenter;
 
-import android.net.Uri;
-import android.util.Log;
-
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
@@ -134,6 +131,7 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
             mEditMyInfoView.setNickName(mCurrentUser.getNickName());
             mEditMyInfoView.setSummary(mCurrentUser.getSummary());
             mEditMyInfoView.setUserName(mCurrentUser.getUsername());
+            if (mCurrentUser.getUserAvatar()!=null)
             mEditMyInfoView.setAvatar(mCurrentUser.getUserAvatar().getUrl());
         }
     }

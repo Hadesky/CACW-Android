@@ -70,7 +70,6 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        loadUserInfo();
         if (mOnPullZoomListener != null) {
             pullToZoomScrollView.setOnPullZoomListener(mOnPullZoomListener);
         }

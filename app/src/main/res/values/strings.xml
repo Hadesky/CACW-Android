@@ -46,4 +46,5 @@
     <string name="default_user_name">蚂蚁</string>
     <string name="edit_nick_name">修改昵称</string>
     <string name="forget_password">忘记密码？</string>
+    <string name="changeSummary">修改简介</string>
 </resources>

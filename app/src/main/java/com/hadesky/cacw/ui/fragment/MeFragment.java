@@ -3,7 +3,6 @@ package com.hadesky.cacw.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +46,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        loadUserInfo();
     }
 
     private void loadUserInfo() {
