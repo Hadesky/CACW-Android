@@ -1,12 +1,15 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.ui.activity.TeamInfoActivity;
 
 import java.util.List;
 
@@ -30,6 +33,16 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
                 setTextView(R.id.mTeamName,teamBean.getTeam().getTeamName());
             }
         };
+        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                TeamBean teamBean = mDatas.get(position).getTeam();
+                Intent intent=  new Intent(mContext, TeamInfoActivity.class);
+                intent.putExtra(TeamInfoActivity.IntentTag, teamBean);
+                mContext.startActivity(intent);
+            }
+        });
+
         return holder;
     }
 }

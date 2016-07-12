@@ -15,10 +15,8 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
 import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
-import com.hadesky.cacw.util.ImageLoader;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 
@@ -64,7 +62,6 @@ public class UserInfoFragment extends BaseFragment {
         mZoomView.setImageURI(uri);
 
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
@@ -74,18 +71,6 @@ public class UserInfoFragment extends BaseFragment {
     @Override
     protected void setupViews(Bundle bundle) {
         loadUserInfo();
-//        GetUserInfoTask task = new GetUserInfoTask(getActivity(), new GetUserInfoTask.Callback() {
-//            @Override
-//            public void onSuccess(UserBean bean) {
-//                updateData(bean);
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//                showToast(msg);
-//            }
-//        });
-//        task.execute(userId);
         if (mOnPullZoomListener != null) {
             pullToZoomScrollView.setOnPullZoomListener(mOnPullZoomListener);
         }

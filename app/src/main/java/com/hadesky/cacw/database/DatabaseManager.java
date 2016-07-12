@@ -82,7 +82,7 @@ public class DatabaseManager {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TASK_TASK_ID, bean.getObjectId());
         cv.put(COLUMN_TASK_TITLE, bean.getTitle());
-        cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
+        //cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
         cv.put(COLUMN_TASK_CONTENT,bean.getContent());
         cv.put(COLUMN_TASK_LOCATION,bean.getLocation());
         return db.insert(TABLE_TASK, null, cv);

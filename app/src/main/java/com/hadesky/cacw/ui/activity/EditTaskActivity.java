@@ -20,8 +20,10 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.EditTaskView;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务
     private List<ProjectBean> mProjectList;
+    private AnimProgressDialog mProgressDialog;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_edit_task;
@@ -69,11 +73,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mEdtLocation = (EditText) findViewById(R.id.edtLoaction);
         mEdtDetail = (EditText) findViewById(R.id.edtDetail);
         mTvProject = (TextView) findViewById(R.id.tvProject);
-
     }
 
     @Override
     public void setupView() {
+
+        mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
+
         mToolbar.setTitle(R.string.edit_task);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -206,8 +212,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
 
     @Override
-    public boolean onMemberDelete(UserBean user_id) {
+    public boolean onMemberDelete(UserBean user) {
 
+        if (user.getObjectId().equals(MyApp.getCurrentUser().getObjectId()))
+        {
+            showMsg("不能删除自己");
+            return  false;
+        }
         return true;
     }
 
@@ -260,17 +271,17 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     @Override
     public void showProgress() {
-
+        mProgressDialog.show();
     }
 
     @Override
     public void hideProgress() {
-
+        mProgressDialog.dismiss();
     }
 
     @Override
     public void showMsg(String msg) {
-
+        showToast(msg);
     }
 
     @Override

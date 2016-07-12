@@ -158,7 +158,17 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         if (mMembers==null)
             return;
         if (members.size()==0)
+        {
             mView.showMsg("数据异常，成员数量为0");
+            return;
+        }
+
+        if (mTask.getProjectBean()==null)
+        {
+            mView.showMsg("请选择所属项目");
+            return;
+        }
+
 
         if (newTask) {
            saveNewTask(members);
@@ -186,7 +196,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 }
                 BmobQuery<TeamBean> teamQuery = new BmobQuery<>();
                 BmobQuery<ProjectBean> query = new BmobQuery<>();
-                teamQuery.addWhereContainedIn("ObjectId", teamid);
+                teamQuery.addWhereContainedIn("ObjectId",teamid);
                 query.addWhereMatchesQuery("mTeam", "TeamBean", teamQuery);
                 return query.findObjectsObservable(ProjectBean.class);
             }
@@ -200,8 +210,8 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
             @Override
             public void onError(Throwable throwable) {
-
-                mView.showMsg(throwable.getMessage());
+                mView.hideProgress();
+                mView.showMsg("当前没有项目");
             }
 
             @Override
@@ -209,8 +219,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 mView.selectProject(projectBeen);
             }
         });
-
-
     }
 
     @Override

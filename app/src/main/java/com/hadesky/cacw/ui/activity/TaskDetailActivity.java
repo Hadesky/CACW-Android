@@ -16,6 +16,7 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskDetailView;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private Long mTaskId;
     private TaskMembersAdapter mAdapter;
     private TaskBean mTask;
+    private AnimProgressDialog mProgressDialog;
 
     @Override
     public int getLayoutId()
@@ -47,6 +49,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void initView()
     {
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
@@ -60,6 +63,9 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void setupView()
     {
+        mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
+
+
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -108,7 +114,6 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mProject.setText(task.getTitle());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
-
         mAdapter.notifyDataSetChanged();
     }
 
@@ -121,17 +126,17 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void showProgress()
     {
-
+        mProgressDialog.show();
     }
 
     @Override
     public void hideProgress()
     {
-
+        mProgressDialog.dismiss();
     }
 
     @Override
     public void showMsg(String s) {
-
+        showToast(s);
     }
 }
