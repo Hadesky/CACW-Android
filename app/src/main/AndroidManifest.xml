@@ -4,38 +4,38 @@
           package="com.hadesky.cacw">
 
     <!-- 允许应用程序写数据到外部存储设备（主要是SD卡） -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 在SDCard中创建/删除文件的权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 访问网络 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 获取移动网络信息 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- 获取WIFI信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!-- 允许访问GPS -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!-- 改变WiFi状态 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <!-- 读取手机状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 允许程序管理AccountManager中的账户列表 -->
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <!-- 访问GMail账户列表 -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <!-- 可以发送系统数据库更新广播 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 访问系统图库获得图片 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- 蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- 读取账户权限 -->
-    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS" />
-    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS_PRIVILEGED" />
-    <uses-permission android:name="ANDROID.PERMISSION.ACCOUNT_MANAGER" />
+    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS"/>
+    <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS_PRIVILEGED"/>
+    <uses-permission android:name="ANDROID.PERMISSION.ACCOUNT_MANAGER"/>
 
     <application
         android:name=".config.MyApp"
@@ -48,85 +48,80 @@
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:label="欢迎使用"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:label="@string/title_activity_setting" />
+            android:label="@string/title_activity_setting"/>
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".ui.activity.LoginActivity"
-            >
+            android:parentActivityName=".ui.activity.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.LoginActivity" />
+                android:value=".ui.activity.LoginActivity"/>
         </activity>
         <activity
             android:name=".ui.activity.AddTaskActivity"
-            android:label="@string/title_activity_add_task" />
-        <activity android:name=".ui.activity.TaskDetailActivity" />
-        <activity android:name=".ui.activity.EditTaskActivity" />
+            android:label="@string/title_activity_add_task"/>
+        <activity android:name=".ui.activity.TaskDetailActivity"/>
+        <activity android:name=".ui.activity.EditTaskActivity"/>
         <activity
             android:name=".ui.activity.UserInfoActivity"
             android:label="用户信息"
-            android:theme="@style/translucent_status" />
-        <activity android:name=".ui.activity.SelectMemberActivity" />
+            android:theme="@style/translucent_status"/>
+        <activity android:name=".ui.activity.SelectMemberActivity"/>
         <activity
             android:name=".ui.activity.ProjectDetailActivity"
-            android:parentActivityName=".ui.activity.MainActivity"
-            >
+            android:parentActivityName=".ui.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.MainActivity"/>
         </activity>
         <activity
             android:name=".ui.activity.TaskListActivity"
-            android:parentActivityName=".ui.activity.TaskDetailActivity"
-            >
+            android:parentActivityName=".ui.activity.TaskDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.TaskDetailActivity" />
+                android:value=".ui.activity.TaskDetailActivity"/>
         </activity>
         <activity android:name=".ui.activity.AboutActivity">
             <intent-filter>
-                <action android:name="com.hadesky.cacw.about" />
+                <action android:name="com.hadesky.cacw.about"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.MyInfoActivity"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/translucent_status"
-            >
+            android:theme="@style/translucent_status">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.MainActivity"/>
         </activity>
-        <activity android:name=".ui.activity.MyTeamActivity" />
+        <activity android:name=".ui.activity.MyTeamActivity"/>
         <activity android:name=".ui.activity.ForgetPswActivity">
-
         </activity>
         <activity android:name=".ui.activity.EditMyInfoActivity">
-
         </activity>
         <activity android:name=".ui.activity.NewTeamActivity">
-
+        </activity>
+        <activity android:name=".ui.activity.TeamInfoActivity">
         </activity>
     </application>
 

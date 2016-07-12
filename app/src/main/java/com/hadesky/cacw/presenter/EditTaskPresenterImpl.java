@@ -211,7 +211,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
             @Override
             public void onError(Throwable throwable) {
                 mView.hideProgress();
-                mView.showMsg(throwable.getMessage());
+                mView.showMsg("当前没有项目");
             }
 
             @Override
@@ -219,8 +219,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 mView.selectProject(projectBeen);
             }
         });
-
-
     }
 
     @Override

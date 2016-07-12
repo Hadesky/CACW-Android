@@ -78,7 +78,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     @Override
     public void setupView() {
 
-        mProgressDialog = new AnimProgressDialog(this, false, null, "保存中");
+        mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
 
         mToolbar.setTitle(R.string.edit_task);
         setSupportActionBar(mToolbar);

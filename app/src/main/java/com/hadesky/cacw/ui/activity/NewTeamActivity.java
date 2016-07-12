@@ -87,10 +87,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView{
 
 
     private void createTeam() {
-        // TODO: 2016/7/10 0010 这里逻辑简单，暂时不用MVP
-
         String tname = mEdtTeamName.getText().toString();
-
         mPresenters.createTeam(tname,mAvatarFile);
     }
 

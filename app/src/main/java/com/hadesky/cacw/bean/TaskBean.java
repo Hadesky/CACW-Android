@@ -1,7 +1,5 @@
 package com.hadesky.cacw.bean;
 
-import java.io.Serializable;
-
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobDate;
 
@@ -11,7 +9,7 @@ import cn.bmob.v3.datatype.BmobDate;
  */
 
 
-public class TaskBean extends BmobObject implements Serializable
+public class TaskBean extends BmobObject
 {
     private String mTitle = "";
     private BmobDate mStartDate;

@@ -42,7 +42,6 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中...");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

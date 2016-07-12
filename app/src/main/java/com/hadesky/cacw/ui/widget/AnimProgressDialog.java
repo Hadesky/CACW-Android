@@ -38,7 +38,6 @@ public class AnimProgressDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);//去标题栏
 
         setContentView(R.layout.dialog_anim_progress);
-
         titleView = (TextView) findViewById(R.id.tv_title);
         if (!title.isEmpty()) {
             titleView.setText(title);
