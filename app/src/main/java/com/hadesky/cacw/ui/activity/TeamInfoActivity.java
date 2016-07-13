@@ -10,14 +10,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
@@ -29,6 +31,7 @@ import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.util.BlurProcessor;
 import com.hadesky.cacw.util.FileUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
@@ -49,7 +52,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     private TeamInfoPresenter mPresenters;
     private TeamBean mTeam;
     private SimpleDraweeView mSimpleDraweeView;
-
+    private SimpleDraweeView mZoom;
 
     @Override
     public int getLayoutId() {
@@ -64,6 +67,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mProgressDialog = new AnimProgressDialog(this, false, null, "请稍后...");
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_team_member);
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
+        mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -124,7 +129,16 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
         if (mTeam.getTeamAvatar() != null)
-            mSimpleDraweeView.setImageURI(Uri.parse(mTeam.getTeamAvatar().getUrl()));
+        {
+            Uri uri = Uri.parse(mTeam.getTeamAvatar().getUrl());
+            mSimpleDraweeView.setImageURI(uri);
+
+            DraweeController controller = Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new BlurProcessor()).build())
+                    .build();
+            mZoom.setController(controller);
+        }
+
     }
 
     @Override
@@ -211,12 +225,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     }
                 }
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.e("tag", "onStop");
     }
 
     @Override
