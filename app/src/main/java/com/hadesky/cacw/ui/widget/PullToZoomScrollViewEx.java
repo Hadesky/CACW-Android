@@ -242,7 +242,7 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
     protected void onLayout(boolean paramBoolean, int paramInt1, int paramInt2,
                             int paramInt3, int paramInt4) {
         super.onLayout(paramBoolean, paramInt1, paramInt2, paramInt3, paramInt4);
-        Log.d(TAG, "onLayout -->");
+        //Log.d(TAG, "onLayout -->");
         if (mHeaderHeight == 0 && mZoomView != null) {
             mHeaderHeight = mHeaderContainer.getHeight();
         }
@@ -286,7 +286,7 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
                     f2 = mScale - (mScale - 1.0F) * interpolator.getInterpolation(f1);
                     localLayoutParams = mHeaderContainer.getLayoutParams();
 
-                    Log.d(TAG, "ScalingRunnable --> f2 = " + f2);
+                    //Log.d(TAG, "ScalingRunnable --> f2 = " + f2);
 
                     if (f2 > 1.0F) {
                         localLayoutParams.height = ((int) (f2 * mHeaderHeight));

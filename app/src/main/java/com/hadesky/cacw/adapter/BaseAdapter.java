@@ -22,7 +22,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     protected Context mContext;
     int itemLayoutId;
 
-    public BaseAdapter( List<T> list, @LayoutRes int layoutid)
+    public BaseAdapter(List<T> list, @LayoutRes int layoutid)
     {
         mDatas = list;
         itemLayoutId = layoutid;

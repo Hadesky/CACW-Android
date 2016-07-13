@@ -2,8 +2,10 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
@@ -31,6 +33,10 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
             @Override
             public void setData(TeamMember teamBean) {
                 setTextView(R.id.mTeamName,teamBean.getTeam().getTeamName());
+
+                ImageView view = findView(R.id.sdv_team_icon);
+                if (teamBean.getTeam().getTeamAvatar()!=null)
+                    view.setImageURI(Uri.parse(teamBean.getTeam().getTeamAvatar().getUrl()));
             }
         };
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
