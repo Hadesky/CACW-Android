@@ -8,27 +8,34 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.EditMyInfoPresenter;
 import com.hadesky.cacw.presenter.EditMyInfoPresenterImpl;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FileUtil;
+import com.hadesky.cacw.util.ImageResizer;
+
+import java.io.File;
 
 public class EditMyInfoActivity extends BaseActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, EditMyInfoView {
+    private static final int AFTER_CROP = 0;
+    private static final int IMAGE_CAPTURE = 1;
 
     private static final String TAG = "EditMyInfoActivity";
 
-    private static final String TEMP_FILE_NAME = "cache_bitmap";//存放临时存放头像的文件名
+    private static final String TEMP_FILE_NAME_ORIGINAL = "cached_avatar";//存放临时存放头像的文件名，原始数据
+    public static final String TEMP_FILE_NAME_LOW = "cache_avatar_low";//存放临时头像的文件名，低像素
 
     private SimpleDraweeView mAvatarImageView;
     private View mSexLayout;
@@ -134,13 +141,16 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 .setItems(new CharSequence[]{"拍照", "从图库中选择"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent intent;
                         if (which == 0) {
                             //选择拍照
-                            Intent getCameraImage = new Intent("android.media.action.IMAGE_CAPTURE");
-                            startActivityForResult(getCameraImage, 0);
+                            intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(EditMyInfoActivity.this,
+//                                    getTempFileName(TEMP_FILE_NAME_ORIGINAL)));
+                            startActivityForResult(intent, IMAGE_CAPTURE);
                         } else if (which == 1) {
                             //选择从图库选择
-                            Intent intent = new Intent(Intent.ACTION_PICK,
+                            intent = new Intent(Intent.ACTION_PICK,
                                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.setType("image/*");
                             intent.putExtra("crop", "true");
@@ -150,27 +160,63 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                             intent.putExtra("outputY", 600);
                             intent.putExtra("scale", true);
                             intent.putExtra("return-data", false);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(EditMyInfoActivity.this, TEMP_FILE_NAME));
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(EditMyInfoActivity.this, getTempFileName(TEMP_FILE_NAME_ORIGINAL)));
                             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
                             intent.putExtra("noFaceDetection", true); // 关闭人脸检测
-                            startActivityForResult(intent, 0);
+                            startActivityForResult(intent, AFTER_CROP);
                         }
                     }
                 });
         builder.create().show();
     }
 
+    /**
+     * 获取临时文件名，前面加上当前用户的id
+     *
+     * @return 临时文件名
+     */
+    private String getTempFileName(String originalOrLow) {
+        return MyApp.getCurrentUser().getObjectId() + originalOrLow;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 0:
+            case AFTER_CROP:
                 if (resultCode == RESULT_OK) {
                     if (data != null && data.getData() != null) {
                         Uri filePath = data.getData();
-                        mPresenter.updateAvatar(filePath.getPath());
-//                        Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
-//                        mAvatarImageView.setImageBitmap(selectedImage);
+                        File result =
+                                ImageResizer.getCompressBitmap(filePath.getPath(),
+                                        getTempFileName(TEMP_FILE_NAME_LOW), this);
+                        if (result != null) {
+                            mPresenter.updateAvatar(result.getPath());
+                        } else {
+                            Log.e(TAG, "cannot compress bitmap");
+                        }
+//                        mPresenter.updateAvatar(filePath.getPath());
+                    } else {
+                        Log.e(TAG, "cannot get the result file");
                     }
+                }
+                break;
+            case IMAGE_CAPTURE:
+                if (resultCode == RESULT_OK && data != null) {
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    // indicate image type and Uri
+                    intent.setDataAndType(data.getData(), "image/*");
+                    intent.putExtra("crop", "true");
+                    intent.putExtra("aspectX", 1);
+                    intent.putExtra("aspectY", 1);
+                    intent.putExtra("outputX", 600);
+                    intent.putExtra("outputY", 600);
+                    intent.putExtra("scale", true);
+                    intent.putExtra("return-data", false);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(EditMyInfoActivity.this, getTempFileName(TEMP_FILE_NAME_ORIGINAL)));
+                    intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                    intent.putExtra("noFaceDetection", true); // 关闭人脸检测
+                    // start the activity - we handle returning in onActivityResult
+                    startActivityForResult(intent, AFTER_CROP);
                 }
         }
     }
@@ -270,5 +316,4 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
             mUserNameTextView.setText(userName);
         }
     }
-
 }

@@ -47,7 +47,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void setupViews(Bundle bundle) {
-        loadUserInfo();
+
     }
 
     private void loadUserInfo() {
@@ -86,7 +86,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.layout_myinfo:
                 //这里不需要传入任何信息
                 Intent intent = new Intent(getContext(), MyInfoActivity.class);
-                intent.putExtra(IntentTag.TAG_USER_ID, (long)0);//因为暂时没联网，默认用0号当作为当前用户
                 startActivity(intent);
                 break;
             case R.id.layout_complete:

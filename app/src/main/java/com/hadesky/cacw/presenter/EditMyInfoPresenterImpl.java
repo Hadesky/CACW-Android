@@ -1,5 +1,6 @@
 package com.hadesky.cacw.presenter;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 
@@ -32,9 +33,16 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
     }
 
     /**
+     * 这里做两步，第一步先删除服务器上的头像，第二部修改
+     *
      * @param file 已经上传完成的头像文件
      */
     private void updateUserAvatar(final BmobFile file) {
+        BmobFile oldFile = MyApp.getCurrentUser().getUserAvatar();
+        if (oldFile != null) {
+            oldFile.delete();
+        }
+
         UserBean newBean = new UserBean();
         newBean.setUserAvatar(file);
         newBean.update(MyApp.getCurrentUser().getObjectId(), new UpdateListener() {

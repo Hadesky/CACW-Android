@@ -1,17 +1,29 @@
 package com.hadesky.cacw.util;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 简单的调整Bitmap大小
  * Created by MicroStudent on 2015/8/1.
  */
 public class ImageResizer {
+    private static final String TAG = "ImageResizer";
+
+
     /**
      * 计算Bitmap缩小到请求的大小所需的insamplesize
      * @param options
@@ -55,4 +67,56 @@ public class ImageResizer {
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
+    /**
+     * 将一个JPG图片在不减少分辨率的情况下压缩，以便上传服务器，默认压缩质量为85
+     *
+     * @return a bitmap
+     */
+    private static byte[] getCompressBitmapByte(Bitmap original) {
+        if (original != null) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            original.compress(Bitmap.CompressFormat.JPEG, 85, out);
+            return out.toByteArray();
+        }
+        return null;
+    }
+
+    /**
+     * 将一个JPG图片在不减少分辨率的情况下压缩到100kb以下，以便上传服务器
+     * @param original 原始bitmap
+     * @param fileOut 文件输出流
+     */
+    public static void compressBitmapToFile(Bitmap original, FileOutputStream fileOut) {
+        if (original != null && fileOut != null) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            original.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            int quantity = 100;
+            while (out.size() > 1000000 && quantity >= 0) {
+//                out.reset();reset不会清空stream里面的内容,只能重新new一个了。
+                out = new ByteArrayOutputStream();
+                quantity -= 10;
+                original.compress(Bitmap.CompressFormat.JPEG, quantity, out);
+            }
+        }
+    }
+
+    @Nullable
+    public static File getCompressBitmap(String oriPath, String fileName, Context context) {
+        Bitmap original = BitmapFactory.decodeFile(oriPath);
+//        Bitmap compressed = getCompressBitmap(original);
+        File file = FileUtil.createTempFile(context, fileName);
+        FileOutputStream out;
+        if (file==null)
+            return null;
+        try {
+            out = new FileOutputStream(file);
+            out.write(getCompressBitmapByte(original));
+//            compressBitmapToFile(original, out);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 }
