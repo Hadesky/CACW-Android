@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.hadesky.cacw.config.MyApp;
+
 /**
  *
  * Created by Bright Van on 2015/8/22/022.
@@ -41,10 +43,10 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void setupViews(Bundle bundle);
 
     public void showToast(String info) {
-        Toast.makeText(getContext(), info, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApp.getAppContext(), info, Toast.LENGTH_SHORT).show();
     }
 
     public void showToast(int resId) {
-        Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApp.getAppContext(), resId, Toast.LENGTH_SHORT).show();
     }
 }
