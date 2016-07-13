@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/zoom_scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:zoomView="@layout/zoomview_user_info"
-    app:headerView="@layout/header_team_info"
-    app:contentView="@layout/content_team_info"
-    app:isHeaderParallax="false"
-    app:headerViewHeight="@dimen/header_normal"
-    app:maxDragHeight="200dp" />
+    >
+
+    <com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx
+        android:id="@+id/zoom_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:contentView="@layout/content_team_info"
+        app:headerView="@layout/header_team_info"
+        app:headerViewHeight="@dimen/header_normal"
+        app:isHeaderParallax="false"
+        app:maxDragHeight="200dp"
+        app:zoomView="@layout/zoomview_user_info"/>
+    <android.support.v7.widget.Toolbar
+        android:layout_height="?actionBarSize"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar"
+        android:background="@android:color/transparent"
+        />
+</FrameLayout>
+

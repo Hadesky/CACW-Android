@@ -13,5 +13,5 @@ public interface TeamInfoView extends BaseView {
 
     void showMembers(List<TeamMember> list);
     void showProject(List<ProjectBean> list);
-
+    void showInfo();
 }
