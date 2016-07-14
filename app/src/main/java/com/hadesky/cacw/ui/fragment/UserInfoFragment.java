@@ -1,5 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,8 +14,11 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.ImageActivity;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
 import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
+
+import java.io.File;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -53,7 +57,6 @@ public class UserInfoFragment extends BaseFragment {
 
         userId = getArguments().getString(IntentTag.TAG_USER_ID);
 
-        Window window = getActivity().getWindow();
 
 //        //test
 //        ImageLoader loader = ImageLoader.build(getContext());
@@ -61,11 +64,10 @@ public class UserInfoFragment extends BaseFragment {
         Uri uri = Uri.parse("http://www.dujin.org/sys/bing/1366.php");
         mZoomView.setImageURI(uri);
 
-
+        Window window = getActivity().getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-
     }
 
     @Override
@@ -73,6 +75,16 @@ public class UserInfoFragment extends BaseFragment {
         if (mOnPullZoomListener != null) {
             pullToZoomScrollView.setOnPullZoomListener(mOnPullZoomListener);
         }
+        mAvatarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAvatarView.getTag() != null) {
+                    Intent intent = new Intent(getContext(), ImageActivity.class);
+                    intent.putExtra("url", (String) mAvatarView.getTag());
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     private void loadUserInfo() {
@@ -113,6 +125,7 @@ public class UserInfoFragment extends BaseFragment {
             }
             if (bean.getUserAvatar() != null) {
                 mAvatarView.setImageURI(bean.getUserAvatar().getUrl());
+                mAvatarView.setTag(bean.getUserAvatar().getUrl());//将url作为tag放在iv里面
             }
         }
     }

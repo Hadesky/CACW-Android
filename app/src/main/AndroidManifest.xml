@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.hadesky.cacw">
+          package="com.hadesky.cacw"
+    >
 
     <!-- 允许应用程序写数据到外部存储设备（主要是SD卡） -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -43,10 +44,12 @@
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -56,48 +59,60 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:label="欢迎使用"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:label="@string/title_activity_setting"/>
+            android:label="@string/title_activity_setting"
+            />
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".ui.activity.LoginActivity">
+            android:parentActivityName=".ui.activity.LoginActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.LoginActivity"/>
+                android:value=".ui.activity.LoginActivity"
+                />
         </activity>
         <activity
             android:name=".ui.activity.AddTaskActivity"
-            android:label="@string/title_activity_add_task"/>
+            android:label="@string/title_activity_add_task"
+            />
         <activity android:name=".ui.activity.TaskDetailActivity"/>
         <activity android:name=".ui.activity.EditTaskActivity"/>
         <activity
             android:name=".ui.activity.UserInfoActivity"
             android:label="用户信息"
-            android:theme="@style/translucent_status"/>
+            android:theme="@style/translucent_status"
+            />
         <activity android:name=".ui.activity.SelectMemberActivity"/>
         <activity
             android:name=".ui.activity.ProjectDetailActivity"
-            android:parentActivityName=".ui.activity.MainActivity">
+            android:parentActivityName=".ui.activity.MainActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity"/>
+                android:value=".ui.activity.MainActivity"
+                />
         </activity>
         <activity
             android:name=".ui.activity.TaskListActivity"
-            android:parentActivityName=".ui.activity.TaskDetailActivity">
+            android:parentActivityName=".ui.activity.TaskDetailActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.TaskDetailActivity"/>
+                android:value=".ui.activity.TaskDetailActivity"
+                />
         </activity>
         <activity android:name=".ui.activity.AboutActivity">
             <intent-filter>
@@ -109,10 +124,12 @@
         <activity
             android:name=".ui.activity.MyInfoActivity"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/translucent_status">
+            android:theme="@style/translucent_status"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity"/>
+                android:value=".ui.activity.MainActivity"
+                />
         </activity>
         <activity android:name=".ui.activity.MyTeamActivity"/>
         <activity android:name=".ui.activity.ForgetPswActivity">
@@ -122,6 +139,8 @@
         <activity android:name=".ui.activity.NewTeamActivity">
         </activity>
         <activity android:name=".ui.activity.TeamInfoActivity">
+        </activity>
+        <activity android:name=".ui.activity.ImageActivity">
         </activity>
     </application>
 

@@ -27,7 +27,7 @@ public class WelcomeActivity extends BaseActivity {
     private List<ImageView> imageViewList;
     private static final int PAGER_NUMBER = 3;
     private List<Integer> colorList;
-    private int mPriviousIndex = 0;
+    private int mPreviousIndex = 0;
 
     @Override
     public int getLayoutId() {
@@ -58,7 +58,9 @@ public class WelcomeActivity extends BaseActivity {
         }
 
         final View bg = findViewById(R.id.view_bg);
-        bg.setBackgroundColor(colorList.get(0));
+        if (bg != null) {
+            bg.setBackgroundColor(colorList.get(0));
+        }
         mViewPager.setAdapter(mAdapter);
         mIndicatorView.setViewPager(mViewPager);
         mIndicatorView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -71,9 +73,9 @@ public class WelcomeActivity extends BaseActivity {
                 ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
                         "backgroundColor",
                         new ArgbEvaluator(),
-                        colorList.get(mPriviousIndex),
+                        colorList.get(mPreviousIndex),
                         colorList.get(position));
-                mPriviousIndex = position;
+                mPreviousIndex = position;
                 animator1.setDuration(500);
                 animator1.start();
             }
@@ -121,7 +123,7 @@ public class WelcomeActivity extends BaseActivity {
 
         private List<ImageView> mImageViewList;
 
-        public WelcomePagerAdapter(List<ImageView> imageViewList) {
+        WelcomePagerAdapter(List<ImageView> imageViewList) {
             super();
             if (imageViewList != null) {
                 this.mImageViewList = imageViewList;
