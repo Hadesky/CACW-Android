@@ -47,4 +47,9 @@
     <string name="edit_nick_name">修改昵称</string>
     <string name="forget_password">忘记密码？</string>
     <string name="changeSummary">修改简介</string>
+    <string name="no_project">当前没有项目</string>
+    <string name="team_member">团队成员</string>
+    <string name="team_summary">团队介绍</string>
+    <string name="team_notice">团队公告</string>
+    <string name="project_name">项目名称</string>
 </resources>

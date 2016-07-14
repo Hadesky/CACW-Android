@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface MyProjectView extends BaseView {
 
-    void showData(List<ProjectBean> data);
+    void showProject(List<ProjectBean> data);
 
     void onFailure(String msg);
 }

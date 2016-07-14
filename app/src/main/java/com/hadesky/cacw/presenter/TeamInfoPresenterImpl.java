@@ -56,6 +56,8 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
         });
     }
 
+
+
     @Override
     public void changeeSummary(final String s) {
         mView.showProgress();

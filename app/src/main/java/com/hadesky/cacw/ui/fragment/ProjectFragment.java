@@ -13,6 +13,7 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyProjectPresenter;
 import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
 import com.hadesky.cacw.ui.view.MyProjectView;
@@ -29,6 +30,10 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     private ProjectAdapter mAdapter;
     private MyProjectPresenter myProjectPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    public static final String TeamTAG = "team";
+
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_project;
@@ -37,7 +42,6 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     @Override
     protected void initViews(View view) {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_swipe_refresh);
-        myProjectPresenter = new MyProjectPresenterImpl(this);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_project);
         mAdapter = new ProjectAdapter(new ArrayList<ProjectBean>(),R.layout.list_item_project);
@@ -46,6 +50,11 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
 
     @Override
     protected void setupViews(Bundle bundle) {
+
+        TeamBean teamBean = (TeamBean) bundle.getSerializable(TeamTAG);
+
+        myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
+
         myProjectPresenter.loadProject();
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
@@ -78,7 +87,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     }
 
     @Override
-    public void showData(List<ProjectBean> data) {
+    public void showProject(List<ProjectBean> data) {
         mAdapter.setDatas(data);
     }
 
@@ -123,5 +132,11 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
             outRect.set(0, 0, 0, mDecoration.getIntrinsicHeight());
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        myProjectPresenter.onDestroy();
     }
 }

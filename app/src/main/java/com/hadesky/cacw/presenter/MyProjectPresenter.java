@@ -5,4 +5,5 @@ package com.hadesky.cacw.presenter;
  */
 public interface MyProjectPresenter {
     void loadProject();
+    void onDestroy();
 }

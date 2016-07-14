@@ -29,6 +29,7 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
+import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.BlurProcessor;
@@ -112,6 +113,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mPresenters = new TeamInfoPresenterImpl(mTeam, this);
         mPresenters.getTeamMembers();
 
+
+        //点击简介，修改内容
         View v = findViewById(R.id.team_summary);
         if (v != null) {
             v.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +124,21 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
             });
         }
+
+        //点击项目，打开项目列表
+        v = findViewById(R.id.layout_team_project);
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(TeamInfoActivity.this, ProjectsActivity.class);
+                    i.putExtra(ProjectFragment.TeamTAG, mTeam);
+                    startActivity(i);
+                }
+            });
+        }
+
+
     }
 
     @Override
