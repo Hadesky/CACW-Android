@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
-import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskView;
@@ -59,7 +59,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(),mPresenter,R.layout.list_item_teamtask);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskMember>(),mPresenter,R.layout.list_item_teamtask);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
@@ -74,7 +74,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void showDatas(List<TaskBean> tasks)
+    public void showDatas(List<TaskMember> tasks)
     {
         mAdapter.setDatas(tasks);
         mAdapter.notifyDataSetChanged();

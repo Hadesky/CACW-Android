@@ -43,7 +43,6 @@ public class MyProjectPresenterImpl implements MyProjectPresenter {
             loadAllProjects();
         else
             loadTeamProjects();
-
     }
 
 
@@ -66,21 +65,18 @@ public class MyProjectPresenterImpl implements MyProjectPresenter {
 
 
     private void loadAllProjects() {
-        String sql = "select include mTeam,* from ProjectBean where mTeam in (select include mTeam from TeamMember" +
-                " where mUser = Pointer(_User,%s))";
+//        String sql = "select include mTeam,* from ProjectBean where mTeam in (select include mTeam from TeamMember" +
+//                " where mUser = Pointer(_User,%s))";
 
-
-
-        mView.showProgress();
         BmobQuery<TeamMember> tm = new BmobQuery<>();
         tm.addWhereEqualTo("mUser", new BmobPointer(mUser));
 
-
-        tm.findObjects(new FindListener<TeamMember>() {
+        mSubscription = tm.findObjects(new FindListener<TeamMember>() {
             @Override
             public void done(List<TeamMember> list, BmobException e) {
                 if (e != null) {
                     mView.hideProgress();
+                    mView.showMsg(e.getMessage());
                 } else {
                     List<String> IdList = new ArrayList<>();
                     for (TeamMember tm : list) {
@@ -89,9 +85,8 @@ public class MyProjectPresenterImpl implements MyProjectPresenter {
                     BmobQuery<ProjectBean> pb = new BmobQuery<>();
                     pb.include("mTeam");
                     BmobQuery<TeamBean> tb = new BmobQuery<>();
-                    tb.addWhereContainedIn("ObjectId", IdList);
+                    tb.addWhereContainedIn("objectId",IdList);
                     pb.addWhereMatchesQuery("mTeam", "TeamBean", tb);
-
                     pb.findObjects(new FindListener<ProjectBean>() {
                         @Override
                         public void done(List<ProjectBean> list, BmobException e) {
@@ -108,7 +103,6 @@ public class MyProjectPresenterImpl implements MyProjectPresenter {
                 }
             }
         });
-
 
     }
 

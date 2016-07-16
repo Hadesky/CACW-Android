@@ -16,6 +16,7 @@ import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.SelectMemberActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,10 +47,13 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         boolean onMemberDelete(UserBean user_id);
     }
 
-    public EditableMembersAdapter(List<TaskMember> members, Context context, OnMemberDeleteListener listener) {
+    public EditableMembersAdapter(List<TaskMember> member, Context context, OnMemberDeleteListener listener) {
         this.onMemberDeleteListener = listener;
         this.mContext = context;
-        this.members = members;
+        this.members = member;
+        if (member==null)
+            members = new ArrayList<>();
+
         inflater = LayoutInflater.from(context);
     }
 

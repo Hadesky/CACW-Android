@@ -1,6 +1,5 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.model.TaskDetailModel;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.ui.view.TaskDetailView;
 
@@ -10,36 +9,27 @@ import com.hadesky.cacw.ui.view.TaskDetailView;
 public class TaskDetailPresenterImpl implements TaskDetailPresenter
 {
 
-    TaskDetailModel mModel;
+
     TaskDetailView mView;
-    TaskDetailModel.TaskDetailCallBack mCallBack = new TaskDetailModel.TaskDetailCallBack() {
-        @Override
-        public void succeed(Object o)
-        {
-            if (o instanceof TaskBean)
-            mView.showInfo((TaskBean) o);
-
-        }
-
-        @Override
-        public void error(String msg)
-        {
-
-        }
-    };
+    TaskBean mTask;
 
 
-    public TaskDetailPresenterImpl(TaskDetailView view)
+
+    public TaskDetailPresenterImpl(TaskDetailView view,TaskBean task)
     {
-        mModel = new TaskDetailModel(mCallBack);
+        mTask = task;
         mView = view;
     }
     
 
     @Override
-    public void LoadTask(long taskId)
+    public void LoadTask()
     {
-        mModel.getTask(taskId);
+
+    }
+
+    @Override
+    public void onDestroy() {
 
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
@@ -22,8 +23,7 @@ import com.hadesky.cacw.util.FullyGridLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDetailActivity extends BaseActivity implements View.OnClickListener,TaskDetailView
-{
+public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView {
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -35,25 +35,22 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private View mEdit;
     private ScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
-    private Long mTaskId;
     private TaskMembersAdapter mAdapter;
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
 
     @Override
-    public int getLayoutId()
-    {
+    public int getLayoutId() {
         return R.layout.activity_task_detail;
     }
 
     @Override
-    public void initView()
-    {
+    public void initView() {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mEdit =  findViewById(R.id.btn_edit);
+        mEdit = findViewById(R.id.btn_edit);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
@@ -61,14 +58,14 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void setupView()
-    {
+    public void setupView() {
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
 
 
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
@@ -83,10 +80,17 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
-        mTaskId = getIntent().getLongExtra("id", 0);
+        TaskMember tm  = (TaskMember) getIntent().getSerializableExtra("task");
+        if (tm == null) {
+            showToast("数据错误");
+            finish();
+            return;
+        }
+        mTask = tm.getTask();
+        showInfo(mTask);
 
-        mPresenter = new TaskDetailPresenterImpl(this);
-        mPresenter.LoadTask(mTaskId);
+        mPresenter = new TaskDetailPresenterImpl(this, mTask);
+        mPresenter.LoadTask();
     }
 
     @Override
@@ -99,39 +103,36 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
     //点击编辑
     @Override
-    public void onClick(View v)
-    {
-        Intent i = new Intent(this,EditTaskActivity.class);
-        i.putExtra("task",mTask);
+    public void onClick(View v) {
+        Intent i = new Intent(this, EditTaskActivity.class);
+        i.putExtra("task", mTask);
         startActivity(i);
     }
 
     @Override
-    public void showInfo(TaskBean task)
-    {
-        mTask = task;
+    public void showInfo(TaskBean task) {
         mTitle.setText(task.getTitle());
         mProject.setText(task.getTitle());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
-        mAdapter.notifyDataSetChanged();
+
+
+
+
     }
 
     @Override
-    public void ShowMember(List<UserBean> user)
-    {
+    public void ShowMember(List<UserBean> user) {
         // TODO: 2016/7/10 0010 待修改
     }
 
     @Override
-    public void showProgress()
-    {
+    public void showProgress() {
         mProgressDialog.show();
     }
 
     @Override
-    public void hideProgress()
-    {
+    public void hideProgress() {
         mProgressDialog.dismiss();
     }
 

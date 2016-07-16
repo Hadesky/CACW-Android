@@ -105,6 +105,14 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
     }
 
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        myProjectPresenter.onDestroy();
+    }
+
+
     /**
      * 自定义分割线
      */
@@ -142,9 +150,4 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        myProjectPresenter.onDestroy();
-    }
 }

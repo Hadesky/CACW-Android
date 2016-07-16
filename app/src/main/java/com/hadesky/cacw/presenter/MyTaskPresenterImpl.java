@@ -1,109 +1,67 @@
 package com.hadesky.cacw.presenter;
 
-import android.util.Log;
-
-import com.hadesky.cacw.model.MyTaskModel;
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.TaskView;
-import com.hadesky.cacw.util.NetworkUtils;
+
 import java.util.List;
 
-/**控制任务页面数据加载逻辑impl
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import rx.Subscription;
+
+/**
+ * 控制任务页面数据加载逻辑impl
  * Created by dzysg on 2015/10/29 0029.
  */
-public class MyTaskPresenterImpl implements MyTaskPresenter
-{
+public class MyTaskPresenterImpl implements MyTaskPresenter {
     TaskView mTaskView;
-    MyTaskModel mTaskModel;
     List<TaskBean> mDatas;
-
-    MyTaskModel.GetDateCallBack mCallBack = new MyTaskModel.GetDateCallBack() {
-        @Override
-        public void onSucceed(List<TaskBean> list)
-        {
-            mTaskView.showDatas(list);
-            mDatas = list;
-            mTaskView.hideProgress();
-        }
-
-        @Override
-        public void onFailure(String error)
-        {
-            mTaskView.hideProgress();
-            mTaskView.showMsg(error);
-        }
-    };
-
-    MyTaskModel.DelTaskCallBack mDelTaskCallBack = new MyTaskModel.DelTaskCallBack() {
-        @Override
-        public void onSucceed()
-        {
-            mTaskView.showProgress();
-        }
-
-        @Override
-        public void onFailure(String error)
-        {
-
-        }
-    };
-
-    MyTaskModel.CompleteTaskCallBack mCompleteTaskCallBack = new MyTaskModel.CompleteTaskCallBack() {
-        @Override
-        public void onSucceed()
-        {
-            mTaskView.hideProgress();
-        }
-
-        @Override
-        public void onFailure(String error)
-        {
-
-        }
-    };
-
-    public MyTaskPresenterImpl(TaskView view)
-    {
+    UserBean mUser;
+    Subscription mSubscription;
+    public MyTaskPresenterImpl(TaskView view) {
         mTaskView = view;
-        mTaskModel = new MyTaskModel(mCallBack,mDelTaskCallBack,mCompleteTaskCallBack);
+        mUser = MyApp.getCurrentUser();
     }
 
     @Override
-    public void LoadTasks()
-    {
+    public void LoadTasks() {
         mTaskView.showProgress();
-        mTaskModel.LoadTaskByCache();//先拿本地数据显示,再请求网络
-
-        if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
-        {
-            mTaskModel.LoadTaskByNetwork();
-            Log.i("tag", "have network");
-        }
+        BmobQuery<TaskMember> query = new BmobQuery<>();
+        query.addWhereEqualTo("mUser", new BmobPointer(mUser));
+        query.include("mTask");
+        mSubscription =  query.findObjects(new FindListener<TaskMember>() {
+            @Override
+            public void done(List<TaskMember> list, BmobException e) {
+                mTaskView.hideProgress();
+                if (e==null)
+                mTaskView.showDatas(list);
+                else
+                {
+                    mTaskView.showMsg(e.getMessage());
+                }
+            }
+        });
     }
 
 
     @Override
-    public void CompleteTask(int pos)
-    {
-        if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
-        {
-            mTaskView.showProgress();
-            mTaskModel.taskComplete(mDatas.get(pos).getObjectId());
-        }
-        else
-        mTaskView.showMsg("操作失败");
+    public void CompleteTask(int pos) {
+
     }
 
     @Override
-    public void DeleteTask(int pos)
-    {
-        if (NetworkUtils.isNetworkConnected(MyApp.getAppContext()))
-        {
-            mTaskView.showProgress();
-            mTaskModel.deleteTask(mDatas.get(pos).getObjectId());
-        }
-       else
-            mTaskView.showMsg("删除失败");
+    public void DeleteTask(int pos) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mSubscription!=null)
+            return;
     }
 }

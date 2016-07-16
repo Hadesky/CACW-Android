@@ -188,7 +188,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.saveTask(mAdapter.getDatas());
+                saveTask();
             }
         });
 

@@ -5,5 +5,6 @@ package com.hadesky.cacw.presenter;
  */
 public  interface  TaskDetailPresenter
 {
-    void LoadTask(long taskid);
+    void LoadTask();
+    void onDestroy();
 }

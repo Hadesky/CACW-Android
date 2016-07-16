@@ -1,6 +1,6 @@
 package com.hadesky.cacw.ui.view;
 
-import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TaskMember;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface TaskView extends BaseView
 {
-     void showDatas(List<TaskBean> tasks);
+     void showDatas(List<TaskMember> tasks);
 }
