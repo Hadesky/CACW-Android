@@ -3,6 +3,7 @@ package com.hadesky.cacw.presenter;
 import java.io.File;
 
 /**
+ *
  * Created by dzysg on 2016/7/12 0012.
  */
 public interface TeamInfoPresenter {
@@ -11,4 +12,5 @@ public interface TeamInfoPresenter {
     void changeeSummary(String s);
     void saveTeamIcon(File file);
     void onDestory();
+    void getProjectCount();
 }

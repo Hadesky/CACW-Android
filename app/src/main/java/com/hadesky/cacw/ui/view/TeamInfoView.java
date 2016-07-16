@@ -1,6 +1,5 @@
 package com.hadesky.cacw.ui.view;
 
-import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamMember;
 
 import java.util.List;
@@ -12,6 +11,6 @@ import java.util.List;
 public interface TeamInfoView extends BaseView {
 
     void showMembers(List<TeamMember> list);
-    void showProject(List<ProjectBean> list);
+    void showProjectCount(int num);
     void showInfo();
 }

@@ -24,7 +24,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
-import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
@@ -46,10 +45,12 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     static public final String IntentTag = "team";
     private AnimProgressDialog mProgressDialog;
-    static public final String TeamIconFileName = "team_icon";
+    static public final String TeamIconFileName_Low = "team_icon_low";
+    static public final String TeamIconFileName= "team_icon";
     private TextView mTvTeamName;
     private TextView mTvTeamId;
     private TextView mTvSummary;
+    private TextView mTvProjectCount;
     private RecyclerView mRcvMembers;
     private BaseAdapter<TeamMember> mAdapter;
     private TeamInfoPresenter mPresenters;
@@ -71,7 +72,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_team_member);
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
-
+        mTvProjectCount = (TextView) findViewById(R.id.tv_project_count);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null)
@@ -117,6 +118,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
         mPresenters = new TeamInfoPresenterImpl(mTeam, this);
         mPresenters.getTeamMembers();
+
 
 
         //点击简介，修改内容
@@ -223,7 +225,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                             intent.putExtra("outputY", 600);
                             intent.putExtra("scale", true);
                             intent.putExtra("return-data", false);
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(TeamInfoActivity.this, "Team_icon_cache"));
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtil.getTempUri(TeamInfoActivity.this,TeamIconFileName));
                             intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
                             intent.putExtra("noFaceDetection", true); // 关闭人脸检测
                             startActivityForResult(intent, 0);
@@ -242,7 +244,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                         Uri filePath = data.getData();
                         System.out.println("path " + filePath);
                         File result =
-                                ImageResizer.getCompressBitmap(filePath.getPath(),TeamIconFileName, this);
+                                ImageResizer.getCompressBitmap(filePath.getPath(), TeamIconFileName_Low, this);
                         mPresenters.saveTeamIcon(result);
                     }
                 }
@@ -255,8 +257,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     }
 
     @Override
-    public void showProject(List<ProjectBean> list) {
-
+    public void showProjectCount(int num) {
+            mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),num));
     }
 
     @Override
@@ -273,4 +275,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     public void showMsg(String s) {
         showToast(s);
     }
+
+
 }
