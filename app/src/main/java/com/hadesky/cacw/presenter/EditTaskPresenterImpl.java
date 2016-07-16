@@ -88,7 +88,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
     /** 保存新建任务
      * @param members
      */
-    private void saveNewTask(List<TaskMember> members)
+    private void CreateNewTask(List<TaskMember> members)
     {
 
         mView.showProgress();
@@ -171,7 +171,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
 
         if (newTask) {
-           saveNewTask(members);
+           CreateNewTask(members);
         } else {
            updateTask(members);
         }

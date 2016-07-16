@@ -27,8 +27,6 @@ import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.DateUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -158,7 +156,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 openTimeDialog(true);
             }
         });
-
         //点击开始日期
         mStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +163,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 openDateDialog(true);
             }
         });
-
         //点击结束时间
         mEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +170,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 openTimeDialog(false);
             }
         });
-
         //点击结束日期
         mEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +177,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 openDateDialog(false);
             }
         });
-
         //点击项目
         mProject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +184,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 mPresenter.loadProjects();
             }
         });
-
         //点击保存
         mOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,22 +201,19 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             showToast(getString(R.string.please_select_Date));
             return;
         }
-
-        String dateStr = mTvDate.getText().toString() + mTvTime.getText().toString();
-        SimpleDateFormat format = DateUtil.getSimpleDateFormat();
-
-        try {
-
-            Date date = format.parse(dateStr);
-            mTask.setStartDate(new BmobDate(date));
-            // TODO: 2016/7/16 0016 ddd
-
-        } catch (ParseException e) {
-            showToast("时间错误");
-            e.printStackTrace();
+        if (mCalendarStart.compareTo(mCalendarEnd) > 0) {
+            showToast("开始时间晚于结束时间");
+            return;
         }
-    }
 
+        mTask.setStartDate(new BmobDate(mCalendarStart.getTime()));
+        mTask.setEndDate(new BmobDate(mCalendarEnd.getTime()));
+        mTask.setTitle(mEdtTitle.getText().toString());
+        mTask.setLocation(mEdtLocation.getText().toString());
+        mTask.setContent(mEdtDetail.getText().toString());
+
+        mPresenter.saveTask(mAdapter.getDatas());
+    }
 
     private void openDateDialog(final boolean start) {
         Calendar c;
@@ -239,7 +229,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 if (start)
-                mCalendarStart.set(year, monthOfYear, dayOfMonth);
+                    mCalendarStart.set(year, monthOfYear, dayOfMonth);
                 else
                     mCalendarEnd.set(year, monthOfYear, dayOfMonth);
                 setDateTextView();
@@ -262,11 +252,10 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         TimePickerDialog dialog = new TimePickerDialog(EditTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                if (start)
-                {
+                if (start) {
                     mCalendarStart.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     mCalendarStart.set(Calendar.MINUTE, minute);
-                }else {
+                } else {
                     mCalendarEnd.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     mCalendarEnd.set(Calendar.MINUTE, minute);
                 }
@@ -278,13 +267,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
 
-    private void setDateTextView()
-    {
-        mTvDate.setText(String.format(Locale.US, "%d-%02d-%02d",mCalendarStart.get(Calendar.YEAR),mCalendarStart.get(Calendar.MONTH)+1,mCalendarStart.get(Calendar.DAY_OF_MONTH)));
-        mTvTime.setText(String.format(Locale.US, "%02d:%02d",mCalendarStart.get(Calendar.HOUR_OF_DAY),mCalendarStart.get(Calendar.MINUTE)));
-        mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d",mCalendarEnd.get(Calendar.YEAR),mCalendarEnd.get(Calendar.MONTH)+1,mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
-        mTvEndTime.setText(String.format(Locale.US, "%02d:%02d",mCalendarEnd.get(Calendar.HOUR_OF_DAY),mCalendarEnd.get(Calendar.MINUTE)));
-
+    private void setDateTextView() {
+        mTvDate.setText(String.format(Locale.US, "%d-%02d-%02d", mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH) + 1, mCalendarStart.get(Calendar.DAY_OF_MONTH)));
+        mTvTime.setText(String.format(Locale.US, "%02d:%02d", mCalendarStart.get(Calendar.HOUR_OF_DAY), mCalendarStart.get(Calendar.MINUTE)));
+        mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH) + 1, mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
+        mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", mCalendarEnd.get(Calendar.HOUR_OF_DAY), mCalendarEnd.get(Calendar.MINUTE)));
     }
 
     @Override
