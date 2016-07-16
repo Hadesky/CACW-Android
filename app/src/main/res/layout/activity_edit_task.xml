@@ -48,13 +48,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="这个是任务标题"/>
+                    tools:text="这个是任务标题"/>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
-                android:id="@+id/date"
+                android:id="@+id/start_date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="日期:"
+                    android:text="开始日期:"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -76,13 +76,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
-                    android:text="2015-01-01"/>
+                    tools:text="2015-01-01"/>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
-                android:id="@+id/time"
+                android:id="@+id/start_time"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="时间:"
+                    android:text="开始时间:"
                     android:textSize="16sp"/>
 
                 <TextView
@@ -104,11 +104,63 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
-                    android:text="下午 12:30"/>
+                    tools:text="下午 12:30"/>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
+            <LinearLayout
+                android:id="@+id/end_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/edit_task_item_bg"
+                android:clickable="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="结束日期:"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    tools:text="下午 12:30"/>
+            </LinearLayout>
+
+            <ImageView style="@style/paddingDividingLine"/>
+            <LinearLayout
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/edit_task_item_bg"
+                android:clickable="true"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="结束时间:"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="16dp"
+                    tools:text="下午 12:30"/>
+            </LinearLayout>
+
+            <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
                 android:id="@+id/project"
@@ -134,7 +186,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="这是项目名称"/>
+                    tools:text="这是项目名称"/>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
@@ -161,7 +213,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:inputType="textImeMultiLine"
-                    android:text="工一214"/>
+                    tools:text="工一214"/>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
@@ -184,10 +236,10 @@
                     android:id="@+id/edtDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginBottom="10dp"
                     android:inputType="textMultiLine"
                     android:text=""/>
             </LinearLayout>
@@ -211,12 +263,12 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:clickable="true"
                 android:id="@+id/ok"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_margin="16dp"
-                android:background="?attr/colorPrimary">
+                android:background="?attr/colorPrimary"
+                android:clickable="true">
 
                 <TextView
                     android:layout_width="wrap_content"
