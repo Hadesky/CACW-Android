@@ -140,7 +140,8 @@
         </activity>
         <activity android:name=".ui.activity.TeamInfoActivity">
         </activity>
-        <activity android:name=".ui.activity.ImageActivity">
+        <activity android:name=".ui.activity.ImageActivity"
+                  android:theme="@style/translucent_status">
         </activity>
     </application>
 

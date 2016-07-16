@@ -50,22 +50,22 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
 
     @Override
     protected void setupViews(Bundle bundle) {
+        if (bundle != null) {
+            TeamBean teamBean = (TeamBean) bundle.getSerializable(TeamTAG);
 
-        TeamBean teamBean = (TeamBean) bundle.getSerializable(TeamTAG);
+            myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
 
-        myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
-
-        myProjectPresenter.loadProject();
-
+            myProjectPresenter.loadProject();
+        }
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         swipeRefreshLayout.setProgressViewOffset(true, -100, 50);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                myProjectPresenter.loadProject();
+                if (myProjectPresenter!=null)
+                    myProjectPresenter.loadProject();
             }
         });
-
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new Decoration(getContext()));

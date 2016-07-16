@@ -18,7 +18,7 @@ public class TaskBean extends BmobObject
     private String mContent="";
     private String mLocation = "";
     private ProjectBean mProjectBean;
-
+    private String mAdaminUserId = "";
 
     public ProjectBean getProjectBean() {
         return mProjectBean;
@@ -28,11 +28,17 @@ public class TaskBean extends BmobObject
         mProjectBean = projectBean;
     }
 
-    public TaskBean()
-    {
+    public TaskBean() {
 
     }
 
+    public String getAdaminUserId() {
+        return mAdaminUserId;
+    }
+
+    public void setAdaminUserId(String adaminUserId) {
+        mAdaminUserId = adaminUserId;
+    }
 
     public String getLocation()
     {
