@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/list_item_bg"
     >
     <com.hadesky.cacw.ui.widget.CircleImageView
@@ -21,7 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:text="2015-07-01"
+        android:id="@+id/tv_start_date"
+        tools:text="2015-07-01"
         android:layout_marginRight="16dp"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"

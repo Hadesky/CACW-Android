@@ -37,6 +37,9 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
             @Override
             public void setData(TaskMember o) {
                   setTextView(R.id.tv_title,o.getTask().getTitle());
+
+                  String str =  o.getTask().getStartDate().getDate().substring(0,10);
+                 setTextView(R.id.tv_start_date,str);
             }
         };
 
