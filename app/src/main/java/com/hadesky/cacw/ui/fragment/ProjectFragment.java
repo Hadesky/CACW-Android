@@ -21,11 +21,11 @@ import com.hadesky.cacw.ui.view.MyProjectView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**项目页面
+/**
+ * 项目页面
  * Created by Bright Van on 2015/9/7/007.
  */
-public class ProjectFragment extends BaseFragment implements MyProjectView
-{
+public class ProjectFragment extends BaseFragment implements MyProjectView {
     private RecyclerView recyclerView;
     private ProjectAdapter mAdapter;
     private MyProjectPresenter myProjectPresenter;
@@ -43,9 +43,8 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     @Override
     protected void initViews(View view) {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_swipe_refresh);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_project);
-        mAdapter = new ProjectAdapter(new ArrayList<ProjectBean>(),R.layout.list_item_project);
+        mAdapter = new ProjectAdapter(new ArrayList<ProjectBean>(), R.layout.list_item_project);
     }
 
 
@@ -53,12 +52,12 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     protected void setupViews(Bundle bundle) {
 
         TeamBean teamBean = null;
-        if (bundle!=null)
-        {
-           teamBean  = (TeamBean) bundle.getSerializable(TeamBundleTAG);
-        }
+
+        if (getArguments() != null)
+            teamBean = (TeamBean) getArguments().getSerializable(TeamBundleTAG);
+
         // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
-        myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
+        myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
 
         myProjectPresenter.loadProject();
 
@@ -76,8 +75,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         recyclerView.addItemDecoration(new Decoration(getContext()));
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         myProjectPresenter.loadProject();
     }
 

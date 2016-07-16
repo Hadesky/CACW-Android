@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class ProjectAdapter extends BaseAdapter<ProjectBean> {
 
-
     public ProjectAdapter(List<ProjectBean> list, @LayoutRes int layoutid) {
         super(list, layoutid);
     }
