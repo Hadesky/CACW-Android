@@ -307,7 +307,7 @@ public class DatabaseManager {
             String project_id = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
             bean.setObjectId(project_id);
             String project_name = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_NAME));
-            bean.setTitle(project_name);
+            bean.setProjectName(project_name);
             // TODO: 2015/10/28 0028  后期要改！！！
 
             String team_id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));

@@ -144,10 +144,9 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
         query.count(ProjectBean.class, new CountListener() {
             @Override
             public void done(Integer integer, BmobException e) {
-                if (e==null)
-                {
+                if (e!=null)
+                    integer = 0;
                     mView.showProjectCount(integer);
-                }
             }
         });
 

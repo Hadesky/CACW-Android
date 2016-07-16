@@ -14,14 +14,19 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class ProjectsActivity extends BaseActivity {
     private Toolbar toolbar;
-
     private TeamBean mTeam;
+    private AnimProgressDialog mProgressDialog;
 
 
     @Override
@@ -38,18 +43,16 @@ public class ProjectsActivity extends BaseActivity {
     @Override
     public void setupView() {
 
+        mProgressDialog = new AnimProgressDialog(this, false, null, "请稍候...");
 
         Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(ProjectFragment.TeamTAG);
+        mTeam = (TeamBean) i.getSerializableExtra(ProjectFragment.TeamBundleTAG);
         if (mTeam==null)
         {
             showToast("找不到项目");
             finish();
             return;
         }
-
-
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -63,15 +66,14 @@ public class ProjectsActivity extends BaseActivity {
         if (fragment == null) {
             fragment = new ProjectFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(ProjectFragment.TeamTAG,mTeam);
+            bundle.putSerializable(ProjectFragment.TeamBundleTAG,mTeam);
             fragment.setArguments(bundle);
             fm.beginTransaction()
-                    .add(R.id.container, fragment)
+                    .add(R.id.container,fragment,ProjectFragment.FregmentTAG)
                     .commit();
         }
     }
-
-    private void createProject()
+    private void OnCreateProjectClick()
     {
         if (mTeam.getAdminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
 
@@ -83,11 +85,7 @@ public class ProjectsActivity extends BaseActivity {
                     .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
-
-
-
-
+                            createProject(editText.getText().toString());
                         }
                     });
             builder.create().show();
@@ -95,6 +93,38 @@ public class ProjectsActivity extends BaseActivity {
         {
             showToast("你当前不是管理员");
         }
+    }
+
+    private void createProject(String name)
+    {
+        if (name.trim().length()==0)
+        {
+            showToast("名字非法");
+            return;
+        }
+        mProgressDialog.show();
+        ProjectBean bean = new ProjectBean();
+        bean.setProjectName(name);
+        bean.setTeam(mTeam);
+
+        bean.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                mProgressDialog.dismiss();
+                if (e==null)
+                {
+                    showToast("创建成功");
+                    ProjectFragment fragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(ProjectFragment.FregmentTAG);
+                    if (fragment!=null)
+                    {
+                        fragment.refresh();
+                    }
+                }else{
+                    showToast(e.getMessage());
+                }
+            }
+        });
+
     }
 
     @Override
@@ -107,13 +137,12 @@ public class ProjectsActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
 
-            createProject();
+            OnCreateProjectClick();
             return true;
         }else if (item.getItemId()==android.R.id.home)
         {
             finish();
         }
-
         return false;
     }
 }

@@ -24,11 +24,11 @@ public class ProjectBean extends BmobObject {
         this.mProjectName = title;
     }
 
-    public TeamBean getmTeam() {
+    public TeamBean getTeam() {
         return mTeam;
     }
 
-    public void setmTeam(TeamBean mTeam) {
+    public void setTeam(TeamBean mTeam) {
         this.mTeam = mTeam;
     }
 
@@ -36,7 +36,7 @@ public class ProjectBean extends BmobObject {
         return mProjectName;
     }
 
-    public void setTitle(String title) {
+    public void setProjectName(String title) {
         this.mProjectName = title;
     }
 

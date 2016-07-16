@@ -31,7 +31,8 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     private MyProjectPresenter myProjectPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public static final String TeamTAG = "team";
+    public static final String TeamBundleTAG = "team";
+    public static final String FregmentTAG = "team";
 
 
     @Override
@@ -54,7 +55,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         TeamBean teamBean = null;
         if (bundle!=null)
         {
-           teamBean  = (TeamBean) bundle.getSerializable(TeamTAG);
+           teamBean  = (TeamBean) bundle.getSerializable(TeamBundleTAG);
         }
         // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
         myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
@@ -73,6 +74,11 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new Decoration(getContext()));
+    }
+
+    public void refresh()
+    {
+        myProjectPresenter.loadProject();
     }
 
     @Override

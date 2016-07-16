@@ -118,6 +118,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
         mPresenters = new TeamInfoPresenterImpl(mTeam, this);
         mPresenters.getTeamMembers();
+        mPresenters.getProjectCount();
 
 
 
@@ -139,7 +140,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(TeamInfoActivity.this, ProjectsActivity.class);
-                    i.putExtra(ProjectFragment.TeamTAG, mTeam);
+                    i.putExtra(ProjectFragment.TeamBundleTAG, mTeam);
                     startActivity(i);
                 }
             });
