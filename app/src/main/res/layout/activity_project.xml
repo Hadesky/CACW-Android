@@ -11,7 +11,9 @@
         android:layout_height="match_parent">
     </FrameLayout>
     <android.support.v7.widget.Toolbar
+        android:background="@color/color_primary"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
         android:id="@+id/toolbar"
-        style="@style/toolbar_transparent"
         />
 </FrameLayout>

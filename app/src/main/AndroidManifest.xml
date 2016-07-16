@@ -143,6 +143,8 @@
         <activity android:name=".ui.activity.ImageActivity"
                   android:theme="@style/translucent_status">
         </activity>
+        <activity android:name=".ui.activity.ProjectsActivity">
+        </activity>
     </application>
 
 </manifest>
