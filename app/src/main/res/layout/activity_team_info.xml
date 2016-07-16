@@ -17,6 +17,7 @@
         app:maxDragHeight="200dp"
         app:zoomView="@layout/zoomview_user_info"/>
     <android.support.v7.widget.Toolbar
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_height="?actionBarSize"
         android:layout_width="match_parent"
         android:id="@+id/toolbar"

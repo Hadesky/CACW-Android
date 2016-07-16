@@ -50,7 +50,6 @@ public class ProjectsActivity extends BaseActivity {
 
 
 
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

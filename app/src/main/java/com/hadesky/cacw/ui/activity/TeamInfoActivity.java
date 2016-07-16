@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,10 +73,13 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-
+        if (toolbar != null)
+            setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("");
+        }
     }
 
     @Override
@@ -146,8 +150,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamId.setText(mTeam.getObjectId());
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
-        if (mTeam.getTeamAvatar() != null)
-        {
+        if (mTeam.getTeamAvatar() != null) {
             Uri uri = Uri.parse(mTeam.getTeamAvatar().getUrl());
             mSimpleDraweeView.setImageURI(uri);
 

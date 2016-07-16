@@ -56,7 +56,7 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         {
            teamBean  = (TeamBean) bundle.getSerializable(TeamTAG);
         }
-
+        // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
         myProjectPresenter = new MyProjectPresenterImpl(this,teamBean);
 
         myProjectPresenter.loadProject();
