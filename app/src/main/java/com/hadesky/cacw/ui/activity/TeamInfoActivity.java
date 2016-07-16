@@ -227,9 +227,13 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.changeIcon) {
-            changeTeamIcon();
+        switch (item.getItemId()) {
+            case R.id.changeIcon:
+                changeTeamIcon();
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -281,6 +285,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
         }
     }
+
 
     @Override
     public void showMembers(List<TeamMember> list) {
