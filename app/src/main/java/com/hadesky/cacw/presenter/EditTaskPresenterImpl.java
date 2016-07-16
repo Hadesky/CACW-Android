@@ -111,7 +111,10 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                         public void done(List<BatchResult> list, BmobException e) {
                         mView.hideProgress();
                             if (e==null)
+                            {
                                 mView.showMsg("创建成功");
+                                mView.closePage();
+                            }
                             else
                                 mView.showMsg(e.getMessage());
                         }

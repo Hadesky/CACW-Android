@@ -72,7 +72,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     {
         mPresenter.LoadTasks();
     }
-
     @Override
     public void showDatas(List<TaskMember> tasks)
     {

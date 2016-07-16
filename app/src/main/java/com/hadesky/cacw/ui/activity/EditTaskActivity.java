@@ -71,6 +71,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private Calendar mCalendarEnd;
 
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_edit_task;
@@ -308,7 +309,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
     @Override
-    public void closePage() {
+    public void closePage(){
+        setResult(MainActivity.result_task_created);
         this.finish();
     }
 

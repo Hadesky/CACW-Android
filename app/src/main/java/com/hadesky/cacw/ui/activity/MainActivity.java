@@ -1,7 +1,6 @@
 package com.hadesky.cacw.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -15,9 +14,6 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
@@ -33,6 +29,10 @@ public class MainActivity extends BaseActivity {
     private AppBarLayout mAppBarLayout;
     private PopupMenu mPopupMenu;
     private View addView;
+
+    public static final int RequestCode_NewTask = 0;
+    public static final int result_task_created = 2;
+    public MyTaskFragment mMyTaskFragment;
 
 
     @Override
@@ -74,7 +74,8 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         mTabLayout.setTabTextColors(0xEEF5F5F5, Color.WHITE);
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new MyTaskFragment());
+        mMyTaskFragment = new MyTaskFragment();
+        fragments.add(mMyTaskFragment);
         fragments.add(new ProjectFragment());
         fragments.add(new MeFragment());
         FragmentAdapter adapter =
@@ -125,12 +126,11 @@ public class MainActivity extends BaseActivity {
 
         switch (id) {
             case R.id.action_new_task:
-                startActivity(new Intent(this,EditTaskActivity.class));
+                startActivityForResult(new Intent(this,EditTaskActivity.class),RequestCode_NewTask);
                 break;
             case R.id.action_new_team:
                 startActivity(new Intent(this,NewTeamActivity.class));
                 break;
-
 
 
             case R.id.action_settings:
@@ -154,14 +154,14 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    /**
-     * onDestroy的时候增加一次使用记录
-     */
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        关闭数据库
-        DatabaseManager.getInstance(getApplicationContext()).closeDB();
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if ((requestCode==RequestCode_NewTask)&&(resultCode==MainActivity.result_task_created))
+        {
+            mMyTaskFragment.onRefresh();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

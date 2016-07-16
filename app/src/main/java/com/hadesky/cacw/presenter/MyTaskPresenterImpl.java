@@ -33,6 +33,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
         mTaskView.showProgress();
         BmobQuery<TaskMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mUser", new BmobPointer(mUser));
+        query.addWhereEqualTo("mIsFinish",1);
         query.include("mTask");
         mSubscription =  query.findObjects(new FindListener<TaskMember>() {
             @Override
