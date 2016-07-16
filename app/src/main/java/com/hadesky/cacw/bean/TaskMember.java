@@ -10,15 +10,20 @@ import cn.bmob.v3.BmobObject;
 public class TaskMember extends BmobObject {
     private UserBean mUser;
     private TaskBean mTask;
-    private Boolean mIsFinish;
+    private Byte mIsFinish = 1;//1 为未完成  2 为完成
 
 
-    public Boolean getFinish() {
-        return mIsFinish;
+
+    public void setFinish(boolean b)
+    {
+        if (b)
+            mIsFinish = 2;
+        else
+            mIsFinish = 1;
     }
-
-    public void setFinish(Boolean finish) {
-        mIsFinish = finish;
+    public boolean isFinish()
+    {
+        return mIsFinish ==2;
     }
 
     public UserBean getUser() {

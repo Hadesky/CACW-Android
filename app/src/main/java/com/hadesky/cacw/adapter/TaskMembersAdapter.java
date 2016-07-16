@@ -6,10 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.SelectMemberActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -20,44 +21,36 @@ import java.util.List;
  * 这是任务成员列表的adapter
  * Created by dzysg on 2015/10/16 0016.
  */
-// TODO: 2016/7/10 0010 待修改
-public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.TaskMemberVH>
-{
+public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.TaskMemberVH> {
     public static final int BUTTON_TYPE_AVATAR = 0;
     public static final int BUTTON_TYPE_ADD = 1;
     public static final int BUTTON_TYPE_DELETE = 2;
 
     private Context mContext;
-    private List<UserBean> mDatas;
+    private List<TaskMember> mDatas;
     private boolean ableToDelete = false;
-
     private boolean ableToAdd = false;
 
-    public TaskMembersAdapter(Context context, List<UserBean> datas)
-    {
+    public TaskMembersAdapter(Context context, List<TaskMember> datas) {
         mContext = context;
         mDatas = datas;
     }
 
-    public void setDatas(List<UserBean> list)
-    {
+    public void setDatas(List<TaskMember> list) {
         mDatas = list;
-
+        notifyDataSetChanged();
     }
 
     @Override
-    public TaskMemberVH onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public TaskMemberVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         TaskMemberVH holder;
         if (viewType == BUTTON_TYPE_AVATAR) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_task_members, parent, false);
 
-            holder = new TaskMemberVH(view, new OnItemClickListener()
-            {
+            holder = new TaskMemberVH(view, new OnItemClickListener() {
                 @Override
-                public void OnItemClick(View view, int position)
-                {
+                public void OnItemClick(View view, int position) {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
                     intent.putExtra(IntentTag.TAG_USER_ID, mDatas.get(position).getObjectId());
                     mContext.startActivity(intent);
@@ -65,11 +58,9 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
             });
         } else {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_add_member, parent, false);
-            holder = new TaskMemberVH(view, new OnItemClickListener()
-            {
+            holder = new TaskMemberVH(view, new OnItemClickListener() {
                 @Override
-                public void OnItemClick(View view, int position)
-                {
+                public void OnItemClick(View view, int position) {
                     mContext.startActivity(new Intent(mContext, SelectMemberActivity.class));
                 }
             });
@@ -78,9 +69,12 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     }
 
     @Override
-    public void onBindViewHolder(TaskMemberVH holder, int position)
-    {
-        holder.setName(mDatas.get(position).getUsername());
+    public void onBindViewHolder(TaskMemberVH holder, int position) {
+        TaskMember tm = mDatas.get(position);
+        holder.setName(tm.getUser().getNickName());
+
+        holder.setFinish(tm.isFinish());
+
     }
 
 
@@ -90,7 +84,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
             return BUTTON_TYPE_AVATAR;
         } else {
             if (position == mDatas.size()) return BUTTON_TYPE_ADD;
-                else if (position == mDatas.size() + 1) {
+            else if (position == mDatas.size() + 1) {
                 return BUTTON_TYPE_DELETE;
             }
         }
@@ -102,7 +96,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         if (isAbleToAdd())
             if (isAbleToDelete()) {
                 return mDatas.size() + 2;
-            }else return mDatas.size() + 1;
+            } else return mDatas.size() + 1;
         else return mDatas.size();
     }
 
@@ -122,35 +116,39 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         this.ableToAdd = ableToAdd;
     }
 
-    public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+
+    public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         private OnItemClickListener mOnItemClickListener;
         private TextView mName;
+        private ImageView mIvIsFinish;
 
-
-        public TaskMemberVH(View itemView, OnItemClickListener listener)
-        {
+        public TaskMemberVH(View itemView, OnItemClickListener listener) {
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.tv_name);
+            mIvIsFinish = (ImageView) itemView.findViewById(R.id.iv_is_finish);
             itemView.setOnClickListener(this);
             mOnItemClickListener = listener;
         }
 
+        public void setFinish(boolean b) {
+            if (b)
+                mIvIsFinish.setVisibility(View.VISIBLE);
+            else
+                mIvIsFinish.setVisibility(View.INVISIBLE);
+        }
+
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             if (mOnItemClickListener != null)
                 mOnItemClickListener.OnItemClick(v, getLayoutPosition());
         }
 
-        public void setName(String name)
-        {
+        public void setName(String name) {
             this.mName.setText(name);
         }
     }
 
-    public interface OnItemClickListener
-    {
+    public interface OnItemClickListener {
         void OnItemClick(View view, int position);
     }
 }

@@ -40,39 +40,98 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 >
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:text="开始时间:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    />
 
                 <TextView
-                    android:text="时间:"
-                    style="@style/tv_list_item_title"/>
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    style="@style/tv_list_item_content"
-                    android:text="2015-01-01"/>
-            </RelativeLayout>
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2015-01-01"/>
+            </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 >
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="开始日期:"/>
 
                 <TextView
-                    style="@style/tv_list_item_title"
-                    android:text="日期:"/>
+                    android:id="@+id/tv_start_date"
+                    android:layout_marginLeft="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    tools:text="2015-01-01"/>
+            </LinearLayout>
+
+            <ImageView style="@style/paddingDividingLine"/>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                >
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:text="结束时间:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    />
 
                 <TextView
-                    android:id="@+id/tv_date"
-                    style="@style/tv_list_item_content"
-                    android:text="2015-01-01"/>
-            </RelativeLayout>
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2015-01-01"/>
+            </LinearLayout>
+
+            <ImageView style="@style/paddingDividingLine"/>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                >
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:text="结束日期:"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2015-01-01"/>
+            </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
@@ -85,13 +144,12 @@
                 <TextView
                     style="@style/tv_list_item_title"
                     android:text="项目:"
-
                     />
 
                 <TextView
                     android:id="@+id/tv_projectname"
                     style="@style/tv_list_item_content"
-                    android:text="这是项目名称"/>
+                    tools:text="这是项目名称"/>
             </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
@@ -108,7 +166,7 @@
                 <TextView
                     style="@style/tv_list_item_content"
                     android:id="@+id/tv_location"
-                    android:text="工一214"/>
+                    tools:text="工一214"/>
             </RelativeLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
@@ -117,12 +175,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
                 <TextView
                     style="@style/tv_list_item_title"
                     android:text="详情:"
                     />
-
                 <TextView
                     android:id="@+id/tv_detail"
                     android:layout_width="match_parent"

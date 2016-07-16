@@ -13,15 +13,18 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TaskMember;
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskDetailView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.util.DateUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView {
 
@@ -31,8 +34,14 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TextView mDetail;
     private TextView mProject;
 
+    private TextView mTvStartDate;
+    private TextView mTvStartTime;
+    private TextView mTvEndDate;
+    private TextView mTvEndTime;
+
+
     private RecyclerView mRcv_members;
-    private View mEdit;
+    private View mBtnEditTask;
     private ScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
     private TaskMembersAdapter mAdapter;
@@ -50,11 +59,16 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mEdit = findViewById(R.id.btn_edit);
+        mBtnEditTask = findViewById(R.id.btn_edit);
         mScrollView = (ScrollView) findViewById(R.id.scrollView);
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
         mProject = (TextView) findViewById(R.id.tv_projectname);
+
+        mTvEndDate = (TextView) findViewById(R.id.tv_end_date);
+        mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
+        mTvStartDate = (TextView) findViewById(R.id.tv_start_date);
+        mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
     }
 
     @Override
@@ -72,10 +86,10 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
-        mAdapter = new TaskMembersAdapter(this, new ArrayList<UserBean>());
+        mAdapter = new TaskMembersAdapter(this, new ArrayList<TaskMember>());
         mRcv_members.setAdapter(mAdapter);
 
-        mEdit.setOnClickListener(this);
+        mBtnEditTask.setOnClickListener(this);
 
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
@@ -90,7 +104,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         showInfo(mTask);
 
         mPresenter = new TaskDetailPresenterImpl(this, mTask);
-        mPresenter.LoadTask();
+        mPresenter.LoadTaskMember();
     }
 
     @Override
@@ -116,14 +130,22 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
+        Calendar start =  DateUtil.StringToCalendar(task.getStartDate().getDate());
+        Calendar end =  DateUtil.StringToCalendar(task.getEndDate().getDate());
 
 
+        mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", start.get(Calendar.YEAR), start.get(Calendar.MONTH) + 1, start.get(Calendar.DAY_OF_MONTH)));
+        mTvStartTime.setText(String.format(Locale.US, "%02d:%02d", start.get(Calendar.HOUR_OF_DAY), start.get(Calendar.MINUTE)));
+        mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", end.get(Calendar.YEAR), end.get(Calendar.MONTH) + 1, end.get(Calendar.DAY_OF_MONTH)));
+        mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
+        if (!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId()))
+            mBtnEditTask.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void ShowMember(List<UserBean> user) {
-        // TODO: 2016/7/10 0010 待修改
+    public void ShowMember(List<TaskMember> users) {
+        mAdapter.setDatas(users);
     }
 
     @Override

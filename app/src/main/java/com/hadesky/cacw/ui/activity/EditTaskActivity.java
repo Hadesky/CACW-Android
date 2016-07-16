@@ -83,8 +83,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mStartDate = findViewById(R.id.start_date);
         mProject = findViewById(R.id.project);
         mOk = findViewById(R.id.ok);
-        mTvDate = (TextView) findViewById(R.id.tv_date);
-        mTvTime = (TextView) findViewById(R.id.tv_time);
+
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
         mEdtTitle = (EditText) findViewById(R.id.edtTItle);
         mEdtLocation = (EditText) findViewById(R.id.edtLoaction);
@@ -95,6 +94,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
         mEndDate = findViewById(R.id.end_date);
         mEndTime = findViewById(R.id.end_time);
+        mTvDate = (TextView) findViewById(R.id.tv_start_date);
+        mTvTime = (TextView) findViewById(R.id.tv_start_time);
     }
 
     @Override

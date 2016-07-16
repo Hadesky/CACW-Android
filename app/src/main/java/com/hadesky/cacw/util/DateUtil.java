@@ -2,6 +2,7 @@ package com.hadesky.cacw.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -24,6 +25,14 @@ public class DateUtil {
             e.printStackTrace();
         }
         return date;
+    }
+
+    static public Calendar StringToCalendar(String s)
+    {
+        Date date = StringToDate(s);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c;
     }
 
 }
