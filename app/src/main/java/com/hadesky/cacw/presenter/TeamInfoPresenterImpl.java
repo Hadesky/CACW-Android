@@ -38,7 +38,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
 
         BmobQuery<TeamMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mTeam", new BmobPointer(mTeam));
-        query.setLimit(4);
+        query.setLimit(4);//只显示4个人，更多要点击进入成员页面
         mView.showProgress();
 
         mSubscriptions = query.findObjects(new FindListener<TeamMember>() {

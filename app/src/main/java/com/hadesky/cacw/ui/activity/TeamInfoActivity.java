@@ -36,6 +36,7 @@ import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.BlurProcessor;
 import com.hadesky.cacw.util.FileUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
+import com.hadesky.cacw.util.ImageResizer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     static public final String IntentTag = "team";
     private AnimProgressDialog mProgressDialog;
-
+    static public final String TeamIconFileName = "team_icon";
     private TextView mTvTeamName;
     private TextView mTvTeamId;
     private TextView mTvSummary;
@@ -141,7 +142,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
             });
         }
-
 
     }
 
@@ -241,8 +241,9 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     if (data != null && data.getData() != null) {
                         Uri filePath = data.getData();
                         System.out.println("path " + filePath);
-                        File file = new File(filePath.getPath());
-                        mPresenters.saveTeamIcon(file);
+                        File result =
+                                ImageResizer.getCompressBitmap(filePath.getPath(),TeamIconFileName, this);
+                        mPresenters.saveTeamIcon(result);
                     }
                 }
         }
