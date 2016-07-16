@@ -17,7 +17,7 @@
         <item name="android:textColor">@color/color_base_text_color</item>
     </style>
 
-    <style name="BaseActionbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseActionbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <!-- toolbar（actionbar）颜色 -->
         <item name="colorPrimary">@color/color_primary</item>

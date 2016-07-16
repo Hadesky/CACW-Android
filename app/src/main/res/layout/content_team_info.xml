@@ -65,7 +65,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@android:color/white"
+        android:id="@+id/layout_team_member"
+        android:background="@drawable/list_item_bg"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
@@ -81,8 +83,8 @@
             android:layout_height="wrap_content"/>
 
         <android.support.v7.widget.RecyclerView
-            android:layout_marginLeft="2dp"
             android:id="@+id/rcv_team_member"
+            android:layout_marginLeft="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         </LinearLayout>

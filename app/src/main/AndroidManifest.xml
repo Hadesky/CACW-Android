@@ -137,10 +137,17 @@
         </activity>
         <activity android:name=".ui.activity.NewTeamActivity">
         </activity>
-        <activity android:name=".ui.activity.TeamInfoActivity">
+        <activity
+            android:name=".ui.activity.TeamInfoActivity"
+            android:theme="@style/translucent_status"
+            >
         </activity>
-        <activity android:name=".ui.activity.ImageActivity"
-                  android:theme="@style/translucent_status">
+        <activity
+            android:name=".ui.activity.ImageActivity"
+            android:theme="@style/translucent_status"
+            >
+        </activity>
+        <activity android:name=".ui.activity.TeamMemberActivity">
         </activity>
         <activity android:name=".ui.activity.ProjectsActivity">
         </activity>

@@ -23,6 +23,7 @@
         android:id="@+id/toolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="@android:color/transparent"
+        style="@style/toolbar_transparent"
         />
 </FrameLayout>
 

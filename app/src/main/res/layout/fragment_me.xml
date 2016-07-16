@@ -15,7 +15,7 @@
         android:id="@+id/layout_myinfo"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item_height_large"
+        android:layout_height="@dimen/list_item_height_larger"
         android:background="@drawable/list_item_bg"
         android:clickable="true"
         android:focusable="true"
@@ -38,7 +38,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_avatar"
             android:text="uername"
-            android:textSize="18sp"/>
+            android:textSize="@dimen/font_large"/>
 
         <ImageView
             android:layout_width="30dp"

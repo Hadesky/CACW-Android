@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
@@ -86,6 +89,10 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public void setupView() {
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
 
         Intent i = getIntent();
         mTeam = (TeamBean) i.getSerializableExtra(IntentTag);
@@ -128,7 +135,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onSumaryClick();
+                    onSummaryClick();
                 }
             });
         }
@@ -145,7 +152,30 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
             });
         }
-
+        //点击团队成员，打开团队成员列表
+        v = findViewById(R.id.layout_team_member);
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(TeamInfoActivity.this, TeamMemberActivity.class);
+                    i.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_TEAM_BEAN, mTeam);
+                    startActivity(i);
+                }
+            });
+        }
+        //同上，打开团队成员列表
+        v = findViewById(R.id.rcv_team_member);
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(TeamInfoActivity.this, TeamMemberActivity.class);
+                    i.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_TEAM_BEAN, mTeam);
+                    startActivity(i);
+                }
+            });
+        }
     }
 
     @Override
@@ -170,7 +200,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         super.onResume();
     }
 
-    private void onSumaryClick() {
+    private void onSummaryClick() {
         if (mTeam.getAdminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
 
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
@@ -276,6 +306,4 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     public void showMsg(String s) {
         showToast(s);
     }
-
-
 }

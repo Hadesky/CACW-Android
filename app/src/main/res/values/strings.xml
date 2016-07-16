@@ -52,6 +52,7 @@
     <string name="team_summary">团队介绍</string>
     <string name="team_notice">团队公告</string>
     <string name="project_name">项目名称</string>
-    <string name="sum_of_projects">共%s个项目</string>
+    <string name="sum_of_projects">共%d个项目</string>
+    <string name="admin">管理员</string>
     <string name="please_select_Date">请选择时间和时期</string>
 </resources>

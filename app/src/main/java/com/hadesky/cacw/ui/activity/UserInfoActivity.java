@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
@@ -19,7 +20,7 @@ public class UserInfoActivity extends BaseActivity
 {
     private static final String TAG = "UserInfoActivity";
     private Toolbar toolbar;
-    private long userId;
+    private UserBean mUserBean;
     private LinearLayout mMenuLayout;
     private int lastY;
     private ObjectAnimator mMenuAnimator;
@@ -36,7 +37,9 @@ public class UserInfoActivity extends BaseActivity
     public void initView() {
         mMenuLayout = (LinearLayout) findViewById(R.id.layout_menu);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        userId = getIntent().getLongExtra(IntentTag.TAG_USER_ID, -1);
+
+        mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+
         mMenuAnimator = ObjectAnimator.ofFloat(mMenuLayout, "TranslationY", 0, 1000);
         mMenuAnimator.setDuration(500);
     }
@@ -77,7 +80,9 @@ public class UserInfoActivity extends BaseActivity
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-            bundle.putLong(IntentTag.TAG_USER_ID, userId);
+
+            bundle.putSerializable(IntentTag.TAG_USER_BEAN, mUserBean);
+
             fragment.setArguments(bundle);
 
             fm.beginTransaction()

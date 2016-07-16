@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/color_font_gray"
+    android:background="@drawable/list_item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_large">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_avatar"
+        app:roundAsCircle="true"
+        app:placeholderImage="@drawable/default_user_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_width="@dimen/image_large"
+        android:layout_height="@dimen/image_large"/>
+    <TextView
+        android:id="@+id/tv_admin"
+        android:text="@string/admin"
+        android:textSize="@dimen/font_more_small"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bg_rounded_rectangle_green"
+        android:padding="@dimen/spacing_tiny"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_toRightOf="@id/iv_avatar"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_nick_name"
+        tools:text="张Leaves"
+        android:textSize="@dimen/font_large"
+        android:layout_toRightOf="@id/tv_admin"
+        android:layout_toEndOf="@id/tv_admin"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hadesky.cacw.ui.fragment.TeamMemberFragment">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <com.microstudent.app.bouncyfastscroller.vertical.VerticalBouncyFastScroller
+        android:id="@+id/vbfs"
+        app:behavior="always_show_index"
+        app:theme_color="@color/color_accent"
+        app:alpha2="0.6"
+        android:padding="@dimen/spacing_normal"
+        android:layout_gravity="center_vertical|end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>

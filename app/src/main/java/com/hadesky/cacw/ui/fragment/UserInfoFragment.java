@@ -34,7 +34,7 @@ public class UserInfoFragment extends BaseFragment {
     private TextView mNickNameView, mSummaryView, mPhoneView, mEmailView, mAddressView;
     private ImageView mSexView, mZoomView;
     private SimpleDraweeView mAvatarView;
-    private String userId;
+    private UserBean mUserBean;
 
     private PullToZoomBase.OnPullZoomListener mOnPullZoomListener;
 
@@ -55,7 +55,7 @@ public class UserInfoFragment extends BaseFragment {
         mAvatarView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_avatar);
         mZoomView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_zoom);
 
-        userId = getArguments().getString(IntentTag.TAG_USER_ID);
+        mUserBean = (UserBean) getArguments().getSerializable(IntentTag.TAG_USER_BEAN);
 
 
 //        //test
@@ -88,23 +88,25 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void loadUserInfo() {
-        if (userId != null) {
-            if (userId.equals(MyApp.getCurrentUser().getObjectId())) {
+        if (mUserBean != null) {
+            if (mUserBean.getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
                 //是当前用户，不联网查询
                 updateData(MyApp.getCurrentUser());
                 return;
             }
-            BmobQuery<UserBean> query = new BmobQuery<>();
-            query.getObject(userId, new QueryListener<UserBean>() {
-                @Override
-                public void done(UserBean userBean, BmobException e) {
-                    if (e == null) {
-                        updateData(userBean);
-                    } else {
-                        showToast("更新失败");
-                    }
-                }
-            });
+
+            updateData(mUserBean);
+//            BmobQuery<UserBean> query = new BmobQuery<>();
+//            query.getObject(userId, new QueryListener<UserBean>() {
+//                @Override
+//                public void done(UserBean userBean, BmobException e) {
+//                    if (e == null) {
+//                        updateData(userBean);
+//                    } else {
+//                        showToast("更新失败");
+//                    }
+//                }
+//            });
         }
     }
 
