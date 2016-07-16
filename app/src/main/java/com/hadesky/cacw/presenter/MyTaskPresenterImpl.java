@@ -1,6 +1,5 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
@@ -12,6 +11,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import rx.Subscription;
 
 /**
@@ -20,7 +20,7 @@ import rx.Subscription;
  */
 public class MyTaskPresenterImpl implements MyTaskPresenter {
     TaskView mTaskView;
-    List<TaskBean> mDatas;
+    List<TaskMember> mMemberLists;
     UserBean mUser;
     Subscription mSubscription;
     public MyTaskPresenterImpl(TaskView view) {
@@ -40,10 +40,14 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
             public void done(List<TaskMember> list, BmobException e) {
                 mTaskView.hideProgress();
                 if (e==null)
-                mTaskView.showDatas(list);
+                {
+                    mTaskView.showDatas(list);
+                    mMemberLists = list;
+                }
                 else
                 {
                     mTaskView.showMsg(e.getMessage());
+
                 }
             }
         });
@@ -51,12 +55,30 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
 
 
     @Override
-    public void CompleteTask(int pos) {
-
+    public void CompleteTask(final TaskMember tm) {
+        mTaskView.showProgress();
+        TaskMember t = new TaskMember();
+        t.setObjectId(tm.getObjectId());
+        t.setFinish(true);
+        t.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                mTaskView.hideProgress();
+                if (e==null)
+                {
+                    mMemberLists.remove(tm);
+                    mTaskView.showMsg(tm.getTask().getTitle()+"任务已完成");
+                    mTaskView.showDatas(mMemberLists);
+                }else
+                {
+                    mTaskView.showMsg(e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
-    public void DeleteTask(int pos) {
+    public void DeleteTask(TaskMember pos) {
 
     }
 

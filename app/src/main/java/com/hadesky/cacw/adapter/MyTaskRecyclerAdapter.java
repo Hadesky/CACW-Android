@@ -67,9 +67,9 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
                     public void onClick(DialogInterface dialog, int which)
                     {
                         if (which == 0)
-                            mPresenter.CompleteTask(position);
+                            mPresenter.CompleteTask(mDatas.get(position));
                         else
-                            mPresenter.DeleteTask(position);
+                            mPresenter.DeleteTask(mDatas.get(position));
                     }
                 }).show();
                 return true;
