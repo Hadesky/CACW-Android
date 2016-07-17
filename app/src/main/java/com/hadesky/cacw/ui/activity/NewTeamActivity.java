@@ -20,19 +20,17 @@ import com.hadesky.cacw.ui.view.NewTeamView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 import com.hadesky.cacw.util.FileUtil;
+import com.hadesky.cacw.util.ImageResizer;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-public class NewTeamActivity extends BaseActivity implements NewTeamView{
+public class NewTeamActivity extends BaseActivity implements NewTeamView {
 
     CircleImageView mCircleImageViews;
     Toolbar mToolbars;
     Button mBtnSubmit;
     EditText mEdtTeamName;
     NewTeamPresenter mPresenters;
-
 
 
     private static final String TEMP_FILE_NAME = "team_cache_bitmap";
@@ -88,7 +86,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView{
 
     private void createTeam() {
         String tname = mEdtTeamName.getText().toString();
-        mPresenters.createTeam(tname,mAvatarFile);
+        mPresenters.createTeam(tname, mAvatarFile);
     }
 
     /**
@@ -134,13 +132,9 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView{
                         Uri filePath = data.getData();
                         System.out.println("path " + filePath);
                         Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
-                        mCircleImageViews.setImageBitmap(selectedImage);
 
-                        try {
-                            mAvatarFile = new File(new URI(filePath.toString()));
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        }
+                        mCircleImageViews.setImageBitmap(selectedImage);
+                        mAvatarFile = ImageResizer.getCompressBitmap(filePath.getPath(), TeamInfoActivity.TeamIconFileName_Low, this);
                     }
                 }
         }
@@ -153,11 +147,16 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView{
 
     @Override
     public void showProgress() {
-
+        mProgressDialog.show();
     }
 
     @Override
     public void hideProgress() {
         mProgressDialog.dismiss();
+    }
+
+    @Override
+    public void Close() {
+        finish();
     }
 }

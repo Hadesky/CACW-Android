@@ -10,6 +10,7 @@ import java.io.File;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  *
@@ -24,24 +25,14 @@ public class NewTeamPresenterImpl implements NewTeamPresenter {
         mView = view;
     }
 
-    @Override
-    public void createTeam(String tname, File avatar) {
 
-        if (tname.trim().length() == 0) {
-            mView.showMsg("团队名称不能为空");
-            return;
-        }
+    private void createTeam(TeamBean teamBean)
+    {
 
-        TeamBean teamBean = new TeamBean(tname);
         teamBean.setAdminUserId(MyApp.getCurrentUser().getObjectId());
-        if (avatar != null)
-            teamBean.setTeamAvatar(new BmobFile(avatar));
-
         final TeamMember tm = new TeamMember();
         tm.setTeam(teamBean);
         tm.setUser(MyApp.getCurrentUser());
-
-        mView.showProgress();
 
         teamBean.save(new SaveListener<String>() {
             @Override
@@ -52,17 +43,61 @@ public class NewTeamPresenterImpl implements NewTeamPresenter {
                         public void done(String s, BmobException e) {
                             mView.hideProgress();
                             if (e == null)
+                            {
                                 mView.showMsg("创建成功");
+                                mView.Close();
+                            }
                             else {
                                 mView.showMsg(e.getMessage());
                             }
                         }
                     });
                 } else {
-                     mView.hideProgress();
+                    mView.hideProgress();
                     mView.showMsg(e.getMessage());
                 }
             }
         });
+    }
+
+
+
+
+    @Override
+    public void createTeam(final String tname, File avatar) {
+
+        if (tname.trim().length() == 0) {
+            mView.showMsg("团队名称不能为空");
+            return;
+        }
+
+        mView.showProgress();
+
+        if (avatar!=null)
+        {
+            final BmobFile f = new BmobFile(avatar);
+            f.upload(new UploadFileListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e==null)
+                    {
+
+                        TeamBean tb = new TeamBean();
+                        tb.setTeamName(tname);
+                        tb.setTeamAvatar(f);
+                        createTeam(tb);
+                    }else
+                    {
+                        mView.showMsg(e.getMessage());
+                        mView.hideProgress();
+                    }
+                }
+            });
+        }else
+        {
+            TeamBean tb = new TeamBean();
+            tb.setTeamName(tname);
+            createTeam(tb);
+        }
     }
 }
