@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
+    android:layout_width="@dimen/card_width_normal"
     android:background="@drawable/list_item_bg"
     android:orientation="horizontal"
+    app:cardCornerRadius="5dp"
     >
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_small"
+        >
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_team_icon"
+            android:layout_width="@dimen/image_more_large"
+            android:layout_height="@dimen/image_more_large"
+            app:placeholderImage="@drawable/default_user_image"
+            app:roundAsCircle="true"
+            />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_team_icon"
-        android:layout_width="@dimen/image_normal"
-        android:layout_height="@dimen/image_normal"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        app:placeholderImage="@drawable/default_user_image"
-        app:roundAsCircle="true"/>
+        <TextView
+            android:id="@+id/tv_team_name"
 
-    <TextView
-        android:id="@+id/mTeamName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_toRightOf="@id/sdv_team_icon"
-        tools:text="计院学生会"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_large"
+            tools:text="计院学生会"/>
 
-</RelativeLayout>
+        <View
+            android:background="@color/color_gray"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <TextView
+            android:id="@+id/tv_team_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_more_small"
+            android:gravity="center"
+            tools:text="以木棉精神，奋发前进"/>
+        <LinearLayout
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:id="@+id/layout_member_count"
+            android:layout_gravity="end"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                tools:text="2"
+                android:id="@+id/tv_member_count"
+                android:textAppearance="@style/TextAppearance.tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="@string/person"
+                android:textAppearance="@style/TextAppearance.tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/bt_new_project"
+            android:text="@string/new_project"
+            android:layout_gravity="bottom|center_horizontal"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
 

@@ -19,7 +19,7 @@ import rx.Subscription;
  *
  * Created by dzysg on 2016/3/22 0022.
  */
-public class MyTeamPresenterImpl implements MyteamPresenter
+public class MyTeamPresenterImpl implements MyTeamPresenter
 {
 
 

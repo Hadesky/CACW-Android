@@ -33,6 +33,9 @@
     <dimen name="image_more_large">60dp</dimen>
     <dimen name="image_huge">90dp</dimen>
 
+    <!--卡片宽度-->
+    <dimen name="card_width_normal">170dp</dimen>
+
 
     <dimen name="line_width_normal">200dp</dimen>
 

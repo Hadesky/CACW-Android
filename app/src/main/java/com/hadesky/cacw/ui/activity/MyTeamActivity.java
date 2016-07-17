@@ -1,7 +1,7 @@
 package com.hadesky.cacw.ui.activity;
 
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -10,7 +10,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTeamAdapter;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
-import com.hadesky.cacw.presenter.MyteamPresenter;
+import com.hadesky.cacw.presenter.MyTeamPresenter;
 import com.hadesky.cacw.ui.view.MyTeamView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
@@ -24,7 +24,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
     private RecyclerView mRecyclerView;
     private MyTeamAdapter mMyTeamAdapter;
-    private MyteamPresenter mPresenter;
+    private MyTeamPresenter mPresenter;
     private AnimProgressDialog mProgressDialog;
 
 
@@ -43,7 +43,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     public void setupView() {
 
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中...");
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
