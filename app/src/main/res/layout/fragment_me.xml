@@ -112,7 +112,7 @@
             <TextView
                 style="@style/list_item_tv_title_relative"
                 android:layout_toRightOf="@id/iv_remind"
-                android:text="@string/setting_remind"
+                android:text="@string/setting_message"
                 />
         </RelativeLayout>
     </LinearLayout>

@@ -4,7 +4,7 @@
     <string name="register">注册</string>
     <string name="action_settings">设置</string>
     <string name="setting">设置</string>
-    <string name="setting_remind">我的提醒</string>
+    <string name="setting_message">我的消息</string>
     <string name="setting_complete">完成事项</string>
     <string name="setting_memo">备忘录</string>
     <string name="logout">退出登录</string>

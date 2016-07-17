@@ -89,7 +89,7 @@
             />
         <activity android:name=".ui.activity.TaskDetailActivity"/>
         <activity android:name=".ui.activity.EditTaskActivity"
-
+                  android:windowSoftInputMode="adjustUnspecified|stateHidden"
             >
             <!--<meta-data-->
             <!--android:name="android.support.PARENT_ACTIVITY"-->

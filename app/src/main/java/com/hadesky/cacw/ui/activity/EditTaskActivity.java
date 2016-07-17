@@ -87,7 +87,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mOk = findViewById(R.id.ok);
 
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mEdtTitle = (EditText) findViewById(R.id.edtTItle);
+        mEdtTitle = (EditText) findViewById(R.id.edtTitle);
         mEdtLocation = (EditText) findViewById(R.id.edtLoaction);
         mEdtDetail = (EditText) findViewById(R.id.edtDetail);
         mTvProject = (TextView) findViewById(R.id.tvProject);
@@ -136,11 +136,10 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
         mPresenter.loadTaskMember();
-        setListenter();
+        setListener();
     }
 
-
-    private void setListenter() {
+    private void setListener() {
         //点击确定
         mOk.setOnClickListener(new View.OnClickListener() {
             @Override
