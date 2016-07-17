@@ -8,6 +8,7 @@
     android:layout_width="@dimen/card_width_normal"
     android:background="@drawable/list_item_bg"
     android:orientation="horizontal"
+    android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
     >
     <LinearLayout
@@ -21,7 +22,7 @@
             android:id="@+id/sdv_team_icon"
             android:layout_width="@dimen/image_more_large"
             android:layout_height="@dimen/image_more_large"
-            app:placeholderImage="@drawable/default_user_image"
+            app:placeholderImage="@drawable/ic_team"
             app:roundAsCircle="true"
             />
 
