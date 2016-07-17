@@ -20,7 +20,6 @@ public class SettingActivity extends BaseActivity{
     public void initView() {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("设置");
         setSupportActionBar(mToolbar);
         assert getSupportActionBar()!=null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

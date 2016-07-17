@@ -61,11 +61,15 @@ public class MyInfoActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {
-            Intent intent = new Intent(this, EditMyInfoActivity.class);
-            startActivityForResult(intent, 0);
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_edit:
+                Intent intent = new Intent(this, EditMyInfoActivity.class);
+                startActivityForResult(intent, 0);
+                return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 }

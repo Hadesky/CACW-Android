@@ -56,6 +56,9 @@ public class MainActivity extends BaseActivity {
 
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.appbar);
 
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
     }
 
     @Override
@@ -163,5 +166,13 @@ public class MainActivity extends BaseActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra("EXIT", false)) {
+            finish();
+        }
     }
 }

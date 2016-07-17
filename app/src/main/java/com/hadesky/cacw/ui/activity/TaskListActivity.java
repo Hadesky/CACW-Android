@@ -3,6 +3,7 @@ package com.hadesky.cacw.ui.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
@@ -38,5 +39,15 @@ public class TaskListActivity extends BaseActivity {
                     .add(R.id.container, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -77,7 +77,6 @@
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".ui.activity.LoginActivity"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -97,23 +96,19 @@
             />
         <activity android:name=".ui.activity.SelectMemberActivity"/>
         <activity
-            android:name=".ui.activity.ProjectDetailActivity"
-            >
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".ui.activity.MainActivity"-->
-                <!--/>-->
+            android:name=".ui.activity.ProjectDetailActivity">
         </activity>
         <activity
             android:name=".ui.activity.TaskListActivity"
-            android:parentActivityName=".ui.activity.TaskDetailActivity"
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.TaskDetailActivity"
                 />
         </activity>
-        <activity android:name=".ui.activity.AboutActivity">
+        <activity android:name=".ui.activity.AboutActivity"
+                  android:theme="@style/translucent_status"
+            >
             <intent-filter>
                 <action android:name="com.hadesky.cacw.about"/>
 
@@ -122,7 +117,6 @@
         </activity>
         <activity
             android:name=".ui.activity.MyInfoActivity"
-            android:parentActivityName=".ui.activity.MainActivity"
             android:theme="@style/translucent_status"
             >
             <meta-data

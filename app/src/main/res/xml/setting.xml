@@ -2,26 +2,23 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <PreferenceScreen android:title="通用">
-        <Preference
-            android:key="clearCache"
-            android:title="这里没选项"
-            />
-    </PreferenceScreen>
-
+    <PreferenceCategory android:title="账号安全">
+        <PreferenceScreen
+            android:title="修改密码"
+            android:key="change_password"
+            >
+        </PreferenceScreen>
+    </PreferenceCategory>
     <PreferenceCategory android:title="通知">
         <SwitchPreference
             android:key="news"
             android:title="新消息提醒"
             />
         <SwitchPreference
-
-            android:key="voilce"
+            android:key="sound"
             android:title="声音"
             />
         <SwitchPreference
-
             android:key="shake"
             android:title="震动"
             />
@@ -30,15 +27,15 @@
     <PreferenceCategory
         android:orderingFromXml="true"
         android:title="">
-        <Preference android:title="关于"
-            >
+        <Preference android:title="关于">
             <intent
-                android:action="com.hadesky.cacw.about"
-
-                />
+                android:action="com.hadesky.cacw.about"/>
         </Preference>
-        <Preference android:title="退出"
-            />
+        <Preference
+            android:title="退出"
+            android:key="exit"
+            >
+        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

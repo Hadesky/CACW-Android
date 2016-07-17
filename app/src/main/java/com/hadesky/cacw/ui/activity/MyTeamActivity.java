@@ -3,6 +3,8 @@ package com.hadesky.cacw.ui.activity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTeamAdapter;
@@ -51,6 +53,12 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
         mPresenter.LoadAllTeams();
         List<TeamMember> list = new ArrayList<>();
         mMyTeamAdapter.setDatas(list);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -75,4 +83,14 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
         showToast(msg);
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -8,19 +8,12 @@
     android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        cacw:title="我的团队"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:textColor="@android:color/white"
-            android:text="@string/my_team"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 
 
