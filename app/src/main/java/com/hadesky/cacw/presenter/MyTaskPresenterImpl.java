@@ -31,21 +31,9 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
     }
 
 
-    private void loadCompletedTask()
-    {
-        // TODO: 2016/7/17 0017 dxx
-
-
-    }
 
     @Override
     public void LoadTasks() {
-        //如果是查看完成的任务
-        if (mIsFinished)
-        {
-            loadCompletedTask();
-            return;
-        }
 
         mTaskView.showProgress();
         BmobQuery<TaskMember> query = new BmobQuery<>();

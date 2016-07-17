@@ -8,6 +8,7 @@
     android:layout_width="@dimen/card_width_normal"
     android:background="@drawable/list_item_bg"
     android:orientation="horizontal"
+    android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
     >
     <RelativeLayout
