@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TeamMemberPresenter;
 import com.hadesky.cacw.presenter.TeamMemberPresenterImpl;
 import com.hadesky.cacw.ui.view.TeamMemberView;
@@ -101,10 +102,19 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
         }
     }
 
+
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration decoration) {
         if (mRecyclerView != null) {
             mRecyclerView.addItemDecoration(decoration);
+        }
+    }
+
+    @Override
+    public void setData(Object[] data) {
+        if (data != null) {
+            mScroller.setRecyclerView(mRecyclerView);
+            mScroller.setData(data);
         }
     }
 

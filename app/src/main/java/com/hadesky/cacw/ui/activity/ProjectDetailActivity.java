@@ -144,7 +144,7 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
 //        if (editableMembersAdapter.getMode() == EditableMembersAdapter.MODE_DELETE) {
 //            editableMembersAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
 //        } else {
-//            super.onBackPressed();
+            super.onBackPressed();
 //        }
     }
 

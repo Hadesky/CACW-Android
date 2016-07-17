@@ -86,4 +86,9 @@ public class UserBean extends BmobUser{
     public void setShortNumber(String mShortNumber) {
         this.mShortNumber = mShortNumber;
     }
+
+    @Override
+    public String toString() {
+        return getNickName();
+    }
 }

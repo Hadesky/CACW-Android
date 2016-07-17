@@ -91,5 +91,6 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter {
 
         mView.setAdapter(mAdapter);
         mView.addItemDecoration(new StickyRecyclerHeadersDecoration(mAdapter));
+        mView.setData(users.toArray());
     }
 }
