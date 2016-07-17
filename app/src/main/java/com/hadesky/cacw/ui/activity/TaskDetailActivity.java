@@ -51,6 +51,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
 
+    private boolean mIsFinished;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_task_detail;
@@ -101,6 +103,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
         TaskMember tm = (TaskMember) getIntent().getSerializableExtra("task");
+        mIsFinished = getIntent().getBooleanExtra("isFinished",false);
         if (tm == null) {
             showToast("数据错误");
             finish();
@@ -174,7 +177,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", end.get(Calendar.YEAR), end.get(Calendar.MONTH) + 1, end.get(Calendar.DAY_OF_MONTH)));
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
-        if (!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
+        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
             mBtnEditTask.setVisibility(View.INVISIBLE);
             mBtnDelTask.setVisibility(View.INVISIBLE);
         }
