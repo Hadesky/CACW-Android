@@ -30,8 +30,8 @@ public class MainActivity extends BaseActivity {
     private PopupMenu mPopupMenu;
     private View addView;
 
-    public static final int RequestCode_NewTask = 0;
-    public static final int result_task_created = 2;
+    public static final int RequestCode_TaskChange = 0;
+    public static final int result_task_change = 2;
     public MyTaskFragment mMyTaskFragment;
 
 
@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
 
         switch (id) {
             case R.id.action_new_task:
-                startActivityForResult(new Intent(this,EditTaskActivity.class),RequestCode_NewTask);
+                startActivityForResult(new Intent(this,EditTaskActivity.class), RequestCode_TaskChange);
                 break;
             case R.id.action_new_team:
                 startActivity(new Intent(this,NewTeamActivity.class));
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if ((requestCode==RequestCode_NewTask)&&(resultCode==MainActivity.result_task_created))
+        if (resultCode==MainActivity.result_task_change)
         {
             mMyTaskFragment.onRefresh();
         }

@@ -1,6 +1,8 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +44,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
     private RecyclerView mRcv_members;
     private View mBtnEditTask;
+    private View mBtnDelTask;
     private ScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
     private TaskMembersAdapter mAdapter;
@@ -64,6 +67,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
         mProject = (TextView) findViewById(R.id.tv_projectname);
+        mBtnDelTask = findViewById(R.id.btn_del);
+
 
         mTvEndDate = (TextView) findViewById(R.id.tv_end_date);
         mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
@@ -90,11 +95,12 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mRcv_members.setAdapter(mAdapter);
 
         mBtnEditTask.setOnClickListener(this);
+        mBtnDelTask.setOnClickListener(this);
 
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
-        TaskMember tm  = (TaskMember) getIntent().getSerializableExtra("task");
+        TaskMember tm = (TaskMember) getIntent().getSerializableExtra("task");
         if (tm == null) {
             showToast("数据错误");
             finish();
@@ -118,20 +124,49 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     //点击编辑
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this, EditTaskActivity.class);
-        i.putExtra("task", mTask);
-        startActivity(i);
+
+        if (v.getId() == R.id.btn_edit) {
+            Intent i = new Intent(this, EditTaskActivity.class);
+            i.putExtra("task", mTask);
+            startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+        } else if (v.getId() == R.id.btn_del) {
+            new AlertDialog.Builder(this).setTitle("你确定要删除任务吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mPresenter.onDeleteTask();
+                }
+            }).setNegativeButton("取消", null).show();
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == MainActivity.result_task_change)
+        {
+            setResult(resultCode);
+            if (data != null) {
+                TaskBean taskBean = (TaskBean) data.getSerializableExtra("task");
+                if (taskBean != null) {
+                    mTask = taskBean;
+                    showInfo(mTask);
+                    mPresenter.LoadTaskMember();
+                }
+            }
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void showInfo(TaskBean task) {
         mTitle.setText(task.getTitle());
-        mProject.setText(task.getTitle());
+        mProject.setText(task.getProjectBean().getProjectName());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-        Calendar start =  DateUtil.StringToCalendar(task.getStartDate().getDate());
-        Calendar end =  DateUtil.StringToCalendar(task.getEndDate().getDate());
+        Calendar start = DateUtil.StringToCalendar(task.getStartDate().getDate());
+        Calendar end = DateUtil.StringToCalendar(task.getEndDate().getDate());
 
 
         mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", start.get(Calendar.YEAR), start.get(Calendar.MONTH) + 1, start.get(Calendar.DAY_OF_MONTH)));
@@ -139,13 +174,22 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", end.get(Calendar.YEAR), end.get(Calendar.MONTH) + 1, end.get(Calendar.DAY_OF_MONTH)));
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
-        if (!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId()))
+        if (!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
             mBtnEditTask.setVisibility(View.INVISIBLE);
+            mBtnDelTask.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void ShowMember(List<TaskMember> users) {
         mAdapter.setDatas(users);
+    }
+
+
+    @Override
+    public void closeActivity() {
+        setResult(MainActivity.result_task_change);
+        finish();
     }
 
     @Override

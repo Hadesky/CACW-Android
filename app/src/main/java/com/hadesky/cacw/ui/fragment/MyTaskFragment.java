@@ -82,7 +82,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void showProgress()
     {
-
+        mSwipeRefreshLayout.setRefreshing(true);
     }
     @Override
     public void hideProgress()

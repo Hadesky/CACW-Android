@@ -7,4 +7,6 @@ public  interface  TaskDetailPresenter
 {
     void LoadTaskMember();
     void onDestroy();
+
+    void onDeleteTask();
 }

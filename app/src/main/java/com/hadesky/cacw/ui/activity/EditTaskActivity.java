@@ -3,6 +3,7 @@ package com.hadesky.cacw.ui.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -135,8 +136,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
         mPresenter.loadTaskMember();
-
-
         setListenter();
     }
 
@@ -183,7 +182,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadProjects();
+                if (!newTask)
+                {
+                    showMsg("不可修改任务项目");
+                }else
+                    mPresenter.loadProjects();
             }
         });
         //点击保存
@@ -310,8 +313,10 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     @Override
     public void closePage(){
-        setResult(MainActivity.result_task_created);
-        this.finish();
+        Intent i = new Intent();
+        i.putExtra("task", mTask);
+        setResult(MainActivity.result_task_change,i);
+        finish();
     }
 
     @Override
@@ -361,7 +366,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mEdtTitle.setText(b.getTitle());
         mTvProject.setText(b.getProjectBean().getProjectName());
         mEdtLocation.setText(b.getLocation());
-        mEdtDetail.setText(b.getLocation());
+        mEdtDetail.setText(b.getContent());
         setDateTextView();
     }
 

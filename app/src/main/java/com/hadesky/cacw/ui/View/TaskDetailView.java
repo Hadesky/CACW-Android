@@ -12,4 +12,6 @@ public interface TaskDetailView extends BaseView
 {
      void showInfo(TaskBean task);
      void ShowMember(List<TaskMember> user);
+
+     void closeActivity();
 }

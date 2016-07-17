@@ -11,6 +11,8 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
+import com.hadesky.cacw.ui.activity.BaseActivity;
+import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.activity.TaskDetailActivity;
 
 import java.util.List;
@@ -51,7 +53,7 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
                 //打开任务详情
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
                 i.putExtra("task",mDatas.get(position));
-                mContext.startActivity(i);
+                ((BaseActivity)mContext).startActivityForResult(i, MainActivity.RequestCode_TaskChange);
             }
         });
 
@@ -61,15 +63,13 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
             public boolean OnItemLongClick(View view, final int position)
             {
 
-                new AlertDialog.Builder(mContext).setItems(new String[]{"完成", "删除"}, new DialogInterface.OnClickListener()
+                new AlertDialog.Builder(mContext).setItems(new String[]{"完成"}, new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
                         if (which == 0)
                             mPresenter.CompleteTask(mDatas.get(position));
-                        else
-                            mPresenter.DeleteTask(mDatas.get(position));
                     }
                 }).show();
                 return true;

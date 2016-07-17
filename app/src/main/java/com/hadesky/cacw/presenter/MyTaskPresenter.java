@@ -9,7 +9,7 @@ public interface MyTaskPresenter
 {
      void LoadTasks();
      void CompleteTask(TaskMember pos);
-     void DeleteTask(TaskMember pos);
+
     void onDestroy();
 
 }

@@ -24,6 +24,7 @@ import cn.bmob.v3.listener.SaveListener;
 import rx.Subscription;
 
 /**
+ *
  * Created by dzysg on 2016/7/6 0006.
  */
 public class EditTaskPresenterImpl implements EditTaskPresenter {
@@ -61,7 +62,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         mView.showProgress();
         BmobQuery<TaskMember> tm = new BmobQuery<>();
         tm.addWhereEqualTo("mTask", new BmobPointer(mTask));
-        tm.include("mTask,mUser");
+        tm.include("mUser");
 
         tm.findObjects(new FindListener<TaskMember>() {
             @Override
@@ -69,11 +70,10 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 mView.hideProgress();
                 mOldMembers = list;
                 if (e == null) {
-                    mView.showTaskMember(mMembers);
+                    mView.showTaskMember(mOldMembers);
                 } else {
                     mView.showMsg(e.getMessage());
                 }
-
             }
         });
 
@@ -89,7 +89,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
         mView.showProgress();
 
-
         final List<BmobObject> list = new ArrayList<>();
         for (TaskMember tm : members) {
             list.add(tm);
@@ -104,7 +103,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                     mView.showMsg(e.getMessage());
                 } else {
                     BmobBatch batch = new BmobBatch();
-
                     batch.insertBatch(list);
                    mSubscription =  batch.doBatch(new QueryListListener<BatchResult>() {
                         @Override
@@ -122,45 +120,76 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
                 }
             }
         });
-
-
     }
 
 
     //保存编辑后的任务
     private void updateTask(List<TaskMember> members) {
-        mView.showProgress();
+        if (mOldMembers==null)
+        {
+            mView.showMsg("请等待成员加载完成");
+            return ;
+        }
+
+
+
         BmobBatch batch = new BmobBatch();
+        List<TaskMember> addlist = new ArrayList<>();
 
-        //先删除所有成员
-        List<BmobObject> list = new ArrayList<>();
-        list.addAll(mOldMembers);
-        batch.deleteBatch(list);
+        //剔除相同的成员
+        for(TaskMember tm:members)
+        {
+            if (mOldMembers.contains(tm))
+            {
+                mOldMembers.remove(tm);
 
-        //再将编辑后的成员加回来
-        List<BmobObject> newMember = new ArrayList<>();
-        newMember.addAll(members);
-        batch.insertBatch(newMember);
+            }else
+                addlist.add(tm);
+        }
 
-        mSubscription = batch.doBatch(new QueryListListener<BatchResult>() {
+        //oldmember剩下的是要删除的
+
+        if (mOldMembers.size()>0)
+        {
+            List<BmobObject> del = new ArrayList<>();
+            del.addAll(mOldMembers);
+            batch.deleteBatch(del);
+        }
+        //addlist就是新增的
+        if (addlist.size()>0)
+        {
+            List<BmobObject> add = new ArrayList<>();
+            add.addAll(addlist);
+            batch.insertBatch(add);
+        }
+
+
+        List<BmobObject> task = new ArrayList<>();
+        task.add(mTask);
+        batch.updateBatch(task);
+
+
+        mView.showProgress();
+        batch.doBatch(new QueryListListener<BatchResult>() {
             @Override
             public void done(List<BatchResult> list, BmobException e) {
                 mView.hideProgress();
-                if (e == null) {
+                if (e==null)
+                {
                     mView.showMsg("保存成功");
                     mView.closePage();
-                } else {
+                }else
+                {
                     mView.showMsg(e.getMessage());
                 }
             }
         });
-
     }
 
 
     @Override
     public void saveTask(List<TaskMember> members) {
-        // TODO: 2016/7/9 0009 没测试
+        mMembers = members;
         if (mMembers == null)
             return;
         if (members.size() == 0) {

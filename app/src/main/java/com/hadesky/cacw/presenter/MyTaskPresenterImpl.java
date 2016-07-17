@@ -34,7 +34,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
         BmobQuery<TaskMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mUser", new BmobPointer(mUser));
         query.addWhereEqualTo("mIsFinish",1);
-        query.include("mTask");
+        query.include("mTask.mProjectBean");
         mSubscription =  query.findObjects(new FindListener<TaskMember>() {
             @Override
             public void done(List<TaskMember> list, BmobException e) {
@@ -77,14 +77,10 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
         });
     }
 
-    @Override
-    public void DeleteTask(TaskMember pos) {
-
-    }
 
     @Override
     public void onDestroy() {
         if (mSubscription!=null)
-            return;
+            mSubscription.unsubscribe();
     }
 }
