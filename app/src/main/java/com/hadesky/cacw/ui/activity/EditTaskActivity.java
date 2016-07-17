@@ -136,11 +136,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
         mPresenter.loadTaskMember();
-        setListenter();
+        setListener();
     }
 
 
-    private void setListenter() {
+    private void setListener() {
         //点击确定
         mOk.setOnClickListener(new View.OnClickListener() {
             @Override

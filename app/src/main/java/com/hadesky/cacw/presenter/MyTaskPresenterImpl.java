@@ -19,13 +19,23 @@ import rx.Subscription;
  * Created by dzysg on 2015/10/29 0029.
  */
 public class MyTaskPresenterImpl implements MyTaskPresenter {
-    TaskView mTaskView;
-    List<TaskMember> mMemberLists;
-    UserBean mUser;
-    Subscription mSubscription;
-    public MyTaskPresenterImpl(TaskView view) {
+    private TaskView mTaskView;
+    private  List<TaskMember> mMemberLists;
+    private   UserBean mUser;
+    private  Subscription mSubscription;
+    private boolean mIsFinished;
+    public MyTaskPresenterImpl(TaskView view,boolean isFinished) {
         mTaskView = view;
         mUser = MyApp.getCurrentUser();
+        mIsFinished = isFinished;
+    }
+
+
+    public void loadCompletedTask()
+    {
+
+
+
     }
 
     @Override
@@ -33,7 +43,11 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
         mTaskView.showProgress();
         BmobQuery<TaskMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mUser", new BmobPointer(mUser));
-        query.addWhereEqualTo("mIsFinish",1);
+        if (mIsFinished)
+            query.addWhereEqualTo("mIsFinish",2);
+        else
+            query.addWhereEqualTo("mIsFinish",1);
+
         query.include("mTask.mProjectBean");
         mSubscription =  query.findObjects(new FindListener<TaskMember>() {
             @Override

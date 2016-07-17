@@ -10,7 +10,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.FinishedTaskActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
@@ -88,7 +88,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_complete:
-                Toast.makeText(getContext(), "已完成事项", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getContext(), FinishedTaskActivity.class);
+                startActivity(intent);
                 break;
             case R.id.layout_remind:
                 Toast.makeText(getContext(), "已设置提醒", Toast.LENGTH_SHORT).show();

@@ -21,53 +21,50 @@ import java.util.List;
  * 任务列表Adapter
  * Created by ziyue on 2015/7/24 0024.
  */
-public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
-{
+public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember> {
 
     private MyTaskPresenter mPresenter;
+    private boolean mIsFinished = false;
 
-    public MyTaskRecyclerAdapter(List<TaskMember> list, MyTaskPresenter presenter, @LayoutRes int resId)
-    {
-        super(list,resId);
+    public MyTaskRecyclerAdapter(List<TaskMember> list, MyTaskPresenter presenter, @LayoutRes int resId, boolean finished) {
+        super(list, resId);
         mPresenter = presenter;
+        mIsFinished = finished;
     }
 
     @Override
     public BaseViewHolder<TaskMember> createHolder(View v, Context context) {
 
-        final BaseViewHolder<TaskMember> holder = new BaseViewHolder<TaskMember>(v){
+        final BaseViewHolder<TaskMember> holder = new BaseViewHolder<TaskMember>(v) {
             @Override
             public void setData(TaskMember o) {
-                  setTextView(R.id.tv_title,o.getTask().getTitle());
+                setTextView(R.id.tv_title, o.getTask().getTitle());
 
-                  String str =  o.getTask().getStartDate().getDate().substring(0,10);
-                 setTextView(R.id.tv_start_date,str);
+                String str = o.getTask().getStartDate().getDate().substring(0, 10);
+                setTextView(R.id.tv_start_date, str);
             }
         };
 
-        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener()
-        {
+        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
-            public void OnItemClick(View view, int position)
-            {
+            public void OnItemClick(View view, int position) {
                 //打开任务详情
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
-                i.putExtra("task",mDatas.get(position));
-                ((BaseActivity)mContext).startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+                i.putExtra("task", mDatas.get(position));
+                i.putExtra("isFinished", mIsFinished);
+                ((BaseActivity) mContext).startActivityForResult(i, MainActivity.RequestCode_TaskChange);
             }
         });
 
-        holder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener()
-        {
+        holder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
             @Override
-            public boolean OnItemLongClick(View view, final int position)
-            {
+            public boolean OnItemLongClick(View view, final int position) {
+                if (mIsFinished)
+                    return true;
 
-                new AlertDialog.Builder(mContext).setItems(new String[]{"完成"}, new DialogInterface.OnClickListener()
-                {
+                new AlertDialog.Builder(mContext).setItems(new String[]{"完成"}, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         if (which == 0)
                             mPresenter.CompleteTask(mDatas.get(position));
                     }
