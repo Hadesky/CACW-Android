@@ -14,6 +14,7 @@ import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.ui.activity.BaseActivity;
 import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.activity.TaskDetailActivity;
+import com.hadesky.cacw.ui.widget.CircleTextView;
 
 import java.util.List;
 
@@ -39,9 +40,10 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember> {
             @Override
             public void setData(TaskMember o) {
                 setTextView(R.id.tv_title, o.getTask().getTitle());
-
                 String str = o.getTask().getStartDate().getDate().substring(0, 10);
                 setTextView(R.id.tv_start_date, str);
+                CircleTextView v = findView(R.id.icon);
+                v.setText(o.getTask().getProjectBean().getProjectName());
             }
         };
 

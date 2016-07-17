@@ -3,16 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/list_item_bg"
     >
-    <com.hadesky.cacw.ui.widget.CircleImageView
-        android:layout_marginLeft="16dp"
+    <!--<com.hadesky.cacw.ui.widget.CircleImageView-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:id="@+id/icon"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:src="@drawable/default_user_image"-->
+        <!--android:layout_width="@dimen/image_normal"-->
+        <!--android:layout_height="@dimen/image_normal"/>-->
+    <com.hadesky.cacw.ui.widget.CircleTextView
         android:id="@+id/icon"
+        android:layout_marginLeft="16dp"
+        app:TextSize="14dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/default_user_image"
         android:layout_width="@dimen/image_normal"
         android:layout_height="@dimen/image_normal"/>
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_marginLeft="24dp"
