@@ -59,4 +59,6 @@
     <string name="change_password">修改密码</string>
     <string name="person">人</string>
     <string name="new_project">新建项目</string>
+    <string name="new_team">新建团队</string>
+    <string name="new_team_summary">快来新建属于你自己团队吧！</string>
 </resources>

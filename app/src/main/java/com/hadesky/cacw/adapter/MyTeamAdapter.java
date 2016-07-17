@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -19,6 +21,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.ui.activity.NewTeamActivity;
 import com.hadesky.cacw.ui.activity.TeamInfoActivity;
 import com.hadesky.cacw.util.ImageUtils;
 
@@ -34,9 +37,56 @@ import cn.bmob.v3.listener.FindListener;
  * Created by 45517 on 2016/3/21.
  */
 public class MyTeamAdapter extends BaseAdapter<TeamMember> {
+    public static final int TYPE_TEAM = 0;
+    public static final int TYPE_NEW_TEAM = 1;
 
     public MyTeamAdapter(List<TeamMember> list, @LayoutRes int layoutid) {
         super(list, layoutid);
+    }
+
+    @Override
+    public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_NEW_TEAM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_new_team, parent, false);
+            return createNewTeamViewHolder(view);
+        } else {
+            return super.onCreateViewHolder(parent, viewType);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder<TeamMember> holder, int position) {
+        if (position >= mDatas.size()) {
+            holder.setData(null);
+        } else {
+            super.onBindViewHolder(holder, position);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == mDatas.size() ? TYPE_NEW_TEAM : TYPE_TEAM;
+    }
+
+    private BaseViewHolder<TeamMember> createNewTeamViewHolder(View view) {
+
+        return new BaseViewHolder<TeamMember>(view) {
+            @Override
+            public void setData(TeamMember teamMember) {
+                setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void OnItemClick(View view1, int position) {
+                        Intent intent = new Intent(mContext, NewTeamActivity.class);
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
+        };
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDatas.size() + 1;
     }
 
     @Override
@@ -86,12 +136,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
         });
 
         return holder;
-    }
-
-    private void handleCardViewBg(CardView cardView, SimpleDraweeView simpleDraweeView) {
-        Bitmap bitmap = simpleDraweeView.getDrawingCache();
-        int bgColor = ImageUtils.getBitmapLightColor(bitmap);
-        cardView.setCardBackgroundColor(bgColor);
     }
 
     class PaletteProcessor extends BasePostprocessor {
