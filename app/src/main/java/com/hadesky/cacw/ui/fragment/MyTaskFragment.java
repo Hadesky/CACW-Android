@@ -75,6 +75,12 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public void onRefresh()
     {
         mPresenter.LoadTasks();
@@ -85,6 +91,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mAdapter.setDatas(tasks);
         mAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void showProgress()

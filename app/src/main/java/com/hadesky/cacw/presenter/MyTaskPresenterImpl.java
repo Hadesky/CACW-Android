@@ -4,7 +4,9 @@ import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.TaskView;
+import com.hadesky.cacw.util.TaskComparetor;
 
+import java.util.Arrays;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -24,10 +26,14 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
     private   UserBean mUser;
     private  Subscription mSubscription;
     private boolean mIsFinished;
+    private TaskComparetor mComparetors;
+
+
     public MyTaskPresenterImpl(TaskView view,boolean isFinished) {
         mTaskView = view;
         mUser = MyApp.getCurrentUser();
         mIsFinished = isFinished;
+        mComparetors = new TaskComparetor();
     }
 
 
@@ -50,16 +56,27 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
                 mTaskView.hideProgress();
                 if (e==null)
                 {
+                    list = sortByDate(list);
                     mTaskView.showDatas(list);
                     mMemberLists = list;
                 }
                 else
                 {
                     mTaskView.showMsg(e.getMessage());
-
                 }
             }
         });
+    }
+
+    private List<TaskMember> sortByDate(List<TaskMember> list)
+    {
+        if (list.size()<2)
+            return list;
+
+        TaskMember[] array = new TaskMember[list.size()];
+        list.toArray(array);
+        Arrays.sort(array,mComparetors);
+        return Arrays.asList(array);
     }
 
 
