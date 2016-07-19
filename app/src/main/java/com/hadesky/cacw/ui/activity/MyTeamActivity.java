@@ -1,10 +1,12 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
@@ -21,7 +23,6 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 
 public class MyTeamActivity extends BaseActivity implements MyTeamView, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
-
 
     private RecyclerView mRecyclerView;
     private MyTeamAdapter mMyTeamAdapter;
@@ -89,6 +90,11 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         showToast(msg);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_teams, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,6 +102,9 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_search:
+                startActivity(new Intent(this,SearchTeamActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

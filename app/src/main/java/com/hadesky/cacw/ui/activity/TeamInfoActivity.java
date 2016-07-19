@@ -120,6 +120,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
         mRcvMembers.setAdapter(mAdapter);
 
+
         mPresenters = new TeamInfoPresenterImpl(mTeam, this);
         mPresenters.getTeamMembers();
         mPresenters.getProjectCount();

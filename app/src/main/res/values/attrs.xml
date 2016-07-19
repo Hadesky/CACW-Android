@@ -30,13 +30,20 @@
         <attr name="speed_factor" format="float" />
     </declare-styleable>
 
-
+    <!--任务图标控件-->
     <declare-styleable name="CircleTextView">
         <attr name="Text" format="string"/>
         <attr name="TextColor" format="color" />
         <attr name="CircleColor" format="color" />
         <attr name="TextSize" format="dimension"/>
         <attr name="RandomColor" format="boolean"/>
+    </declare-styleable>
+
+
+    <!--搜索控件-->
+    <declare-styleable name="SearchView">
+        <attr name="QueryHint" format="string" />
+
     </declare-styleable>
 
 </resources>

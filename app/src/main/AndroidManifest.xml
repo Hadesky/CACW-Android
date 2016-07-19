@@ -78,13 +78,14 @@
             android:name=".ui.activity.AddTaskActivity"
             android:label="@string/title_activity_add_task"/>
         <activity android:name=".ui.activity.TaskDetailActivity"/>
-        <activity android:name=".ui.activity.EditTaskActivity"
-                  android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            >
-            <!--<meta-data-->
-            <!--android:name="android.support.PARENT_ACTIVITY"-->
-            <!--android:value=".ui.activity.MainActivity"-->
-            <!--/>-->
+        <activity
+            android:name=".ui.activity.EditTaskActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value=".ui.activity.MainActivity" -->
+            <!-- /> -->
         </activity>
         <activity
             android:name=".ui.activity.UserInfoActivity"
@@ -134,6 +135,8 @@
         <activity android:name=".ui.activity.ProjectsActivity">
         </activity>
         <activity android:name=".ui.activity.FinishedTaskActivity">
+        </activity>
+        <activity android:name=".ui.activity.SearchTeamActivity">
         </activity>
     </application>
 

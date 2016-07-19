@@ -60,7 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     /**
      * 之类直接调用该方法显示toast
      * @param message
