@@ -77,8 +77,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
         mTvProjectCount = (TextView) findViewById(R.id.tv_project_count);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         if (toolbar != null)
             setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -316,6 +316,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     @Override
     public void showMembers(List<TeamMember> list) {
         mAdapter.setDatas(list);
+        mRcvMembers.setLayoutFrozen(true);
     }
 
     @Override

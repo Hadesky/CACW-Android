@@ -80,7 +80,8 @@
             android:textSize="16sp"
             android:text="@string/team_member"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcv_team_member"
