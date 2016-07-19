@@ -31,10 +31,11 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
-import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.view.TeamInfoView;
-import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
+import com.hadesky.cacw.ui.widget.PullToZoomBase;
+import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
 import com.hadesky.cacw.util.BlurProcessor;
 import com.hadesky.cacw.util.FileUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
@@ -47,7 +48,6 @@ import java.util.List;
 public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     static public final String IntentTag = "team";
-    private AnimProgressDialog mProgressDialog;
     static public final String TeamIconFileName_Low = "team_icon_low";
     static public final String TeamIconFileName= "team_icon";
     private TextView mTvTeamName;
@@ -60,6 +60,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     private TeamBean mTeam;
     private SimpleDraweeView mSimpleDraweeView;
     private SimpleDraweeView mZoom;
+    private ColorfulAnimView mAnimView;
 
     @Override
     public int getLayoutId() {
@@ -71,7 +72,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamId = (TextView) findViewById(R.id.tv_teamid);
         mTvTeamName = (TextView) findViewById(R.id.tv_team_name);
         mTvSummary = (TextView) findViewById(R.id.tv_team_summary);
-        mProgressDialog = new AnimProgressDialog(this, false, null, "请稍后...");
+        mAnimView = (ColorfulAnimView) findViewById(R.id.anim_view);
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_team_member);
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
@@ -89,33 +90,29 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public void setupView() {
+        //隐藏状态栏
         Window window = getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(IntentTag);
-        if (mTeam == null) {
-            finish();
-            return;
-        }
+        //从Intent载入信息
+        loadTeamBeanFromIntent();
+
         showInfo();
+
         mAdapter = new BaseAdapter<TeamMember>(new ArrayList<TeamMember>(), R.layout.list_item_member) {
             @Override
             public BaseViewHolder<TeamMember> createHolder(View v, Context context) {
 
-                BaseViewHolder<TeamMember> holder = new BaseViewHolder<TeamMember>(v) {
+                return new BaseViewHolder<TeamMember>(v) {
                     @Override
                     public void setData(TeamMember o) {
                         setTextView(R.id.tv, o.getUser().getNickName());
                     }
                 };
-
-                return holder;
             }
         };
-
 
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);
         manager.setOrientation(GridLayoutManager.VERTICAL);
@@ -127,7 +124,20 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mPresenters.getTeamMembers();
         mPresenters.getProjectCount();
 
+        PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.zoom_scrollView);
+        if (scrollView != null) {
+            scrollView.setOnPullZoomListener(new PullToZoomBase.OnPullZoomListener() {
+                @Override
+                public void onPullZooming(int newScrollValue) {
 
+                }
+
+                @Override
+                public void onPullZoomEnd() {
+                    mPresenters.refreshTeamInfo();
+                }
+            });
+        }
 
         //点击简介，修改内容
         View v = findViewById(R.id.team_summary);
@@ -178,6 +188,14 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         }
     }
 
+    private void loadTeamBeanFromIntent() {
+        Intent i = getIntent();
+        mTeam = (TeamBean) i.getSerializableExtra(IntentTag);
+        if (mTeam == null) {
+            finish();
+        }
+    }
+
     @Override
     public void showInfo() {
         mTvTeamId.setText(mTeam.getObjectId());
@@ -193,6 +211,14 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
             mZoom.setController(controller);
         }
 
+    }
+
+    @Override
+    public void showInfo(TeamBean bean) {
+        if (bean != null) {
+            mTeam = bean;
+            showInfo();
+        }
     }
 
     @Override
@@ -212,7 +238,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mPresenters.changeeSummary(editText.getText().toString());
+                            mPresenters.changeSummary(editText.getText().toString());
                         }
                     });
             builder.create().show();
@@ -299,16 +325,22 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public void showProgress() {
-        mProgressDialog.show();
+        mAnimView.startAnim();
     }
 
     @Override
     public void hideProgress() {
-        mProgressDialog.dismiss();
+        mAnimView.stopAnimAndHide();
     }
 
     @Override
     public void showMsg(String s) {
         showToast(s);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenters.onDestroy();
     }
 }

@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.CycleInterpolator;
@@ -57,10 +58,10 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
         speedFactor = a.getFloat(R.styleable.ColorfulAnim_speed_factor, 1f);
 
         colorList = new ArrayList<>();
-        colorList.add(getResources().getColor(android.R.color.holo_red_light));
-        colorList.add(getResources().getColor(android.R.color.holo_orange_light));
-        colorList.add(getResources().getColor(android.R.color.holo_green_light));
-        colorList.add(getResources().getColor(android.R.color.holo_blue_light));//ScaleRound 's Color
+        colorList.add(ResourcesCompat.getColor(getResources(), android.R.color.holo_red_light, null));
+        colorList.add(ResourcesCompat.getColor(getResources(), android.R.color.holo_orange_light, null));
+        colorList.add(ResourcesCompat.getColor(getResources(), android.R.color.holo_green_light, null));
+        colorList.add(ResourcesCompat.getColor(getResources(), android.R.color.holo_blue_light, null));//ScaleRound 's Color
 
         scaleRound = new RoundBean(colorList.get(3),this);
         round1 = new RoundBean(colorList.get(0),this);
@@ -74,11 +75,7 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
                 mPointMargin = mWidth / 5;
                 bigRoundSize = Math.min(mPointMargin, f1);
                 normalRoundSize = bigRoundSize / 2;
-                scaleRound.setAttrs(colorList.get(3), mPointMargin * 4, mHeight / 2, bigRoundSize, 1f, 1f);
-                round1.setAttrs(colorList.get(0), mPointMargin * 2, mHeight / 2, normalRoundSize, 0f, 1f);
-                round2.setAttrs(colorList.get(1), mPointMargin * 3, mHeight / 2, normalRoundSize, 0f, 1f);
-                round3.setAttrs(colorList.get(2), mPointMargin * 4, mHeight / 2, normalRoundSize, 0f, 1f);
-
+                setupRound();
                 createAnimator();
             }
         });
@@ -93,7 +90,7 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
 
 
     private int measureHeight(int heightMeasureSpec) {
-        int result = 0;
+        int result;
 
         int specMode = MeasureSpec.getMode(heightMeasureSpec);//指定的模式，为EXACTLY时明确了长宽，为AT_MOST时，即wrapContent，
         // 需要和指定的大小进行比较，如果是UNSPECIFIED，则像多大就多大
@@ -111,7 +108,7 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
     }
 
     private int measureWidth(int widthMeasureSpec) {
-        int result = 0;
+        int result;
 
         int specMode = MeasureSpec.getMode(widthMeasureSpec);//指定的模式，为EXACTLY时明确了长宽，为AT_MOST时，即wrapContent，
         // 需要和指定的大小进行比较，如果是UNSPECIFIED，则像多大就多大
@@ -140,8 +137,13 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
         post(new Runnable() {
             @Override
             public void run() {
-                if(animatorSet!=null)
+                if (animatorSet != null) {
+                    if (getAlpha() == 0f) {
+                        animate().alpha(1f).start();
+                    }
+                    reset();
                     animatorSet.start();
+                }
             }
         });
     }
@@ -149,6 +151,11 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
     public void stopAnim(){
         if(animatorSet!=null)
             animatorSet.cancel();
+    }
+
+    public void stopAnimAndHide() {
+        stopAnim();
+        animate().alpha(0f).start();
     }
 
     public void setSpeedFactor(float factor) {
@@ -206,7 +213,7 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
         animatorSet.play(animatorAlphaIn2).after(preAnimDuration + alphaInDuration);
         animatorSet.play(animatorAlphaIn1).after(preAnimDuration + (2 * alphaInDuration));
 
-        animatorSet.setStartDelay(200);//以上动画延时200毫秒执行，解决一开始的缩放动画卡顿问题
+//        animatorSet.setStartDelay(200);//以上动画延时200毫秒执行，解决一开始的缩放动画卡顿问题
     }
 
     @Override
@@ -221,5 +228,16 @@ public class ColorfulAnimView extends View implements RoundBean.Refresher{
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public void reset() {
+        setupRound();
+    }
+
+    private void setupRound() {
+        scaleRound.setAttrs(colorList.get(3), mPointMargin * 4, mHeight / 2, bigRoundSize, 1f, 1f);
+        round1.setAttrs(colorList.get(0), mPointMargin * 2, mHeight / 2, normalRoundSize, 0f, 1f);
+        round2.setAttrs(colorList.get(1), mPointMargin * 3, mHeight / 2, normalRoundSize, 0f, 1f);
+        round3.setAttrs(colorList.get(2), mPointMargin * 4, mHeight / 2, normalRoundSize, 0f, 1f);
     }
 }

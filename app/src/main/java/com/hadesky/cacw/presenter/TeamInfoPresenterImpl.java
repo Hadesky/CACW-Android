@@ -14,6 +14,7 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import rx.Subscription;
@@ -23,9 +24,6 @@ import rx.Subscription;
  * Created by dzysg on 2016/7/12 0012.
  */
 public class TeamInfoPresenterImpl implements TeamInfoPresenter {
-
-
-
     private TeamBean mTeam;
     private Subscription mSubscriptions;
     private TeamInfoView mView;
@@ -33,6 +31,26 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     public TeamInfoPresenterImpl(TeamBean team, TeamInfoView view) {
         mTeam = team;
         mView  = view;
+    }
+
+    @Override
+    public void refreshTeamInfo() {
+        if (mTeam != null) {
+            mView.showProgress();
+            BmobQuery<TeamBean> query = new BmobQuery<>();
+            mSubscriptions = query.getObject(mTeam.getObjectId(), new QueryListener<TeamBean>() {
+                @Override
+                public void done(TeamBean teamBean, BmobException e) {
+                    mView.hideProgress();
+                    if (e == null) {
+                        mTeam = teamBean;
+                        mView.showInfo(teamBean);
+                    } else {
+                        mView.showMsg(e.getMessage());
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -62,7 +80,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
 
 
     @Override
-    public void changeeSummary(final String s) {
+    public void changeSummary(final String s) {
         mView.showProgress();
         TeamBean t = new TeamBean();
         t.setObjectId(mTeam.getObjectId());
@@ -131,7 +149,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         if (mSubscriptions!=null)
              mSubscriptions.unsubscribe();
     }

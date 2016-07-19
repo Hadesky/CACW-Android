@@ -24,6 +24,12 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:background="@android:color/transparent"
         style="@style/toolbar_transparent"
-        />
+        >
+        <com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView
+            android:id="@+id/anim_view"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+    </android.support.v7.widget.Toolbar>
 </FrameLayout>
 
