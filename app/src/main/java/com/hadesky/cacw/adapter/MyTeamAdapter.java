@@ -1,9 +1,11 @@
 package com.hadesky.cacw.adapter;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import rx.Subscription;
 
 /**
  * 我的团队adapter
@@ -43,6 +46,9 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
     public MyTeamAdapter(List<TeamMember> list, @LayoutRes int layoutid) {
         super(list, layoutid);
     }
+
+
+    private Subscription mSubscription;
 
     @Override
     public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -98,22 +104,12 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
                 setTextView(R.id.tv_team_name, teamBean.getTeam().getTeamName());
                 setTextView(R.id.tv_team_summary, teamBean.getTeam().getSummary());
 
-                BmobQuery<TeamMember> query = new BmobQuery<>();
-                query.addWhereEqualTo("mTeam", new BmobPointer(teamBean.getTeam()));
-                query.findObjects(new FindListener<TeamMember>() {
-                    @Override
-                    public void done(List<TeamMember> list, BmobException e) {
-                        if (e == null) {
-                            View view = findView(R.id.layout_member_count);
-                            view.setVisibility(View.VISIBLE);
-                            setTextView(R.id.tv_member_count, "" + list.size());
-                        }
-                    }
-                });
+                loadMemberCount(teamBean);
+
                 if (teamBean.getTeam().getTeamAvatar() != null) {
                     SimpleDraweeView view = findView(R.id.sdv_team_icon);
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(teamBean.getTeam().getTeamAvatar().getUrl()))
-                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
+//                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
                             .build();
 
                     DraweeController controller = Fresco.newDraweeControllerBuilder()
@@ -124,18 +120,38 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
                 }
                 Button newProjectBt = findView(R.id.bt_new_project);
             }
+
+            private void loadMemberCount(TeamMember teamBean) {
+                BmobQuery<TeamMember> query = new BmobQuery<>();
+                query.addWhereEqualTo("mTeam", new BmobPointer(teamBean.getTeam()));
+                query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+                mSubscription = query.findObjects(new FindListener<TeamMember>() {
+                    @Override
+                    public void done(List<TeamMember> list, BmobException e) {
+                        if (e == null) {
+                            View view = findView(R.id.layout_member_count);
+                            view.setVisibility(View.VISIBLE);
+                            setTextView(R.id.tv_member_count, "" + list.size());
+                        }
+                    }
+                });
+            }
         };
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
                 TeamBean teamBean = mDatas.get(position).getTeam();
-                Intent intent = new Intent(mContext, TeamInfoActivity.class);
-                intent.putExtra(TeamInfoActivity.IntentTag, teamBean);
-                mContext.startActivity(intent);
+                navigateToTeamInfo(teamBean);
             }
         });
 
         return holder;
+    }
+
+    private void navigateToTeamInfo(TeamBean teamBean) {
+        Intent intent = new Intent(mContext, TeamInfoActivity.class);
+        intent.putExtra(TeamInfoActivity.IntentTag, teamBean);
+        mContext.startActivity(intent);
     }
 
     class PaletteProcessor extends BasePostprocessor {
@@ -150,6 +166,12 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
                 int color = ImageUtils.getBitmapLightColor(bitmap);
                 mCardView.setCardBackgroundColor(color);
             }
+        }
+    }
+
+    public void onDestroy() {
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
         }
     }
 }

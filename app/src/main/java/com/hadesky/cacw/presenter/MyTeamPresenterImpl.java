@@ -36,22 +36,20 @@ public class MyTeamPresenterImpl implements MyTeamPresenter
     }
 
     @Override
-    public void LoadAllTeams()
-    {
+    public void LoadAllTeams(BmobQuery.CachePolicy policy) {
         mTeamView.showProgress();
         BmobQuery<TeamMember> q = new BmobQuery<>();
+        q.setCachePolicy(policy);
         q.addWhereEqualTo("mUser", new BmobPointer(mUser));
         q.include("mUser,mTeam");
 
-        mSubscriptions =  q.findObjects(new FindListener<TeamMember>() {
+        mSubscriptions = q.findObjects(new FindListener<TeamMember>() {
             @Override
             public void done(List<TeamMember> list, BmobException e) {
                 mTeamView.hideProgress();
-                if (e==null)
-                {
+                if (e == null) {
                     mTeamView.showTeamList(list);
-                }else
-                {
+                } else {
                     mTeamView.showMsg(e.getMessage());
                 }
             }
@@ -60,7 +58,7 @@ public class MyTeamPresenterImpl implements MyTeamPresenter
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         if (mSubscriptions!=null)
             mSubscriptions.unsubscribe();
     }

@@ -1,5 +1,6 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,21 +13,20 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.presenter.MyTeamPresenter;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.MyTeamView;
-import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyTeamActivity extends BaseActivity implements MyTeamView
-{
+import cn.bmob.v3.BmobQuery;
+
+public class MyTeamActivity extends BaseActivity implements MyTeamView, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
 
     private RecyclerView mRecyclerView;
     private MyTeamAdapter mMyTeamAdapter;
     private MyTeamPresenter mPresenter;
-    private AnimProgressDialog mProgressDialog;
-
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     public int getLayoutId() {
@@ -37,12 +37,16 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
     public void initView()
     {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
     }
 
     @Override
     public void setupView() {
 
-        mProgressDialog = new AnimProgressDialog(this, false, null, "获取中...");
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        mRefreshLayout.setProgressViewOffset(true, -100, 50);
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
@@ -50,7 +54,9 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
         mPresenter = new MyTeamPresenterImpl(this);
-        mPresenter.LoadAllTeams();
+
+        mPresenter.LoadAllTeams(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+
         List<TeamMember> list = new ArrayList<>();
         mMyTeamAdapter.setDatas(list);
 
@@ -69,12 +75,12 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
 
     @Override
     public void showProgress() {
-        mProgressDialog.show();
+        mRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress() {
-        mProgressDialog.dismiss();
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -92,5 +98,18 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMyTeamAdapter.onDestroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (mPresenter != null) {
+            mPresenter.LoadAllTeams(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
     }
 }

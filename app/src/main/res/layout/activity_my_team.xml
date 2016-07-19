@@ -15,11 +15,14 @@
         android:background="?attr/colorPrimary"
         cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
     </android.support.v7.widget.Toolbar>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_margin="@dimen/spacing_normal"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:padding="@dimen/space_normal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

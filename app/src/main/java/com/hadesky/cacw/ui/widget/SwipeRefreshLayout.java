@@ -10,7 +10,6 @@ import android.view.View;
  */
 public class SwipeRefreshLayout extends android.support.v4.widget.SwipeRefreshLayout {
 
-
     View mScrollUpChild;
     public SwipeRefreshLayout(Context context) {
         super(context);
