@@ -31,6 +31,7 @@ import com.hadesky.cacw.util.FullyGridLayoutManager;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,6 +86,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mStartDate = findViewById(R.id.start_date);
         mProject = findViewById(R.id.project);
         mOk = findViewById(R.id.ok);
+        HashMap map = new HashMap<>();
 
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
         mEdtTitle = (EditText) findViewById(R.id.edtTitle);

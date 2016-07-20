@@ -38,8 +38,7 @@ public class ProjectAdapter extends BaseAdapter<ProjectBean> {
             public void OnItemClick(View view, int position) {
                 Intent intent = new Intent();
                 intent.setClass(mContext, ProjectDetailActivity.class);
-                intent.putExtra(IntentTag.TAG_PROJECT_ID, mDatas.get(position).getObjectId());
-                intent.putExtra(IntentTag.TAG_PROJECT_NAME,mDatas.get(position).getProjectName());
+                intent.putExtra(IntentTag.TAG_PROJECT_BEAN, mDatas.get(position));
                 mContext.startActivity(intent);
             }
         });

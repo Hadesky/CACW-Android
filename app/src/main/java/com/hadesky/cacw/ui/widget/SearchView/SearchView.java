@@ -40,7 +40,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
     private SearchViewAdapter mAdapter;
 
 
-    private boolean isInSeachState = false;
+    private boolean isInSearchState = false;
 
     public SearchView(Context context) {
         this(context, null);
@@ -104,7 +104,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    if (isInSeachState) {
+                    if (isInSearchState) {
                         Log.e("tag", "back");
                         performClose();
                         return true;
@@ -157,7 +157,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
 
 
         mBg.setVisibility(View.VISIBLE);
-        isInSeachState = true;
+        isInSearchState = true;
 
     }
 
@@ -179,14 +179,14 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
 
         mEditText.clearFocus();
         hideKeyBoard();
-        isInSeachState = false;
+        isInSearchState = false;
     }
 
 
     protected void performQuery(String text) {
         performClose();
         if (mListener != null)
-            mListener.onSumbit(text);
+            mListener.onSubmit(text);
     }
 
 
@@ -238,6 +238,6 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
     public interface SearchListener {
         void onTextChange(String text);
 
-        void onSumbit(String text);
+        void onSubmit(String text);
     }
 }

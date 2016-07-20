@@ -33,7 +33,7 @@ public class LatestNewsAdapter extends BaseRvAdapter<LatestNewsAdapter.ViewHolde
 
     @Override
     public int getItemCount() {
-        return 100;
+        return 0;
     }
 
 

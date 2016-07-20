@@ -6,6 +6,7 @@ package com.hadesky.cacw.tag;
 public final class IntentTag {
     public static final String TAG_TEAM_BEAN = "team_bean";
     public static final String TAG_USER_BEAN = "user_bean";
+    public static final String TAG_PROJECT_BEAN = "project_bean";
 
     private IntentTag() {
         throw new AssertionError();

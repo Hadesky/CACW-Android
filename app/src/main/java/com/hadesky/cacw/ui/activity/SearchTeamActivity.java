@@ -41,7 +41,7 @@ public class SearchTeamActivity extends BaseActivity {
             }
 
             @Override
-            public void onSumbit(String text) {
+            public void onSubmit(String text) {
                 showToast("进行搜索  "+text);
             }
         });
