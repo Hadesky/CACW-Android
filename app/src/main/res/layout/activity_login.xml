@@ -44,7 +44,7 @@
         <com.hadesky.cacw.ui.widget.DeletableEditText
             android:id="@+id/editview_username"
             style="@style/EditText_login"
-            cacw:clear_icon="@drawable/ic_clear_light"
+            cacw:clear_icon="@drawable/ic_clear_black"
             cacw:underline_color="@android:color/darker_gray"
             android:inputType="textEmailAddress"
             android:hint="邮箱/手机号"
@@ -65,7 +65,7 @@
         <com.hadesky.cacw.ui.widget.DeletableEditText
             style="@style/EditText_login"
             android:id="@+id/editview_password"
-            cacw:clear_icon="@drawable/ic_clear_light"
+            cacw:clear_icon="@drawable/ic_clear_black"
             cacw:underline_color="@android:color/darker_gray"
             android:layout_width="match_parent"
             android:paddingRight="35dp"

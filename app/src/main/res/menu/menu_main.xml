@@ -8,7 +8,7 @@
         android:id="@+id/action_search"
         android:title="@string/search"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_search_dark"
+        android:icon="@drawable/ic_search_white_24dp"
         />
 
     <item
