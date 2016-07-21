@@ -1,4 +1,4 @@
-package com.hadesky.cacw.adapter;
+package com.hadesky.cacw.adapter.base;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

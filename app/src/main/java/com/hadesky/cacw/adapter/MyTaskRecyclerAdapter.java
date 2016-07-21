@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
@@ -22,7 +23,8 @@ import java.util.List;
  * 任务列表Adapter
  * Created by ziyue on 2015/7/24 0024.
  */
-public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember> {
+public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
+{
 
     private MyTaskPresenter mPresenter;
     private boolean mIsFinished = false;

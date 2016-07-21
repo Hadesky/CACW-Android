@@ -1,11 +1,9 @@
 package com.hadesky.cacw.adapter;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -20,6 +18,7 @@ import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
@@ -39,7 +38,8 @@ import rx.Subscription;
  * 我的团队adapter
  * Created by 45517 on 2016/3/21.
  */
-public class MyTeamAdapter extends BaseAdapter<TeamMember> {
+public class MyTeamAdapter extends BaseAdapter<TeamMember>
+{
     public static final int TYPE_TEAM = 0;
     public static final int TYPE_NEW_TEAM = 1;
 

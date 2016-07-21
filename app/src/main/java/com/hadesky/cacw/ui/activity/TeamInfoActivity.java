@@ -24,7 +24,7 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.BaseAdapter;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
@@ -199,7 +199,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public void showInfo() {
-        mTvTeamId.setText(mTeam.getObjectId());
+        mTvTeamId.setText(String.valueOf(mTeam.getTeamId()));
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
         if (mTeam.getTeamAvatar() != null) {

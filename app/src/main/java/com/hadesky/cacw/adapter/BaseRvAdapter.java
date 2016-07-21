@@ -19,6 +19,4 @@ public abstract class BaseRvAdapter<VH extends BaseViewHolder> extends RecyclerV
         this.mContext = mContext;
     }
 
-
-
 }

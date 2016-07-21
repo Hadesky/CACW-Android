@@ -3,6 +3,7 @@ package com.hadesky.cacw.bean;
 import cn.bmob.v3.BmobObject;
 
 /**
+ *  消息实体
  * Created by MicroStudent on 2016/7/16.
  */
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
 
@@ -17,7 +18,8 @@ import java.util.Map;
  *  选择任务成员
  * Created by dzysg on 2015/10/16 0016.
  */
-public class SelectMemberAdapter extends BaseAdapter<UserBean> {
+public class SelectMemberAdapter extends BaseAdapter<UserBean>
+{
 
 
     private Map<Integer, Boolean> mSelectMap = new HashMap<>();

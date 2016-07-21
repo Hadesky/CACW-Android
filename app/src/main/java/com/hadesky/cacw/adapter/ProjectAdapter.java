@@ -6,6 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.tag.IntentTag;
@@ -17,7 +18,8 @@ import java.util.List;
  *
  * Created by 45517 on 2015/9/18.
  */
-public class ProjectAdapter extends BaseAdapter<ProjectBean> {
+public class ProjectAdapter extends BaseAdapter<ProjectBean>
+{
 
     public ProjectAdapter(List<ProjectBean> list, @LayoutRes int layoutid) {
         super(list, layoutid);

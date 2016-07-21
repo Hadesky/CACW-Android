@@ -5,7 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.BaseAdapter;
+import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 
 import java.util.List;
