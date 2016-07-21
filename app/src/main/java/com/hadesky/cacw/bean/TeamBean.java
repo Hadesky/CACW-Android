@@ -10,6 +10,8 @@ import cn.bmob.v3.datatype.BmobRelation;
  */
 public class TeamBean extends BmobObject {
 
+    private Long mTeamId;
+
     private String mTeamName;
 
     private String mSummary;//团队介绍
@@ -60,8 +62,13 @@ public class TeamBean extends BmobObject {
         this.mTeamName = mTeamName;
     }
 
+    public Long getTeamId() {
+        return mTeamId;
+    }
 
-
+    public void setTeamId(Long teamId) {
+        mTeamId = teamId;
+    }
 
     public String getTeamName() {
         return mTeamName;

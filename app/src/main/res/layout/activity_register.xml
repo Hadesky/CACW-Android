@@ -109,7 +109,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        style="@style/LoginButton_login"
+        style="@style/Button_primaryStyle_large"
         android:id="@+id/bt_register"
         android:textColor="@android:color/white"
         android:textSize="@dimen/font_large"

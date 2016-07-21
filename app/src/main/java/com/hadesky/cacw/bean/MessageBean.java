@@ -15,6 +15,15 @@ public class MessageBean extends BmobObject {
     private UserBean mReceiver;
     private Byte mType;
     private String mMsg;
+    private Boolean hasRead = false;
+
+    public Boolean getHasRead() {
+        return hasRead;
+    }
+
+    public void setHasRead(Boolean hasRead) {
+        this.hasRead = hasRead;
+    }
 
     public UserBean getSender() {
         return mSender;

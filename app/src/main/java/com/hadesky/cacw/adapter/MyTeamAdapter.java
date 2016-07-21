@@ -54,6 +54,7 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember> {
     public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_NEW_TEAM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_new_team, parent, false);
+            mContext = parent.getContext();
             return createNewTeamViewHolder(view);
         } else {
             return super.onCreateViewHolder(parent, viewType);

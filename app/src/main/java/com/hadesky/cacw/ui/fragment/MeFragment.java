@@ -15,6 +15,7 @@ import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
+import com.hadesky.cacw.ui.activity.WelcomeActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
@@ -92,8 +93,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_remind:
-                Toast.makeText(getContext(), "已设置提醒", Toast.LENGTH_SHORT).show();
-                intent = new Intent(getContext(), UserInfoActivity.class);
+                intent = new Intent(getContext(), WelcomeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.layout_memo:

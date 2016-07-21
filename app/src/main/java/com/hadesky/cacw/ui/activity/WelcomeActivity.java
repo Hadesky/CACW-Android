@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
-    private IndicatorView mIndicatorView;
+//    private IndicatorView mIndicatorView;
     private List<ImageView> imageViewList;
     private static final int PAGER_NUMBER = 3;
     private List<Integer> colorList;
@@ -45,7 +46,7 @@ public class WelcomeActivity extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mAdapter = new WelcomePagerAdapter(imageViewList);
-        mIndicatorView = (IndicatorView) findViewById(R.id.indicator);
+//        mIndicatorView = (IndicatorView) findViewById(R.id.indicator);
     }
 
     @Override
@@ -56,33 +57,32 @@ public class WelcomeActivity extends BaseActivity {
             //透明导航栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
-        final View bg = findViewById(R.id.view_bg);
-        if (bg != null) {
-            bg.setBackgroundColor(colorList.get(0));
-        }
+//        final View bg = findViewById(R.id.view_bg);
+//        if (bg != null) {
+//            bg.setBackgroundColor(colorList.get(0));
+//        }
         mViewPager.setAdapter(mAdapter);
-        mIndicatorView.setViewPager(mViewPager);
-        mIndicatorView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
-            public void onPageSelected(int position) {
-                //颜色渐变动画
-                ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
-                        "backgroundColor",
-                        new ArgbEvaluator(),
-                        colorList.get(mPreviousIndex),
-                        colorList.get(position));
-                mPreviousIndex = position;
-                animator1.setDuration(500);
-                animator1.start();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
+//        mIndicatorView.setViewPager(mViewPager);
+//        mIndicatorView.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                颜色渐变动画
+//                ObjectAnimator animator1 = ObjectAnimator.ofObject(bg,
+//                        "backgroundColor",
+//                        new ArgbEvaluator(),
+//                        colorList.get(mPreviousIndex),
+//                        colorList.get(position));
+//                mPreviousIndex = position;
+//                animator1.setDuration(500);
+//                animator1.start();
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {}
+//        });
         mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 

@@ -72,7 +72,7 @@
         <item name="android:paddingRight">5dp</item>
     </style>
 
-    <style name="LoginButton_login">
+    <style name="Button_primaryStyle_large">
         <item name="android:textColor">#fff</item>
         <item name="android:drawablePadding">10dp</item>
         <item name="android:textSize">17sp</item>
