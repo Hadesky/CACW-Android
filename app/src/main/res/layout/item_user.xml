@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="@color/color_font_gray"
-    android:background="@drawable/list_item_bg"
+    android:background="@drawable/bg_list_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height_large">
     <com.facebook.drawee.view.SimpleDraweeView

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".ui.activity.TaskDetailActivity">
 
     <android.support.v7.widget.Toolbar
@@ -59,7 +60,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edit_task_item_bg"
+                android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
 
@@ -87,7 +88,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edit_task_item_bg"
+                android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
 
@@ -115,7 +116,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edit_task_item_bg"
+                android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
                 <TextView
@@ -141,7 +142,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edit_task_item_bg"
+                android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
                 <TextView
@@ -168,7 +169,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/edit_task_item_bg"
+                android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
 

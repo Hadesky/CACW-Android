@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_larger"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         >
@@ -52,7 +52,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
+            android:src="@drawable/arrow_right_light"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@drawable/list_item_bg"
+            android:background="@drawable/bg_list_item"
             android:clickable="true"
             android:focusable="true">
 
@@ -97,7 +97,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@drawable/list_item_bg"
+            android:background="@drawable/bg_list_item"
             android:clickable="true"
             android:focusable="true">
 
@@ -107,7 +107,7 @@
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/Me_item_margin_left"
-                android:src="@drawable/me_remind_64"/>
+                android:src="@drawable/ic_alarm_clock"/>
 
             <TextView
                 style="@style/list_item_tv_title_relative"
@@ -121,7 +121,7 @@
         android:id="@+id/layout_complete"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_marginTop="@dimen/spacing_large"
         android:clickable="true"
         android:focusable="true"
@@ -133,7 +133,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/Me_item_margin_left"
-            android:src="@drawable/me_complete_64"/>
+            android:src="@drawable/ic_completed"/>
 
         <TextView
             android:id="@+id/tv_complete"
@@ -150,7 +150,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
+            android:src="@drawable/arrow_right_light"/>
     </RelativeLayout>
 
     <ImageView style="@style/paddingDividingLine" />
@@ -159,7 +159,7 @@
         android:id="@+id/layout_memo"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         >
@@ -170,7 +170,7 @@
             android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/Me_item_margin_left"
-            android:src="@drawable/me_memo_64"/>
+            android:src="@drawable/ic_memo"/>
 
         <TextView
             android:id="@+id/tv_memo"
@@ -187,7 +187,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
+            android:src="@drawable/arrow_right_light"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -195,7 +195,7 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         >
@@ -206,7 +206,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/Me_item_margin_left"
-            android:src="@drawable/me_setting_64"/>
+            android:src="@drawable/ic_setting"/>
 
         <TextView
             android:id="@+id/tv_setting"
@@ -223,7 +223,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
+            android:src="@drawable/arrow_right_light"/>
     </RelativeLayout>
 </LinearLayout>
 

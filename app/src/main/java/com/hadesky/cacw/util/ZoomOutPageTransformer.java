@@ -47,7 +47,7 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
                             (1 - MIN_SCALE) * (1 - MIN_ALPHA));
 
         } else { // (1,+Infinity]
-            // This page is way off-screen to the right.
+            // This page is way off-screen to the ic_check.
             view.setAlpha(0);
         }
     }

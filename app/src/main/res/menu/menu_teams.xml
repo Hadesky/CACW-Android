@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_search"
         android:title="添加"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_search_dark"
         app:showAsAction="ifRoom"
         />
 </menu>

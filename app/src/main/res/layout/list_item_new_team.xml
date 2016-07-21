@@ -6,7 +6,7 @@
     android:id="@+id/card_view"
     android:layout_height="wrap_content"
     android:layout_width="@dimen/card_width_normal"
-    android:background="@drawable/list_item_bg"
+    android:background="@drawable/bg_list_item"
     android:orientation="horizontal"
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp"

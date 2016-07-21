@@ -4,26 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.activity.MainActivity"
     >
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_search_dark"
+        />
 
     <item
         android:id="@+id/action_add"
-        android:title="新建"
+        android:title="@string/build_up"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_add"
         >
-        <menu
-            >
+        <menu>
             <item
                 android:id="@+id/action_new_task"
-                android:title="新建任务"
+                android:title="@string/new_task"
                 />
             <item
                 android:id="@+id/action_new_team"
-                android:title="新建团队"
+                android:title="@string/new_team"
                 />
-
         </menu>
-
     </item>
     <item
         android:id="@+id/action_settings"

@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
              android:clickable="true"
-             android:background="@drawable/list_item_bg"
+             android:background="@drawable/bg_list_item"
               android:layout_height="48dp">
     <TextView
         android:id="@+id/text"

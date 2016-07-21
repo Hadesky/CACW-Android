@@ -9,7 +9,7 @@
         android:id="@+id/team_summary"
         android:clickable="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
     <LinearLayout
         android:clickable="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
 
     <LinearLayout
         android:id="@+id/layout_team_member"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -94,7 +94,7 @@
     <LinearLayout
         android:clickable="true"
         android:id="@+id/layout_team_project"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"

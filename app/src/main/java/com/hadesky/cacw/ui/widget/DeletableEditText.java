@@ -8,9 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -30,7 +33,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private int HintColor = 0;
     private Paint mPaint;
     private int mClearIconId;
-    private BitmapDrawable mClearIcon;
+    private Drawable mClearIcon;
     private int mClearIconSize;
     private int mIconLeftX;
     private int mIconRightX;
@@ -82,18 +85,17 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     }
 
     private void init() {
-
-        //这里的18是调试出来的，估计换设备调试要跪
-        final Bitmap ClearIconBitmap = ImageResizer.decodeSampledBitmapFromResource(mResources, mClearIconId, 18, 18);
-        mClearIcon = new BitmapDrawable(mResources, ClearIconBitmap);
-
+        mClearIcon = ResourcesCompat.getDrawable(getResources(), mClearIconId, null);
+        if (mClearIcon != null) {
+            mClearIcon.setBounds(0, 0, 80, 80);
+        }
         mPaint = new Paint();
 
         if (mClearIcon == null) {
             throw new RuntimeException("没有为删除图标设置资源");
         }
 
-        mClearIconSize = Math.max(mClearIcon.getIntrinsicWidth(), mClearIcon.getIntrinsicHeight());
+        mClearIconSize = Math.max(mClearIcon.getBounds().width(), mClearIcon.getBounds().width());
 
         //默认隐藏clear按钮
         setIsClearIconVisible(false);
@@ -143,9 +145,9 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     public void setIsClearIconVisible(boolean isClearIconVisible) {
         this.isClearIconVisible = isClearIconVisible;
         if (isClearIconVisible) {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, mClearIcon, null);
+            setCompoundDrawables(null, null, mClearIcon, null);
         } else {
-            setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            setCompoundDrawables(null, null, null, null);
         }
     }
 

@@ -20,7 +20,7 @@
         android:id="@+id/cv_team_avatar"
         app:border_width="1dp"
         app:border_color="#FFD3D3D3"
-        android:src="@drawable/fab_add"
+        android:src="@drawable/ic_add"
         android:layout_marginTop="80dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="120dp"

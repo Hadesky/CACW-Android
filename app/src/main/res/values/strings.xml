@@ -62,4 +62,7 @@
     <string name="new_team">新建团队</string>
     <string name="new_team_summary">快来新建属于你自己团队吧！</string>
     <string name="team_search">团队搜索</string>
+    <string name="new_task">新建任务</string>
+    <string name="build_up">新建</string>
+    <string name="search">查找</string>
 </resources>

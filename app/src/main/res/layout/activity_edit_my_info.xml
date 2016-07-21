@@ -20,7 +20,7 @@
     <RelativeLayout
         android:id="@+id/layout_avatar"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_nick_name"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@
             />
     </RelativeLayout>
     <RelativeLayout
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"
@@ -105,7 +105,7 @@
     <RelativeLayout
         android:id="@+id/layout_sex"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"
@@ -133,7 +133,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/layout_summary"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"

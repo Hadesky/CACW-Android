@@ -20,7 +20,8 @@
         android:layout_width="@dimen/image_more_small"
         android:layout_height="@dimen/image_more_small"
         android:layout_alignRight="@id/iv_avatar"
-        android:src="@drawable/delete"
+        android:src="@drawable/ic_delete_red"
+        tools:visibility="visible"
         android:visibility="invisible"
         />
     <TextView

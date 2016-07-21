@@ -30,7 +30,7 @@
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
-        android:background="@drawable/list_item_bg" >
+        android:background="@drawable/bg_list_item" >
         <TextView
             android:id="@+id/tv_general"
             style="@style/list_item_tv_title_relative"
@@ -46,13 +46,13 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_64"/>
+            android:src="@drawable/arrow_right_light"/>
     </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_marginTop="@dimen/spacing_large"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
         >
@@ -76,7 +76,7 @@
     <ImageView style="@style/paddingDividingLine"/>
 
     <RelativeLayout
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
         >
@@ -100,7 +100,7 @@
     <ImageView style="@style/paddingDividingLine" />
 
     <RelativeLayout
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
         >
@@ -126,7 +126,7 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:focusable="true"
         android:clickable="true"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
         >
@@ -145,7 +145,7 @@
     <RelativeLayout
         android:focusable="true"
         android:clickable="true"
-        android:background="@drawable/list_item_bg"
+        android:background="@drawable/bg_list_item"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_item_height_normal"
         >

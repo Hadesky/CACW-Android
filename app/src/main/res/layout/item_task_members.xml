@@ -24,7 +24,7 @@
     android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/iv_is_finish"
-        android:src="@drawable/right"
+        android:src="@drawable/ic_check"
         android:layout_toRightOf="@id/iv_avatar"
         android:layout_width="10dp"
         android:layout_height="10dp"/>
