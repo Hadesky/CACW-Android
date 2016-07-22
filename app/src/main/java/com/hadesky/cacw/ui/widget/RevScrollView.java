@@ -1,6 +1,7 @@
 package com.hadesky.cacw.ui.widget;
 
 import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
@@ -11,7 +12,7 @@ import android.widget.ScrollView;
  * 参考http://www.bubuko.com/infodetail-975943.html
  * Created by 45517 on 2015/10/17.
  */
-public class RevScrollView extends ScrollView {
+public class RevScrollView extends NestedScrollView {
     private int downX;
     private int downY;
     private int mTouchSlop;

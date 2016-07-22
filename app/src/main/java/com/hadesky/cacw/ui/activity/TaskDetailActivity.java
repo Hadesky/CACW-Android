@@ -2,6 +2,7 @@ package com.hadesky.cacw.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +46,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private RecyclerView mRcv_members;
     private View mBtnEditTask;
     private View mBtnDelTask;
-    private ScrollView mScrollView;
+    private NestedScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
     private TaskMembersAdapter mAdapter;
     private TaskBean mTask;
@@ -65,7 +66,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
         mBtnEditTask = findViewById(R.id.btn_edit);
-        mScrollView = (ScrollView) findViewById(R.id.scrollView);
+        mScrollView = (NestedScrollView) findViewById(R.id.scrollView);
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
         mProject = (TextView) findViewById(R.id.tv_projectname);

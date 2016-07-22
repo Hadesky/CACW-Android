@@ -1,7 +1,8 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,18 +15,18 @@ import rx.Subscription;
 /**
  * Created by 45517 on 2016/7/22.
  */
-public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
+public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter {
+    private SearchPersonOrTeamView<TeamBean> mView;
 
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
 
     private Subscription mSubscription;
-    private SearchPersonOrTeamView<UserBean> mView;
 
-    private BmobQuery<UserBean> mQuery;
+    private BmobQuery<TeamBean> mQuery;
 
     private int mReceivedCount;//自从上次调用search之后查询到的数据数和
 
-    public SearchPersonPresenterImpl(SearchPersonOrTeamView<UserBean> view) {
+    public SearchTeamPresenterImpl(SearchPersonOrTeamView<TeamBean> view) {
         mView = view;
     }
 
@@ -34,9 +35,9 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
         createMainQuery(key);
 
         mView.showProgress();
-        mSubscription = mQuery.findObjects(new FindListener<UserBean>() {
+        mSubscription = mQuery.findObjects(new FindListener<TeamBean>() {
             @Override
-            public void done(List<UserBean> list, BmobException e) {
+            public void done(List<TeamBean> list, BmobException e) {
                 mView.hideProgress();
                 mReceivedCount = list.size();
                 mView.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
@@ -45,19 +46,17 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
     }
 
     private void createMainQuery(String key) {
-        List<BmobQuery<UserBean>> queries = new ArrayList<>();
+        List<BmobQuery<TeamBean>> queries = new ArrayList<>();
+        BmobQuery<TeamBean> idQuery = new BmobQuery<>();
+        if (StringUtils.isAllDigest(key)) {
+            Long longKey = Long.parseLong(key);
+            idQuery.addWhereEqualTo("mTeamId", longKey);
+            queries.add(idQuery);
+        }
 
-        BmobQuery<UserBean> phoneQuery = new BmobQuery<>();
-        phoneQuery.addWhereEqualTo("mobilePhoneNumber", key);
-        queries.add(phoneQuery);
-
-        BmobQuery<UserBean> emailQuery = new BmobQuery<>();
-        emailQuery.addWhereEqualTo("email", key);
-        queries.add(emailQuery);
-
-        BmobQuery<UserBean> nickNameQuery = new BmobQuery<>();
-        nickNameQuery.addWhereContains("mNickName", key);
-        queries.add(nickNameQuery);
+        BmobQuery<TeamBean> nameQuery = new BmobQuery<>();
+        nameQuery.addWhereContains("mTeamName", key);
+        queries.add(nameQuery);
 
         mQuery = new BmobQuery<>();
         mQuery.or(queries);
@@ -70,9 +69,9 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
             mQuery.setSkip(mReceivedCount);
 
             mView.showProgress();
-            mSubscription = mQuery.findObjects(new FindListener<UserBean>() {
+            mSubscription = mQuery.findObjects(new FindListener<TeamBean>() {
                 @Override
-                public void done(List<UserBean> list, BmobException e) {
+                public void done(List<TeamBean> list, BmobException e) {
                     mView.hideProgress();
                     mReceivedCount += list.size();
                     mView.addData(list, list.size() < QUERY_COUNT_EACH_QUERY);

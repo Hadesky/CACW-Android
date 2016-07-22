@@ -1,5 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,42 +11,44 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.SearchPersonAdapter;
+import com.hadesky.cacw.adapter.SearchTeamAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
-import com.hadesky.cacw.presenter.SearchPersonPresenterImpl;
+import com.hadesky.cacw.presenter.SearchTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SearchPersonFragment#newInstance} factory method to
+ * Use the {@link SearchTeamFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchPersonFragment extends Fragment implements SearchPersonOrTeamView<UserBean> {
+public class SearchTeamFragment extends Fragment implements SearchPersonOrTeamView<TeamBean>{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SEARCH_KEY = "search_key";
 
-    private SearchPersonAdapter mAdapter;
-
     private SearchPersonOrTeamPresenter mPresenter;
 
-//    private OnFragmentInteractionListener mListener;
+    private SearchTeamAdapter mAdapter;
 
-    public SearchPersonFragment() {
+    public SearchTeamFragment() {
         // Required empty public constructor
     }
 
     /**
-     * @param searchKey 需要查找的Key.
-     * @return A new instance of fragment SearchPersonFragment.
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param key 搜索的关键字
+     * @return A new instance of fragment SearchTeamFragment.
      */
-    public static SearchPersonFragment newInstance(String searchKey) {
-        SearchPersonFragment fragment = new SearchPersonFragment();
+    public static SearchTeamFragment newInstance(String key) {
+        SearchTeamFragment fragment = new SearchTeamFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SEARCH_KEY, searchKey);
+        args.putString(ARG_SEARCH_KEY, key);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,30 +56,11 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SearchPersonPresenterImpl(this);
+        mPresenter = new SearchTeamPresenterImpl(this);
         if (getArguments() != null) {
             String searchKey = getArguments().getString(ARG_SEARCH_KEY);
             updateSearchKey(searchKey);
         }
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_person, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
-        mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, new BaseViewHolder.OnItemClickListener() {
-            @Override
-            public void OnItemClick(View view, int position) {
-                showProgress();
-                mPresenter.showNextResults();
-            }
-        });
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(mAdapter);
-        return view;
     }
 
     public void updateSearchKey(String searchKey) {
@@ -86,14 +70,34 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
     }
 
     @Override
-    public void setData(List<UserBean> data, boolean isFinal) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_search_team, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+
+        mAdapter = new SearchTeamAdapter(null, R.layout.item_team_in_search, new BaseViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                showProgress();
+                mPresenter.showNextResults();
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(mAdapter);
+        return view;
+    }
+
+    @Override
+    public void setData(List<TeamBean> data, boolean isFinal) {
         if (mAdapter != null) {
             mAdapter.setData(data, isFinal);
         }
     }
 
     @Override
-    public void addData(List<UserBean> data,boolean isFinal) {
+    public void addData(List<TeamBean> data,boolean isFinal) {
         if (mAdapter != null) {
             mAdapter.addData(data, isFinal);
         }
@@ -121,39 +125,6 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.onDestroy();
-        }
+
     }
-
-    //    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p/>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        void onFragmentInteraction(Uri uri);
-//    }
 }

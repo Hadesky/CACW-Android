@@ -69,4 +69,6 @@
 
     <string name="load_next_five_item">加载下5项</string>
     <string name="back">后退</string>
+    <string name="team">团队</string>
+    <string name="apply_to_join">申请加入</string>
 </resources>

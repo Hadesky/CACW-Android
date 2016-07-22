@@ -52,7 +52,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_light"/>
+            android:src="@drawable/arrow_right_black"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -150,7 +150,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_light"/>
+            android:src="@drawable/arrow_right_black"/>
     </RelativeLayout>
 
     <ImageView style="@style/paddingDividingLine" />
@@ -187,7 +187,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_light"/>
+            android:src="@drawable/arrow_right_black"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -223,7 +223,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/Me_item_margin_left"
-            android:src="@drawable/arrow_right_light"/>
+            android:src="@drawable/arrow_right_black"/>
     </RelativeLayout>
 </LinearLayout>
 

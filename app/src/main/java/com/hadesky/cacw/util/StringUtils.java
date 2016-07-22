@@ -29,4 +29,13 @@ public class StringUtils {
         Matcher matcher = pattern.matcher(s);
         return matcher.matches();
     }
+
+    public static boolean isAllDigest(String key) {
+        for (int i = 0; i < key.length(); i++) {
+            if (key.charAt(i) < '0' || key.charAt(i) > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
 }

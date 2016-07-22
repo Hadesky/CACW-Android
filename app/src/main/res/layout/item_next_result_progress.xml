@@ -8,6 +8,8 @@
     <TextView
         android:id="@+id/tv"
         android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_arrow_down_black"
+        android:gravity="center"
         android:text="@string/load_next_five_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

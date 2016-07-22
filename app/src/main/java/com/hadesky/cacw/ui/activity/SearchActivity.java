@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
+import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
 
 public class SearchActivity extends BaseActivity {
 
@@ -51,20 +52,41 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                SearchPersonFragment fragment = (SearchPersonFragment) getPersonFragment();
-                if (fragment == null) {
-                    fragment = SearchPersonFragment.newInstance(s.toString());
-                    mFragmentManager.beginTransaction()
-                            .add(R.id.container_person, fragment)
-                            .commit();
-                } else {
-                    fragment.updateSearchKey(s.toString());
-                }
+                loadSearchPersonFragment(s.toString());
+                loadSearchTeamFragment(s.toString());
             }
         });
     }
 
+    private void loadSearchTeamFragment(String s) {
+        SearchTeamFragment fragment = (SearchTeamFragment) getTeamFragment();
+        if (fragment == null) {
+            fragment = SearchTeamFragment.newInstance(s);
+            mFragmentManager.beginTransaction()
+                    .add(R.id.container_team, fragment)
+                    .commit();
+        } else {
+            fragment.updateSearchKey(s);
+        }
+    }
+
+    private void loadSearchPersonFragment(String s) {
+        SearchPersonFragment fragment = (SearchPersonFragment) getPersonFragment();
+        if (fragment == null) {
+            fragment = SearchPersonFragment.newInstance(s.toString());
+            mFragmentManager.beginTransaction()
+                    .add(R.id.container_person, fragment)
+                    .commit();
+        } else {
+            fragment.updateSearchKey(s.toString());
+        }
+    }
+
     private Fragment getPersonFragment() {
         return mFragmentManager.findFragmentById(R.id.container_person);
+    }
+
+    private Fragment getTeamFragment() {
+        return mFragmentManager.findFragmentById(R.id.container_team);
     }
 }
