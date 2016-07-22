@@ -131,8 +131,6 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
         });
 
         mEditText.setHint("团队名称/团队ID");
-
-
     }
 
     private void onTextChange() {

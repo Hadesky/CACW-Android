@@ -14,6 +14,8 @@
     <declare-styleable name="DeletableEditText">
         <attr name="clear_icon" format="reference" />
         <attr name="underline_color" format="color" />
+        <attr name="focus_color" format="color"/>
+        <attr name="show_underline" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="StickView">
         <attr name="stick_title" format="string" />

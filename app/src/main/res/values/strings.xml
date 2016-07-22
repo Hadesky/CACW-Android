@@ -65,4 +65,5 @@
     <string name="new_task">新建任务</string>
     <string name="build_up">新建</string>
     <string name="search">查找</string>
+    <string name="search_team_or_person">搜索团队或人</string>
 </resources>

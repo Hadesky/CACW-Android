@@ -141,6 +141,10 @@ public class MainActivity extends BaseActivity {
             case R.id.action_logout:
                logout();
                 break;
+            case R.id.action_search:
+                intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+                break;
         }
         return true;
     }

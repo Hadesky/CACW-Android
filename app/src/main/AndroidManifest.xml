@@ -138,6 +138,8 @@
         </activity>
         <activity android:name=".ui.activity.SearchTeamActivity">
         </activity>
+        <activity android:name=".ui.activity.SearchActivity">
+        </activity>
     </application>
 
 </manifest>

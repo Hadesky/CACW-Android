@@ -4,23 +4,20 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.util.ImageResizer;
 import com.hadesky.cacw.util.DensityUtil;
 
 /**
@@ -30,7 +27,7 @@ import com.hadesky.cacw.util.DensityUtil;
 public class DeletableEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
 
     private int mUnderlineColor;
-    private int HintColor = 0;
+    private int mHintColor = 0;
     private Paint mPaint;
     private int mClearIconId;
     private Drawable mClearIcon;
@@ -41,6 +38,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     private boolean isFocused = false;
     private boolean isTouch = false;
     private Resources mResources;
+    boolean showUnderLine = true;
 
     private float animProportion = 0;//下划线动画的进度比例，0f~1f
     private ObjectAnimator underLineAnim;
@@ -59,22 +57,24 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         mResources = getResources();
 
         TypedArray typedArray = mResources.obtainAttributes(attrs, R.styleable.DeletableEditText);
-        final int count = typedArray.getIndexCount();
-        for (int i = 0; i < count; i++) {
-            int attr = typedArray.getIndex(i);
-            switch (attr) {
-                case R.styleable.DeletableEditText_clear_icon:
-                    mClearIconId = typedArray.getResourceId(attr, -1);
-                    break;
-                case R.styleable.DeletableEditText_underline_color:
-                    mUnderlineColor = typedArray.getColor(attr, mResources.getColor(android.R.color.darker_gray));
-                default:
-                    break;
-            }
-        }
+
+        mClearIconId = typedArray.getResourceId(R.styleable.DeletableEditText_clear_icon, -1);
+        mUnderlineColor = typedArray.getColor(R.styleable.DeletableEditText_underline_color,
+                            ResourcesCompat.getColor(getResources(), R.color.color_gray, null));
+        mHintColor = typedArray.getColor(R.styleable.DeletableEditText_focus_color,
+                            ResourcesCompat.getColor(getResources(), R.color.color_primary, null));
+        showUnderLine = typedArray.getBoolean(R.styleable.DeletableEditText_show_underline, true);
+
         typedArray.recycle();
 
-        HintColor = getResources().getColor(R.color.color_primary);
+        if (!showUnderLine) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(null);
+            } else {
+                setBackgroundDrawable(null);
+            }
+
+        }
 
         init();
 
@@ -139,7 +139,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawUnderLine(canvas, isFocused);
+        if (showUnderLine)
+            drawUnderLine(canvas, isFocused);
     }
 
     public void setIsClearIconVisible(boolean isClearIconVisible) {
@@ -152,7 +153,7 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
     }
 
     public void setHintColor(int Color) {
-        this.HintColor = Color;
+        this.mHintColor = Color;
     }
 
     private void drawUnderLine(Canvas canvas,boolean foucsed) {
@@ -164,8 +165,8 @@ public class DeletableEditText extends EditText implements View.OnFocusChangeLis
         int halfWidth = (x + w) / 2;
         canvas.drawLine(0, this.getHeight() - 1, w + x,
                 this.getHeight() - 1, mPaint);
-        if (foucsed && HintColor != 0) {
-            mPaint.setColor(HintColor);
+        if (foucsed && mHintColor != 0) {
+            mPaint.setColor(mHintColor);
             mPaint.setAlpha((int) (animProportion * 255));
             mPaint.setStrokeWidth(DensityUtil.dip2px(getContext(), 2));
         }
