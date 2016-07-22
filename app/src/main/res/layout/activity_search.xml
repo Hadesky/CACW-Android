@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hadesky.cacw.ui.activity.SearchActivity">
@@ -24,10 +25,12 @@
                 android:layout_marginLeft="@dimen/spacing_small"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_width="@dimen/image_small"
-                android:layout_height="@dimen/image_small"/>
+                android:layout_height="@dimen/image_small"
+                android:contentDescription="@string/back"/>
             <com.hadesky.cacw.ui.widget.DeletableEditText
                 app:clear_icon="@drawable/ic_clear_black"
                 app:show_underline="false"
+                android:id="@+id/et"
                 android:layout_gravity="center_vertical"
                 android:hint="@string/search_team_or_person"
                 android:textColorHint="@color/color_font_gray"
@@ -35,11 +38,14 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:maxLines="1"
-                android:paddingRight="@dimen/spacing_small"
-                android:paddingEnd="@dimen/spacing_small"
+                app:paddingEnd="@dimen/spacing_small"
                 android:imeOptions="actionSearch|flagNoExtractUi"
                 android:textSize="16sp"
                 />
         </LinearLayout>
     </FrameLayout>
-</RelativeLayout>
+    <FrameLayout
+        android:id="@+id/container_person"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

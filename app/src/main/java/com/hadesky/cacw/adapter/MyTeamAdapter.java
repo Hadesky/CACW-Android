@@ -47,7 +47,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
         super(list, layoutid);
     }
 
-
     private Subscription mSubscription;
 
     @Override
@@ -76,7 +75,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
     }
 
     private BaseViewHolder<TeamMember> createNewTeamViewHolder(View view) {
-
         return new BaseViewHolder<TeamMember>(view) {
             @Override
             public void setData(TeamMember teamMember) {

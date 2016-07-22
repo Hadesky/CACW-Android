@@ -66,4 +66,7 @@
     <string name="build_up">新建</string>
     <string name="search">查找</string>
     <string name="search_team_or_person">搜索团队或人</string>
+
+    <string name="load_next_five_item">加载下5项</string>
+    <string name="back">后退</string>
 </resources>
