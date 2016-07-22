@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SearchPersonAdapter;
+import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.SearchPersonPresenter;
 import com.hadesky.cacw.presenter.SearchPersonPresenterImpl;
@@ -25,7 +26,7 @@ import java.util.List;
  * Use the {@link SearchPersonFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchPersonFragment extends Fragment implements SearchPersonView{
+public class SearchPersonFragment extends Fragment implements SearchPersonView {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SEARCH_KEY = "search_key";
 
@@ -73,7 +74,15 @@ public class SearchPersonFragment extends Fragment implements SearchPersonView{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_person, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
-        mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search);
+
+        mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, new BaseViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                showProgress();
+                mPresenter.showNextResults();
+            }
+        });
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
         return view;

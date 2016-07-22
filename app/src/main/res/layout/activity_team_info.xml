@@ -26,7 +26,7 @@
         style="@style/toolbar_transparent"
         >
         <com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView
-            android:id="@+id/anim_view"
+            android:id="@+id/view_anim"
             android:layout_gravity="center"
             android:layout_width="100dp"
             android:layout_height="match_parent" />

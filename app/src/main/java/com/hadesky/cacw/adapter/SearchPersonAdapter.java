@@ -27,10 +27,13 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
 
     private boolean isFinal = false;
 
+    private BaseViewHolder.OnItemClickListener mOnItemClickListener;//fragment实现
+
     private WeakReference<View> mNextResultViewWeakReference;//保存下一次查询的按钮那个View的软引用
 
-    public SearchPersonAdapter(List<UserBean> list, @LayoutRes int layoutid) {
+    public SearchPersonAdapter(List<UserBean> list, @LayoutRes int layoutid, BaseViewHolder.OnItemClickListener listener) {
         super(list, layoutid);
+        mOnItemClickListener = listener;
     }
 
     @Override
@@ -65,6 +68,9 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
             int start = mDatas.size();
             mDatas.addAll(userBeen);
             this.isFinal = isFinal;
+            if (isFinal) {
+                notifyItemRemoved(mDatas.size());
+            }
             notifyItemRangeInserted(start, userBeen.size());
         }
     }
@@ -84,13 +90,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
         return new BaseViewHolder<UserBean>(view) {
             @Override
             public void setData(UserBean aVoid) {
-
-                setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void OnItemClick(View view1, int position) {
-                        Toast.makeText(mContext, "加载下5项", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                setOnItemClickListener(mOnItemClickListener);
             }
         };
     }
@@ -116,7 +116,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     public void showProgress() {
         if (mNextResultViewWeakReference != null && mNextResultViewWeakReference.get() != null) {
             View nextTenView = mNextResultViewWeakReference.get();
-            ColorfulAnimView animView = (ColorfulAnimView) nextTenView.findViewById(R.id.anim_view);
+            ColorfulAnimView animView = (ColorfulAnimView) nextTenView.findViewById(R.id.view_anim);
             TextView textView = (TextView) nextTenView.findViewById(R.id.tv);
             if (animView != null && textView != null) {
                 textView.setVisibility(View.INVISIBLE);
@@ -131,7 +131,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     public void hideProgress() {
         if (mNextResultViewWeakReference != null && mNextResultViewWeakReference.get() != null) {
             View nextTenView = mNextResultViewWeakReference.get();
-            ColorfulAnimView animView = (ColorfulAnimView) nextTenView.findViewById(R.id.anim_view);
+            ColorfulAnimView animView = (ColorfulAnimView) nextTenView.findViewById(R.id.view_anim);
             TextView textView = (TextView) nextTenView.findViewById(R.id.tv);
             if (animView != null && textView != null) {
                 textView.setVisibility(View.VISIBLE);

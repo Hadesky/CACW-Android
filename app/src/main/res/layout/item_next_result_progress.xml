@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_list_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height_large">
@@ -13,6 +14,7 @@
     <com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView
         android:id="@+id/view_anim"
         android:layout_gravity="center"
+        android:alpha="0"
         android:layout_width="100dp"
         android:layout_height="match_parent"/>
 </FrameLayout>

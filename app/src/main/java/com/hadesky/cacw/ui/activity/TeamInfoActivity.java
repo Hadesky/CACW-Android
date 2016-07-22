@@ -72,7 +72,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamId = (TextView) findViewById(R.id.tv_teamid);
         mTvTeamName = (TextView) findViewById(R.id.tv_team_name);
         mTvSummary = (TextView) findViewById(R.id.tv_team_summary);
-        mAnimView = (ColorfulAnimView) findViewById(R.id.anim_view);
+        mAnimView = (ColorfulAnimView) findViewById(R.id.view_anim);
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_team_member);
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
