@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.hadesky.cacw">
+<manifest package="com.hadesky.cacw"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <!-- 允许应用程序写数据到外部存储设备（主要是SD卡） -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -139,6 +139,8 @@
         <activity android:name=".ui.activity.SearchTeamActivity">
         </activity>
         <activity android:name=".ui.activity.SearchActivity">
+        </activity>
+        <activity android:name=".ui.activity.MessageListActivity">
         </activity>
     </application>
 

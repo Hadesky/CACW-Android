@@ -3,7 +3,6 @@ package com.hadesky.cacw.presenter;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.model.MyTeamModel;
 import com.hadesky.cacw.ui.view.MyTeamView;
 
 import java.util.List;
@@ -23,15 +22,14 @@ public class MyTeamPresenterImpl implements MyTeamPresenter
 {
 
 
-    MyTeamModel mModel;
+
     MyTeamView mTeamView;
     Subscription mSubscriptions;
     UserBean mUser;
 
     public MyTeamPresenterImpl(MyTeamView TeamView)
+
     {
-        mModel = new MyTeamModel();
-        mTeamView = TeamView;
         mUser = MyApp.getCurrentUser();
     }
 

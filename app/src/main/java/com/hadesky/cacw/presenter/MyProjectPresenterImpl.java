@@ -5,7 +5,6 @@ import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.model.MyProjectModel;
 import com.hadesky.cacw.ui.view.MyProjectView;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class MyProjectPresenterImpl implements MyProjectPresenter {
 
     private List<ProjectBean> mData;
     private MyProjectView mView;
-    private MyProjectModel myProjectModel;
     private UserBean mUser;
     private Subscription mSubscription;
     private TeamBean mTeam;

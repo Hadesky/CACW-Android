@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.activity.LoginActivity;
@@ -77,7 +76,7 @@ public class SessionManagement {
 
         //退出登录清除数据库所有数据
         DatabaseManager manager = DatabaseManager.getInstance(mContext);
-        manager.cleanAllData();
+        //manager.cleanAllData();
 
         // Staring Login Activity
         contextWeakReference.get().startActivity(i);
