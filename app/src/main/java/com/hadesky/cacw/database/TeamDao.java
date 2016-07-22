@@ -23,12 +23,12 @@ public class TeamDao
     public List<TeamBean> queryTeams()
     {
         List<TeamBean> list = new ArrayList<>();
-        DatabaseManager.TeamCursor cursor = mManager.queryAllTeam();
-        while (cursor.moveToNext())
-        {
-            list.add(cursor.getTaskBean());
-        }
-        cursor.close();
+//        DatabaseManager.TeamCursor cursor = mManager.queryAllTeam();
+//        while (cursor.moveToNext())
+//        {
+//            list.add(cursor.getTaskBean());
+//        }
+//        cursor.close();
         return list;
     }
 

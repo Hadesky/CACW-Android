@@ -3,384 +3,198 @@ package com.hadesky.cacw.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 单例模式
  * 用于操作数据库，写明了基本的数据库操作
  * Created by 45517 on 2015/10/28.
  */
-public class DatabaseManager {
-    public static final String DB_NAME = "cacw.sqlite";
+public class DatabaseManager
+{
 
-    public static final String COLUMN_USER_USER_ID = "user_id";
-    public static final String COLUMN_USER_USERNAME = "username";
-    public static final String COLUMN_USER_AVATAR = "avatar";
-    public static final String COLUMN_PROJECT_PROJECT_ID = "project_id";
-    public static final String COLUMN_PROJECT_PROJECT_NAME = "project_name";
-    public static final String COLUMN_TASK_TASK_ID = "task_id";
-    public static final String COLUMN_TASK_TITLE = "title";
-    public static final String COLUMN_TEAM_TEAM_ID = "team_id";
-    public static final String COLUMN_TEAM_TEAM_NAME = "team_name";
-    public static final String COLUMN_TASK_IS_COMPLETE_ ="is_complete";
-    public static final String COLUMN_TASK_CONTENT ="content";
-    public static final String COLUMN_TASK_LOCATION ="location";
-
-    public static final String TABLE_USER = "user";
-    public static final String TABLE_PROJECT = "project";
-    public static final String TABLE_TASK = "task";
-    public static final String TABLE_PROJECT_USER = "project_user";
-    public static final String TABLE_TASK_USER = "task_user";
-    public static final String TABLE_TEAM = "team";
-    //public static final String TABLE_PROJECT_TASK = "project_task";
 
     private DatabaseHelper mHelper;
     private SQLiteDatabase db;
 
     private static DatabaseManager instance;
 
-    private DatabaseManager(Context context) {
+
+    public static final String Table_Message = "Message";
+    public static final String Table_Users = "Users";
+
+    public static final String Column_From = "from";
+    public static final String Column_To = "to";
+    public static final String Column_Content = "content";
+    public static final String Column_Type = "type";
+    public static final String Column_hasRead = "hasRead";
+
+
+    public static final String Column_OId = "ObjectId";
+    public static final String Column_NickName = "NickName";
+    public static final String Column_AvatarUrl = "avatarUrl";
+
+
+    private UserBean mUser;
+
+    private DatabaseManager(Context context)
+    {
         mHelper = new DatabaseHelper(context);
         db = mHelper.getWritableDatabase();
+        mUser = MyApp.getCurrentUser();
     }
 
-    public static synchronized DatabaseManager getInstance(Context context) {
-        if (instance == null) {
+    public static synchronized DatabaseManager getInstance(Context context)
+    {
+        if (instance == null)
+        {
             instance = new DatabaseManager(context);
-        }else if (!instance.db.isOpen()) instance.db = instance.mHelper.getWritableDatabase();
+        } else if (!instance.db.isOpen())
+            instance.db = instance.mHelper.getWritableDatabase();
         return instance;
     }
 
-    /**
-     * 插入一个UserBean
-     * @param bean 插入的UserBean，UserId和Username不能为空
-     * @return 插入后得到的ID
-     */
-    public long insertUser(UserBean bean) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_USER_USER_ID, bean.getObjectId());
-        cv.put(COLUMN_USER_USERNAME, bean.getUsername());
-        return db.insert(TABLE_USER, null, cv);
-    }
 
-
-    public long insertProject(ProjectBean bean) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_PROJECT_PROJECT_ID, bean.getObjectId());
-        cv.put(COLUMN_PROJECT_PROJECT_NAME,bean.getProjectName());
-        cv.put(COLUMN_TEAM_TEAM_ID, bean.getObjectId());
-        return db.insert(TABLE_PROJECT, null, cv);
-    }
-
-    public long insertTask(TaskBean bean) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TASK_TASK_ID, bean.getObjectId());
-        cv.put(COLUMN_TASK_TITLE, bean.getTitle());
-        //cv.put(COLUMN_PROJECT_PROJECT_ID,bean.getProjectId());
-        cv.put(COLUMN_TASK_CONTENT,bean.getContent());
-        cv.put(COLUMN_TASK_LOCATION,bean.getLocation());
-        return db.insert(TABLE_TASK, null, cv);
-    }
-
-    public long insertTeam(TeamBean bean) {
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_TEAM_TEAM_ID, bean.getObjectId());
-        cv.put(COLUMN_TEAM_TEAM_NAME, bean.getTeamName());
-        return db.insert(TABLE_TEAM, null, cv);
-    }
-
-    /**
-     * 在把用户加进Project前必须先加入User表
-     * @param user_id 已经加入User表的UserId
-     * @param project_id 已经加入Project表的ProjectID
-     */
-    public void putUserIntoProject(long user_id, long project_id) {
-        Cursor userCursor = db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE user_id = " + String.valueOf(user_id), null);
-        Cursor projectCursor = db.rawQuery("SELECT * FROM " + TABLE_PROJECT + " WHERE project_id = " + String.valueOf(project_id), null);
-        if (userCursor != null && projectCursor != null) {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_PROJECT_PROJECT_ID, project_id);
-            cv.put(COLUMN_USER_USER_ID, user_id);
-            db.insert(TABLE_PROJECT_USER, null, cv);
-
-            userCursor.close();
-            projectCursor.close();
-        }
-    }
-
-    public void putUserIntoTask(long user_id, long task_id) {
-        Cursor userCursor = db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE user_id = " + String.valueOf(user_id), null);
-        Cursor taskCursor = db.rawQuery("SELECT * FROM " + TABLE_TASK + " WHERE task_id = " + String.valueOf(task_id), null);
-        if (userCursor != null && taskCursor != null) {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_TASK_TASK_ID, task_id);
-            cv.put(COLUMN_USER_USER_ID, user_id);
-            db.insert(TABLE_TASK_USER, null, cv);
-
-
-            userCursor.close();
-            taskCursor.close();
-        }
-    }
-
-    public void deleteTask(long task_id)
-    {
-        db.execSQL("DELETE FORM" + TABLE_TASK + " WHERE task_id= " +
-                String.valueOf(task_id));
-    }
-
-    public void updateTaskComplete(int task_id,int complete)
-    {
-        db.execSQL("update " + TABLE_TASK + "set is_complete ="+complete+" where task_id ="+
-                String.valueOf(task_id));
-    }
-
-    public void deleteUserFromTask(long user_id, long task_id) {
-        db.execSQL("DELETE FORM" + TABLE_TASK_USER + " WHERE user_id= " +
-                String.valueOf(user_id) + " AND task_id= " + String.valueOf(task_id));
-    }
-
-    public void deleteUserFromProject(String user_id,long project_id) {
-        db.execSQL("DELETE FROM " + TABLE_PROJECT_USER + " WHERE user_id= " +
-                user_id + " AND project_id= " + String.valueOf(project_id));
-    }
-
-
-    public UserCursor queryUserFromProject(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT user.* FROM " + TABLE_USER + "," + TABLE_PROJECT_USER +
-                " WHERE user.user_id=project_user.user_id AND " + "project_user.project_id= " + String.valueOf(project_id), null);
-        return new UserCursor(wrapped);
-    }
-
-    public ProjectCursor queryProject(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_PROJECT +
-                " WHERE project_id= " + String.valueOf(project_id), null);
-        return new ProjectCursor(wrapped);
-    }
-
-    public UserCursor queryUserFromTask(long task_id) {
-        Cursor wrapped = db.rawQuery("SELECT user.* FROM " + TABLE_USER + "," + TABLE_TASK_USER +
-                " WHERE user.user_id=task_user.user_id AND " + "task_user.task_id= " + String.valueOf(task_id), null);
-        return new UserCursor(wrapped);
-    }
-
-    public ProjectCursor queryProjectByUserId(long user_id) {
-        Cursor wrapped = db.rawQuery("SELECT project.* FROM " + TABLE_PROJECT + "," + TABLE_PROJECT_USER +
-                " WHERE project.project_id=project_user.project_id AND " + "project_user.user_id= " + String.valueOf(user_id), null);
-        return new ProjectCursor(wrapped);
-    }
-
-    public TaskCursor queryTask(long task_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE task_id= " + String.valueOf(task_id), null);
-        return new TaskCursor(wrapped);
-    }
-
-    public TaskCursor queryUncompleteTask()
-    {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE is_complete =?",new String[]{"1"});
-        return new TaskCursor(wrapped);
-    }
-
-    public TaskCursor queryCompleteTask()
-    {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE is_complete =?",new String[]{"0"});
-        return new TaskCursor(wrapped);
-    }
-
-    public TaskCursor queryAllTaskFromPj(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE project_id = ?", new String[]{String.valueOf(project_id)});
-        return new TaskCursor(wrapped);
-    }
-
-    public TeamCursor queryAllTeam() {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TEAM,null);
-        return new TeamCursor(wrapped);
-    }
-
-    public TaskCursor queryUnCompletedTaskFromPj(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "1"});
-        return new TaskCursor(wrapped);
-    }
-
-    public UserCursor queryUser(long user_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_USER +
-                " WHERE user_id = ?", new String[]{String.valueOf(user_id)});
-        return new UserCursor(wrapped);
-    }
-
-    public TaskCursor queryCompletedTaskFromPj(long project_id) {
-        Cursor wrapped = db.rawQuery("SELECT * FROM " + TABLE_TASK +
-                " WHERE project_id = ? AND is_complete = ?", new String[]{String.valueOf(project_id), "0"});
-        return new TaskCursor(wrapped);
-    }
-
-    /**
-     * 清除所有数据，可以在退出登录的时候调用
-     * 或者清理缓存的时候调用
-     */
-    public void cleanAllData() {
-        db.execSQL("DELETE FROM " + TABLE_USER);
-        db.execSQL("DELETE FROM " + TABLE_PROJECT);
-        db.execSQL("DELETE FROM " + TABLE_TASK);
-        db.execSQL("DELETE FROM " + TABLE_PROJECT_USER);
-        db.execSQL("DELETE FROM " + TABLE_TASK_USER);
-        db.execSQL("DELETE FROM " + TABLE_TEAM);
-    }
-
-
-    /**
-     * 关闭数据库，退出应用时调用
-     */
-    public void closeDB() {
-        db.close();
-    }
-
-
-
-    /**
-     * 内部类
-     * 用于格式化查询结果
-     */
-    public static class UserCursor extends CursorWrapper {
-
-        /**
-         * Creates a cursor wrapper.
-         *
-         * @param cursor The underlying cursor to wrap.
-         */
-        public UserCursor(Cursor cursor) {
-            super(cursor);
-        }
-
-        /**
-         *从Cursor提取出UserBean，如果对应行为空，则返回Null
-         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
-         */
-        public UserBean getUserBean() {
-            if (isBeforeFirst() || isAfterLast()) {
-                return null;
-            }
-            UserBean bean = new UserBean();
-            long user_id = getLong(getColumnIndex(COLUMN_USER_USER_ID));
-            bean.setObjectId(String.valueOf(user_id));
-            String username = getString(getColumnIndex(COLUMN_USER_USERNAME));
-            bean.setUsername(username);
-            return bean;
-        }
-    }
-
-    /**
-     * 内部类
-     * 用于格式化查询结果
-     */
-    public static class ProjectCursor extends CursorWrapper {
-
-        /**
-         * Creates a cursor wrapper.
-         *
-         * @param cursor The underlying cursor to wrap.
-         */
-        public ProjectCursor(Cursor cursor) {
-            super(cursor);
-        }
-
-        /**
-         *从Cursor提取出UserBean，如果对应行为空，则返回Null
-         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
-         */
-        public ProjectBean getProjectBean() {
-            if (isBeforeFirst() || isAfterLast()) {
-                return null;
-            }
-            ProjectBean bean = new ProjectBean();
-            String project_id = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_ID));
-            bean.setObjectId(project_id);
-            String project_name = getString(getColumnIndex(COLUMN_PROJECT_PROJECT_NAME));
-            bean.setProjectName(project_name);
-            // TODO: 2015/10/28 0028  后期要改！！！
-
-            String team_id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));
-            //bean.setTeamId(team_id);
-
-            return bean;
-        }
-    }
-
-    /**
-     * 内部类
-     * 用于格式化查询结果
-     */
-    public static class TaskCursor extends CursorWrapper {
-
-        /**
-         * Creates a cursor wrapper.
-         *
-         * @param cursor The underlying cursor to wrap.
-         */
-        public TaskCursor(Cursor cursor) {
-            super(cursor);
-        }
-
-        /**
-         *从Cursor提取出UserBean，如果对应行为空，则返回Null
-         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
-         */
-        public TaskBean getTaskBean() {
-            if (isBeforeFirst() || isAfterLast()) {
-                return null;
-            }
-            TaskBean bean = new TaskBean();
-            String task_id = getString(getColumnIndex(COLUMN_TASK_TASK_ID));
-            bean.setObjectId(task_id);
-            String title = getString(getColumnIndex(COLUMN_TASK_TITLE));
-            bean.setTitle(title);
-
-            String content = getString(getColumnIndex(COLUMN_TASK_CONTENT));
-            bean.setContent(content);
-            return bean;
-        }
-    }
-
-    public static class TeamCursor extends CursorWrapper
+    public List<MessageBean> queryMessageByUser(String id, int pageSise, int PageNum)
     {
 
-        /**
-         * Creates a cursor wrapper.
-         * @param cursor The underlying cursor to wrap.
-         */
-        public TeamCursor(Cursor cursor) {
-            super(cursor);
-        }
+        int offset = PageNum * pageSise;
+        String sql = "select * from " + Table_Message + " " +
+                "where from = ? or  to= ?  limit " + pageSise + " offset " + offset;
 
-        /**
-         *从Cursor提取出UserBean，如果对应行为空，则返回Null
-         * @return 从Cursor提取出的UserBean，如果对应行为空，则返回Null
-         */
-        public TeamBean getTaskBean()
+        Cursor cursor = db.rawQuery(sql, new String[]{id, id});
+
+        List<MessageBean> list = new ArrayList<>();
+
+        while (cursor.moveToNext())
         {
-            if (isBeforeFirst() || isAfterLast())
-            {
-                return null;
-            }
-            TeamBean bean = new TeamBean();
-            String id = getString(getColumnIndex(COLUMN_TEAM_TEAM_ID));
-            bean.setObjectId(id);
-
-            String name = getString(getColumnIndex(COLUMN_TEAM_TEAM_NAME));
-            bean.setTeamName(name);
-            return bean;
+            list.add(getMessage(cursor));
         }
+
+        cursor.close();
+        return list;
+    }
+
+
+    public List<UserBean> queryAllUsers()
+    {
+        String sql = "select * from " + Table_Users;
+        Cursor cursor = db.rawQuery(sql, null);
+
+        List<UserBean> list = new ArrayList<>();
+
+
+        while (cursor.moveToNext())
+        {
+            UserBean u = getUserBean(cursor);
+            if (u != null)
+            {
+                list.add(u);
+            }
+        }
+        cursor.close();
+        return list;
+    }
+
+    public void saveMessage(List<MessageBean> list)
+    {
+        for(MessageBean bean : list)
+        {
+
+            if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
+                saveUser(bean.getReceiver());
+            else
+                saveUser(bean.getSender());
+
+            ContentValues cv = new ContentValues();
+            cv.put(Column_From, bean.getSender().getObjectId());
+            cv.put(Column_To, bean.getReceiver().getObjectId());
+            cv.put(Column_Type, bean.getType());
+            cv.put(Column_Content, bean.getMsg());
+            cv.put(Column_hasRead, bean.getHasRead());
+            db.insert(Table_Message, null, cv);
+        }
+    }
+
+    public void saveUser(UserBean user)
+    {
+        Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_OId + " =? ", new String[]{user.getObjectId()});
+        if (!cursor.moveToFirst())
+        {
+            ContentValues cv = new ContentValues();
+            cv.put(Column_OId, user.getObjectId());
+            cv.put(Column_NickName, user.getNickName());
+            if (user.getAvatarUrl() != null)
+                cv.put(Column_AvatarUrl, user.getAvatarUrl());
+            db.insert(Table_Users, null, cv);
+        }
+        cursor.close();
+    }
+
+
+    public UserBean getUserById(String id)
+    {
+        String sql = "Select * from User Where " + Column_OId + " =? ";
+        Cursor cursor = db.rawQuery(sql, new String[]{id});
+        UserBean userBean = getUserBean(cursor);
+        cursor.close();
+        return userBean;
+
+    }
+
+
+    private UserBean getUserBean(Cursor cursor)
+    {
+
+        if (cursor.moveToFirst())
+            return null;
+
+        UserBean userBean = new UserBean();
+        String oid = cursor.getString(cursor.getColumnIndex(Column_OId));
+        String nickName = cursor.getString(cursor.getColumnIndex(Column_NickName));
+
+        if (!cursor.isNull(cursor.getColumnIndex(Column_AvatarUrl)))
+        {
+            String url = cursor.getString(cursor.getColumnIndex(Column_AvatarUrl));
+            cursor.getColumnIndex(Column_AvatarUrl);
+        }
+        userBean.setObjectId(oid);
+        userBean.setNickName(nickName);
+
+        return userBean;
+    }
+
+    private MessageBean getMessage(Cursor cursor)
+    {
+        MessageBean bean = new MessageBean();
+
+        String sender = cursor.getString(cursor.getColumnIndex(Column_From));
+        if (sender.equals(mUser.getObjectId()))
+        {
+            bean.setSender(mUser);
+            String to = cursor.getString(cursor.getColumnIndex(Column_To));
+            bean.setReceiver(getUserById(to));
+        } else
+        {
+            bean.setReceiver(mUser);
+            bean.setSender(getUserById(sender));
+        }
+
+        int type = cursor.getInt(cursor.getColumnIndex(Column_Type));
+        bean.setType((byte) type);
+        String content = cursor.getString(cursor.getColumnIndex(Column_Content));
+        bean.setMsg(content);
+        int read = cursor.getInt(cursor.getColumnIndex(Column_hasRead));
+        bean.setHasRead(read == 1);
+
+        return bean;
     }
 
 }

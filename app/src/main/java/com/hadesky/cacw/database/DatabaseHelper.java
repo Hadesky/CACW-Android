@@ -23,65 +23,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //创建表格task
-        db.execSQL("CREATE TABLE task (" +
-                "task_id INT PRIMARY KEY NOT NULL," +
-                "title TEXT NOT NULL," +
-                "date TEXT," +
-                "time TEXT," +
-                "location TEXT," +
-                "is_complete int,"+
-                "project_id INT NOT NULL,"+
-                "content TEXT,"+
-                "foreign key (project_id) references project(project_id) on delete cascade on update cascade"+
-                ")");
-        //创建表格team
-        db.execSQL("CREATE TABLE team(" +
-                "team_id INT PRIMARY KEY NOT NULL," +
-                "team_name TEXT NOT NULL" +
-                ")");
-        //创建表格task_user
-        db.execSQL("CREATE TABLE task_user(" +
-                "task_id INT NOT NULL," +
-                "user_id INT NOT NULL," +
-                "foreign key (task_id) references task(task_id) on delete cascade on update cascade," +
-                "foreign key (user_id) references user(user_id) on delete cascade on update cascade," +
-                "PRIMARY KEY(task_id,user_id)" +
+        db.execSQL("CREATE TABLE Message (" +
+                "from TEXT not null," +
+                "to TEXT null," +
+                "type Integer not null," +
+                "content TEXT not null," +
+                "hasRead Integer not null" + //1 为已读
                 ")");
 
-        //创建表格project
-        db.execSQL("CREATE TABLE project (" +
-                "project_id INT PRIMARY KEY NOT NULL," +
-                "project_name TEXT NOT NULL," +
-                "team_id INT NOT NULL," +
-                "foreign key (team_id) references team(team_id) on delete cascade on update cascade" +
+        db.execSQL("CREATE TABLE Users (" +
+                "ObjectId text primary key," +
+                "NickName Text" +
+                "avatarUrl Text" +
                 ")");
-
-        //创建表格project_user
-        db.execSQL("CREATE TABLE project_user (" +
-                "project_id INT NOT NULL," +
-                "user_id INT NOT NULL," +
-                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
-                "foreign key (user_id) references user(user_id) on delete cascade on update cascade," +
-                "PRIMARY KEY(project_id,user_id)" +
-                ")");
-        //创建表格user
-        db.execSQL("CREATE TABLE user (" +
-                "user_id INT PRIMARY KEY NOT NULL," +
-                "username TEXT NOT NULL," +
-                "avatar BLOB," +
-                "phone_number TEXT," +
-                "email TEXT," +
-                "address TEXT," +
-                "signature TEXT" +
-                ")");
-        //创建表格project_task
-//        db.execSQL("CREATE TABLE project_task (" +
-//                "project_id INT NOT NULL," +
-//                "task_id INT NOT NULL," +
-//                "foreign key (project_id) references project(project_id) on delete cascade on update cascade," +
-//                "foreign key (task_id) references task(task_id) on delete cascade on update cascade," +
-//                "PRIMARY KEY(project_id,task_id)" +
-//                ")");
     }
 
     @Override

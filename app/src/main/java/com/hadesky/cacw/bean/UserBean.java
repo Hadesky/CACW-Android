@@ -13,6 +13,9 @@ public class UserBean extends BmobUser{
     public static final Byte SEX_FEMALE = 1;//性别女
     public static final Byte SEX_UNKNOW = 2;//性别保密
 
+
+    private String mAvatarUrl;
+
     private BmobFile mUserAvatar;
 
     private String mNickName;
@@ -85,6 +88,20 @@ public class UserBean extends BmobUser{
 
     public void setShortNumber(String mShortNumber) {
         this.mShortNumber = mShortNumber;
+    }
+
+    public String getAvatarUrl()
+    {
+        if (mAvatarUrl==null&&mUserAvatar!=null)
+        {
+            mAvatarUrl = mUserAvatar.getUrl();
+        }
+        return mAvatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl)
+    {
+        mAvatarUrl = avatarUrl;
     }
 
     @Override
