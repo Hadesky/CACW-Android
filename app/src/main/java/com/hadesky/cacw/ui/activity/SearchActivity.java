@@ -2,6 +2,7 @@ package com.hadesky.cacw.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
 
@@ -62,14 +64,14 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
             }
         });
         mRefreshLayout.setOnRefreshListener(this);
-        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        mRefreshLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.color_primary, null));
         mRefreshLayout.setProgressViewOffset(true, -100, 50);
     }
 
     private void loadSearchTeamFragment(String s) {
         SearchTeamFragment fragment = (SearchTeamFragment) getTeamFragment();
         if (fragment == null) {
-            fragment = SearchTeamFragment.newInstance(s);
+            fragment = SearchTeamFragment.newInstance(SearchTeamFragment.class, s);
             mFragmentManager.beginTransaction()
                     .add(R.id.container_team, fragment)
                     .commit();
@@ -81,12 +83,12 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private void loadSearchPersonFragment(String s) {
         SearchPersonFragment fragment = (SearchPersonFragment) getPersonFragment();
         if (fragment == null) {
-            fragment = SearchPersonFragment.newInstance(s.toString());
+            fragment = SearchPersonFragment.newInstance(SearchPersonFragment.class, s);
             mFragmentManager.beginTransaction()
                     .add(R.id.container_person, fragment)
                     .commit();
         } else {
-            fragment.updateSearchKey(s.toString());
+            fragment.updateSearchKey(s);
         }
     }
 
@@ -104,6 +106,11 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
     private void refreshAllResult() {
+        for (Fragment fragment : mFragmentManager.getFragments()) {
+            if (fragment instanceof SearchFragment) {
+                ((SearchFragment) fragment).updateSearchKey(mSearchEditText.getText().toString());
+            }
+        }
     }
 
     @Override
