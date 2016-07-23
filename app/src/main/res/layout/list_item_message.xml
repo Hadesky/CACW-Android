@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_large">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_avatar"
+        app:roundAsCircle="true"
+        app:placeholderImage="@drawable/default_user_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_width="@dimen/image_large"
+        android:layout_height="@dimen/image_large"/>
+    <LinearLayout
+        android:layout_toRightOf="@id/iv_avatar"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_nick_name"
+            tools:text="张Leaves"
+            android:textSize="@dimen/font_large"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_msg"
+            tools:text="张Leaves:你今天吃了吗"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/color_font_gray"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</RelativeLayout>

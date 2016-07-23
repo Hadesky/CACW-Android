@@ -33,6 +33,12 @@ public class MyApp extends Application {
         Fresco.initialize(this);
     }
 
+
+    public static boolean isCurrentUser(UserBean sb)
+    {
+        return getCurrentUser().getObjectId().equals(sb.getObjectId());
+    }
+
     public static UserBean getCurrentUser()
     {
         return BmobUser.getCurrentUser(UserBean.class);
