@@ -1,6 +1,7 @@
 package com.hadesky.cacw.tag;
 
 /**
+ *
  * Created by 45517 on 2015/10/28.
  */
 public final class IntentTag {

@@ -90,7 +90,6 @@ public class DatabaseManager
 
         List<UserBean> list = new ArrayList<>();
 
-
         while (cursor.moveToNext())
         {
             UserBean u = getUserBean(cursor);
@@ -137,6 +136,19 @@ public class DatabaseManager
         }
         cursor.close();
     }
+
+    public void deleteUser(String objectId)
+    {
+        db.delete(Table_Users,Column_OId+"=?",new String[]{objectId});
+    }
+
+    public void deleteUserAndMessage(String objectId)
+    {
+        db.delete(Table_Users,Column_OId+"=?",new String[]{objectId});
+        db.delete(Table_Message, "from=? or to =?", new String[]{objectId, objectId});
+    }
+
+
 
 
     public UserBean getUserById(String id)

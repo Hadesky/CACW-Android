@@ -141,6 +141,8 @@
         </activity>
         <activity android:name=".ui.activity.MessageListActivity">
         </activity>
+        <activity android:name=".ui.activity.ChatActivity">
+        </activity>
     </application>
 
 </manifest>

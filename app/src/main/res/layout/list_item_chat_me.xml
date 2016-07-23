@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@android:color/transparent">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_alignParentRight="true"
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/image_large"
+        android:layout_height="@dimen/image_large"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        app:placeholderImage="@drawable/default_user_image"
+        app:roundAsCircle="true"/>
+
+
+    <LinearLayout
+        android:layout_toLeftOf="@id/iv_avatar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            tools:text="张树悦"
+            android:textSize="10sp"
+            android:textColor="@color/color_font_gray"
+            android:maxLength="5"
+            android:ellipsize="end"/>
+
+        <TextView
+
+            android:layout_gravity="right"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/chat_me"
+            android:id="@+id/tv_msg"
+            android:textSize="@dimen/font_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你好，hello world"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
