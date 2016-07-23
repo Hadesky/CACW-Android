@@ -175,18 +175,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
             });
         }
-        //同上，打开团队成员列表
-        v = findViewById(R.id.rcv_team_member);
-        if (v != null) {
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(TeamInfoActivity.this, TeamMemberActivity.class);
-                    i.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_TEAM_BEAN, mTeam);
-                    startActivity(i);
-                }
-            });
-        }
     }
 
     private void loadTeamBeanFromIntent() {

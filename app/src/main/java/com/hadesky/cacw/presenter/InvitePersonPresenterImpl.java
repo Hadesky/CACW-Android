@@ -44,7 +44,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
     @Override
     public void OnItemClick(View view, int position) {
         if (view instanceof Button) {
-            mView.showMsg("邀请" + position);
+            mOnInviteListener.onInvite(mAdapter.getDatas().get(position));
         } else {
             super.OnItemClick(view, position);
         }

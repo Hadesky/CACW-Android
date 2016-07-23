@@ -47,6 +47,9 @@ public class InvitePersonAdapter extends SearchPersonAdapter {
             if (mTeamMember != null && mTeamMember.contains(userBean)) {
                 setVisibility(R.id.tv_team_member, View.VISIBLE);
                 setVisibility(R.id.bt_invite, View.GONE);
+            } else {
+                setVisibility(R.id.tv_team_member, View.GONE);
+                setVisibility(R.id.bt_invite, View.VISIBLE);
             }
             setOnItemClickListener(mOnItemClickListener);
             setButtonOnClickListener(R.id.bt_invite, mOnItemClickListener);

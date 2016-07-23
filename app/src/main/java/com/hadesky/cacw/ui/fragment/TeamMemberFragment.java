@@ -1,8 +1,8 @@
 package com.hadesky.cacw.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,13 +12,15 @@ import android.view.ViewGroup;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TeamMemberPresenter;
 import com.hadesky.cacw.presenter.TeamMemberPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.view.TeamMemberView;
 import com.microstudent.app.bouncyfastscroller.vertical.VerticalBouncyFastScroller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +39,8 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
     private TeamBean mTeamBean;
 
     private TeamMemberPresenter mPresenter;
+
+    private List<UserBean> mTeamMember;
 
     public TeamMemberFragment() {
         // Required empty public constructor
@@ -83,7 +87,7 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestory();
+        mPresenter.onDestroy();
     }
 
     @Override
@@ -101,7 +105,6 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
 //            }
         }
     }
-
 
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration decoration) {
@@ -130,5 +133,14 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
 
     @Override
     public void showMsg(String s) {
+    }
+
+    public void navigateToInviteMemberActivity() {
+        ArrayList<UserBean> data = (ArrayList<UserBean>) mPresenter.getData();
+        if (data != null) {
+            Intent intent = new Intent(getContext(), InviteMemberActivity.class);
+            intent.putExtra(IntentTag.TAG_TEAM_MEMBER, data);
+            startActivity(intent);
+        }
     }
 }

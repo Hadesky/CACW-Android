@@ -64,7 +64,7 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter {
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
         if (mSubscriptions != null) {
             mSubscriptions.unsubscribe();
         }
@@ -77,6 +77,11 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter {
             return mUsers.size();
         }
         return 0;
+    }
+
+    @Override
+    public List<UserBean> getData() {
+        return mUsers;
     }
 
     private void handleResult(List<TeamMember> list) {

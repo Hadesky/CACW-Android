@@ -1,5 +1,9 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.bean.UserBean;
+
+import java.util.List;
+
 /**
  * Created by MicroStudent on 2016/7/16.
  */
@@ -7,7 +11,9 @@ package com.hadesky.cacw.presenter;
 public interface TeamMemberPresenter {
     void loadData();
 
-    void onDestory();
+    void onDestroy();
 
     int getUserCount();
+
+    List<UserBean> getData();
 }

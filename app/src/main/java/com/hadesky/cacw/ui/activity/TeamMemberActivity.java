@@ -20,6 +20,8 @@ import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 
 public class TeamMemberActivity extends BaseActivity {
 
+    private TeamMemberFragment mFragment;
+
     private TeamBean mTeam;
 
     @Override
@@ -40,14 +42,15 @@ public class TeamMemberActivity extends BaseActivity {
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.container);
+
+        mFragment = (TeamMemberFragment) fm.findFragmentById(R.id.container);
 
         mTeam = (TeamBean) getIntent().getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
 
-        if (fragment == null) {
-            fragment = TeamMemberFragment.newInstance(mTeam);
+        if (mFragment == null) {
+            mFragment = TeamMemberFragment.newInstance(mTeam);
             fm.beginTransaction()
-                    .add(R.id.container, fragment)
+                    .add(R.id.container, mFragment)
                     .commit();
         }
 
@@ -60,8 +63,9 @@ public class TeamMemberActivity extends BaseActivity {
                 onBackPressed();
                 return true;
             case R.id.action_add_member:
-                Intent intent = new Intent(getApplicationContext(), InviteMemberActivity.class);
-                startActivity(intent);
+                if (mFragment != null) {
+                    mFragment.navigateToInviteMemberActivity();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

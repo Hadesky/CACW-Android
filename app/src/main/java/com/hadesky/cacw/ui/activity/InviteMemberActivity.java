@@ -1,5 +1,6 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.presenter.InvitePersonPresenter;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.widget.SearchView.SearchView;
@@ -20,6 +23,10 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
 
     private FragmentManager mFragmentManager;
 
+    private InvitePersonFragment mInvitePersonFragment;
+
+    private List<UserBean> mTeamMember;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_invite_member;
@@ -31,8 +38,11 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
         mFragmentManager = getSupportFragmentManager();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setupView() {
+        mTeamMember = (List<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_TEAM_MEMBER);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -48,25 +58,44 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
             public void onSubmit(String s) {
                 if (s.length() == 0) {
                     hideAllFragment();
+                } else {
+                    loadSearchPersonFragment(s);
                 }
-                loadSearchPersonFragment(s);
             }
         });
+        loadSearchPersonFragment(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupPresenter();
+    }
+
+    private void setupPresenter() {
+        InvitePersonPresenter presenter = mInvitePersonFragment.getPresenter();
+        if (presenter != null) {
+            presenter.setTeamMember(mTeamMember);
+            presenter.setOnInviteListener(this);
+        }
     }
 
     private void loadSearchPersonFragment(String s) {
-        InvitePersonFragment fragment = (InvitePersonFragment) getPersonFragment();
-        if (fragment == null) {
-            fragment = InvitePersonFragment.newInstance(InvitePersonFragment.class, s);
+        mInvitePersonFragment = (InvitePersonFragment) getPersonFragment();
+        if (mInvitePersonFragment == null) {
+            mInvitePersonFragment = InvitePersonFragment.newInstance(InvitePersonFragment.class, s);
             mFragmentManager.beginTransaction()
-                    .add(R.id.container, fragment)
+                    .add(R.id.container, mInvitePersonFragment)
                     .commit();
         } else {
-            fragment.updateSearchKey(s);
+            mInvitePersonFragment.updateSearchKey(s);
         }
     }
 
     private Fragment getPersonFragment() {
+        if (mInvitePersonFragment != null) {
+            return mInvitePersonFragment;
+        }
         return mFragmentManager.findFragmentById(R.id.container);
     }
 
@@ -101,6 +130,6 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
 
     @Override
     public void onInvite(UserBean user) {
-
+        showToast(user.getNickName());
     }
 }
