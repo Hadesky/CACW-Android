@@ -18,7 +18,6 @@ import com.hadesky.cacw.ui.activity.ChatActivity;
 import java.util.List;
 
 /**
- *
  * Created by dzysg on 2016/7/23 0023.
  */
 public class MessageListAdapter extends BaseAdapter<MessageBean>
@@ -43,11 +42,17 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
                 {
                     u = messageBean.getSender();
                 }
-                setTextView(R.id.tv_nick_name,u.getNickName());
+                setTextView(R.id.tv_nick_name, u.getNickName());
                 setTextView(R.id.tv_msg, messageBean.getMsg());
                 SimpleDraweeView iv = findView(R.id.iv_avatar);
                 iv.setImageURI(u.getAvatarUrl());
-                setVisibility(R.id.iv_has_read,messageBean.getHasRead()?View.GONE:View.VISIBLE);
+
+                //如果消息没读而且消息来自他人
+                if (!messageBean.getHasRead() && !MyApp.isCurrentUser(messageBean.getSender()))
+                    setVisibility(R.id.iv_has_read, View.VISIBLE);
+                else
+                    setVisibility(R.id.iv_has_read, View.GONE);
+
             }
         };
 

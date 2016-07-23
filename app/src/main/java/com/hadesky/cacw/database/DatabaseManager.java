@@ -129,9 +129,9 @@ public class DatabaseManager
 
 
         if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
-            saveUser(bean.getReceiver());
+            saveOrUpdateUser(bean.getReceiver());
         else
-            saveUser(bean.getSender());
+            saveOrUpdateUser(bean.getSender());
 
         ContentValues cv = new ContentValues();
         cv.put(Column_Sender, bean.getSender().getObjectId());
@@ -151,9 +151,9 @@ public class DatabaseManager
         {
 
             if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
-                saveUser(bean.getReceiver());
+                saveOrUpdateUser(bean.getReceiver());
             else
-                saveUser(bean.getSender());
+                saveOrUpdateUser(bean.getSender());
 
             ContentValues cv = new ContentValues();
             cv.put(Column_Sender, bean.getSender().getObjectId());
@@ -168,7 +168,7 @@ public class DatabaseManager
 
     }
 
-    public void saveUser(UserBean user)
+    public void saveOrUpdateUser(UserBean user)
     {
         Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_OId + " =? ", new String[]{user.getObjectId()});
         if (!cursor.moveToFirst())
@@ -179,6 +179,14 @@ public class DatabaseManager
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
             db.insert(Table_Users, null, cv);
+        }
+        else
+        {
+            ContentValues cv = new ContentValues();
+            if (user.getAvatarUrl()!=null)
+            cv.put(Column_AvatarUrl,user.getAvatarUrl());
+            cv.put(Column_NickName,user.getNickName());
+            db.update(Table_Users, cv,Column_OId+ "=?",new String[]{user.getObjectId()});
         }
         cursor.close();
     }
