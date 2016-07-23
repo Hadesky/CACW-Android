@@ -104,9 +104,8 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
                 setTextView(R.id.tv_team_summary, teamBean.getTeam().getSummary());
 
                 loadMemberCount(teamBean);
-
+                SimpleDraweeView view = findView(R.id.sdv_team_icon);
                 if (teamBean.getTeam().getTeamAvatar() != null) {
-                    SimpleDraweeView view = findView(R.id.sdv_team_icon);
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(teamBean.getTeam().getTeamAvatar().getUrl()))
 //                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
                             .build();
@@ -116,6 +115,8 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
                             .setOldController(view.getController())
                             .build();
                     view.setController(controller);
+                } else {
+                    view.setImageURI((String) null);
                 }
                 Button newProjectBt = findView(R.id.bt_new_project);
             }

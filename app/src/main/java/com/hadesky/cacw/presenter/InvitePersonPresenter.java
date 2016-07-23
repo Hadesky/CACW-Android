@@ -1,5 +1,6 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
@@ -15,11 +16,15 @@ public interface InvitePersonPresenter {
      * 当点击邀请按钮时调用此接口
      * @param listener listener
      */
-    void setOnInviteListener(InvitePersonFragment.OnInviteListener listener);
+    void setOnInviteListener(InviteMemberActivity.OnInviteListener listener);
 
     /**
      * 需要屏蔽已经加入Team的某些成员，因此在搜索结果中屏蔽部分已经是团队成员的结果的邀请按钮
      * @param teamMember team的成员
      */
     void setTeamMember(List<UserBean> teamMember);
+
+    void handleInviteMessage(String s, int position);
+
+    void setCurrentTeam(TeamBean currentTeam);
 }

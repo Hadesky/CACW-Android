@@ -102,7 +102,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     }
 
     private void showSummaryDialog() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_personal_summary, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_with_edit_text_30, null);
         final EditText editText = (EditText) view.findViewById(R.id.edit_text);
         editText.setText(mSummaryTextView.getText());
         AlertDialog.Builder builder = new AlertDialog.Builder(this)

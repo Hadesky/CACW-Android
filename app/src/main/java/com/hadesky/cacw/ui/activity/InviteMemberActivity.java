@@ -1,14 +1,13 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.presenter.InvitePersonPresenter;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
@@ -17,15 +16,13 @@ import com.hadesky.cacw.ui.widget.SearchView.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InviteMemberActivity extends BaseActivity implements InvitePersonFragment.OnInviteListener, SearchFragment.OnFragmentLoadingListener{
+public class InviteMemberActivity extends BaseActivity implements SearchFragment.OnFragmentLoadingListener {
 
     private SearchView mSearchView;
 
     private FragmentManager mFragmentManager;
 
     private InvitePersonFragment mInvitePersonFragment;
-
-    private List<UserBean> mTeamMember;
 
     @Override
     public int getLayoutId() {
@@ -38,10 +35,8 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
         mFragmentManager = getSupportFragmentManager();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void setupView() {
-        mTeamMember = (List<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_TEAM_MEMBER);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,24 +61,14 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
         loadSearchPersonFragment(null);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setupPresenter();
-    }
-
-    private void setupPresenter() {
-        InvitePersonPresenter presenter = mInvitePersonFragment.getPresenter();
-        if (presenter != null) {
-            presenter.setTeamMember(mTeamMember);
-            presenter.setOnInviteListener(this);
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     private void loadSearchPersonFragment(String s) {
+        List<UserBean> teamMember = (List<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_TEAM_MEMBER);
+        TeamBean currentTeam = (TeamBean) getIntent().getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
         mInvitePersonFragment = (InvitePersonFragment) getPersonFragment();
         if (mInvitePersonFragment == null) {
-            mInvitePersonFragment = InvitePersonFragment.newInstance(InvitePersonFragment.class, s);
+            mInvitePersonFragment = InvitePersonFragment.newInstance(InvitePersonFragment.class, s,
+                    (ArrayList<UserBean>) teamMember, currentTeam);
             mFragmentManager.beginTransaction()
                     .add(R.id.container, mInvitePersonFragment)
                     .commit();
@@ -128,8 +113,8 @@ public class InviteMemberActivity extends BaseActivity implements InvitePersonFr
 
     }
 
-    @Override
-    public void onInvite(UserBean user) {
-        showToast(user.getNickName());
+
+    public interface OnInviteListener {
+        void onInvite(int position);
     }
 }

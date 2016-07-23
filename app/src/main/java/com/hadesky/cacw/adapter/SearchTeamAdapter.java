@@ -100,7 +100,12 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
             @Override
             public void setData(TeamBean team) {
                 setTextView(R.id.tv_team_name, team.getTeamName());
-                setTextView(R.id.tv_summary, team.getSummary());
+                if (team.getSummary() == null) {
+                    setVisibility(R.id.tv_summary, View.GONE);
+                } else {
+                    setVisibility(R.id.tv_summary, View.VISIBLE);
+                    setTextView(R.id.tv_summary, team.getSummary());
+                }
                 SimpleDraweeView view = findView(R.id.iv_avatar);
                 if (team.getTeamAvatar() != null) {
                     view.setImageURI(team.getTeamAvatar().getUrl());

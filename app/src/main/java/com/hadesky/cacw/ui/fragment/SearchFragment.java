@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
+
+import java.util.List;
 
 /**
  *
@@ -28,6 +31,8 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
     protected RecyclerView.Adapter mAdapter;
 
     protected SearchPersonOrTeamPresenter mPresenter;
+
+    protected RecyclerView mRecyclerView;
 
     public SearchFragment() {
     }
@@ -49,6 +54,7 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
         if (fragment != null) {
             fragment.setArguments(args);
         }
+
         return fragment;
     }
 
@@ -67,11 +73,11 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         if (mAdapter != null) {
-            recyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
         }
         return view;
     }

@@ -153,7 +153,12 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
         @Override
         public void setData(UserBean userBean) {
             setTextView(R.id.tv_nick_name, userBean.getNickName());
-            setTextView(R.id.tv_summary, userBean.getSummary());
+            if (userBean.getSummary() == null) {
+                setVisibility(R.id.tv_summary, View.GONE);
+            } else {
+                setVisibility(R.id.tv_summary, View.VISIBLE);
+                setTextView(R.id.tv_summary, userBean.getSummary());
+            }
             SimpleDraweeView view = findView(R.id.iv_avatar);
             if (userBean.getUserAvatar() != null) {
                 view.setImageURI(userBean.getUserAvatar().getUrl());

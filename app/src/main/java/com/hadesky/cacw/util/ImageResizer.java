@@ -68,14 +68,14 @@ public class ImageResizer {
     }
 
     /**
-     * 将一个JPG图片在不减少分辨率的情况下压缩，以便上传服务器，默认压缩质量为85
+     * 将一个JPG图片在不减少分辨率的情况下压缩，以便上传服务器，默认压缩质量为70
      *
      * @return a bitmap
      */
     private static byte[] getCompressBitmapByte(Bitmap original) {
         if (original != null) {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            original.compress(Bitmap.CompressFormat.JPEG, 85, out);
+            original.compress(Bitmap.CompressFormat.JPEG, 70, out);
             return out.toByteArray();
         }
         return null;
