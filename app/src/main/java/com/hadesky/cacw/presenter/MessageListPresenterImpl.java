@@ -9,10 +9,14 @@ import com.hadesky.cacw.ui.view.MessageListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListListener;
 import rx.Subscription;
 
 /**
@@ -26,7 +30,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
     DatabaseManager mDatabaseManager;
     UserBean mUser;
     Subscription mSubscription;
-
+    List<MessageBean> mList;
 
     public MessageListPresenterImpl(MessageListView view)
     {
@@ -68,8 +72,30 @@ public class MessageListPresenterImpl implements MessageListPresenter
                     mView.showMsg(e.getMessage());
                 } else
                 {
-                    mDatabaseManager.saveMessage(list);//先存到数据库，再做统一的处理
+                    mList = list;
+                    deleteFromBmob(list); //删除后台的数据
+                }
+            }
+        });
+
+    }
+
+    private void deleteFromBmob(List<MessageBean> list)
+    {
+        BmobBatch batch = new BmobBatch();
+        batch.deleteBatch(new ArrayList<BmobObject>(list));
+        batch.doBatch(new QueryListListener<BatchResult>() {
+            @Override
+            public void done(List<BatchResult> list, BmobException e)
+            {
+                if (e==null)//删除成功
+                {
+                    mDatabaseManager.saveMessage(mList);//先存到数据库
                     loadMsg();
+                }else
+                {
+                    mView.hideProgress();
+                    mView.showMsg(e.getMessage());
                 }
             }
         });
@@ -78,7 +104,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
 
     private void loadMsg()
     {
-        List<UserBean> users = mDatabaseManager.queryAllUsers();
+        List<UserBean> users = mDatabaseManager.queryAllUsers();//找出所有通讯过的用户
         List<MessageBean> mlist = new ArrayList<>();
         for(UserBean sb : users)
         {
