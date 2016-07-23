@@ -83,6 +83,17 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
         return isFinal ? mDatas.size() : mDatas.size() + 1;
     }
 
+    /**
+     * 返回nextResults那个View在adapter里的位置，若没有这个View，返回-1
+     * @return nextResults那个View在adapter里的位置，若没有这个View，返回-1
+     */
+    public int getNextResultPosition() {
+        if (isFinal) {
+            return -1;
+        }
+        return mDatas.size();
+    }
+
     private BaseViewHolder<UserBean> createNextTenViewHolder(View view) {
 
         mNextResultViewWeakReference = new WeakReference<>(view);
@@ -106,6 +117,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
                 if (userBean.getUserAvatar() != null) {
                     view.setImageURI(userBean.getUserAvatar().getUrl());
                 }
+                setOnItemClickListener(mOnItemClickListener);
             }
         };
     }

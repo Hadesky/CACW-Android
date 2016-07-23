@@ -1,11 +1,14 @@
 package com.hadesky.cacw.presenter;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SearchPersonAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.UserInfoActivity;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import cn.bmob.v3.listener.FindListener;
 import rx.Subscription;
 
 /**
+ *
  * Created by 45517 on 2016/7/22.
  */
 public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
@@ -38,7 +42,13 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
         mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                showNextResults();
+                if (position == mAdapter.getNextResultPosition()) {
+                    showNextResults();
+                } else {
+                    Intent intent = new Intent(mView.getContext(), UserInfoActivity.class);
+                    intent.putExtra(IntentTag.TAG_USER_BEAN, mAdapter.getDatas().get(position));
+                    mView.getContext().startActivity(intent);
+                }
             }
         });
         mView.setAdapter(mAdapter);
