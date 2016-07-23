@@ -5,9 +5,13 @@ import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 通用ViewHolder，大部分情况只需重写setDatas方法，通过setXXxX方法更新控件内容
@@ -46,6 +50,13 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
             view.setImageResource(id);
     }
 
+    public void setVisibility(@IdRes int id,int visibility) {
+        View view = findView(id);
+        if (view != null) {
+            view.setVisibility(visibility);
+        }
+    }
+
     public <Tv> Tv findView(@IdRes int id) {
         View view = mViews.get(id);
         if (view == null)
@@ -53,8 +64,15 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         return (Tv) view;
     }
 
+    public void setButtonOnClickListener(@IdRes int buttonId, OnItemClickListener listener) {
+        Button button = findView(buttonId);
+        if (button != null) {
+            button.setOnClickListener(this);
+        }
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
+        mOnItemClickListener = listener;
     }
 
     public void setOnItemLongClickListener(OnItemLongClickListener m) {
@@ -64,15 +82,13 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
-            this.mOnItemClickListener.OnItemClick(v, getLayoutPosition());
+            mOnItemClickListener.OnItemClick(v, getLayoutPosition());
         }
     }
 
     @Override
     public boolean onLongClick(View v) {
-        if (mOnItemLongClickListener != null)
-            return mOnItemLongClickListener.OnItemLongClick(v, getLayoutPosition());
-        return false;
+        return mOnItemLongClickListener != null && mOnItemLongClickListener.OnItemLongClick(v, getLayoutPosition());
     }
 
     public interface OnItemClickListener {

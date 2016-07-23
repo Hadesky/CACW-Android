@@ -4,15 +4,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-
         android:id="@+id/changeIcon"
-        android:title="修改头像"/>
+        android:title="@string/change_avatar"/>
     <item
 
         android:id="@+id/exit"
-        android:title="退出团队"/>
+        android:title="@string/exit_team"/>
     <item
 
         android:id="@+id/delTeam"
-        android:title="解散团队"/>
+        android:title="@string/destroy_team"/>
 </menu>

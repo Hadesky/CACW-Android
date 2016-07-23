@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
@@ -27,7 +26,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
 
     private boolean isFinal = false;
 
-    private BaseViewHolder.OnItemClickListener mOnItemClickListener;//fragment实现
+    protected BaseViewHolder.OnItemClickListener mOnItemClickListener;//fragment实现
 
     private WeakReference<View> mNextResultViewWeakReference;//保存下一次查询的按钮那个View的软引用
 
@@ -107,21 +106,8 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     }
 
     @Override
-    public BaseViewHolder<UserBean> createHolder(final View v, Context context) {
-        return new BaseViewHolder<UserBean>(v) {
-            @Override
-            public void setData(UserBean userBean) {
-                setTextView(R.id.tv_nick_name, userBean.getNickName());
-                setTextView(R.id.tv_summary, userBean.getSummary());
-                SimpleDraweeView view = findView(R.id.iv_avatar);
-                if (userBean.getUserAvatar() != null) {
-                    view.setImageURI(userBean.getUserAvatar().getUrl());
-                } else {
-                    view.setImageURI((String) null);
-                }
-                setOnItemClickListener(mOnItemClickListener);
-            }
-        };
+    public BaseViewHolder<UserBean> createHolder(View v, Context context) {
+        return new PersonViewHolder(v);
     }
 
     /**
@@ -157,5 +143,24 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     @Override
     public int getItemViewType(int position) {
         return position == mDatas.size() ? TYPE_NEXT_RESULT : TYPE_PERSON;
+    }
+
+    class PersonViewHolder extends BaseViewHolder<UserBean> {
+        public PersonViewHolder(View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        public void setData(UserBean userBean) {
+            setTextView(R.id.tv_nick_name, userBean.getNickName());
+            setTextView(R.id.tv_summary, userBean.getSummary());
+            SimpleDraweeView view = findView(R.id.iv_avatar);
+            if (userBean.getUserAvatar() != null) {
+                view.setImageURI(userBean.getUserAvatar().getUrl());
+            } else {
+                view.setImageURI((String) null);
+            }
+            setOnItemClickListener(mOnItemClickListener);
+        }
     }
 }

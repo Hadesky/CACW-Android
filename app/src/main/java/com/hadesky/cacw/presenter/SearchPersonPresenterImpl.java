@@ -24,17 +24,17 @@ import rx.Subscription;
  *
  * Created by 45517 on 2016/7/22.
  */
-public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
+public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter, BaseViewHolder.OnItemClickListener {
 
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
 
     private Subscription mSubscription;
 
-    private SearchPersonOrTeamView<UserBean> mView;
+    protected SearchPersonOrTeamView<UserBean> mView;
 
     private BmobQuery<UserBean> mQuery;
 
-    private SearchPersonAdapter mAdapter;
+    protected SearchPersonAdapter mAdapter;
 
     private Context mContext;
 
@@ -43,19 +43,12 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
     public SearchPersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context) {
         mContext = context;
         mView = view;
-        mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, new BaseViewHolder.OnItemClickListener() {
-            @Override
-            public void OnItemClick(View view, int position) {
-                if (position == mAdapter.getNextResultPosition()) {
-                    showNextResults();
-                } else {
-                    Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_BEAN, mAdapter.getDatas().get(position));
-                    mContext.startActivity(intent);
-                }
-            }
-        });
+        mAdapter = createAdapter();
         mView.setAdapter(mAdapter);
+    }
+
+    protected SearchPersonAdapter createAdapter() {
+        return new SearchPersonAdapter(null, R.layout.item_person_in_search, this);
     }
 
     @Override
@@ -119,5 +112,21 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
     public void onDestroy() {
         if (mSubscription!=null)
             mSubscription.unsubscribe();
+    }
+
+    /**
+     * 按下搜索到的人的item
+     * @param view view 或 button
+     * @param position 在layout里的position
+     */
+    @Override
+    public void OnItemClick(View view, int position) {
+        if (position == mAdapter.getNextResultPosition()) {
+            showNextResults();
+        } else {
+            Intent intent = new Intent(mContext, UserInfoActivity.class);
+            intent.putExtra(IntentTag.TAG_USER_BEAN, mAdapter.getDatas().get(position));
+            mContext.startActivity(intent);
+        }
     }
 }

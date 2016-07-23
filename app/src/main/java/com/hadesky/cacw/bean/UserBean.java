@@ -13,7 +13,6 @@ public class UserBean extends BmobUser{
     public static final Byte SEX_FEMALE = 1;//性别女
     public static final Byte SEX_UNKNOW = 2;//性别保密
 
-
     private String mAvatarUrl;
 
     private BmobFile mUserAvatar;
@@ -107,5 +106,24 @@ public class UserBean extends BmobUser{
     @Override
     public String toString() {
         return getNickName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof UserBean) {
+            if (((UserBean) o).getObjectId().equals(getObjectId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        if (getObjectId() != null) {
+            result = 31 * result + getObjectId().hashCode();
+        }
+        return result;
     }
 }

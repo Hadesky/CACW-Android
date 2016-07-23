@@ -43,6 +43,9 @@
     <dimen name="button_large_w">300dp</dimen>
     <dimen name="button_large_h">50dp</dimen>
 
+    <dimen name="button_small_w">60dp</dimen>
+    <dimen name="button_small_h">40dp</dimen>
+
     <dimen name="list_item_height_larger">80dp</dimen>
     <dimen name="list_item_height_large">60dp</dimen>
     <dimen name="list_item_height_normal">50dp</dimen>

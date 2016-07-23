@@ -90,11 +90,6 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         showToast(msg);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_teams, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,9 +97,6 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.action_search:
-                startActivity(new Intent(this,SearchTeamActivity.class));
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

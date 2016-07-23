@@ -56,9 +56,8 @@
                     android:inputType="textNoSuggestions"
                     android:maxLines="1"
                     android:textSize="16sp"
-                    android:windowSoftInputMode="stateAlwaysHidden">
-
-                </EditText>
+                    android:windowSoftInputMode="stateAlwaysHidden"
+                    android:hint="@string/nickname_phone_email"/>
 
                 <FrameLayout
                     android:layout_width="wrap_content"

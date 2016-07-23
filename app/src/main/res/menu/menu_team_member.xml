@@ -2,11 +2,10 @@
 <menu
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:id="@+id/action_search"
-        android:title="添加"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:id="@+id/action_add_member"
         app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_add"
+        android:title="@string/invite"
         />
 </menu>

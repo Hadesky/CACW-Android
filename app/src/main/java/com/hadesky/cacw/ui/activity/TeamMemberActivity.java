@@ -1,10 +1,12 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
@@ -57,7 +59,17 @@ public class TeamMemberActivity extends BaseActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_add_member:
+                Intent intent = new Intent(getApplicationContext(), InviteMemberActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_team_member, menu);
+        return true;
     }
 }

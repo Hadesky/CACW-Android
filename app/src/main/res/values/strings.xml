@@ -71,4 +71,13 @@
     <string name="back">后退</string>
     <string name="team">团队</string>
     <string name="apply_to_join">申请加入</string>
+    <string name="invite">邀请</string>
+    <string name="nickname_phone_email">昵称/手机号/邮箱</string>
+    <string name="already_a_member_in_team">已经是团队成员</string>
+    <string name="change_avatar">修改头像</string>
+    <string name="exit_team">退出团队</string>
+    <string name="destroy_team">解散团队</string>
+    <string name="get_codes">获取验证码</string>
+    <string name="password">密码</string>
+    <string name="password_again">再次输入密码</string>
 </resources>
