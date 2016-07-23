@@ -14,7 +14,7 @@ import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
 
-public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,SearchPersonFragment.OnFragmentLoadingListener {
+public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,SearchFragment.OnFragmentLoadingListener {
 
     private EditText mSearchEditText;
     private FragmentManager mFragmentManager;
@@ -59,6 +59,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    hideAllFragment();
+                }
                 loadSearchPersonFragment(s.toString());
                 loadSearchTeamFragment(s.toString());
             }
@@ -66,6 +69,14 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.color_primary, null));
         mRefreshLayout.setProgressViewOffset(true, -100, 50);
+    }
+
+    private void hideAllFragment() {
+        if (mFragmentManager.getFragments() != null) {
+            for (Fragment fragment : mFragmentManager.getFragments()) {
+                mFragmentManager.beginTransaction().hide(fragment).commit();
+            }
+        }
     }
 
     private void loadSearchTeamFragment(String s) {

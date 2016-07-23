@@ -122,6 +122,16 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
     }
 
     @Override
+    public void show() {
+        getFragmentManager().beginTransaction().show(this).commit();
+    }
+
+    @Override
+    public void hide() {
+        getFragmentManager().beginTransaction().hide(this).commit();
+    }
+
+    @Override
     public void showMsg(String s) {
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }

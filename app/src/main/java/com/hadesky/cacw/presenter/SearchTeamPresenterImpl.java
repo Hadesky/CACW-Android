@@ -54,7 +54,12 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter {
             public void done(List<TeamBean> list, BmobException e) {
                 mView.hideProgress();
                 mReceivedCount = list.size();
-                mAdapter.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
+                if (mReceivedCount == 0) {
+                    mView.hide();
+                } else {
+                    mView.show();
+                    mAdapter.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
+                }
             }
         });
     }

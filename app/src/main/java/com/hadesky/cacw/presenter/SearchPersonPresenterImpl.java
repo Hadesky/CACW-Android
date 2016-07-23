@@ -24,6 +24,7 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
 
     private Subscription mSubscription;
+
     private SearchPersonOrTeamView<UserBean> mView;
 
     private BmobQuery<UserBean> mQuery;
@@ -53,7 +54,12 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
             public void done(List<UserBean> list, BmobException e) {
                 mView.hideProgress();
                 mReceivedCount = list.size();
-                mAdapter.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
+                if (mReceivedCount == 0) {
+                    mView.hide();
+                } else {
+                    mView.show();
+                    mAdapter.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
+                }
             }
         });
     }

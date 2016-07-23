@@ -12,4 +12,8 @@ import java.util.List;
 public interface SearchPersonOrTeamView<Bean> extends BaseView {
 
     void setAdapter(RecyclerView.Adapter adapter);
+
+    void hide();
+
+    void show();
 }
