@@ -106,10 +106,14 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
     private void refreshAllResult() {
-        for (Fragment fragment : mFragmentManager.getFragments()) {
-            if (fragment instanceof SearchFragment) {
-                ((SearchFragment) fragment).updateSearchKey(mSearchEditText.getText().toString());
+        if (mFragmentManager.getFragments() != null) {
+            for (Fragment fragment : mFragmentManager.getFragments()) {
+                if (fragment instanceof SearchFragment) {
+                    ((SearchFragment) fragment).updateSearchKey(mSearchEditText.getText().toString());
+                }
             }
+        } else {
+            mRefreshLayout.setRefreshing(false);
         }
     }
 
