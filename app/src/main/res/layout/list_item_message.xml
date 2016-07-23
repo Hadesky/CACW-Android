@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_list_item"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height_large">
+    android:layout_height="@dimen/list_item_height_large"
+    android:background="@drawable/bg_list_item">
 
 
     <FrameLayout
         android:id="@+id/layout_avatar"
-        android:layout_alignParentStart="true"
+        android:layout_width="50dp"
+        android:layout_height="@dimen/image_large"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_small"
-        android:layout_width="50dp"
-        android:layout_height="@dimen/image_large">
+        android:layout_marginStart="@dimen/spacing_small">
+
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_avatar"
-            app:roundAsCircle="true"
-            app:placeholderImage="@drawable/default_user_image"
             android:layout_width="@dimen/image_large"
-            android:layout_height="@dimen/image_large"/>
-        <com.hadesky.cacw.ui.widget.CircleImageView
+            android:layout_height="@dimen/image_large"
+            app:placeholderImage="@drawable/default_user_image"
+            app:roundAsCircle="true"/>
+
+        <View
             android:id="@+id/iv_has_read"
-            android:layout_gravity="right"
-            android:src="@color/color_red"
             android:layout_width="10dp"
-            android:layout_height="10dp"/>
+            android:layout_height="10dp"
+            android:layout_gravity="right"
+            android:background="@drawable/circle"/>
     </FrameLayout>
+
     <LinearLayout
-        android:layout_toRightOf="@id/layout_avatar"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/layout_avatar"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_nick_name"
-            tools:text="张Leaves"
-            android:textSize="@dimen/font_large"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/font_large"
+            tools:text="张Leaves"/>
 
         <TextView
             android:id="@+id/tv_msg"
-            tools:text="张Leaves:你今天吃药了吗"
-            android:textSize="@dimen/font_normal"
-            android:textColor="@color/color_font_gray"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_marginTop="5dp"
+            android:textColor="@color/color_font_gray"
+            android:textSize="@dimen/font_normal"
+            tools:text="张Leaves:你今天吃药了吗"/>
     </LinearLayout>
 
 </RelativeLayout>
