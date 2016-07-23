@@ -20,6 +20,7 @@ import cn.bmob.v3.listener.QueryListListener;
 import rx.Subscription;
 
 /**
+ *
  * Created by dzysg on 2016/7/23 0023.
  */
 public class MessageListPresenterImpl implements MessageListPresenter
@@ -73,7 +74,12 @@ public class MessageListPresenterImpl implements MessageListPresenter
                 } else
                 {
                     mList = list;
-                    deleteFromBmob(list); //删除后台的数据
+                    if (list.size()==0)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg("无消息");
+                    }else
+                        deleteFromBmob(list); //删除后台的数据
                 }
             }
         });

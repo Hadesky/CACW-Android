@@ -4,18 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.activity.FinishedTaskActivity;
+import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
-import com.hadesky.cacw.ui.activity.UserInfoActivity;
-import com.hadesky.cacw.ui.activity.WelcomeActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
 /**
@@ -93,7 +91,7 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_remind:
-                intent = new Intent(getContext(), WelcomeActivity.class);
+                intent = new Intent(getContext(), MessageListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.layout_memo:
