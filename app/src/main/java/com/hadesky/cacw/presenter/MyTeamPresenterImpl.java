@@ -30,6 +30,7 @@ public class MyTeamPresenterImpl implements MyTeamPresenter
     public MyTeamPresenterImpl(MyTeamView TeamView)
 
     {
+        mTeamView = TeamView;
         mUser = MyApp.getCurrentUser();
     }
 

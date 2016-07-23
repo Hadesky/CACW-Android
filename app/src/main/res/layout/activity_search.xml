@@ -44,21 +44,26 @@
                 />
         </LinearLayout>
     </FrameLayout>
-    <com.hadesky.cacw.ui.widget.RevScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:orientation="vertical"
+        <com.hadesky.cacw.ui.widget.RevScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/container_person"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <FrameLayout
-                android:id="@+id/container_team"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </com.hadesky.cacw.ui.widget.RevScrollView>
+                android:layout_height="match_parent">
+                <FrameLayout
+                    android:id="@+id/container_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:id="@+id/container_team"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </com.hadesky.cacw.ui.widget.RevScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

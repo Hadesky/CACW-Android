@@ -2,6 +2,7 @@ package com.hadesky.cacw.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,10 +12,13 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
 
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,SearchPersonFragment.OnFragmentLoadingListener {
 
     private EditText mSearchEditText;
     private FragmentManager mFragmentManager;
+    private SwipeRefreshLayout mRefreshLayout;
+
+    private int mLoadingFragmentCount;
 
     @Override
     public int getLayoutId() {
@@ -25,6 +29,7 @@ public class SearchActivity extends BaseActivity {
     public void initView() {
         mSearchEditText = (EditText) findViewById(R.id.et);
         mFragmentManager = getSupportFragmentManager();
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
     }
 
     @Override
@@ -56,6 +61,9 @@ public class SearchActivity extends BaseActivity {
                 loadSearchTeamFragment(s.toString());
             }
         });
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
+        mRefreshLayout.setProgressViewOffset(true, -100, 50);
     }
 
     private void loadSearchTeamFragment(String s) {
@@ -88,5 +96,29 @@ public class SearchActivity extends BaseActivity {
 
     private Fragment getTeamFragment() {
         return mFragmentManager.findFragmentById(R.id.container_team);
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshAllResult();
+    }
+
+    private void refreshAllResult() {
+    }
+
+    @Override
+    public void onFragmentLoadingStart() {
+        mLoadingFragmentCount++;
+        if (!mRefreshLayout.isRefreshing()) {
+            mRefreshLayout.setRefreshing(true);
+        }
+    }
+
+    @Override
+    public void onFragmentLoadingEnd() {
+        mLoadingFragmentCount--;
+        if (mLoadingFragmentCount <= 0) {
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 }

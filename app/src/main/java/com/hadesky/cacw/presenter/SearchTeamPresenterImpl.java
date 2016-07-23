@@ -1,5 +1,10 @@
 package com.hadesky.cacw.presenter;
 
+import android.view.View;
+
+import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.SearchTeamAdapter;
+import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 import com.hadesky.cacw.util.StringUtils;
@@ -26,8 +31,17 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter {
 
     private int mReceivedCount;//自从上次调用search之后查询到的数据数和
 
+    private SearchTeamAdapter mAdapter;
+
     public SearchTeamPresenterImpl(SearchPersonOrTeamView<TeamBean> view) {
         mView = view;
+        mAdapter = new SearchTeamAdapter(null, R.layout.item_team_in_search, new BaseViewHolder.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, int position) {
+                showNextResults();
+            }
+        });
+        mView.setAdapter(mAdapter);
     }
 
     @Override
@@ -40,7 +54,7 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter {
             public void done(List<TeamBean> list, BmobException e) {
                 mView.hideProgress();
                 mReceivedCount = list.size();
-                mView.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
+                mAdapter.setData(list, mReceivedCount < QUERY_COUNT_EACH_QUERY);
             }
         });
     }
@@ -68,13 +82,13 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter {
         if (mQuery != null) {
             mQuery.setSkip(mReceivedCount);
 
-            mView.showProgress();
+            mAdapter.showProgress();
             mSubscription = mQuery.findObjects(new FindListener<TeamBean>() {
                 @Override
                 public void done(List<TeamBean> list, BmobException e) {
-                    mView.hideProgress();
+                    mAdapter.hideProgress();
                     mReceivedCount += list.size();
-                    mView.addData(list, list.size() < QUERY_COUNT_EACH_QUERY);
+                    mAdapter.addData(list, list.size() < QUERY_COUNT_EACH_QUERY);
                 }
             });
         }

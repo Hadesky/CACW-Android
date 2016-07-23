@@ -1,7 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,60 +8,48 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
-import com.hadesky.cacw.presenter.SearchPersonPresenterImpl;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchPersonFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by 45517 on 2016/7/23.
  */
-public class SearchPersonFragment extends Fragment implements SearchPersonOrTeamView<UserBean> {
+public abstract class SearchFragment extends Fragment implements SearchPersonOrTeamView{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_SEARCH_KEY = "search_key";
 
-    private SearchPersonOrTeamPresenter mPresenter;
+    private OnFragmentLoadingListener mListener;
 
     private RecyclerView.Adapter mAdapter;
 
-    private OnFragmentLoadingListener mListener;
+    private SearchPersonOrTeamPresenter mPresenter;
 
-    public SearchPersonFragment() {
-        // Required empty public constructor
+    public SearchFragment() {
     }
 
     /**
      * @param searchKey 需要查找的Key.
      * @return A new instance of fragment SearchPersonFragment.
      */
-    public static SearchPersonFragment newInstance(String searchKey) {
-        SearchPersonFragment fragment = new SearchPersonFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_SEARCH_KEY, searchKey);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public abstract SearchFragment newInstance(String searchKey);
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new SearchPersonPresenterImpl(this);
+        mPresenter = createPresenter();
         if (getArguments() != null) {
             String searchKey = getArguments().getString(ARG_SEARCH_KEY);
             updateSearchKey(searchKey);
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_person, container, false);
+        View view = inflater.inflate(getLayoutId(), container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -72,11 +59,10 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
         return view;
     }
 
-    public void updateSearchKey(String searchKey) {
-        if (searchKey != null && searchKey.length() != 0) {
-            mPresenter.search(searchKey);
-        }
-    }
+    protected abstract int getLayoutId();
+
+
+    protected abstract SearchPersonOrTeamPresenter createPresenter();
 
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
@@ -91,19 +77,6 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
     @Override
     public void hideProgress() {
         mListener.onFragmentLoadingEnd();
-    }
-
-    @Override
-    public void showMsg(String s) {
-        Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.onDestroy();
-        }
     }
 
     @Override
@@ -138,4 +111,6 @@ public class SearchPersonFragment extends Fragment implements SearchPersonOrTeam
 
         void onFragmentLoadingEnd();
     }
+
+    public abstract void updateSearchKey(String searchKey);
 }

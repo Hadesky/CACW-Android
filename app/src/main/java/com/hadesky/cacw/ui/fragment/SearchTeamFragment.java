@@ -1,6 +1,7 @@
 package com.hadesky.cacw.ui.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,10 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.SearchTeamAdapter;
-import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
 import com.hadesky.cacw.presenter.SearchTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
@@ -32,7 +30,11 @@ public class SearchTeamFragment extends Fragment implements SearchPersonOrTeamVi
 
     private SearchPersonOrTeamPresenter mPresenter;
 
-    private SearchTeamAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+
+    private RecyclerView.Adapter mAdapter;
+
+    private SearchPersonFragment.OnFragmentLoadingListener mListener;
 
     public SearchTeamFragment() {
         // Required empty public constructor
@@ -75,46 +77,23 @@ public class SearchTeamFragment extends Fragment implements SearchPersonOrTeamVi
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_team, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
 
-        mAdapter = new SearchTeamAdapter(null, R.layout.item_team_in_search, new BaseViewHolder.OnItemClickListener() {
-            @Override
-            public void OnItemClick(View view, int position) {
-                showProgress();
-                mPresenter.showNextResults();
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        if (mAdapter != null) {
+            mRecyclerView.setAdapter(mAdapter);
+        }
         return view;
     }
 
     @Override
-    public void setData(List<TeamBean> data, boolean isFinal) {
-        if (mAdapter != null) {
-            mAdapter.setData(data, isFinal);
-        }
-    }
-
-    @Override
-    public void addData(List<TeamBean> data,boolean isFinal) {
-        if (mAdapter != null) {
-            mAdapter.addData(data, isFinal);
-        }
-    }
-
-    @Override
     public void showProgress() {
-        if (mAdapter != null) {
-            mAdapter.showProgress();
-        }
+        mListener.onFragmentLoadingStart();
     }
 
     @Override
     public void hideProgress() {
-        if (mAdapter != null) {
-            mAdapter.hideProgress();
-        }
+        mListener.onFragmentLoadingEnd();
     }
 
     @Override
@@ -126,5 +105,27 @@ public class SearchTeamFragment extends Fragment implements SearchPersonOrTeamVi
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        mAdapter = adapter;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SearchPersonFragment.OnFragmentLoadingListener) {
+            mListener = (SearchPersonFragment.OnFragmentLoadingListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentLoadingListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }
