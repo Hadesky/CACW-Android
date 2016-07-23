@@ -31,7 +31,7 @@ public class SearchPersonFragment extends SearchFragment<UserBean> {
 
     @Override
     protected SearchPersonOrTeamPresenter createPresenter() {
-        return new SearchPersonPresenterImpl(this);
+        return new SearchPersonPresenterImpl(this,getContext());
     }
 
     public void updateSearchKey(String searchKey) {

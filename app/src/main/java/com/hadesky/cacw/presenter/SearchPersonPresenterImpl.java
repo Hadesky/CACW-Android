@@ -1,5 +1,6 @@
 package com.hadesky.cacw.presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -35,9 +36,12 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
 
     private SearchPersonAdapter mAdapter;
 
+    private Context mContext;
+
     private int mReceivedCount;//自从上次调用search之后查询到的数据数和
 
-    public SearchPersonPresenterImpl(SearchPersonOrTeamView<UserBean> view) {
+    public SearchPersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context) {
+        mContext = context;
         mView = view;
         mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, new BaseViewHolder.OnItemClickListener() {
             @Override
@@ -45,9 +49,9 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter {
                 if (position == mAdapter.getNextResultPosition()) {
                     showNextResults();
                 } else {
-                    Intent intent = new Intent(mView.getContext(), UserInfoActivity.class);
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
                     intent.putExtra(IntentTag.TAG_USER_BEAN, mAdapter.getDatas().get(position));
-                    mView.getContext().startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             }
         });

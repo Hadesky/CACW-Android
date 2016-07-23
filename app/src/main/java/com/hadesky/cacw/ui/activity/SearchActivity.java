@@ -29,9 +29,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     public void initView() {
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
         mSearchEditText = (EditText) findViewById(R.id.et);
         mFragmentManager = getSupportFragmentManager();
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     @Override
     public void onFragmentLoadingStart() {
         mLoadingFragmentCount++;
-        if (!mRefreshLayout.isRefreshing()) {
+        if (mRefreshLayout != null && !mRefreshLayout.isRefreshing()) {
             mRefreshLayout.setRefreshing(true);
         }
     }
@@ -139,7 +139,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     @Override
     public void onFragmentLoadingEnd() {
         mLoadingFragmentCount--;
-        if (mLoadingFragmentCount <= 0) {
+        if (mRefreshLayout != null && mLoadingFragmentCount <= 0) {
             mRefreshLayout.setRefreshing(false);
         }
     }

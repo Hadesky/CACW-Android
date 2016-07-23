@@ -107,7 +107,7 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     }
 
     @Override
-    public BaseViewHolder<UserBean> createHolder(View v, Context context) {
+    public BaseViewHolder<UserBean> createHolder(final View v, Context context) {
         return new BaseViewHolder<UserBean>(v) {
             @Override
             public void setData(UserBean userBean) {
@@ -116,6 +116,8 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
                 SimpleDraweeView view = findView(R.id.iv_avatar);
                 if (userBean.getUserAvatar() != null) {
                     view.setImageURI(userBean.getUserAvatar().getUrl());
+                } else {
+                    view.setImageURI((String) null);
                 }
                 setOnItemClickListener(mOnItemClickListener);
             }

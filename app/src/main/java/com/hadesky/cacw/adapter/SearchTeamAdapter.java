@@ -104,6 +104,8 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
                 SimpleDraweeView view = findView(R.id.iv_avatar);
                 if (team.getTeamAvatar() != null) {
                     view.setImageURI(team.getTeamAvatar().getUrl());
+                } else {
+                    view.setImageURI((String) null);
                 }
             }
         };
