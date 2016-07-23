@@ -1,14 +1,15 @@
 package com.hadesky.cacw.ui.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
@@ -25,6 +26,7 @@ public class UserInfoActivity extends BaseActivity
     private LinearLayout mMenuLayout;
     private int lastY;
     private ObjectAnimator mMenuAnimator;
+    private Button mBtnSms;
 
     private boolean isMenuHided = false;
 
@@ -40,7 +42,7 @@ public class UserInfoActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
-
+        mBtnSms = (Button) findViewById(R.id.btn_sms);
         mMenuAnimator = ObjectAnimator.ofFloat(mMenuLayout, "TranslationY", 0, 1000);
         mMenuAnimator.setDuration(500);
     }
@@ -106,6 +108,18 @@ public class UserInfoActivity extends BaseActivity
                 showMenuLayout();
             }
         });
+
+        mBtnSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);
+                i.putExtra(IntentTag.TAG_USER_BEAN, mUserBean);
+                startActivity(i);
+            }
+        });
+
+
     }
 
     @Override

@@ -13,11 +13,8 @@
         android:padding="3dp"
         android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"
-        android:layout_marginLeft="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_small"
         app:placeholderImage="@drawable/default_user_image"
         app:roundAsCircle="true"/>
-
 
     <LinearLayout
         android:layout_toRightOf="@id/iv_avatar"
@@ -26,6 +23,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -38,8 +36,8 @@
         <TextView
             android:layout_marginTop="1dp"
             android:background="@drawable/chat_from"
-            android:id="@+id/tv"
-            android:textSize="@dimen/font_small"
+            android:id="@+id/tv_msg"
+            android:textSize="@dimen/font_large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="你好，hello world"

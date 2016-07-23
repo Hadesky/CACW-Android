@@ -10,9 +10,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 通用ViewHolder，大部分情况只需重写setDatas方法，通过setXXxX方法更新控件内容
  * Created by 45517 on 2016/3/21.
@@ -35,6 +32,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
 
     public void setTextView(@IdRes int id, String text) {
         TextView view = findView(id);
+
         view.setText(text);
     }
 

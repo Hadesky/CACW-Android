@@ -14,6 +14,8 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
+import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
@@ -152,6 +154,8 @@ public class MainActivity extends BaseActivity {
     private void logout()
     {
         BmobUser.logOut();
+        DatabaseManager.getInstance(MyApp.getAppContext()).closeDb();
+
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

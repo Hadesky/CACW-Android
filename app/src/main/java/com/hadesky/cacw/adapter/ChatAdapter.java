@@ -12,6 +12,8 @@ import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.config.MyApp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,17 +24,25 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
 {
 
     private Context mContext;
-    private List<MessageBean> mDatas;
+    private List<MessageBean> mDatas = new ArrayList<>();
     private static final int Me = 1;
     private static final int Other = 2;
+    private HashMap<MessageBean, Integer> mSendState = new HashMap<>(); //1 为发送中，2为成功，3为失败
+    private RecyclerView mRecyclerView;
 
+
+    public ChatAdapter(Context context, List<MessageBean> datas)
+    {
+        mContext = context;
+        if (datas != null)
+            mDatas = datas;
+    }
 
     @Override
     public BaseViewHolder<MessageBean> onCreateViewHolder(ViewGroup parent, int viewType)
     {
 
-        View v = null;
-
+        View v;
         if (viewType == Me)
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_chat_me, parent, false);
         else
@@ -45,18 +55,67 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             public void setData(MessageBean bean)
             {
                 setTextView(R.id.tv_msg, bean.getMsg());
+                setTextView(R.id.tv_username,bean.getSender().getNickName());
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
                 draweView.setImageURI(bean.getSender().getAvatarUrl());
+                Integer state = mSendState.get(bean);
+                if (state == null || state == 2)
+                {
+                    setVisibility(R.id.pb, View.GONE);
+
+                } else if (state == 1)
+                {
+                    setVisibility(R.id.pb, View.VISIBLE);
+
+                } else if (state == 3)
+                {
+                    setVisibility(R.id.pb, View.GONE);
+                    setVisibility(R.id.v_error, View.VISIBLE);
+                }
+
             }
         };
         return holder;
     }
 
 
+    public void addNewChat(MessageBean bean)
+    {
+        mDatas.add(bean);
+        mSendState.put(bean, 1);
+        notifyDataSetChanged();
+        scrolToBottom();
+
+    }
+
+    public void onSucceed(MessageBean bean)
+    {
+        mSendState.put(bean, 2);
+        notifyDataSetChanged();
+    }
+
+    public void onFail(MessageBean bean)
+    {
+        mSendState.put(bean, 3);
+        notifyDataSetChanged();
+    }
+
+    private void scrolToBottom()
+    {
+        mRecyclerView.scrollToPosition(mDatas.size() - 1);
+    }
+
+    public void addDatas(List<MessageBean> list)
+    {
+        mDatas.addAll(list);
+        notifyDataSetChanged();
+    }
+
     public void setDatas(List<MessageBean> list)
     {
         mDatas = list;
         notifyDataSetChanged();
+        scrolToBottom();
     }
 
     @Override
@@ -86,5 +145,13 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         if (mDatas != null)
             return mDatas.size();
         return 0;
+    }
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView)
+    {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
     }
 }

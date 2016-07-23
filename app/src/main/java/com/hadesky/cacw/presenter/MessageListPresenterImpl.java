@@ -31,7 +31,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
     DatabaseManager mDatabaseManager;
     UserBean mUser;
     Subscription mSubscription;
-    List<MessageBean> mList;
+    List<MessageBean> mNewMessage;
 
     public MessageListPresenterImpl(MessageListView view)
     {
@@ -52,17 +52,11 @@ public class MessageListPresenterImpl implements MessageListPresenter
     public void LoadMessage()
     {
         mView.showProgress();
-        BmobQuery<MessageBean> query = new BmobQuery<>();
-        query.addWhereEqualTo("mSender", new BmobPointer(mUser));
-        BmobQuery<MessageBean> query2 = new BmobQuery<>();
-        query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));
-        BmobQuery<MessageBean> queryOr = new BmobQuery<>();
-        List<BmobQuery<MessageBean>> list = new ArrayList<>();
-        list.add(query);
-        list.add(query2);
-        queryOr.or(list);
 
-        mSubscription = queryOr.findObjects(new FindListener<MessageBean>()
+        BmobQuery<MessageBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
+
+        mSubscription = query.findObjects(new FindListener<MessageBean>()
         {
             @Override
             public void done(List<MessageBean> list, BmobException e)
@@ -73,13 +67,13 @@ public class MessageListPresenterImpl implements MessageListPresenter
                     mView.showMsg(e.getMessage());
                 } else
                 {
-                    mList = list;
-                    if (list.size()==0)
+                    mNewMessage = list;
+                    if (list.size()==0) //如果无有新数据
                     {
                         mView.hideProgress();
-                        mView.showMsg("无消息");
+                        loadMsgFromDB();//直接获取本地数据
                     }else
-                        deleteFromBmob(list); //删除后台的数据
+                        deleteFromBmob(list); //如果有新数据，先删除后台的数据
                 }
             }
         });
@@ -96,8 +90,8 @@ public class MessageListPresenterImpl implements MessageListPresenter
             {
                 if (e==null)//删除成功
                 {
-                    mDatabaseManager.saveMessage(mList);//先存到数据库
-                    loadMsg();
+                    mDatabaseManager.saveMessage(mNewMessage);//先存到数据库
+                    loadMsgFromDB(); //再从数据库取出
                 }else
                 {
                     mView.hideProgress();
@@ -108,17 +102,16 @@ public class MessageListPresenterImpl implements MessageListPresenter
 
     }
 
-    private void loadMsg()
+    private void loadMsgFromDB()
     {
         List<UserBean> users = mDatabaseManager.queryAllUsers();//找出所有通讯过的用户
         List<MessageBean> mlist = new ArrayList<>();
         for(UserBean sb : users)
         {
-            List<MessageBean> templist = mDatabaseManager.queryMessageByUser(sb.getObjectId(), 1, 0);//找出用户的第一条消息
-            if (templist.size() > 0)
+            MessageBean mb = mDatabaseManager.queryLastMessageByUser(sb.getObjectId());//找出用户的最后一条消息
+            if (mb!=null)
             {
-                mlist.add(templist.get(0));
-
+                mlist.add(mb);
             } else//如果不存在，就删除用户
             {
                 mDatabaseManager.deleteUser(sb.getObjectId());

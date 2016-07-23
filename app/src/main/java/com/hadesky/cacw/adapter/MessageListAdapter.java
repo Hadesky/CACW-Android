@@ -44,10 +44,10 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
                     u = messageBean.getSender();
                 }
                 setTextView(R.id.tv_nick_name,u.getNickName());
-
                 setTextView(R.id.tv_msg, messageBean.getMsg());
                 SimpleDraweeView iv = findView(R.id.iv_avatar);
                 iv.setImageURI(u.getAvatarUrl());
+                setVisibility(R.id.iv_has_read,messageBean.getHasRead()?View.GONE:View.VISIBLE);
             }
         };
 

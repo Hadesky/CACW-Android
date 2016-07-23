@@ -12,8 +12,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int VERSION = 2;
 
 
-    public DatabaseHelper(Context context) {
-        this(context, DB_NAME, null, VERSION);
+    public DatabaseHelper(Context context,String userid) {
+        this(context, DB_NAME+userid, null, VERSION);
     }
 
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -24,8 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //创建表格task
         db.execSQL("CREATE TABLE Message (" +
-                "from TEXT not null," +
-                "to TEXT null," +
+                "Sender TEXT not null," +
+                "Receiver TEXT null," +
                 "type Integer not null," +
                 "content TEXT not null," +
                 "hasRead Integer not null" + //1 为已读
@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE Users (" +
                 "ObjectId text primary key," +
-                "NickName Text" +
+                "NickName Text," +
                 "avatarUrl Text" +
                 ")");
     }

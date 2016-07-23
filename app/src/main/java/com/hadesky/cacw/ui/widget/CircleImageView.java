@@ -140,7 +140,6 @@ public class CircleImageView extends ImageView {
         if (borderWidth == mBorderWidth) {
             return;
         }
-
         mBorderWidth = borderWidth;
         setup();
     }

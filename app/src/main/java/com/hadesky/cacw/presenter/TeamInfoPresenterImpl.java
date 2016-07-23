@@ -20,32 +20,40 @@ import cn.bmob.v3.listener.UploadFileListener;
 import rx.Subscription;
 
 /**
- *  团队详情
+ * 团队详情
  * Created by dzysg on 2016/7/12 0012.
  */
-public class TeamInfoPresenterImpl implements TeamInfoPresenter {
+public class TeamInfoPresenterImpl implements TeamInfoPresenter
+{
     private TeamBean mTeam;
     private Subscription mSubscriptions;
     private TeamInfoView mView;
 
-    public TeamInfoPresenterImpl(TeamBean team, TeamInfoView view) {
+    public TeamInfoPresenterImpl(TeamBean team, TeamInfoView view)
+    {
         mTeam = team;
-        mView  = view;
+        mView = view;
     }
 
     @Override
-    public void refreshTeamInfo() {
-        if (mTeam != null) {
+    public void refreshTeamInfo()
+    {
+        if (mTeam != null)
+        {
             mView.showProgress();
             BmobQuery<TeamBean> query = new BmobQuery<>();
-            mSubscriptions = query.getObject(mTeam.getObjectId(), new QueryListener<TeamBean>() {
+            mSubscriptions = query.getObject(mTeam.getObjectId(), new QueryListener<TeamBean>()
+            {
                 @Override
-                public void done(TeamBean teamBean, BmobException e) {
+                public void done(TeamBean teamBean, BmobException e)
+                {
                     mView.hideProgress();
-                    if (e == null) {
+                    if (e == null)
+                    {
                         mTeam = teamBean;
                         mView.showInfo(teamBean);
-                    } else {
+                    } else
+                    {
                         mView.showMsg(e.getMessage());
                     }
                 }
@@ -54,7 +62,8 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     }
 
     @Override
-    public void getTeamMembers() {
+    public void getTeamMembers()
+    {
 
         BmobQuery<TeamMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mTeam", new BmobPointer(mTeam));
@@ -62,14 +71,16 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
         query.setLimit(4);//只显示4个人，更多要点击进入成员页面
         mView.showProgress();
 
-        mSubscriptions = query.findObjects(new FindListener<TeamMember>() {
+        mSubscriptions = query.findObjects(new FindListener<TeamMember>()
+        {
             @Override
-            public void done(List<TeamMember> list, BmobException e) {
+            public void done(List<TeamMember> list, BmobException e)
+            {
                 mView.hideProgress();
-                if (e==null)
+                if (e == null)
                 {
                     mView.showMembers(list);
-                }else
+                } else
                 {
                     mView.showMsg(e.getMessage());
                 }
@@ -78,18 +89,20 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     }
 
 
-
     @Override
-    public void changeSummary(final String s) {
+    public void changeSummary(final String s)
+    {
         mView.showProgress();
         TeamBean t = new TeamBean();
         t.setObjectId(mTeam.getObjectId());
         t.setSummary(s);
-        t.update(new UpdateListener() {
+        t.update(new UpdateListener()
+        {
             @Override
-            public void done(BmobException e) {
+            public void done(BmobException e)
+            {
                 mView.hideProgress();
-                if (e!=null)
+                if (e != null)
                     mView.showMsg(e.getMessage());
                 else
                 {
@@ -101,21 +114,23 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     }
 
     @Override
-    public void saveTeamIcon(File file) {
+    public void saveTeamIcon(File file)
+    {
 
         //先上传图片
         final BmobFile bmobFile = new BmobFile(file);
         mView.showProgress();
-        mSubscriptions =  bmobFile.upload(new UploadFileListener() {
+        mSubscriptions = bmobFile.upload(new UploadFileListener()
+        {
             @Override
-            public void done(BmobException e) {
+            public void done(BmobException e)
+            {
 
-                if (e!=null)
+                if (e != null)
                 {
                     mView.hideProgress();
                     mView.showMsg(e.getMessage());
-                }
-                else
+                } else
                 {
                     //再设置给团队
                     setTeamAvatar(bmobFile);
@@ -130,45 +145,50 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter {
     {
         TeamBean bean = new TeamBean();
         bean.setTeamAvatar(file);
-        mSubscriptions = bean.update(mTeam.getObjectId(),new UpdateListener() {
+        mSubscriptions = bean.update(mTeam.getObjectId(), new UpdateListener()
+        {
             @Override
-            public void done(BmobException e) {
+            public void done(BmobException e)
+            {
                 mView.hideProgress();
-                if (e ==null)
+                if (e == null)
                 {
                     mView.showMsg("上传成功");
                     BmobFile old = mTeam.getTeamAvatar();
-                    old.delete();
+                    if (old != null)
+                        old.delete();
                     mTeam.setTeamAvatar(file);
                     mView.showInfo();
-                }
-                else
+                } else
                     mView.showMsg(e.getMessage());
             }
         });
     }
 
     @Override
-    public void onDestroy() {
-        if (mSubscriptions!=null)
-             mSubscriptions.unsubscribe();
+    public void onDestroy()
+    {
+        if (mSubscriptions != null)
+            mSubscriptions.unsubscribe();
     }
 
     @Override
-    public void getProjectCount() {
+    public void getProjectCount()
+    {
 
         BmobQuery<ProjectBean> query = new BmobQuery<>();
-        query.addWhereEqualTo("mTeam",new BmobPointer(mTeam));
+        query.addWhereEqualTo("mTeam", new BmobPointer(mTeam));
 
-        query.count(ProjectBean.class, new CountListener() {
+        query.count(ProjectBean.class, new CountListener()
+        {
             @Override
-            public void done(Integer integer, BmobException e) {
-                if (e!=null)
+            public void done(Integer integer, BmobException e)
+            {
+                if (e != null)
                     integer = 0;
-                    mView.showProjectCount(integer);
+                mView.showProjectCount(integer);
             }
         });
-
 
 
     }

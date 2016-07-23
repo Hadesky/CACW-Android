@@ -26,7 +26,7 @@
         <com.hadesky.cacw.ui.widget.CircleImageView
             android:id="@+id/iv_has_read"
             android:layout_gravity="right"
-            android:src="@android:color/holo_red_light"
+            android:src="@color/color_red"
             android:layout_width="10dp"
             android:layout_height="10dp"/>
     </FrameLayout>
@@ -47,7 +47,7 @@
 
         <TextView
             android:id="@+id/tv_msg"
-            tools:text="张Leaves:你今天吃了吗"
+            tools:text="张Leaves:你今天吃药了吗"
             android:textSize="@dimen/font_normal"
             android:textColor="@color/color_font_gray"
             android:layout_marginTop="5dp"
