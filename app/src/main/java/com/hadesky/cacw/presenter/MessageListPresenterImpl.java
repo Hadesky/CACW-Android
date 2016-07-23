@@ -55,6 +55,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
 
         BmobQuery<MessageBean> query = new BmobQuery<>();
         query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
+        query.include("mSender,mReceiver");
 
         mSubscription = query.findObjects(new FindListener<MessageBean>()
         {
