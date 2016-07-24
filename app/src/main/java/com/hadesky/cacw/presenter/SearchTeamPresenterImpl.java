@@ -191,7 +191,5 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
                 }
             }
         });
-        StringUtils utils = StringUtils.newInstance(mContext);
-        Log.d(TAG, utils.messageBean2Msg(messageBean));
     }
 }

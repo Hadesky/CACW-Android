@@ -14,18 +14,6 @@ import java.util.regex.Pattern;
  * Created by 45517 on 2016/7/22.
  */
 public class StringUtils {
-    private Context mContext;
-
-    private StringUtils(Context context) {
-        mContext = context;
-    }
-
-    public static StringUtils newInstance(Context context) {
-        if (context == null) {
-            return null;
-        }
-        return new StringUtils(context);
-    }
 
     /**
      * 判断是否为电话号码
@@ -77,11 +65,12 @@ public class StringUtils {
 
     /**
      * 根据拿到的Bean来生成显示给用户看的Message
+     *
      * @param bean 要生成message的Bean
      * @return message
      */
-    public String messageBean2Msg(MessageBean bean) {
-        if (bean == null) {
+    public String messageBean2Msg(MessageBean bean, Context context) {
+        if (bean == null || context == null) {
             return "";
         }
         if (bean.getType().equals(MessageBean.TYPE_USER_TO_USER)) {
@@ -89,7 +78,7 @@ public class StringUtils {
         }
         if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)) {
             //邀请新成员
-            String[] defMsg = mContext.getResources().getStringArray(R.array.default_invite_message);
+            String[] defMsg = context.getResources().getStringArray(R.array.default_invite_message);
             String[] cut = cutInviteOrJoinString(bean.getMsg());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
@@ -105,7 +94,7 @@ public class StringUtils {
         }
         if (bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM)) {
             //申请加入
-            String[] defMsg = mContext.getResources().getStringArray(R.array.default_join_message);
+            String[] defMsg = context.getResources().getStringArray(R.array.default_join_message);
             String[] cut = cutInviteOrJoinString(bean.getMsg());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
@@ -165,11 +154,5 @@ public class StringUtils {
         result[1] = inviteString.substring(d[0] + 1, d[1]);
         result[2] = inviteString.substring(d[1] + 1, inviteString.length());
         return result;
-    }
-
-
-    public void getMsgContent(String msg)
-    {
-
     }
 }
