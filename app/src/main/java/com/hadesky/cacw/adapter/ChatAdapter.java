@@ -173,6 +173,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                 }
             }
         });
+
     }
 
     public void setLoadMoreLinsener(LoadMoreLinsener loadMoreLinsener)
