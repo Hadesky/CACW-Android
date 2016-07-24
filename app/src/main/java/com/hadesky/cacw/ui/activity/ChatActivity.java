@@ -1,8 +1,11 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,7 @@ public class ChatActivity extends BaseActivity implements ChatView
 {
     private RecyclerView mRecyclerView;
     private EditText mEdt;
-    private View mSend;
+    private FloatingActionButton mSendButton;
     private ChatPresenter mPresenter;
     private UserBean mReceiver;
     private ChatAdapter mAdapter;
@@ -41,7 +44,7 @@ public class ChatActivity extends BaseActivity implements ChatView
     {
         mRecyclerView = (RecyclerView) findViewById(R.id.rcv_chat);
         mEdt = (EditText) findViewById(R.id.edt_send);
-        mSend = findViewById(R.id.v_send);
+        mSendButton = (FloatingActionButton) findViewById(R.id.v_send);
 
         mTitle = (TextView) findViewById(R.id.tv_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -64,14 +67,35 @@ public class ChatActivity extends BaseActivity implements ChatView
 
         mTitle.setText(mReceiver.getNickName());
 
-        mSend.setOnClickListener(new View.OnClickListener() {
+        mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 sendMsg();
             }
         });
+        mSendButton.hide();
 
+        mEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s != null && s.length() > 0) {
+                    mSendButton.show();
+                } else {
+                    mSendButton.hide();
+                }
+            }
+        });
 
         mEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
