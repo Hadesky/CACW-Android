@@ -33,6 +33,7 @@
             android:ellipsize="end"/>
 
         <TextView
+            android:textIsSelectable="true"
             android:layout_marginTop="1dp"
             android:background="@drawable/chat_from"
             android:id="@+id/tv_msg"

@@ -60,15 +60,17 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
                 draweView.setImageURI(bean.getSender().getAvatarUrl());
                 Integer state = mSendState.get(bean);
-                if (state == null || state == 2)
+                if (state == null || state == 2)//成功
                 {
                     setVisibility(R.id.pb, View.GONE);
+                    setVisibility(R.id.v_error, View.GONE);
 
-                } else if (state == 1)
+                } else if (state == 1) //发送中
                 {
                     setVisibility(R.id.pb, View.VISIBLE);
+                    setVisibility(R.id.v_error, View.GONE);
 
-                } else if (state == 3)
+                } else if (state == 3) //失败
                 {
                     setVisibility(R.id.pb, View.GONE);
                     setVisibility(R.id.v_error, View.VISIBLE);
@@ -173,6 +175,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                 }
             }
         });
+
     }
 
     public void setLoadMoreLinsener(LoadMoreLinsener loadMoreLinsener)

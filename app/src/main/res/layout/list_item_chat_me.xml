@@ -40,6 +40,7 @@
             android:ellipsize="end"/>
 
         <TextView
+            android:textIsSelectable="true"
             android:layout_gravity="right"
             android:layout_marginTop="1dp"
             android:background="@drawable/chat_me"

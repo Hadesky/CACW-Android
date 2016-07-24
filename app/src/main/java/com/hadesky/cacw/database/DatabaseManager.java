@@ -101,6 +101,7 @@ public class DatabaseManager
         int offset = count - pageSise * PageNum;
         int limit = pageSise;
 
+
         if (offset < 0)
         {
             if (-offset < pageSise)
