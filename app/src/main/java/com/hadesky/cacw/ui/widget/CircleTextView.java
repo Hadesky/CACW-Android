@@ -90,6 +90,8 @@ public class CircleTextView extends View {
 
         if (text.length() > 1)
             mText = text.substring(0, 1);
+        else
+            mText = text;
         invalidate();
     }
 
