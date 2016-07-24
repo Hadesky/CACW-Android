@@ -1,6 +1,7 @@
 package com.hadesky.cacw.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,6 +27,8 @@ import cn.bmob.v3.listener.SaveListener;
  * Created by 45517 on 2016/7/22.
  */
 public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl implements InvitePersonPresenter {
+
+    private static final String TAG = "InvitePersonPresenter";
 
     private InviteMemberActivity.OnInviteListener mOnInviteListener;
 
@@ -87,7 +90,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
     }
 
     private String handleMessage(String msg) {
-        return StringUtils.composeInviteString(mCurrentTeam.getObjectId(), msg);
+        return StringUtils.composeInviteOrJoinString(mCurrentTeam.getObjectId(), mCurrentTeam.getTeamName(), msg);
     }
 
     @Override

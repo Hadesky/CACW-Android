@@ -2,8 +2,8 @@ package com.hadesky.cacw.presenter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +16,6 @@ import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.tag.IntentTag;
-import com.hadesky.cacw.ui.activity.UserInfoActivity;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 import com.hadesky.cacw.util.StringUtils;
@@ -35,6 +33,7 @@ import rx.Subscription;
  * Created by 45517 on 2016/7/22.
  */
 public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, BaseViewHolder.OnItemClickListener {
+    private static final String TAG = "SearchTeamPresenter";
     private SearchPersonOrTeamView<TeamBean> mView;
 
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
@@ -179,18 +178,20 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
         MessageBean messageBean = new MessageBean();
         messageBean.setSender(MyApp.getCurrentUser());
         messageBean.setReceiver(teamToApply.getAdminUser());
-        messageBean.setMsg(s);
+        messageBean.setMsg(StringUtils.composeInviteOrJoinString(teamToApply.getObjectId(), teamToApply.getTeamName(), s));
         messageBean.setType(MessageBean.TYPE_USER_TO_TEAM);
         messageBean.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
-                    mView.showMsg("成功发送邀请");
+                    mView.showMsg("成功发送请求");
                     ((SearchTeamFragment) mView).disableJoinButton(position);
                 } else {
                     mView.showMsg("发送失败，请检查网络");
                 }
             }
         });
+        StringUtils utils = StringUtils.newInstance(mContext);
+        Log.d(TAG, utils.messageBean2Msg(messageBean));
     }
 }

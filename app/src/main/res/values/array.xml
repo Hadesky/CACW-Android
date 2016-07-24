@@ -3,6 +3,12 @@
     <string-array name="default_invite_message">
         <item>%1$s邀请您加入&quot;%2$s&quot;</item>
         <item>，并附带消息：&quot;%1$s&quot;</item>
-        <item>，单击此处接受邀请</item>
+        <item>，是否接受邀请？</item>
+    </string-array>
+
+    <string-array name="default_join_message">
+        <item>%1$s申请加入&quot;%2$s&quot;</item>
+        <item>，并附带消息：&quot;%1$s&quot;</item>
+        <item>，是否同意？</item>
     </string-array>
 </resources>

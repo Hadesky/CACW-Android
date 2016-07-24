@@ -36,7 +36,7 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter, B
 
     protected SearchPersonAdapter mAdapter;
 
-    private Context mContext;
+    protected Context mContext;
 
     private int mReceivedCount;//自从上次调用search之后查询到的数据数和
 
