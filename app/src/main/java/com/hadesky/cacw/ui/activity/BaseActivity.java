@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 /**
+ *
  * Created by Bright Van on 2015/8/22/022.
  */
 public abstract class BaseActivity extends AppCompatActivity {
@@ -33,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 设置布局文件
-     * @return
+     * @return 布局ID
      */
     public abstract int getLayoutId();
 

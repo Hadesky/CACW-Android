@@ -1,6 +1,7 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- *
  * Created by dzysg on 2016/7/23 0023.
  */
 public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean>>
@@ -29,7 +29,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     private static final int Other = 2;
     private HashMap<MessageBean, Integer> mSendState = new HashMap<>(); //1 为发送中，2为成功，3为失败
     private RecyclerView mRecyclerView;
-
+    private LinearLayoutManager mLayoutManager;
+    private LoadMoreLinsener mLoadMoreLinsener;
 
     public ChatAdapter(Context context, List<MessageBean> datas)
     {
@@ -55,7 +56,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             public void setData(MessageBean bean)
             {
                 setTextView(R.id.tv_msg, bean.getMsg());
-                setTextView(R.id.tv_username,bean.getSender().getNickName());
+                setTextView(R.id.tv_username, bean.getSender().getNickName());
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
                 draweView.setImageURI(bean.getSender().getAvatarUrl());
                 Integer state = mSendState.get(bean);
@@ -72,7 +73,6 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                     setVisibility(R.id.pb, View.GONE);
                     setVisibility(R.id.v_error, View.VISIBLE);
                 }
-
             }
         };
         return holder;
@@ -105,10 +105,13 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mRecyclerView.scrollToPosition(mDatas.size() - 1);
     }
 
-    public void addDatas(List<MessageBean> list)
+    public void addDatasToTop(List<MessageBean> list)
     {
-        mDatas.addAll(list);
+
+        mDatas.addAll(0,list);
         notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(list.size());
+        //scrolToBottom();
     }
 
     public void setDatas(List<MessageBean> list)
@@ -153,5 +156,32 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     {
         super.onAttachedToRecyclerView(recyclerView);
         mRecyclerView = recyclerView;
+        mLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
+        {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                //如果滚动停下来后最后一条已经不见了
+                if (newState == RecyclerView.SCROLL_STATE_IDLE&&mLayoutManager.findLastCompletelyVisibleItemPosition()!=mDatas.size()-1)
+                {
+                    int i = mLayoutManager.findFirstCompletelyVisibleItemPosition();//如果滚动到顶了
+                    if (i == 0 && mLoadMoreLinsener != null)
+                        mLoadMoreLinsener.loadmore();
+                }
+            }
+        });
+    }
+
+    public void setLoadMoreLinsener(LoadMoreLinsener loadMoreLinsener)
+    {
+        mLoadMoreLinsener = loadMoreLinsener;
+    }
+
+    public interface LoadMoreLinsener
+    {
+        void loadmore();
     }
 }

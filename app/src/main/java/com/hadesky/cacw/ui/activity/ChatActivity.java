@@ -42,6 +42,8 @@ public class ChatActivity extends BaseActivity implements ChatView
     @Override
     public void initView()
     {
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rcv_chat);
         mEdt = (EditText) findViewById(R.id.edt_send);
         mSendButton = (FloatingActionButton) findViewById(R.id.v_send);
@@ -145,6 +147,13 @@ public class ChatActivity extends BaseActivity implements ChatView
     public void hideProgress()
     {
 
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        mPresenter.onDestroy();
     }
 
     @Override

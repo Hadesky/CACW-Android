@@ -61,23 +61,60 @@ public class DatabaseManager
         return instance;
     }
 
-    public void closeDb()
+    public static void closeDb()
     {
-        db.close();
-        instance = null;
+        if (instance==null)
+            return;
+        instance.db.close();
     }
 
 
+    /**
+     * 根据ID查找消息
+     *
+     * @param id       用户Objectid
+     * @param pageSise 每页大小
+     * @param PageNum  页码 从 1 开始
+     * @return 消息列表
+     */
     public List<MessageBean> queryMessageByUser(String id, int pageSise, int PageNum)
     {
 
-        int offset = PageNum * pageSise;
-        String sql = "select * from " + Table_Message + " " +
-                "where " + Column_Sender + " = ? or " + Column_Receiver + "= ?  limit " + pageSise + " offset " + offset;
-
-        Cursor cursor = db.rawQuery(sql, new String[]{id, id});
-
         List<MessageBean> list = new ArrayList<>();
+
+        if (pageSise <= 0 || PageNum <= 0)
+            return list;
+
+
+        //先算出有多个条数据
+        StringBuilder sql = new StringBuilder("select * from " + Table_Message + " " +
+                "where " + Column_Sender + " = ? or " + Column_Receiver + "= ? ");// limit " + pageSise + " offset " + offset;
+
+        Cursor cursor = db.rawQuery(sql.toString(), new String[]{id, id});
+
+        int count = cursor.getCount();
+        cursor.close();
+        if (count == 0)
+            return list;
+
+        //算出 offset
+        int offset = count - pageSise * PageNum;
+        int limit = pageSise;
+
+        if (offset < 0)
+        {
+            if (-offset < pageSise)
+            {
+                offset = 0;
+                limit = pageSise +offset;
+            }
+            else
+                return list;
+        }
+
+
+        sql.append("limit ").append(limit).append("  offset ").append(offset);
+        cursor = db.rawQuery(sql.toString(), new String[]{id, id});
 
         while (cursor.moveToNext())
         {
@@ -179,14 +216,13 @@ public class DatabaseManager
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
             db.insert(Table_Users, null, cv);
-        }
-        else
+        } else
         {
             ContentValues cv = new ContentValues();
-            if (user.getAvatarUrl()!=null)
-            cv.put(Column_AvatarUrl,user.getAvatarUrl());
-            cv.put(Column_NickName,user.getNickName());
-            db.update(Table_Users, cv,Column_OId+ "=?",new String[]{user.getObjectId()});
+            if (user.getAvatarUrl() != null)
+                cv.put(Column_AvatarUrl, user.getAvatarUrl());
+            cv.put(Column_NickName, user.getNickName());
+            db.update(Table_Users, cv, Column_OId + "=?", new String[]{user.getObjectId()});
         }
         cursor.close();
     }

@@ -18,6 +18,7 @@ import com.hadesky.cacw.ui.activity.ChatActivity;
 import java.util.List;
 
 /**
+ *  消息列表
  * Created by dzysg on 2016/7/23 0023.
  */
 public class MessageListAdapter extends BaseAdapter<MessageBean>
