@@ -1,5 +1,7 @@
 package com.hadesky.cacw.util;
 
+import com.microstudent.app.bouncyfastscroller.utils.CharacterUtils;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 /**
@@ -10,7 +12,9 @@ public class PinyinUtils {
         if (!s.isEmpty() && index >= 0 && index < s.length()) {
             String[] result = PinyinHelper.toHanyuPinyinStringArray(s.charAt(index));
             if (result != null) {
-                return result[0].charAt(0);
+                return Character.toUpperCase(result[0].charAt(0));
+            } else if (Character.isLetter(s.charAt(index))){
+                return Character.toUpperCase(s.charAt(index));
             }
         }
         return ' ';

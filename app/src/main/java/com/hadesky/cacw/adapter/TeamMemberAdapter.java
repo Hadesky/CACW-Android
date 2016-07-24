@@ -27,13 +27,19 @@ import java.util.List;
 
 public class TeamMemberAdapter extends BaseAdapter<UserBean>
         implements StickyRecyclerHeadersAdapter<TeamMemberAdapter.AlphabetViewHolder> {
+
+    private UserBean mAdminUser;//团队管理员
+
     /**
      * 构造方法
-     * @param list data
+     *
+     * @param list     data
      * @param layoutid item的Layout id
+     * @param admin
      */
-    public TeamMemberAdapter(List<UserBean> list, @LayoutRes int layoutid) {
+    public TeamMemberAdapter(List<UserBean> list, @LayoutRes int layoutid, UserBean admin) {
         super(list, layoutid);
+        mAdminUser = admin;
     }
 
     @Override
@@ -83,17 +89,23 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         @Override
         public void setData(UserBean userBean) {
             setTextView(R.id.tv_nick_name, userBean.getNickName());
-            TextView textView = findView(R.id.tv_admin);
-            textView.setVisibility(View.VISIBLE);
             SimpleDraweeView view = findView(R.id.iv_avatar);
             if (userBean.getUserAvatar() != null) {
                 view.setImageURI(userBean.getUserAvatar().getUrl());
+            } else {
+                view.setImageURI((String) null);
+            }
+            if (mAdminUser != null && mAdminUser.equals(userBean)) {
+                setVisibility(R.id.tv_admin, View.VISIBLE);
+            } else {
+                setVisibility(R.id.tv_admin, View.GONE);
             }
         }
     }
 
     class AlphabetViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
+
         public AlphabetViewHolder(View itemView) {
             super(itemView);
             initView(itemView);

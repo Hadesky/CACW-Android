@@ -86,13 +86,17 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter {
 
     private void handleResult(List<TeamMember> list) {
         List<UserBean> users = new ArrayList<>();
+        UserBean admin = null;
         for (TeamMember member : list) {
             users.add(member.getUser());
+            if (member.getUser().equals(mTeamBean.getAdminUser())) {
+                admin = member.getUser();
+            }
         }
 
         mUsers = users;
 
-        mAdapter = new TeamMemberAdapter(users, R.layout.item_user);
+        mAdapter = new TeamMemberAdapter(users, R.layout.item_user, admin);
 
         mView.setAdapter(mAdapter);
         mView.addItemDecoration(new StickyRecyclerHeadersDecoration(mAdapter));
