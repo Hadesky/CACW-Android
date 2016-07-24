@@ -33,7 +33,7 @@
         android:background="@drawable/bg_list_item" >
         <TextView
             android:id="@+id/tv_general"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -58,7 +58,7 @@
         >
         <TextView
             android:id="@+id/tv_receive_alarm"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -82,7 +82,7 @@
         >
         <TextView
             android:id="@+id/tv_sound"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -106,7 +106,7 @@
         >
         <TextView
             android:id="@+id/tv_vibration"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -132,7 +132,7 @@
         >
         <TextView
             android:id="@+id/tv_about"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -151,7 +151,7 @@
         >
         <TextView
             android:id="@+id/tv_exit"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

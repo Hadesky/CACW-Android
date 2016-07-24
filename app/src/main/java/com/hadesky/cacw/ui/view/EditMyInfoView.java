@@ -18,4 +18,6 @@ public interface EditMyInfoView extends BaseView {
     void setNickName(String nickName);
 
     void setUserName(String userName);
+
+    void setPhoneNumber(String phoneNumber);
 }

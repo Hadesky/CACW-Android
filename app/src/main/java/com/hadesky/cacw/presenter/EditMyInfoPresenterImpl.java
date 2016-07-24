@@ -146,4 +146,22 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
             mEditMyInfoView.setAvatar(mCurrentUser.getUserAvatar().getUrl());
         }
     }
+
+    @Override
+    public void updatePhone(final String phoneNumber) {
+        UserBean newUser = new UserBean();
+        newUser.setMobilePhoneNumber(phoneNumber);
+        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+
+        newUser.update(currentUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    mEditMyInfoView.setPhoneNumber(phoneNumber);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

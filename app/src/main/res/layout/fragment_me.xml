@@ -78,7 +78,7 @@
                 android:src="@drawable/ic_team"/>
 
             <TextView
-                style="@style/list_item_tv_title_relative"
+                style="@style/tv_item_title_horizontal_relative"
                 android:layout_toRightOf="@id/iv_my_team"
                 android:text="我的团队"
                 android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                 android:src="@drawable/ic_alarm_clock"/>
 
             <TextView
-                style="@style/list_item_tv_title_relative"
+                style="@style/tv_item_title_horizontal_relative"
                 android:layout_toRightOf="@id/iv_remind"
                 android:text="@string/setting_message"
                 />
@@ -139,7 +139,7 @@
             android:id="@+id/tv_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_toRightOf="@id/iv_complete"
             android:text="@string/setting_complete"
             />
@@ -176,7 +176,7 @@
             android:id="@+id/tv_memo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_toRightOf="@id/iv_memo"
             android:text="@string/setting_memo"
             />
@@ -212,7 +212,7 @@
             android:id="@+id/tv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/list_item_tv_title_relative"
+            style="@style/tv_item_title_horizontal_relative"
             android:layout_toRightOf="@id/iv_setting"
             android:text="@string/setting"
             />

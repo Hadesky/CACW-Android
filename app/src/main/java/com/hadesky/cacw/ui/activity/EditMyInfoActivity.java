@@ -8,10 +8,12 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.hadesky.cacw.ui.view.EditMyInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FileUtil;
 import com.hadesky.cacw.util.ImageResizer;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.io.File;
 
@@ -40,7 +43,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private SimpleDraweeView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
-    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView;
+    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView, mPhoneTextView;
     private EditMyInfoPresenter mPresenter;
     private AnimProgressDialog mProgressDialog;
 
@@ -58,6 +61,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mSummaryTextView = (TextView) findViewById(R.id.tv_summary);
         mNickNameTextView = (TextView) findViewById(R.id.tv_nick_name);
         mUserNameTextView = (TextView) findViewById(R.id.tv_username);
+        mPhoneTextView = (TextView) findViewById(R.id.tv_phone);
 
         mPresenter = new EditMyInfoPresenterImpl(this);
     }
@@ -67,6 +71,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         registerOnClickListener(findViewById(R.id.layout_avatar));
         registerOnClickListener(findViewById(R.id.layout_nick_name));
         registerOnClickListener(findViewById(R.id.layout_summary));
+        registerOnClickListener(findViewById(R.id.layout_phone));
 
         getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
         mSexPopupMenu.setOnMenuItemClickListener(this);
@@ -98,7 +103,31 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
             case R.id.layout_summary:
                 showSummaryDialog();
                 break;
+            case R.id.layout_phone:
+                showEditPhoneDialog();
         }
+    }
+
+    private void showEditPhoneDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_with_edit_text_30, null);
+        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+        //限制15个字符
+        editText.setText(mPhoneTextView.getText());
+
+        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(15)});
+
+        editText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.phone_number))
+                .setView(view)
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.updatePhone(editText.getText().toString());
+                    }
+                });
+        builder.create().show();
     }
 
     private void showSummaryDialog() {
@@ -315,6 +344,13 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     public void setUserName(String userName) {
         if (mUserNameTextView != null) {
             mUserNameTextView.setText(userName);
+        }
+    }
+
+    @Override
+    public void setPhoneNumber(String phoneNumber) {
+        if (mPhoneTextView != null) {
+            mPhoneTextView.setText(phoneNumber);
         }
     }
 }

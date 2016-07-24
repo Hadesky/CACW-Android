@@ -141,13 +141,13 @@
                 >
 
                 <TextView
-                    style="@style/tv_list_item_title"
+                    style="@style/tv_item_title_vertical_relative"
                     android:text="项目:"
                     />
 
                 <TextView
                     android:id="@+id/tv_projectname"
-                    style="@style/tv_list_item_content"
+                    style="@style/tv_item_content_vertical_relative"
                     tools:text="这是项目名称"/>
             </RelativeLayout>
 
@@ -159,11 +159,11 @@
                 android:layout_height="50dp"
                 >
                 <TextView
-                    style="@style/tv_list_item_title"
+                    style="@style/tv_item_title_vertical_relative"
                     android:text="地点:"
                     />
                 <TextView
-                    style="@style/tv_list_item_content"
+                    style="@style/tv_item_content_vertical_relative"
                     android:id="@+id/tv_location"
                     tools:text="工一214"/>
             </RelativeLayout>
@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    style="@style/tv_list_item_title"
+                    style="@style/tv_item_title_vertical_relative"
                     android:text="详情:"
                     />
                 <TextView
@@ -197,7 +197,7 @@
 
                 <TextView
                     android:layout_marginTop="16dp"
-                    style="@style/tv_list_item_title"
+                    style="@style/tv_item_title_vertical_relative"
                     android:text="成员："/>
 
                 <android.support.v7.widget.RecyclerView

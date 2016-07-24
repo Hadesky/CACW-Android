@@ -38,7 +38,7 @@
     <string name="sex">性别</string>
     <string name="personal_summary">个性签名</string>
     <string name="short_phone_number">短号</string>
-    <string name="phone">手机</string>
+    <string name="phone_number">手机号</string>
     <string name="email">邮箱</string>
     <string name="address">地址</string>
     <string name="hide">HIDE</string>
