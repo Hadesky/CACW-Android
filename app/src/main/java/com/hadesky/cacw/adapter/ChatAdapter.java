@@ -53,8 +53,36 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         BaseViewHolder<MessageBean> holder = new BaseViewHolder<MessageBean>(v)
         {
             @Override
-            public void setData(MessageBean bean)
+            public void setData(final MessageBean bean)
             {
+                //如果是别人邀请我
+                if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)&&!isMe(bean))
+                {
+                   setVisibility(R.id.layout_invite,View.VISIBLE);
+                    View tv = findView(R.id.tv_accept);
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            accept(bean);
+                        }
+                    });
+
+                    tv = findView(R.id.tv_reject);
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v)
+                        {
+                            reject(bean);
+                        }
+                    });
+
+                }else
+                {
+                    setVisibility(R.id.layout_invite,View.GONE);
+                }
+
+
                 setTextView(R.id.tv_msg, bean.getMsg());
                 setTextView(R.id.tv_username, bean.getSender().getNickName());
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
@@ -77,9 +105,23 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                 }
             }
         };
+
+
+
+
         return holder;
     }
 
+
+    private void accept(MessageBean bean)
+    {
+
+    }
+
+    private void reject(MessageBean bean)
+    {
+
+    }
 
     public void addNewChat(MessageBean bean)
     {

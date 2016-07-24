@@ -70,6 +70,12 @@ public class NewTeamPresenterImpl implements NewTeamPresenter {
             mView.showMsg("团队名称不能为空");
             return;
         }
+        if (tname.contains("$"))
+        {
+            mView.showMsg("团队名称不能含有特殊字符");
+            return;
+        }
+
 
         mView.showProgress();
 

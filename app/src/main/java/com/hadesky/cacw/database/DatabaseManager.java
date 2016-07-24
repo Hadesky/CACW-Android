@@ -187,7 +187,6 @@ public class DatabaseManager
         db.beginTransaction();
         for(MessageBean bean : list)
         {
-
             if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
                 saveOrUpdateUser(bean.getReceiver());
             else
@@ -203,7 +202,6 @@ public class DatabaseManager
         }
         db.setTransactionSuccessful();
         db.endTransaction();
-
     }
 
     public void saveOrUpdateUser(UserBean user)

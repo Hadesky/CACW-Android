@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ *
  * Created by 45517 on 2016/7/22.
  */
 public class StringUtils {
@@ -81,5 +82,11 @@ public class StringUtils {
         result[0] = inviteString.substring(0, divisionPosition);
         result[1] = inviteString.substring(divisionPosition + 1, inviteString.length());
         return result;
+    }
+
+
+    public void getMsgContent(String msg)
+    {
+
     }
 }
