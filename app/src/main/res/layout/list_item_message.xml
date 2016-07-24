@@ -50,7 +50,7 @@
             tools:text="张Leaves"/>
 
         <TextView
-
+            android:maxEms="15"
             android:ellipsize="end"
             android:maxLines="1"
             android:id="@+id/tv_msg"

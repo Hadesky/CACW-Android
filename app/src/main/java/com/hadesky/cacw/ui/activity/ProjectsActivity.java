@@ -91,7 +91,8 @@ public class ProjectsActivity extends BaseActivity {
             builder.create().show();
         }else
         {
-            showToast("你当前不是管理员");
+            showToast(getString(R.string.you_are_not_admin) );
+
         }
     }
 

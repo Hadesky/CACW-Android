@@ -2,21 +2,27 @@ package com.hadesky.cacw.presenter;
 
 import com.hadesky.cacw.adapter.ChatAdapter;
 import com.hadesky.cacw.bean.MessageBean;
+import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.view.ChatView;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.CountListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
  * 聊天逻辑
  * Created by dzysg on 2016/7/23 0023.
  */
-public class ChatPresenterImpl implements ChatPresenter, ChatAdapter.LoadMoreLinsener
+public class ChatPresenterImpl implements ChatPresenter
 {
 
 
@@ -33,7 +39,6 @@ public class ChatPresenterImpl implements ChatPresenter, ChatAdapter.LoadMoreLin
     public ChatPresenterImpl(ChatView view, UserBean receiver, ChatAdapter adapter)
     {
         mAdapter = adapter;
-        mAdapter.setLoadMoreLinsener(this);
         mView = view;
         mReceiver = receiver;
         mUSer = MyApp.getCurrentUser();
@@ -105,8 +110,71 @@ public class ChatPresenterImpl implements ChatPresenter, ChatAdapter.LoadMoreLin
     }
 
     @Override
-    public void loadmore() //这个是adaptger发出的
+    public void Accept(final MessageBean bean)
     {
-        loadMore();
+        //先判断当前是否已经是成员
+
+        TeamBean b = new TeamBean();
+        b.setObjectId(StringUtils.getTeamIdByMessageBean(bean));
+
+        BmobQuery<TeamMember> query = new BmobQuery<>();
+        query.addWhereEqualTo("mUser",new BmobPointer(mUSer));
+        query.addWhereEqualTo("mTeam",new BmobPointer(b));
+
+        query.count(TeamMember.class, new CountListener() {
+            @Override
+            public void done(Integer integer, BmobException e)
+            {
+                if (e==null)
+                {
+                    if (integer==0)
+                        addToTeam(bean);
+                    else
+                    {
+                        mView.showMsg("你已经是该团队成员");
+                        mAdapter.delete(bean);
+                        mDatabaseManager.deleteInviteMessage(bean);
+                    }
+
+                }else
+                {
+                    mView.showMsg(e.getMessage());
+                }
+            }
+        });
+
     }
+
+
+    private void addToTeam(final MessageBean bean)
+    {
+        TeamBean t = new TeamBean();
+        t.setObjectId(StringUtils.getTeamIdByMessageBean(bean));
+        TeamMember tm = new TeamMember();
+        tm.setTeam(t);
+        tm.setUser(mUSer);
+        tm.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e)
+            {
+                if (e==null)
+                {
+                    mAdapter.delete(bean);
+                    mDatabaseManager.deleteInviteMessage(bean);
+                    mView.showMsg("加入成功");
+                }else
+                {
+                    mView.showMsg(e.getMessage());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void reject(MessageBean bean)
+    {
+        mAdapter.delete(bean);
+        mDatabaseManager.deleteInviteMessage(bean);
+    }
+
 }

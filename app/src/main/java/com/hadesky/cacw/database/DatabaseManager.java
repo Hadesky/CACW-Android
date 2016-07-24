@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -269,6 +270,12 @@ public class DatabaseManager
         cv.put(Column_hasRead, true);
         db.update(Table_Message, cv, column + "=?", new String[]{column});
 
+
+    }
+
+    public void deleteInviteMessage(MessageBean bean)
+    {
+        db.delete(Table_Message,Column_Content+" like ?",new String[]{StringUtils.getTeamIdByMessageBean(bean)+"$%"});
 
     }
 

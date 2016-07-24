@@ -1,6 +1,9 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.bean.MessageBean;
+
 /**
+ *
  * Created by dzysg on 2016/7/23 0023.
  */
 public interface ChatPresenter
@@ -13,4 +16,7 @@ public interface ChatPresenter
     void loadMore();
 
     void onDestroy();
+
+    void Accept(MessageBean bean);
+    void reject(MessageBean bean);
 }

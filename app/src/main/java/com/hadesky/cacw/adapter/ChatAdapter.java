@@ -12,6 +12,8 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.ChatPresenter;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +32,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     private HashMap<MessageBean, Integer> mSendState = new HashMap<>(); //1 为发送中，2为成功，3为失败
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
-    private LoadMoreLinsener mLoadMoreLinsener;
+    private ChatPresenter mPresenter;
+
 
     public ChatAdapter(Context context, List<MessageBean> datas)
     {
@@ -82,8 +85,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                     setVisibility(R.id.layout_invite,View.GONE);
                 }
 
-
-                setTextView(R.id.tv_msg, bean.getMsg());
+                setTextView(R.id.tv_msg,StringUtils.messageBean2Msg(bean,mContext));
                 setTextView(R.id.tv_username, bean.getSender().getNickName());
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
                 draweView.setImageURI(bean.getSender().getAvatarUrl());
@@ -107,20 +109,18 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         };
 
 
-
-
         return holder;
     }
 
 
     private void accept(MessageBean bean)
     {
-
+        mPresenter.Accept(bean);
     }
 
     private void reject(MessageBean bean)
     {
-
+        mPresenter.reject(bean);
     }
 
     public void addNewChat(MessageBean bean)
@@ -131,6 +131,13 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         scrollToBottom();
 
     }
+
+    public void delete(MessageBean bean)
+    {
+        mDatas.remove(bean);
+        notifyDataSetChanged();
+    }
+
 
     public void onSucceed(MessageBean bean)
     {
@@ -181,6 +188,12 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         return Other;
     }
 
+
+    public void setPresenter(ChatPresenter presenter)
+    {
+        mPresenter = presenter;
+    }
+
     private boolean isMe(MessageBean bean)
     {
         return MyApp.isCurrentUser(bean.getSender());
@@ -212,21 +225,13 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                 if (newState == RecyclerView.SCROLL_STATE_IDLE&&mLayoutManager.findLastCompletelyVisibleItemPosition()!=mDatas.size()-1)
                 {
                     int i = mLayoutManager.findFirstCompletelyVisibleItemPosition();//如果滚动到顶了
-                    if (i == 0 && mLoadMoreLinsener != null)
-                        mLoadMoreLinsener.loadmore();
+                    if (i == 0&&mPresenter!=null)
+                       mPresenter.loadMore();
                 }
             }
         });
 
     }
 
-    public void setLoadMoreLinsener(LoadMoreLinsener loadMoreLinsener)
-    {
-        mLoadMoreLinsener = loadMoreLinsener;
-    }
 
-    public interface LoadMoreLinsener
-    {
-        void loadmore();
-    }
 }

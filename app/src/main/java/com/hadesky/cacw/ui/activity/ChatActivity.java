@@ -145,6 +145,7 @@ public class ChatActivity extends BaseActivity implements ChatView
         });
 
         mPresenter=  new ChatPresenterImpl(this,mReceiver,mAdapter);
+        mAdapter.setPresenter(mPresenter);
         mPresenter.loadChatMessage();
 
     }

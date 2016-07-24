@@ -69,7 +69,7 @@ public class StringUtils {
      * @param bean 要生成message的Bean
      * @return message
      */
-    public String messageBean2Msg(MessageBean bean, Context context) {
+    public static String  messageBean2Msg(MessageBean bean, Context context) {
         if (bean == null || context == null) {
             return "";
         }
