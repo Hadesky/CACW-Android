@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ *
  * Created by dzysg on 2016/7/23 0023.
  */
 public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean>>
