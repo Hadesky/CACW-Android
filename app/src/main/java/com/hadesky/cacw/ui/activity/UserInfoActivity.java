@@ -3,6 +3,7 @@ package com.hadesky.cacw.ui.activity;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -23,12 +24,7 @@ public class UserInfoActivity extends BaseActivity
     private static final String TAG = "UserInfoActivity";
     private Toolbar toolbar;
     private UserBean mUserBean;
-    private LinearLayout mMenuLayout;
-    private int lastY;
-    private ObjectAnimator mMenuAnimator;
-    private Button mBtnSms;
-
-    private boolean isMenuHided = false;
+    private FloatingActionButton mMessageButton;
 
     @Override
     public int getLayoutId()
@@ -38,35 +34,12 @@ public class UserInfoActivity extends BaseActivity
 
     @Override
     public void initView() {
-        mMenuLayout = (LinearLayout) findViewById(R.id.layout_menu);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
-        mBtnSms = (Button) findViewById(R.id.btn_sms);
-        mMenuAnimator = ObjectAnimator.ofFloat(mMenuLayout, "TranslationY", 0, 1000);
-        mMenuAnimator.setDuration(500);
+        mMessageButton = (FloatingActionButton) findViewById(R.id.bt_message);
     }
 
-
-    /**
-     * 显示下面的图标菜单
-     */
-    private void showMenuLayout() {
-        if (isMenuHided) {
-            isMenuHided = false;
-            mMenuAnimator.reverse();
-        }
-    }
-
-    /**
-     * 隐藏菜单
-     */
-    private void hideMenuLayout() {
-        if (!isMenuHided) {
-            isMenuHided = true;
-            mMenuAnimator.start();
-        }
-    }
 
     @Override
     public void setupView()
@@ -97,19 +70,19 @@ public class UserInfoActivity extends BaseActivity
             @Override
             public void onPullZooming(int newScrollValue) {
                 if (newScrollValue < -400) {
-                    hideMenuLayout();
+                    mMessageButton.hide();
                 } else {
-                    showMenuLayout();
+                    mMessageButton.show();
                 }
             }
 
             @Override
             public void onPullZoomEnd() {
-                showMenuLayout();
+                mMessageButton.show();
             }
         });
 
-        mBtnSms.setOnClickListener(new View.OnClickListener() {
+        mMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {

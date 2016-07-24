@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -14,31 +14,15 @@
         android:id="@+id/toolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         style="@style/toolbar_transparent" />
-    <LinearLayout
-        android:id="@+id/layout_menu"
-        style="?android:attr/buttonBarStyle"
-        android:gravity="center"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            style="?android:attr/buttonBarButtonStyle"
-            android:text="Call"
-            android:layout_margin="@dimen/spacing_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_sms"
-            android:text="SMS"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="@dimen/spacing_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:text="Email"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_margin="@dimen/spacing_large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/bt_message"
+        android:src="@drawable/ic_message_white_24dp"
+        android:layout_gravity="end|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:layout_marginEnd="@dimen/fab_margin_right"
+        app:borderWidth="0dp"
+        />
+</android.support.design.widget.CoordinatorLayout>

@@ -14,7 +14,9 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
 import com.hadesky.cacw.util.PinyinUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -48,9 +50,14 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         viewHolder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                Intent intent = new Intent(mContext, UserInfoActivity.class);
-                intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position));
-                mContext.startActivity(intent);
+                if (mDatas.get(position).equals(MyApp.getCurrentUser())) {
+                    Intent intent = new Intent(mContext, MyInfoActivity.class);
+                    mContext.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
+                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position));
+                    mContext.startActivity(intent);
+                }
             }
         });
         return viewHolder;
