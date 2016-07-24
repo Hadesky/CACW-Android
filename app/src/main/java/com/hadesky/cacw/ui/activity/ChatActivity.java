@@ -98,7 +98,12 @@ public class ChatActivity extends BaseActivity implements ChatView
                 }
             }
         });
-
+        mEdt.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+            }
+        });
         mEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

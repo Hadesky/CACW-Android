@@ -84,7 +84,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mDatas.add(bean);
         mSendState.put(bean, 1);
         notifyDataSetChanged();
-        scrolToBottom();
+        scrollToBottom();
 
     }
 
@@ -100,7 +100,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         notifyDataSetChanged();
     }
 
-    private void scrolToBottom()
+    private void scrollToBottom()
     {
         mRecyclerView.scrollToPosition(mDatas.size() - 1);
     }
@@ -111,14 +111,14 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mDatas.addAll(0,list);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(list.size());
-        //scrolToBottom();
+        //scrollToBottom();
     }
 
     public void setDatas(List<MessageBean> list)
     {
         mDatas = list;
         notifyDataSetChanged();
-        scrolToBottom();
+        scrollToBottom();
     }
 
     @Override
