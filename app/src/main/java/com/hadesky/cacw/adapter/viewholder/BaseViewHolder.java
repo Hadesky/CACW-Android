@@ -67,6 +67,7 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
         if (button != null) {
             button.setOnClickListener(this);
         }
+        mOnItemClickListener = listener;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

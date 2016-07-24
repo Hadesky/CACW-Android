@@ -42,11 +42,27 @@
     </LinearLayout>
     <Button
         android:id="@+id/bt_join"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="@string/apply_to_join"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        style="?android:attr/buttonBarButtonStyle"
-        android:text="@string/apply_to_join"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:background="@drawable/bg_button_transparent_base"
+        android:textColor="@color/bt_primary"
+        android:layout_width="@dimen/button_normal_w"
+        android:layout_height="@dimen/button_normal_h"/>
+    <TextView
+        style="@style/TextAppearance.tips"
+        android:id="@+id/tv_team_member"
+        android:text="@string/already_a_member_in_team"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

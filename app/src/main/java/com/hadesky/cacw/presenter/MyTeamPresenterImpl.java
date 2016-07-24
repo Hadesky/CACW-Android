@@ -20,9 +20,6 @@ import rx.Subscription;
  */
 public class MyTeamPresenterImpl implements MyTeamPresenter
 {
-
-
-
     MyTeamView mTeamView;
     Subscription mSubscriptions;
     UserBean mUser;

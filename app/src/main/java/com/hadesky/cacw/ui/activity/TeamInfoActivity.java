@@ -216,7 +216,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     }
 
     private void onSummaryClick() {
-        if (mTeam.getAdminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
+        if (mTeam.getAdminUser().equals(MyApp.getCurrentUser().getObjectId())) {
 
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);

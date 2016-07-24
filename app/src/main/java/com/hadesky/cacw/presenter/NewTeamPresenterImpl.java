@@ -29,7 +29,7 @@ public class NewTeamPresenterImpl implements NewTeamPresenter {
     private void createTeam(TeamBean teamBean)
     {
 
-        teamBean.setAdminUserId(MyApp.getCurrentUser().getObjectId());
+        teamBean.setAdminUser(MyApp.getCurrentUser());
         final TeamMember tm = new TeamMember();
         tm.setTeam(teamBean);
         tm.setUser(MyApp.getCurrentUser());

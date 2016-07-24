@@ -10,9 +10,14 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,SearchFragment.OnFragmentLoadingListener {
 
@@ -35,6 +40,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void setupView() {
         View view = findViewById(R.id.iv_arrow_back);
         if (view != null) {

@@ -54,6 +54,7 @@
                 android:maxHeight="@dimen/list_item_height_huge"
                 android:imeOptions="actionSend"
                 android:layout_height="wrap_content"
+                android:hint="@string/input_message"
                 tools:text="你好我是张Leaves，我的任务是将这里的字凑够100字，现在好像还没凑够，再试试，现在好像还没凑齐，再试试，现在好像还没凑齐，再试试"
                 />
         </LinearLayout>

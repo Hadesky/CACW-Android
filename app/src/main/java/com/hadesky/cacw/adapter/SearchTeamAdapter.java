@@ -12,9 +12,12 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +28,8 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
     private static final int TYPE_NEXT_RESULT = 1;
 
     private boolean isFinal = false;
+
+    private List<TeamBean> mMyTeams;
 
     private BaseViewHolder.OnItemClickListener mOnItemClickListener;//fragment实现
 
@@ -112,6 +117,14 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
                 } else {
                     view.setImageURI((String) null);
                 }
+                if (mMyTeams != null && mMyTeams.contains(team)) {
+                    setVisibility(R.id.tv_team_member, View.VISIBLE);
+                    setVisibility(R.id.bt_join, View.GONE);
+                } else {
+                    setVisibility(R.id.tv_team_member, View.GONE);
+                    setVisibility(R.id.bt_join, View.VISIBLE);
+                }
+                setButtonOnClickListener(R.id.bt_join, mOnItemClickListener);
             }
         };
     }
@@ -149,5 +162,25 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
     @Override
     public int getItemViewType(int position) {
         return position == mDatas.size() ? TYPE_NEXT_RESULT : TYPE_TEAM;
+    }
+
+    public void setMyTeams(List<TeamMember> myTeams) {
+        if (myTeams != null) {
+            mMyTeams = new ArrayList<>();
+            for (TeamMember team : myTeams) {
+                mMyTeams.add(team.getTeam());
+            }
+        }
+    }
+
+    /**
+     * 返回nextResults那个View在adapter里的位置，若没有这个View，返回-1
+     * @return nextResults那个View在adapter里的位置，若没有这个View，返回-1
+     */
+    public int getNextResultPosition() {
+        if (isFinal) {
+            return -1;
+        }
+        return mDatas.size();
     }
 }

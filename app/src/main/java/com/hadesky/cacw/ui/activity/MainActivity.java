@@ -144,6 +144,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.action_search:
                 intent = new Intent(this, SearchActivity.class);
+
                 startActivity(intent);
                 break;
         }
