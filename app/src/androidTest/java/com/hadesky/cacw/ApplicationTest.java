@@ -14,6 +14,7 @@ import cn.bmob.v3.BmobQuery;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() {
         super(Application.class);
-        assertEquals(StringUtils.isEmail("qweqqc.@om"), true);
+        String[] result = StringUtils.cutInviteString("abcdef");
+        assertEquals(result[0], "abcdef");
     }
 }

@@ -1,5 +1,7 @@
 package com.hadesky.cacw.util;
 
+import android.support.annotation.Nullable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,5 +39,47 @@ public class StringUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 组成邀请消息字符串
+     */
+    @Nullable
+    public static String composeInviteString(String teamId, String message) {
+        if (teamId == null || message == null || teamId.length() == 0) {
+            //不允许teamId为空
+            return null;
+        }
+        if (message.length() == 0) {
+            return teamId;
+        }
+        return teamId + '$' + message;
+    }
+
+
+    /**
+     * 分割邀请字段的字符串，注意判断长度，length为1时只包含teamId，为2时0是teamId，1是msg
+     * @param inviteString 拿到的消息内容
+     * @return length为1时只包含teamId，为2时0是teamId，1是msg
+     */
+    public static String[] cutInviteString(String inviteString) {
+        if (inviteString == null) {
+            return null;
+        }
+        int divisionPosition = 0;
+        for (int i = 0; i < inviteString.length(); i++) {
+            if (inviteString.charAt(i) == '$') {
+                divisionPosition = i;
+                break;
+            }
+        }
+        if (divisionPosition == 0) {
+            //没有附带msg,直接返回的就是teamId
+            return new String[]{inviteString};
+        }
+        String[] result = new String[2];
+        result[0] = inviteString.substring(0, divisionPosition);
+        result[1] = inviteString.substring(divisionPosition + 1, inviteString.length());
+        return result;
     }
 }

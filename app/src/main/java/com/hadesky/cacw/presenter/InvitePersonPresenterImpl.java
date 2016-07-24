@@ -14,6 +14,7 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.util.List;
 
@@ -86,14 +87,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
     }
 
     private String handleMessage(String msg) {
-        String[] defMsg = mInvitePersonFragment.getResources().getStringArray(R.array.default_invite_message);
-        String msgHead = String.format(defMsg[0], MyApp.getCurrentUser().getNickName(), mCurrentTeam.getTeamName());
-        String msgTail = defMsg[2];
-        if (msg == null || msg.length() == 0) {
-            return msgHead + msgTail;
-        } else {
-            return msgHead + String.format(defMsg[1], msg) + msgTail;
-        }
+        return StringUtils.composeInviteString(mCurrentTeam.getObjectId(), msg);
     }
 
     @Override
