@@ -6,7 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -35,6 +37,8 @@ public class UserInfoFragment extends BaseFragment {
     private ImageView mSexView, mZoomView;
     private SimpleDraweeView mAvatarView;
     private UserBean mUserBean;
+    private ImageButton mCallButton,mSMSButton,mEmailButton, mNavigateButton;
+    private RelativeLayout mPhoneLayout,mEmailLayout, mAddressLayout;
 
     private PullToZoomBase.OnPullZoomListener mOnPullZoomListener;
 
@@ -57,7 +61,14 @@ public class UserInfoFragment extends BaseFragment {
 
         mUserBean = (UserBean) getArguments().getSerializable(IntentTag.TAG_USER_BEAN);
 
+        mCallButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_call);
+        mSMSButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_sms);
+        mEmailButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_email);
+        mNavigateButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_navigate);
 
+        mPhoneLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_phone);
+        mEmailLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_email);
+        mAddressLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_address);
 //        //test
 //        ImageLoader loader = ImageLoader.build(getContext());
 //        loader.bindBitmap("http://www.dujin.org/sys/bing/1366.php", mZoomView,1024,768);
@@ -92,6 +103,7 @@ public class UserInfoFragment extends BaseFragment {
             if (mUserBean.getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
                 //是当前用户，不联网查询
                 updateData(MyApp.getCurrentUser());
+                hideAllActionButton();
                 return;
             }
 
@@ -118,10 +130,22 @@ public class UserInfoFragment extends BaseFragment {
             } else {
                 mNickNameView.setText(bean.getNickName());
             }
-            mEmailView.setText(bean.getEmail());
-            mPhoneView.setText(bean.getMobilePhoneNumber());
+            if (bean.getEmail() != null) {
+                mEmailView.setText(bean.getEmail());
+            } else {
+                mEmailLayout.setVisibility(View.GONE);
+            }
+            if (bean.getMobilePhoneNumber() != null) {
+                mPhoneView.setText(bean.getMobilePhoneNumber());
+            } else {
+                mPhoneLayout.setVisibility(View.GONE);
+            }
+            if (bean.getAddress() != null) {
+                mAddressView.setText(bean.getAddress());
+            } else {
+                mAddressLayout.setVisibility(View.GONE);
+            }
             mSummaryView.setText(bean.getSummary());
-            mAddressView.setText(bean.getAddress());
             if (bean.getSex() != null) {
                 mSexView.setImageLevel(bean.getSex());
             }
@@ -130,6 +154,13 @@ public class UserInfoFragment extends BaseFragment {
                 mAvatarView.setTag(bean.getUserAvatar().getUrl());//将url作为tag放在iv里面
             }
         }
+    }
+
+    private void hideAllActionButton() {
+        mCallButton.setVisibility(View.GONE);
+        mSMSButton.setVisibility(View.GONE);
+        mEmailButton.setVisibility(View.GONE);
+        mNavigateButton.setVisibility(View.GONE);
     }
 
     public void setOnPullZoomListener(PullToZoomBase.OnPullZoomListener listener) {

@@ -10,6 +10,8 @@
             android:layout_marginTop="@dimen/spacing_large"
             style="@style/paddingDividingLine"/>
         <RelativeLayout
+            android:id="@+id/layout_phone"
+            android:clickable="true"
             android:background="@drawable/bg_list_item"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height_large">
@@ -46,8 +48,9 @@
         </RelativeLayout>
     <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
+            android:id="@+id/layout_email"
+            android:clickable="true"
             android:background="@drawable/bg_list_item"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height_large">
             <TextView
@@ -58,20 +61,44 @@
                 android:id="@+id/tv_email"
                 style="@style/tv_item_content_vertical_relative"
                 tools:text="123456789@qq.com"/>
+            <ImageButton
+                android:id="@+id/bt_email"
+                android:src="@drawable/ic_email_black_24dp"
+                android:background="@null"
+                android:tint="@color/color_gray"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/image_large"
+                android:layout_height="@dimen/image_large"/>
         </RelativeLayout>
         <ImageView style="@style/paddingDividingLine"/>
         <RelativeLayout
+            android:id="@+id/layout_address"
+            android:clickable="true"
             android:background="@drawable/bg_list_item"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height_large">
             <TextView
                 android:text="@string/address"
                 style="@style/tv_item_title_vertical_relative"/>
-
             <TextView
                 android:id="@+id/tv_address"
                 style="@style/tv_item_content_vertical_relative"
                 tools:text="广东供热大学"/>
+            <ImageButton
+                android:id="@+id/bt_navigate"
+                android:src="@drawable/ic_navigation_black_24dp"
+                android:background="@null"
+                android:tint="@color/color_gray"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/image_large"
+                android:layout_height="@dimen/image_large"/>
         </RelativeLayout>
 </LinearLayout>

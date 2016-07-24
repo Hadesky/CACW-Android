@@ -144,6 +144,7 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
             mEditMyInfoView.setUserName(mCurrentUser.getUsername());
             if (mCurrentUser.getUserAvatar()!=null)
             mEditMyInfoView.setAvatar(mCurrentUser.getUserAvatar().getUrl());
+            mEditMyInfoView.setPhoneNumber(mCurrentUser.getMobilePhoneNumber());
         }
     }
 
