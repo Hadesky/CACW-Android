@@ -140,6 +140,7 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
         if (data != null) {
             Intent intent = new Intent(getContext(), InviteMemberActivity.class);
             intent.putExtra(IntentTag.TAG_TEAM_MEMBER, data);
+            intent.putExtra(IntentTag.TAG_TEAM_BEAN, mTeamBean);
             startActivity(intent);
         }
     }

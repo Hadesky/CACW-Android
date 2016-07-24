@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,14 +22,12 @@ import java.util.List;
 
 public class ChatActivity extends BaseActivity implements ChatView
 {
-
-
     private RecyclerView mRecyclerView;
-    private  EditText mEdt;
-    private   View mSend;
-    private  ChatPresenter mPresenter;
-    private   UserBean mReceiver;
-    private   ChatAdapter mAdapter;
+    private EditText mEdt;
+    private View mSend;
+    private ChatPresenter mPresenter;
+    private UserBean mReceiver;
+    private ChatAdapter mAdapter;
     private TextView mTitle;
 
     @Override
@@ -47,7 +46,9 @@ public class ChatActivity extends BaseActivity implements ChatView
         mTitle = (TextView) findViewById(R.id.tv_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -126,5 +127,15 @@ public class ChatActivity extends BaseActivity implements ChatView
     public void showMsg(String s)
     {
         showToast(s);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

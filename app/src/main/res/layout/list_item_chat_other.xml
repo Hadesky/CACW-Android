@@ -42,5 +42,4 @@
             android:text="你好，hello world"
             />
     </LinearLayout>
-
 </RelativeLayout>

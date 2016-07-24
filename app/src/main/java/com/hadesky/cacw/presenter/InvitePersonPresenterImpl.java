@@ -32,7 +32,8 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
 
     private InvitePersonFragment mInvitePersonFragment;
 
-    public InvitePersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context, InvitePersonFragment invitePersonFragment) {
+    public InvitePersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context,
+                                     InvitePersonFragment invitePersonFragment) {
         super(view, context);
         mInvitePersonFragment = invitePersonFragment;
     }
@@ -63,12 +64,12 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
 
     @Override
     public void handleInviteMessage(String s, final int position) {
-        if (mInvitePersonFragment != null) {
+        if (mInvitePersonFragment != null && mCurrentTeam != null) {
             UserBean invitedUser = mAdapter.getDatas().get(position);
             MessageBean messageBean = new MessageBean();
             messageBean.setSender(MyApp.getCurrentUser());
             messageBean.setReceiver(invitedUser);
-            messageBean.setMsg("Hello World");
+            messageBean.setMsg(handleMessage(s));
             messageBean.setType(MessageBean.TYPE_TEAM_TO_USER);
             messageBean.save(new SaveListener<String>() {
                 @Override
@@ -81,6 +82,17 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
                     }
                 }
             });
+        }
+    }
+
+    private String handleMessage(String msg) {
+        String[] defMsg = mInvitePersonFragment.getResources().getStringArray(R.array.default_invite_message);
+        String msgHead = String.format(defMsg[0], MyApp.getCurrentUser().getNickName(), mCurrentTeam.getTeamName());
+        String msgTail = defMsg[2];
+        if (msg == null || msg.length() == 0) {
+            return msgHead + msgTail;
+        } else {
+            return msgHead + String.format(defMsg[1], msg) + msgTail;
         }
     }
 

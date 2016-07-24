@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        cacw:title=" "
         cacw:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
         <TextView
             android:id="@+id/tv_chat"
             android:textColor="@android:color/white"
@@ -45,6 +45,7 @@
         <EditText
             android:id="@+id/edt_send"
             android:layout_marginLeft="16dp"
+            android:background="@null"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:imeOptions="actionSend"
@@ -54,7 +55,8 @@
             android:id="@+id/v_send"
             android:background="@drawable/bg_btn_send"
             android:scaleType="center"
-            android:src="@drawable/ic_send"
+            android:src="@drawable/ic_send_black_24dp"
+            android:tint="@color/color_gray"
             android:text="发送"
             android:layout_margin="5dp"
             android:layout_gravity="center_vertical"

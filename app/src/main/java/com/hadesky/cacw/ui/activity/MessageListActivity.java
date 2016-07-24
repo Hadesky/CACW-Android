@@ -1,5 +1,7 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +19,11 @@ import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageListActivity extends BaseActivity implements MessageListView
-{
+public class MessageListActivity extends BaseActivity implements MessageListView, SwipeRefreshLayout.OnRefreshListener {
 
-
+    private SwipeRefreshLayout mRefreshLayout;
     private RecyclerView mRecyclerView;
     private BaseAdapter<MessageBean> mAdapter;
-    private AnimProgressDialog mProgressDialog;
     private MessageListPresenter mListPresenter;
 
     @Override
@@ -35,6 +35,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     @Override
     public void initView()
     {
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
         mRecyclerView = (RecyclerView) findViewById(R.id.rcv_message);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,6 +47,9 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     @Override
     public void setupView()
     {
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.color_primary, null));
+        mRefreshLayout.setProgressViewOffset(true, -100, 50);
         mAdapter = new MessageListAdapter(new ArrayList<MessageBean>(), R.layout.list_item_message);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
@@ -62,17 +66,13 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     @Override
     public void showProgress()
     {
-        if (mProgressDialog == null)
-        {
-            mProgressDialog = new AnimProgressDialog(this, "获取中...");
-        }
-        mProgressDialog.show();
+        mRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgress()
     {
-        mProgressDialog.dismiss();
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -95,5 +95,10 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     {
         super.onDestroy();
         mListPresenter.onDestroy();
+    }
+
+    @Override
+    public void onRefresh() {
+        mListPresenter.LoadMessage();
     }
 }

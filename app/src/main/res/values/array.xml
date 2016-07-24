@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_invite_message">
+        <item>&lt;br&gt;%1$s邀请您加入&quot;%2$s&quot;</item>
+        <item>，并附带消息：&quot;%1$s&quot;</item>
+        <item>，单击此处接受邀请</item>
+    </string-array>
+</resources>
