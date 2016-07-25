@@ -19,4 +19,6 @@ public interface EditMyInfoPresenter {
     void loadInfo();
 
     void updatePhone(String phoneNumber);
+
+    void updateShortPhone(String shortPhone);
 }

@@ -43,7 +43,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private SimpleDraweeView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
-    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView, mPhoneTextView;
+    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView, mPhoneTextView, mShortPhone;
     private EditMyInfoPresenter mPresenter;
     private AnimProgressDialog mProgressDialog;
 
@@ -62,6 +62,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mNickNameTextView = (TextView) findViewById(R.id.tv_nick_name);
         mUserNameTextView = (TextView) findViewById(R.id.tv_username);
         mPhoneTextView = (TextView) findViewById(R.id.tv_phone);
+        mShortPhone = (TextView) findViewById(R.id.tv_short_phone);
 
         mPresenter = new EditMyInfoPresenterImpl(this);
     }
@@ -109,14 +110,12 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     }
 
     private void showEditPhoneDialog() {
-        View view = getLayoutInflater().inflate(R.layout.dialog_with_edit_text_30, null);
-        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+        View view = getLayoutInflater().inflate(R.layout.dialog_phone_number, null);
+        final EditText phone = (EditText) view.findViewById(R.id.et_phone);
+        final EditText shortPhone = (EditText) view.findViewById(R.id.et_short_phone);
         //限制15个字符
-        editText.setText(mPhoneTextView.getText());
-
-        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(15)});
-
-        editText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        phone.setText(mPhoneTextView.getText());
+        shortPhone.setText(mShortPhone.getText());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.phone_number))
@@ -124,7 +123,8 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mPresenter.updatePhone(editText.getText().toString());
+                        mPresenter.updatePhone(phone.getText().toString());
+                        mPresenter.updateShortPhone(shortPhone.getText().toString());
                     }
                 });
         builder.create().show();
@@ -351,6 +351,18 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     public void setPhoneNumber(String phoneNumber) {
         if (mPhoneTextView != null) {
             mPhoneTextView.setText(phoneNumber);
+        }
+    }
+
+    @Override
+    public void setShortPhoneNumber(String shortNumber) {
+        if (mShortPhone != null) {
+            if (shortNumber != null && !shortNumber.isEmpty()) {
+                mShortPhone.setText(shortNumber);
+                mShortPhone.setVisibility(View.VISIBLE);
+            } else {
+                mShortPhone.setVisibility(View.GONE);
+            }
         }
     }
 }

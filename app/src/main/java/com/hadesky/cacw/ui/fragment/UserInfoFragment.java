@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,12 +36,14 @@ import cn.bmob.v3.listener.QueryListener;
 public class UserInfoFragment extends BaseFragment {
     private static final String TAG = "UserInfoFragment";
     private PullToZoomScrollViewEx pullToZoomScrollView;
-    private TextView mNickNameView, mSummaryView, mPhoneView, mEmailView, mAddressView;
+    private TextView mNickNameView, mSummaryView, mPhoneView, mEmailView, mAddressView, mShortPhoneView;
     private ImageView mSexView, mZoomView;
     private SimpleDraweeView mAvatarView;
     private UserBean mUserBean;
-    private ImageButton mCallButton,mSMSButton,mEmailButton, mNavigateButton;
-    private RelativeLayout mPhoneLayout,mEmailLayout, mAddressLayout;
+    private ImageButton mCallButton,mSMSButton,mEmailButton, mNavigateButton, mShortPhoneButton;
+    private FrameLayout mPhoneLayout;
+    private RelativeLayout mEmailLayout;
+    private RelativeLayout mAddressLayout;
 
     private PullToZoomBase.OnPullZoomListener mOnPullZoomListener;
 
@@ -53,6 +58,7 @@ public class UserInfoFragment extends BaseFragment {
         mNickNameView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_username);
         mSummaryView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_summary);
         mPhoneView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_phone);
+        mShortPhoneView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_short_phone);
         mEmailView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_email);
         mAddressView = (TextView) pullToZoomScrollView.findViewById(R.id.tv_address);
         mSexView = (ImageView) pullToZoomScrollView.findViewById(R.id.iv_sex);
@@ -65,13 +71,12 @@ public class UserInfoFragment extends BaseFragment {
         mSMSButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_sms);
         mEmailButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_email);
         mNavigateButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_navigate);
+        mShortPhoneButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_call_short);
 
-        mPhoneLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_phone);
+        mPhoneLayout = (FrameLayout) pullToZoomScrollView.findViewById(R.id.layout_phone);
         mEmailLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_email);
         mAddressLayout = (RelativeLayout) pullToZoomScrollView.findViewById(R.id.layout_address);
-//        //test
-//        ImageLoader loader = ImageLoader.build(getContext());
-//        loader.bindBitmap("http://www.dujin.org/sys/bing/1366.php", mZoomView,1024,768);
+
         Uri uri = Uri.parse("http://www.dujin.org/sys/bing/1366.php");
         mZoomView.setImageURI(uri);
 
@@ -106,44 +111,28 @@ public class UserInfoFragment extends BaseFragment {
                 hideAllActionButton();
                 return;
             }
-
             updateData(mUserBean);
-//            BmobQuery<UserBean> query = new BmobQuery<>();
-//            query.getObject(userId, new QueryListener<UserBean>() {
-//                @Override
-//                public void done(UserBean userBean, BmobException e) {
-//                    if (e == null) {
-//                        updateData(userBean);
-//                    } else {
-//                        showToast("更新失败");
-//                    }
-//                }
-//            });
+            setupActionButtonListener();
         }
+    }
+
+    private void setupActionButtonListener() {
+
     }
 
 
     private void updateData(UserBean bean) {
         if (bean != null) {
-            if (bean.getNickName()==null) {
-                mNickNameView.setText(R.string.default_user_name);
+            mNickNameView.setText(bean.getNickName());
+            showOrHide(mEmailView, mEmailLayout, bean.getEmail());
+            showOrHide(mPhoneView, mPhoneLayout, bean.getMobilePhoneNumber());
+            showOrHide(mAddressView, mAddressLayout, bean.getAddress());
+            if (bean.getShortNumber() != null && !bean.getShortNumber().isEmpty()) {
+                mShortPhoneView.setText(bean.getShortNumber());
+                mShortPhoneButton.setVisibility(View.VISIBLE);
             } else {
-                mNickNameView.setText(bean.getNickName());
-            }
-            if (bean.getEmail() != null) {
-                mEmailView.setText(bean.getEmail());
-            } else {
-                mEmailLayout.setVisibility(View.GONE);
-            }
-            if (bean.getMobilePhoneNumber() != null) {
-                mPhoneView.setText(bean.getMobilePhoneNumber());
-            } else {
-                mPhoneLayout.setVisibility(View.GONE);
-            }
-            if (bean.getAddress() != null) {
-                mAddressView.setText(bean.getAddress());
-            } else {
-                mAddressLayout.setVisibility(View.GONE);
+                mShortPhoneButton.setVisibility(View.GONE);
+                mShortPhoneView.setVisibility(View.GONE);
             }
             mSummaryView.setText(bean.getSummary());
             if (bean.getSex() != null) {
@@ -156,11 +145,22 @@ public class UserInfoFragment extends BaseFragment {
         }
     }
 
+    private void showOrHide(TextView view, ViewGroup layout, String data) {
+        if (view != null) {
+            if (data != null) {
+                view.setText(data);
+            } else {
+                layout.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void hideAllActionButton() {
         mCallButton.setVisibility(View.GONE);
         mSMSButton.setVisibility(View.GONE);
         mEmailButton.setVisibility(View.GONE);
         mNavigateButton.setVisibility(View.GONE);
+        mShortPhoneButton.setVisibility(View.GONE);
     }
 
     public void setOnPullZoomListener(PullToZoomBase.OnPullZoomListener listener) {
