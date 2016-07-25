@@ -43,7 +43,8 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     private SimpleDraweeView mAvatarImageView;
     private View mSexLayout;
     private PopupMenu mSexPopupMenu;
-    private TextView mNickNameTextView, mSexTextView, mSummaryTextView, mUserNameTextView, mPhoneTextView, mShortPhone;
+    private TextView mNickNameTextView, mSexTextView, mSummaryTextView,
+            mUserNameTextView, mPhoneTextView, mShortPhone, mAddressTextView;
     private EditMyInfoPresenter mPresenter;
     private AnimProgressDialog mProgressDialog;
 
@@ -63,6 +64,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mUserNameTextView = (TextView) findViewById(R.id.tv_username);
         mPhoneTextView = (TextView) findViewById(R.id.tv_phone);
         mShortPhone = (TextView) findViewById(R.id.tv_short_phone);
+        mAddressTextView = (TextView) findViewById(R.id.tv_address);
 
         mPresenter = new EditMyInfoPresenterImpl(this);
     }
@@ -73,6 +75,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         registerOnClickListener(findViewById(R.id.layout_nick_name));
         registerOnClickListener(findViewById(R.id.layout_summary));
         registerOnClickListener(findViewById(R.id.layout_phone));
+        registerOnClickListener(findViewById(R.id.layout_address));
 
         getMenuInflater().inflate(R.menu.menu_sex, mSexPopupMenu.getMenu());
         mSexPopupMenu.setOnMenuItemClickListener(this);
@@ -106,7 +109,27 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.layout_phone:
                 showEditPhoneDialog();
+                break;
+            case R.id.layout_address:
+                showAddressDialog();
+                break;
         }
+    }
+
+    private void showAddressDialog() {
+        View view = getLayoutInflater().inflate(R.layout.dialog_with_edit_text_30, null);
+        final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+        editText.setText(mAddressTextView.getText());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.address))
+                .setView(view)
+                .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.updateAddress(editText.getText().toString());
+                    }
+                });
+        builder.create().show();
     }
 
     private void showEditPhoneDialog() {
@@ -363,6 +386,13 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
             } else {
                 mShortPhone.setVisibility(View.GONE);
             }
+        }
+    }
+
+    @Override
+    public void setAddress(String address) {
+        if (mAddressTextView != null) {
+            mAddressTextView.setText(address);
         }
     }
 }

@@ -21,4 +21,6 @@ public interface EditMyInfoPresenter {
     void updatePhone(String phoneNumber);
 
     void updateShortPhone(String shortPhone);
+
+    void updateAddress(String address);
 }

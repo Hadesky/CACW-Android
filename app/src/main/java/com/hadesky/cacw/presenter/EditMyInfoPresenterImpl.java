@@ -146,6 +146,7 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
             mEditMyInfoView.setAvatar(mCurrentUser.getUserAvatar().getUrl());
             mEditMyInfoView.setPhoneNumber(mCurrentUser.getMobilePhoneNumber());
             mEditMyInfoView.setShortPhoneNumber(mCurrentUser.getShortNumber());
+            mEditMyInfoView.setAddress(mCurrentUser.getAddress());
         }
     }
 
@@ -178,6 +179,24 @@ public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
             public void done(BmobException e) {
                 if (e == null) {
                     mEditMyInfoView.setShortPhoneNumber(shortPhone);
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateAddress(final String address) {
+        UserBean newUser = new UserBean();
+        newUser.setAddress(address);
+        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+
+        newUser.update(currentUser.getObjectId(), new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    mEditMyInfoView.setAddress(address);
                 } else {
                     e.printStackTrace();
                 }

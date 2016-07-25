@@ -22,4 +22,6 @@ public interface EditMyInfoView extends BaseView {
     void setPhoneNumber(String phoneNumber);
 
     void setShortPhoneNumber(String shortNumber);
+
+    void setAddress(String address);
 }
