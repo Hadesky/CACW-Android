@@ -35,7 +35,7 @@
 
     <!--卡片宽度-->
     <dimen name="card_width_normal">170dp</dimen>
-    <dimen name="card_height_normal">200dp</dimen>
+    <dimen name="card_height_normal">220dp</dimen>
 
     <dimen name="line_width_normal">200dp</dimen>
 

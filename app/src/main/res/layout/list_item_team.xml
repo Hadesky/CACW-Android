@@ -7,10 +7,11 @@
     android:layout_height="@dimen/card_height_normal"
     android:layout_width="match_parent"
     android:layout_margin="@dimen/spacing_small"
-    android:background="@drawable/bg_list_item"
     android:orientation="horizontal"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp"
     app:cardUseCompatPadding="true"
+    app:cardElevation="5dp"
     android:layout_marginBottom="@dimen/space_normal"
     >
     <LinearLayout

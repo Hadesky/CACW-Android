@@ -11,6 +11,8 @@
     app:cardUseCompatPadding="true"
     android:orientation="horizontal"
     app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
     >
     <RelativeLayout
         android:layout_width="match_parent"

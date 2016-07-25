@@ -50,7 +50,6 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
-        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
