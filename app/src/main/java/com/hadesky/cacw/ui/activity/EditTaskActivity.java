@@ -425,7 +425,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (mTask.getProjectBean().getObjectId().equals(mProjectList.get(which).getObjectId()))
+                if (mTask.getProjectBean()!=null&& mTask.getProjectBean().getObjectId().equals(mProjectList.get(which).getObjectId()))
                     return;
 
                 mTask.setProjectBean(mProjectList.get(which));
@@ -442,6 +442,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mMembers = new ArrayList<>();
         TaskMember tm = new TaskMember();
         tm.setUser(MyApp.getCurrentUser());
+        tm.setTask(mTask);
         mMembers.add(tm);
         mAdapter.setDatas(mMembers);
     }

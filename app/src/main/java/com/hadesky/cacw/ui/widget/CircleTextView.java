@@ -16,7 +16,6 @@ import com.hadesky.cacw.R;
  */
 public class CircleTextView extends View {
 
-
     private int mCircleColor;
     private int mTextColor;
     private float mTextSize;
