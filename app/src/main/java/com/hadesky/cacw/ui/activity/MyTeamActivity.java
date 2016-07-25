@@ -1,12 +1,9 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
@@ -16,6 +13,7 @@ import com.hadesky.cacw.presenter.MyTeamPresenter;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.MyTeamView;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
+import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,9 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         mRefreshLayout.setProgressViewOffset(true, -100, 50);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        FullyGridLayoutManager layoutManager = new FullyGridLayoutManager(this, 2);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(layoutManager);
         mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

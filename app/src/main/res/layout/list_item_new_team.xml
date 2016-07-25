@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_height="wrap_content"
-    android:layout_width="@dimen/card_width_normal"
+    android:layout_height="@dimen/card_height_normal"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/spacing_small"
     android:background="@drawable/bg_list_item"
+    app:cardUseCompatPadding="true"
     android:orientation="horizontal"
-    android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
     >
     <RelativeLayout
