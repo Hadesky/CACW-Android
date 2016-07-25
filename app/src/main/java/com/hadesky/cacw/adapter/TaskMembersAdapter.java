@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.tag.IntentTag;
@@ -72,8 +73,8 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public void onBindViewHolder(TaskMemberVH holder, int position) {
         TaskMember tm = mDatas.get(position);
         holder.setName(tm.getUser().getNickName());
-
         holder.setFinish(tm.isFinish());
+        holder.setImageUri(tm.getUser().getAvatarUrl());
 
     }
 
@@ -121,13 +122,21 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         private OnItemClickListener mOnItemClickListener;
         private TextView mName;
         private ImageView mIvIsFinish;
+        private SimpleDraweeView mAvatar;
 
         public TaskMemberVH(View itemView, OnItemClickListener listener) {
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.tv_name);
             mIvIsFinish = (ImageView) itemView.findViewById(R.id.iv_is_finish);
+            mAvatar = (SimpleDraweeView) itemView.findViewById(R.id.iv_avatar);
+
             itemView.setOnClickListener(this);
             mOnItemClickListener = listener;
+        }
+
+        public void setImageUri(String uri)
+        {
+            mAvatar.setImageURI(uri);
         }
 
         public void setFinish(boolean b) {

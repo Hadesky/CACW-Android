@@ -8,7 +8,9 @@ public final class IntentTag {
     public static final String TAG_TEAM_BEAN = "team_bean";
     public static final String TAG_USER_BEAN = "user_bean";
     public static final String TAG_PROJECT_BEAN = "project_bean";
+    public static final String TAG_Task_MEMBER = "task_member";
     public static final String TAG_TEAM_MEMBER = "team_member";
+    public static final String TAG_USER_BEAN_LIST = "team_member";
 
     private IntentTag() {
         throw new AssertionError();

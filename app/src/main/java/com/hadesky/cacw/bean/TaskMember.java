@@ -41,4 +41,15 @@ public class TaskMember extends BmobObject {
     public void setTask(TaskBean task) {
         mTask = task;
     }
+
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o!=null&&o instanceof TaskMember)
+        {
+            return mUser.getObjectId().equals(((TaskMember) o).getUser().getObjectId());
+        }
+        return false;
+    }
 }

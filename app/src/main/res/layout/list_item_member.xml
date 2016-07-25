@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:cacw="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/member_size"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="@dimen/member_size">
-    <com.hadesky.cacw.ui.widget.CircleImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
+        android:layout_centerHorizontal="true"
         android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"
-        android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true"
-        cacw:border_color="@android:color/transparent"
-        android:src="@drawable/default_user_image"
-        tools:src="@drawable/default_user_image"
-        />
+        app:placeholderImage="@drawable/default_user_image"
+        app:roundAsCircle="true"/>
     <ImageView
         android:id="@+id/iv_delete"
         android:layout_width="@dimen/image_more_small"

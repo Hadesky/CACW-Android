@@ -137,9 +137,8 @@
             <RelativeLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/list_item_height_large"
                 >
-
                 <TextView
                     style="@style/tv_item_title_vertical_relative"
                     android:text="项目:"
@@ -156,7 +155,7 @@
             <RelativeLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/list_item_height_large"
                 >
                 <TextView
                     style="@style/tv_item_title_vertical_relative"
@@ -173,7 +172,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <TextView
                     style="@style/tv_item_title_vertical_relative"
                     android:text="详情:"
@@ -186,7 +185,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="4dp"
                     android:padding="4dp"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/font_large"
                     android:text="这是详情内容"/>
             </LinearLayout>
 
