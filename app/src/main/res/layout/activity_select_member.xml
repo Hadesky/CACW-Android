@@ -39,17 +39,23 @@
         android:layout_height="50dp">
         <Button
             android:text="全选"
+            android:background="@drawable/bg_btn_select_member_normal"
             android:onClick="onSelectAll"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             android:layout_height="match_parent"/>
         <Button
             android:text="反选"
             android:onClick="onReverse"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/bg_btn_select_member"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>
@@ -58,6 +64,9 @@
             android:text="@string/OK"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/bg_btn_select_member"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"/>

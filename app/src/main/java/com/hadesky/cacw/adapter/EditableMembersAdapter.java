@@ -94,7 +94,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                     {
                         //点击到头像
                         Intent intent = new Intent(mContext, UserInfoActivity.class);
-                        intent.putExtra(IntentTag.TAG_USER_ID, members.get(position).getObjectId());
+                        intent.putExtra(IntentTag.TAG_USER_BEAN, members.get(position).getUser());
                         mContext.startActivity(intent);
                     } else
                     {

@@ -26,8 +26,6 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:ellipsize="end"
-            android:maxEms="5"
             android:textColor="@color/color_font_gray"
             android:textSize="12sp"
             tools:text="张树悦"/>

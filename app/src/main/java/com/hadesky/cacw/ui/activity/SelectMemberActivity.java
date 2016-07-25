@@ -14,6 +14,7 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
@@ -35,8 +36,10 @@ public class SelectMemberActivity extends BaseActivity
     private ProjectBean mProjectBean;
     private List<UserBean> mCurrentUser;
     private List<UserBean> mAllUser = new ArrayList<>();
-    private boolean mHasError = false;
+    private boolean mHasError = true;
     private UserBean mUser;
+    private  AnimProgressDialog mProgressDialog ;
+
 
     @Override
     public int getLayoutId()
@@ -54,7 +57,7 @@ public class SelectMemberActivity extends BaseActivity
     public void setupView()
     {
 
-
+        mProgressDialog  = new AnimProgressDialog(this, false, null, "获取中...");
         List<TaskMember> current = (List<TaskMember>) getIntent().getSerializableExtra(IntentTag.TAG_Task_MEMBER);
         ProjectBean pb = (ProjectBean) getIntent().getSerializableExtra(IntentTag.TAG_PROJECT_BEAN);
         if (current == null || pb == null)
@@ -79,6 +82,7 @@ public class SelectMemberActivity extends BaseActivity
 
     private void getAllMember()
     {
+        mProgressDialog.show();
         if (mProjectBean.getTeam() == null)
         {
 
@@ -94,6 +98,7 @@ public class SelectMemberActivity extends BaseActivity
                         getAllMember(projectBean.getTeam());
                     } else
                     {
+                        mProgressDialog.dismiss();
                         showToast(e.getMessage());
                         mHasError = true;
                     }
@@ -116,6 +121,7 @@ public class SelectMemberActivity extends BaseActivity
             @Override
             public void done(List<TeamMember> list, BmobException e)
             {
+                mProgressDialog.dismiss();
                 if (e == null)
                 {
                     for(TeamMember tm : list)
@@ -135,6 +141,7 @@ public class SelectMemberActivity extends BaseActivity
 
     private void setupAdapter()
     {
+        mHasError = false;
         Map<Integer, Boolean> map = new HashMap<>();
         for(int i = 0; i < mAllUser.size(); i++)
         {

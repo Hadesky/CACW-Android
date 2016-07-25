@@ -17,6 +17,7 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
         android:layout_gravity="center_vertical"
+        android:padding="1dp"
         android:layout_width="@dimen/image_large"
         android:layout_height="@dimen/image_large"
         app:placeholderImage="@drawable/default_user_image"
@@ -28,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="24dp"
-        android:layout_toRightOf="@id/icon"
         android:text="谢树悦"/>
 </LinearLayout>
 
