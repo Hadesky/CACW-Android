@@ -1,8 +1,10 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -24,10 +26,11 @@ import java.util.List;
  */
 public class MessageListAdapter extends BaseAdapter<MessageBean>
 {
-    public MessageListAdapter(List<MessageBean> list, @LayoutRes int layoutid)
-    {
-        super(list, layoutid);
+    private BaseViewHolder.OnItemLongClickListener mOnItemLongClickListener;
 
+    public MessageListAdapter(List<MessageBean> list, @LayoutRes int layoutid, BaseViewHolder.OnItemLongClickListener longClickListener) {
+        super(list, layoutid);
+        mOnItemLongClickListener = longClickListener;
     }
 
     @Override
@@ -70,6 +73,7 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
                 mContext.startActivity(i);
             }
         });
+        holder.setOnItemLongClickListener(mOnItemLongClickListener);
         return holder;
     }
 

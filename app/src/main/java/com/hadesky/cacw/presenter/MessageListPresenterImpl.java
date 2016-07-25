@@ -25,8 +25,6 @@ import rx.Subscription;
  */
 public class MessageListPresenterImpl implements MessageListPresenter
 {
-
-
     MessageListView mView;
     DatabaseManager mDatabaseManager;
     UserBean mUser;
@@ -48,8 +46,10 @@ public class MessageListPresenterImpl implements MessageListPresenter
             mSubscription.unsubscribe();
     }
 
+
+
     @Override
-    public void LoadMessage()
+    public void loadMessage()
     {
         mView.showProgress();
 
@@ -79,6 +79,27 @@ public class MessageListPresenterImpl implements MessageListPresenter
             }
         });
 
+    }
+
+    @Override
+    public void loadMessageQuietly() {
+        BmobQuery<MessageBean> query = new BmobQuery<>();
+        query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
+        query.include("mSender,mReceiver");
+
+        mSubscription = query.findObjects(new FindListener<MessageBean>()
+        {
+            @Override
+            public void done(List<MessageBean> list, BmobException e)
+            {
+                mNewMessage = list;
+                if (list.size()==0) //如果无有新数据
+                {
+                    loadMsgFromDB();//直接获取本地数据
+                }else
+                    deleteFromBmob(list); //如果有新数据，先删除后台的数据
+            }
+        });
     }
 
     private void deleteFromBmob(List<MessageBean> list)
@@ -126,8 +147,8 @@ public class MessageListPresenterImpl implements MessageListPresenter
     public void deleteMessage(MessageBean bean)
     {
         if (MyApp.isCurrentUser(bean.getSender()))
-            mDatabaseManager.deleteUser(bean.getReceiver().getObjectId());
+            mDatabaseManager.deleteUserAndMessage(bean.getReceiver().getObjectId());
         else
-            mDatabaseManager.deleteUser(bean.getSender().getObjectId());
+            mDatabaseManager.deleteUserAndMessage(bean.getSender().getObjectId());
     }
 }

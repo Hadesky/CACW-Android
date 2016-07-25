@@ -23,12 +23,15 @@
 
         <TextView
             android:id="@+id/tv_username"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:textColor="@color/color_font_gray"
             android:textSize="12sp"
-            tools:text="张树悦"/>
+            android:maxLines="1"
+            tools:text="张树悦"
+            android:singleLine="true"
+            />
 
         <TextView
             android:id="@+id/tv_msg"

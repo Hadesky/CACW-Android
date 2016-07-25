@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
@@ -37,6 +38,10 @@ public class UserInfoActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+        if (mUserBean.equals(MyApp.getCurrentUser())) {
+            navigateTo(MyInfoActivity.class, false);
+            finish();
+        }
         mMessageButton = (FloatingActionButton) findViewById(R.id.bt_message);
     }
 
@@ -86,7 +91,7 @@ public class UserInfoActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                if (mUserBean == null) {
+                if (mUserBean == null || mUserBean.equals(MyApp.getCurrentUser())) {
                     return;
                 }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);

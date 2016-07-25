@@ -31,11 +31,12 @@
             android:layout_marginRight="16dp"
             android:gravity="right"
             android:layout_gravity="right"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="张树悦"
             android:textSize="12sp"
             android:textColor="@color/color_font_gray"
+            android:singleLine="true"
             />
 
         <TextView

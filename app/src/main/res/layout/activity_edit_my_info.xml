@@ -207,5 +207,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/layout_address"
+            android:background="@drawable/bg_list_item"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_item_height_normal">
+            <TextView
+                android:id="@+id/tv_address_title"
+                android:text="@string/address"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/tv_item_title_horizontal_relative"
+                />
+            <TextView
+                tools:text="广东省广州市广州大学城广工生活区"
+                android:id="@+id/tv_address"
+                android:textColor="@color/color_font_gray"
+                android:maxLines="2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_address_title"
+                android:layout_toEndOf="@id/tv_address_title"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                />
+        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

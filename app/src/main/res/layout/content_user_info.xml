@@ -32,12 +32,12 @@
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:layout_marginBottom="@dimen/spacing_more_small"
-                    android:textSize="@dimen/font_larger"
+                    android:textSize="@dimen/font_large"
                     tools:text="18825512345"/>
                 <TextView
                     android:id="@+id/tv_short_phone"
                     tools:text="(665089)"
-                    android:textSize="@dimen/font_larger"
+                    android:textSize="@dimen/font_large"
                     android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_normal"
                     android:layout_marginBottom="@dimen/spacing_normal"

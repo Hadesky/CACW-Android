@@ -36,7 +36,7 @@ public class MyApp extends Application {
 
     public static boolean isCurrentUser(UserBean sb)
     {
-        return getCurrentUser().getObjectId().equals(sb.getObjectId());
+        return getCurrentUser().equals(sb);
     }
 
     public static UserBean getCurrentUser()

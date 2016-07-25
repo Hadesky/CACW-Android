@@ -9,8 +9,10 @@ import com.hadesky.cacw.bean.MessageBean;
 public interface MessageListPresenter
 {
     void onDestroy();
-    void LoadMessage();
+
+    void loadMessage();
+
+    void loadMessageQuietly();
 
     void deleteMessage(MessageBean bean);
-
 }
