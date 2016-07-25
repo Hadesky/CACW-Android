@@ -187,7 +187,9 @@ public class ChatActivity extends BaseActivity implements ChatView
     protected void onDestroy()
     {
         super.onDestroy();
-        mPresenter.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.onDestroy();
+        }
     }
 
     @Override

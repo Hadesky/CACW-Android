@@ -63,6 +63,16 @@ public class StringUtils {
         return teamId + '$' + teamName + '$' + message;
     }
 
+    public static String removeBrackets(String s) {
+        if (s == null || s.length() <= 1) {
+            return s;
+        }
+        if (s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')') {
+            return s.substring(1, s.length() - 1);
+        }
+        return s;
+    }
+
     public static String roundWithBrackets(String s) {
         if (s == null) {
             return null;

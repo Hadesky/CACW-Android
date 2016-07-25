@@ -86,6 +86,9 @@ public class UserInfoActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
+                if (mUserBean == null) {
+                    return;
+                }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);
                 i.putExtra(IntentTag.TAG_USER_BEAN, mUserBean);
                 startActivity(i);
