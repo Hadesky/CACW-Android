@@ -276,7 +276,6 @@ public class DatabaseManager
     public void deleteInviteMessage(MessageBean bean)
     {
         db.delete(Table_Message,Column_Content+" like ?",new String[]{StringUtils.getTeamIdByMessageBean(bean)+"$%"});
-
     }
 
 

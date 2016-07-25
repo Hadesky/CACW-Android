@@ -24,7 +24,7 @@ import cn.bmob.v3.listener.SaveListener;
 import rx.Subscription;
 
 /**
- *
+ * 编辑任务
  * Created by dzysg on 2016/7/6 0006.
  */
 public class EditTaskPresenterImpl implements EditTaskPresenter {
@@ -68,9 +68,9 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
             @Override
             public void done(List<TaskMember> list, BmobException e) {
                 mView.hideProgress();
-                mOldMembers = list;
+                mOldMembers = new ArrayList<>(list);
                 if (e == null) {
-                    mView.showTaskMember(mOldMembers);
+                    mView.showTaskMember(list);
                 } else {
                     mView.showMsg(e.getMessage());
                 }
@@ -82,13 +82,11 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
     /**
      * 保存新建任务
-     *
      * @param members 成员
      */
     private void createNewTask(final List<TaskMember> members) {
 
         mView.showProgress();
-
         final List<BmobObject> list = new ArrayList<>();
         for (TaskMember tm : members) {
             list.add(tm);
@@ -130,7 +128,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
             mView.showMsg("请等待成员加载完成");
             return ;
         }
-
 
 
         BmobBatch batch = new BmobBatch();

@@ -71,7 +71,7 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
             allTaskStick.setElevation(elevation);
         }
 
-//        editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberDeleteListener() {
+//        editableMembersAdapter = new EditableMembersAdapter(members, context, new EditableMembersAdapter.OnMemberEditListener() {
 //            @Override
 //            public boolean onMemberDelete(UserBean user) {
 //                //manager.deleteUserFromProject(user_id, projectId);

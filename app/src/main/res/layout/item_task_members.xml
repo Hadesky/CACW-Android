@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/member_size"
-    android:paddingTop="2dp"
+    android:layout_height="@dimen/member_size"
     android:clickable="true"
-    android:layout_height="@dimen/member_size">
-    <com.hadesky.cacw.ui.widget.CircleImageView
-        android:src="@drawable/default_user_image"
-        android:layout_width="@dimen/image_large"
+    android:orientation="vertical"
+    android:paddingTop="2dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/image_large"
+        android:layout_height="@dimen/image_large"
         android:layout_centerHorizontal="true"
-    android:layout_gravity="center_horizontal"
-    android:layout_height="@dimen/image_large"/>
-<TextView
-    android:id="@+id/tv_name"
-    android:text="谢伟鹏"
-    android:layout_marginTop="2dp"
-    android:layout_below="@id/iv_avatar"
-    android:textSize="@dimen/font_small"
-    android:layout_centerHorizontal="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+        android:layout_gravity="center_horizontal"
+        app:placeholderImage="@drawable/default_user_image"
+        app:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:text="谢伟鹏"
+        android:textSize="@dimen/font_small"/>
+
     <ImageView
         android:id="@+id/iv_is_finish"
-        android:src="@drawable/ic_check"
-        android:layout_toRightOf="@id/iv_avatar"
         android:layout_width="10dp"
-        android:layout_height="10dp"/>
+        android:layout_height="10dp"
+        android:layout_toRightOf="@id/iv_avatar"
+        android:src="@drawable/ic_check"/>
 </RelativeLayout>
