@@ -202,7 +202,7 @@
                 tools:text="(665089)"
                 android:layout_marginRight="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
-                android:maxLength="10"
+                android:maxLength="12"
                 android:textColor="@color/color_font_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

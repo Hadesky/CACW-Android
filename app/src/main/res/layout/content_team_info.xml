@@ -84,9 +84,8 @@
             />
 
         <android.support.v7.widget.RecyclerView
-            android:clickable="false"
             android:id="@+id/rcv_team_member"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="@dimen/space_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         </LinearLayout>

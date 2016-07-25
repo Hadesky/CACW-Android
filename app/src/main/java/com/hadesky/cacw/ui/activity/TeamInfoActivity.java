@@ -109,12 +109,16 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     @Override
                     public void setData(TeamMember o) {
                         setTextView(R.id.tv, o.getUser().getNickName());
+                        if (o.getUser().getAvatarUrl() != null) {
+                            SimpleDraweeView avatar = findView(R.id.iv_avatar);
+                            avatar.setImageURI(o.getUser().getAvatarUrl());
+                        }
                     }
                 };
             }
         };
 
-        FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 5);
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcvMembers.setLayoutManager(manager);
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
@@ -216,8 +220,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     }
 
     private void onSummaryClick() {
-        if (mTeam.getAdminUser().equals(MyApp.getCurrentUser().getObjectId())) {
-
+        if (mTeam.getAdminUser().equals(MyApp.getCurrentUser())) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             editText.setText(mTvSummary.getText());

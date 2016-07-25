@@ -115,7 +115,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         final EditText shortPhone = (EditText) view.findViewById(R.id.et_short_phone);
         //限制15个字符
         phone.setText(mPhoneTextView.getText());
-        shortPhone.setText(mShortPhone.getText());
+        shortPhone.setText(mShortPhone.getText().subSequence(1, mShortPhone.length() - 1));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.phone_number))
@@ -358,7 +358,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
     public void setShortPhoneNumber(String shortNumber) {
         if (mShortPhone != null) {
             if (shortNumber != null && !shortNumber.isEmpty()) {
-                mShortPhone.setText(shortNumber);
+                mShortPhone.setText(StringUtils.roundWithBrackets(shortNumber));
                 mShortPhone.setVisibility(View.VISIBLE);
             } else {
                 mShortPhone.setVisibility(View.GONE);

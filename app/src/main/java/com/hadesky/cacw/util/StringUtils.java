@@ -63,6 +63,13 @@ public class StringUtils {
         return teamId + '$' + teamName + '$' + message;
     }
 
+    public static String roundWithBrackets(String s) {
+        if (s == null) {
+            return null;
+        }
+        return '(' + s + ')';
+    }
+
     /**
      * 根据拿到的Bean来生成显示给用户看的Message
      *

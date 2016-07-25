@@ -26,6 +26,7 @@ import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.ImageActivity;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
 import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
+import com.hadesky.cacw.util.StringUtils;
 
 import java.io.File;
 
@@ -136,7 +137,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
             showOrHide(mPhoneView, mPhoneLayout, bean.getMobilePhoneNumber());
             showOrHide(mAddressView, mAddressLayout, bean.getAddress());
             if (bean.getShortNumber() != null && !bean.getShortNumber().isEmpty()) {
-                mShortPhoneView.setText('(' + bean.getShortNumber() + ')');
+                mShortPhoneView.setText(StringUtils.roundWithBrackets(bean.getShortNumber()));
                 mShortPhoneButton.setVisibility(View.VISIBLE);
             } else {
                 mShortPhoneButton.setVisibility(View.GONE);
