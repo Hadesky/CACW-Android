@@ -1,9 +1,12 @@
 package com.hadesky.cacw.ui.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
@@ -33,7 +37,7 @@ import cn.bmob.v3.listener.QueryListener;
  *
  * Created by 45517 on 2015/10/23.
  */
-public class UserInfoFragment extends BaseFragment {
+public class UserInfoFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = "UserInfoFragment";
     private PullToZoomScrollViewEx pullToZoomScrollView;
     private TextView mNickNameView, mSummaryView, mPhoneView, mEmailView, mAddressView, mShortPhoneView;
@@ -112,12 +116,16 @@ public class UserInfoFragment extends BaseFragment {
                 return;
             }
             updateData(mUserBean);
-            setupActionButtonListener();
+            setupActionButtonListener(mUserBean);
         }
     }
 
-    private void setupActionButtonListener() {
-
+    private void setupActionButtonListener(UserBean userBean) {
+        mCallButton.setOnClickListener(this);
+        mShortPhoneButton.setOnClickListener(this);
+        mEmailButton.setOnClickListener(this);
+        mNavigateButton.setOnClickListener(this);
+        mSMSButton.setOnClickListener(this);
     }
 
 
@@ -128,7 +136,7 @@ public class UserInfoFragment extends BaseFragment {
             showOrHide(mPhoneView, mPhoneLayout, bean.getMobilePhoneNumber());
             showOrHide(mAddressView, mAddressLayout, bean.getAddress());
             if (bean.getShortNumber() != null && !bean.getShortNumber().isEmpty()) {
-                mShortPhoneView.setText(bean.getShortNumber());
+                mShortPhoneView.setText('(' + bean.getShortNumber() + ')');
                 mShortPhoneButton.setVisibility(View.VISIBLE);
             } else {
                 mShortPhoneButton.setVisibility(View.GONE);
@@ -171,5 +179,51 @@ public class UserInfoFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         loadUserInfo();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_call:
+                String uri = "tel:" + mPhoneView.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse(uri));
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    getContext().startActivity(intent);
+                }
+                break;
+            case R.id.bt_call_short:
+                uri = "tel:" + mShortPhoneView.getText().toString();
+                intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse(uri));
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    getContext().startActivity(intent);
+                }
+                break;
+            case R.id.bt_email:
+                intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mEmailView.getText().toString()});
+                if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+                break;
+            case R.id.bt_navigate:
+                break;
+            case R.id.bt_sms:
+                uri = "sms:" + mPhoneView.getText().toString();
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(uri));
+                getContext().startActivity(intent);
+                break;
+        }
     }
 }
