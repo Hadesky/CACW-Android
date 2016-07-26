@@ -1,13 +1,16 @@
 package com.hadesky.cacw.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,8 +48,6 @@ public class ChatActivity extends BaseActivity implements ChatView
     @Override
     public void initView()
     {
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.rcv_chat);
         mEdt = (EditText) findViewById(R.id.edt_send);
         mSendButton = (FloatingActionButton) findViewById(R.id.v_send);
@@ -119,28 +120,15 @@ public class ChatActivity extends BaseActivity implements ChatView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e)
-            {
-                if (e.getAction()==MotionEvent.ACTION_DOWN)
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN)
                 {
                     InputMethodManager imm = (InputMethodManager) ChatActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(mEdt.getWindowToken(), 0);
                 }
                 return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e)
-            {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept)
-            {
-
             }
         });
 
@@ -204,7 +192,22 @@ public class ChatActivity extends BaseActivity implements ChatView
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.action_delete:
+                new AlertDialog.Builder(this).setMessage("确认清空此对话吗？").
+                        setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.deleteChat();
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).create().show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
     }
 }

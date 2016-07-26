@@ -12,4 +12,5 @@ public interface ChatView extends BaseView
 {
     void showChatList(List<MessageBean> list);
 
+    void finish();
 }

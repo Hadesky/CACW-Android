@@ -24,8 +24,6 @@ import cn.bmob.v3.listener.SaveListener;
  */
 public class ChatPresenterImpl implements ChatPresenter
 {
-
-
     ChatView mView;
     UserBean mReceiver;
     UserBean mUSer;
@@ -177,4 +175,11 @@ public class ChatPresenterImpl implements ChatPresenter
         mDatabaseManager.deleteInviteMessage(bean);
     }
 
+    @Override
+    public void deleteChat() {
+        if (mDatabaseManager != null) {
+            mDatabaseManager.deleteUserAndMessage(mReceiver.getObjectId());
+            mView.finish();
+        }
+    }
 }

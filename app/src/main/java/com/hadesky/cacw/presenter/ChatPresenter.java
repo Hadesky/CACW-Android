@@ -19,4 +19,6 @@ public interface ChatPresenter
 
     void Accept(MessageBean bean);
     void reject(MessageBean bean);
+
+    void deleteChat();
 }
