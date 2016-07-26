@@ -218,6 +218,12 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
                 }
                 break;
             case R.id.bt_navigate:
+                String uriString = String.format("geo:0,0?q=%s", mAddressView.getText());
+                Uri mUri = Uri.parse(uriString);
+                Intent mIntent = new Intent(Intent.ACTION_VIEW,mUri);
+                if (mIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mIntent);
+                }
                 break;
             case R.id.bt_sms:
                 uri = "sms:" + mPhoneView.getText().toString();
