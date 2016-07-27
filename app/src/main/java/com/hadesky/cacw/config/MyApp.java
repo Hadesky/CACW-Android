@@ -8,6 +8,7 @@ import com.hadesky.cacw.bean.UserBean;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -30,6 +31,8 @@ public class MyApp extends Application {
         URL = "http://115.28.15.194:8000";
         mContext = this;
         Bmob.initialize(this,"e3eaf0e8f1712c6cb3dee7ba7cc995de");
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
         Fresco.initialize(this);
     }
 
