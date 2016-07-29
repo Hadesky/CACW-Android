@@ -50,7 +50,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         newTask = isNewTask;
         mView = view;
         mCurrentUser = MyApp.getCurrentUser();
-        mTask.setAdaminUserId(mTask.getObjectId());
+        mTask.setAdaminUserId(MyApp.getCurrentUser().getObjectId());
     }
 
     @Override
@@ -90,7 +90,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         });
 
     }
-
 
     /**
      * 保存新建任务
@@ -146,7 +145,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                 mView.closePage();
             }
         });
-
 
     }
 

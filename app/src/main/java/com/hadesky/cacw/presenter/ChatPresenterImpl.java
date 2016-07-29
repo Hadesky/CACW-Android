@@ -117,8 +117,6 @@ public class ChatPresenterImpl implements ChatPresenter
 
         BmobQuery<TeamMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mUser",new BmobPointer(mUSer));
-        query.addWhereEqualTo("mTeam",new BmobPointer(b));
-
         query.count(TeamMember.class, new CountListener() {
             @Override
             public void done(Integer integer, BmobException e)
