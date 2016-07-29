@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.hadesky.cacw.R;
@@ -52,7 +51,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
 
-    private boolean mIsFinished;
+    private boolean mIsFinished;//是否为已经查看完成任务的界面
 
     @Override
     public int getLayoutId() {

@@ -27,7 +27,7 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
 {
 
     private MyTaskPresenter mPresenter;
-    private boolean mIsFinished = false;
+    private boolean mIsFinished = false; //是否为已经查看完成任务的界面
 
     public MyTaskRecyclerAdapter(List<TaskMember> list, MyTaskPresenter presenter, @LayoutRes int resId, boolean finished) {
         super(list, resId);

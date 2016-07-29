@@ -2,29 +2,18 @@ package com.hadesky.cacw.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.LatestNewsAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.widget.StickView;
-import com.hadesky.cacw.util.FullyGridLayoutManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 // TODO: 2016/7/10 0010 项目没有成员，需要大改
 public class ProjectDetailActivity extends BaseActivity implements View.OnClickListener{
 
-//    private RecyclerView latestNewsRecyclerView;
-    //private EditableMembersAdapter editableMembersAdapter;
     private StickView allTaskStick;
     private StickView doneTaskStick;
     private StickView undoneTaskStick;
@@ -39,7 +28,6 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void initView() {
-//        latestNewsRecyclerView = (RecyclerView) findViewById(R.id.rv_latest_news);
 
         allTaskStick = (StickView) findViewById(R.id.stick_all);
         doneTaskStick = (StickView) findViewById(R.id.stick_done);

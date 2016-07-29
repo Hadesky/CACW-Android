@@ -11,14 +11,17 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by 45517 on 2016/7/27.
  */
-public class CACWReceiver extends BroadcastReceiver {
+public class CACWReceiver extends BroadcastReceiver
+{
 
     private static final String TAG = "CACWReceiver";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
         Bundle bundle = intent.getExtras();
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-        Log.d(TAG, message);
+        if (message != null)
+            Log.d(TAG, message);
     }
 }

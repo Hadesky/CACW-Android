@@ -6,6 +6,7 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.util.TaskComparetor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,7 +77,13 @@ public class MyTaskPresenterImpl implements MyTaskPresenter {
         TaskMember[] array = new TaskMember[list.size()];
         list.toArray(array);
         Arrays.sort(array,mComparetors);
-        return Arrays.asList(array);
+        List<TaskMember> result = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++)
+        {
+            result.add(array[i]);
+        }
+
+        return result;
     }
 
 

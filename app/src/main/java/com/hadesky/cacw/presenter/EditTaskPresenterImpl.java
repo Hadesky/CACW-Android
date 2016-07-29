@@ -20,14 +20,18 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListListener;
-import cn.bmob.v3.listener.SaveListener;
+import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 /**
  * 编辑任务
  * Created by dzysg on 2016/7/6 0006.
  */
-public class EditTaskPresenterImpl implements EditTaskPresenter {
+public class EditTaskPresenterImpl implements EditTaskPresenter
+{
 
 
     TaskBean mTask;
@@ -40,16 +44,20 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
     Subscription mSubscription;
 
 
-    public EditTaskPresenterImpl(EditTaskView view, TaskBean task, boolean isNewTask) {
+    public EditTaskPresenterImpl(EditTaskView view, TaskBean task, boolean isNewTask)
+    {
         mTask = task;
         newTask = isNewTask;
         mView = view;
         mCurrentUser = MyApp.getCurrentUser();
+        mTask.setAdaminUserId(mTask.getObjectId());
     }
 
     @Override
-    public void loadTaskMember() {
-        if (newTask) {
+    public void loadTaskMember()
+    {
+        if (newTask)
+        {
             mMembers = new ArrayList<>();
             TaskMember tm = new TaskMember();
             tm.setTask(mTask);
@@ -64,14 +72,18 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         tm.addWhereEqualTo("mTask", new BmobPointer(mTask));
         tm.include("mUser");
 
-        tm.findObjects(new FindListener<TaskMember>() {
+        tm.findObjects(new FindListener<TaskMember>()
+        {
             @Override
-            public void done(List<TaskMember> list, BmobException e) {
+            public void done(List<TaskMember> list, BmobException e)
+            {
                 mView.hideProgress();
                 mOldMembers = new ArrayList<>(list);
-                if (e == null) {
+                if (e == null)
+                {
                     mView.showTaskMember(list);
-                } else {
+                } else
+                {
                     mView.showMsg(e.getMessage());
                 }
             }
@@ -82,51 +94,70 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
     /**
      * 保存新建任务
+     *
      * @param members 成员
      */
-    private void createNewTask(final List<TaskMember> members) {
+    private void createNewTask(final List<TaskMember> members)
+    {
 
         mView.showProgress();
         final List<BmobObject> list = new ArrayList<>();
-        for (TaskMember tm : members) {
+        for(TaskMember tm : members)
+        {
             list.add(tm);
         }
 
-        mTask.setAdaminUserId(mCurrentUser.getObjectId());
-        mSubscription = mTask.save(new SaveListener<String>() {
+        mSubscription = mTask.saveObservable().observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<String, Observable<List<BmobObject>>>()
+        {
             @Override
-            public void done(String s, BmobException e) {
-                if (e != null) {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                } else {
-                    BmobBatch batch = new BmobBatch();
-                    batch.insertBatch(list);
-                   mSubscription =  batch.doBatch(new QueryListListener<BatchResult>() {
-                        @Override
-                        public void done(List<BatchResult> list, BmobException e) {
-                        mView.hideProgress();
-                            if (e==null)
-                            {
-                                mView.showMsg("创建成功");
-                                mView.closePage();
-                            }
-                            else
-                                mView.showMsg(e.getMessage());
-                        }
-                    });
-                }
+            public Observable<List<BmobObject>> call(String s)
+            {
+                return Observable.just(list);
+            }
+        }).flatMap(new Func1<List<BmobObject>, Observable<List<BatchResult>>>()
+        {
+            @Override
+            public Observable<List<BatchResult>> call(List<BmobObject> bmobObjects)
+            {
+                BmobBatch batch = new BmobBatch();
+                batch.insertBatch(bmobObjects);
+                return batch.doBatchObservable();
+            }
+        }).subscribe(new Subscriber<List<BatchResult>>()
+        {
+
+            @Override
+            public void onCompleted()
+            {
+                mView.hideProgress();
+            }
+
+            @Override
+            public void onError(Throwable throwable)
+            {
+                mView.hideProgress();
+                mView.showMsg(throwable.getMessage());
+            }
+
+            @Override
+            public void onNext(List<BatchResult> batchResults)
+            {
+                mView.showMsg("创建成功");
+                mView.closePage();
             }
         });
+
+
     }
 
 
     //保存编辑后的任务
-    private void updateTask(List<TaskMember> members) {
-        if (mOldMembers==null)
+    private void updateTask(List<TaskMember> members)
+    {
+        if (mOldMembers == null)
         {
             mView.showMsg("请等待成员加载完成");
-            return ;
+            return;
         }
 
 
@@ -134,26 +165,26 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
         List<TaskMember> addlist = new ArrayList<>();
 
         //剔除相同的成员
-        for(TaskMember tm:members)
+        for(TaskMember tm : members)
         {
             if (mOldMembers.contains(tm))
             {
                 mOldMembers.remove(tm);
 
-            }else
+            } else
                 addlist.add(tm);
         }
 
         //oldmember剩下的是要删除的
 
-        if (mOldMembers.size()>0)
+        if (mOldMembers.size() > 0)
         {
             List<BmobObject> del = new ArrayList<>();
             del.addAll(mOldMembers);
             batch.deleteBatch(del);
         }
         //addlist就是新增的
-        if (addlist.size()>0)
+        if (addlist.size() > 0)
         {
             List<BmobObject> add = new ArrayList<>();
             add.addAll(addlist);
@@ -167,15 +198,17 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
 
         mView.showProgress();
-        batch.doBatch(new QueryListListener<BatchResult>() {
+        batch.doBatch(new QueryListListener<BatchResult>()
+        {
             @Override
-            public void done(List<BatchResult> list, BmobException e) {
+            public void done(List<BatchResult> list, BmobException e)
+            {
                 mView.hideProgress();
-                if (e==null)
+                if (e == null)
                 {
                     mView.showMsg("保存成功");
                     mView.closePage();
-                }else
+                } else
                 {
                     mView.showMsg(e.getMessage());
                 }
@@ -185,74 +218,98 @@ public class EditTaskPresenterImpl implements EditTaskPresenter {
 
 
     @Override
-    public void saveTask(List<TaskMember> members) {
+    public void saveTask(List<TaskMember> members)
+    {
         mMembers = members;
         if (mMembers == null)
             return;
-        if (members.size() == 0) {
+        if (members.size() == 0)
+        {
             mView.showMsg("数据异常，成员数量为0");
             return;
         }
 
-        if (mTask.getProjectBean() == null) {
+        if (mTask.getProjectBean() == null)
+        {
             mView.showMsg("请选择所属项目");
             return;
         }
-        if (mTask.getTitle().length() == 0) {
+        if (mTask.getTitle().length() == 0)
+        {
             mView.showMsg("标题不可为空");
             return;
         }
 
 
-        if (newTask) {
+        if (newTask)
+        {
             createNewTask(members);
-        } else {
+        } else
+        {
             updateTask(members);
         }
     }
 
     @Override
-    public void loadProjects() {
+    public void loadProjects()
+    {
 
         mView.showProgress();
         BmobQuery<TeamMember> tm = new BmobQuery<>();
         tm.addWhereEqualTo("mUser", new BmobPointer(MyApp.getCurrentUser()));
-        mSubscription = tm.findObjects(new FindListener<TeamMember>() {
+
+
+        tm.findObjectsObservable(TeamMember.class).map(new Func1<List<TeamMember>, List<String>>()
+        {
             @Override
-            public void done(List<TeamMember> list, BmobException e) {
-                if (e != null) {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                } else {
-                    List<String> IdList = new ArrayList<>();
-                    for (TeamMember tm : list) {
-                        IdList.add(tm.getTeam().getObjectId());
-                    }
-                    BmobQuery<ProjectBean> pb = new BmobQuery<>();
-                    pb.include("mTeam");
-                    BmobQuery<TeamBean> tb = new BmobQuery<>();
-                    tb.addWhereContainedIn("objectId", IdList);
-                    pb.addWhereMatchesQuery("mTeam", "TeamBean", tb);
-                    pb.findObjects(new FindListener<ProjectBean>() {
-                        @Override
-                        public void done(List<ProjectBean> list, BmobException e) {
-                            mView.hideProgress();
-                            if (e != null) {
-
-                                mView.showMsg(e.getMessage());
-                            } else {
-                                mView.selectProject(list);
-                            }
-                        }
-                    });
-
+            public List<String> call(List<TeamMember> list)
+            {
+                List<String> IdList = new ArrayList<>();
+                for(TeamMember tm : list)
+                {
+                    IdList.add(tm.getTeam().getObjectId());
                 }
+                return IdList;
+            }
+        }).flatMap(new Func1<List<String>, Observable<List<ProjectBean>>>()
+        {
+            @Override
+            public Observable<List<ProjectBean>> call(List<String> IdList)
+            {
+
+                BmobQuery<ProjectBean> pb = new BmobQuery<>();
+                pb.include("mTeam");
+                BmobQuery<TeamBean> tb = new BmobQuery<>();
+                tb.addWhereContainedIn("objectId", IdList);
+                pb.addWhereMatchesQuery("mTeam", "TeamBean", tb);
+                return pb.findObjectsObservable(ProjectBean.class);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<ProjectBean>>()
+        {
+            @Override
+            public void onCompleted()
+            {
+                mView.hideProgress();
+            }
+
+            @Override
+            public void onError(Throwable throwable)
+            {
+                mView.showMsg(throwable.getMessage());
+                mView.hideProgress();
+            }
+
+            @Override
+            public void onNext(List<ProjectBean> projectBeens)
+            {
+                mView.selectProject(projectBeens);
             }
         });
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         if (mSubscription != null)
             mSubscription.unsubscribe();
     }
