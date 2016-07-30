@@ -1,7 +1,6 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
-import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.ImageUtils;
 
 /**

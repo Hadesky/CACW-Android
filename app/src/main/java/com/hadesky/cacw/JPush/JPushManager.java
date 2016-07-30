@@ -1,6 +1,6 @@
 package com.hadesky.cacw.JPush;
 
-import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,22 +38,13 @@ public class JPushManager
         key = "Basic " + key;
     }
 
-
-    public Call sendMsg(JPushSender sender)
+    public void sendMsg(JPushSender sender, Callback callback)
     {
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), sender.toString());
         Request request = new Request.Builder()
                 .url("https://api.jpush.cn/v3/push")
                 .addHeader("Authorization",key)
                 .post(body).build();
-        return mOkHttpClient.newCall(request);
+        mOkHttpClient.newCall(request).enqueue(callback);
     }
-
-
-//    public Call deleteTag(String tag)
-//    {
-//
-//
-//
-//    }
 }
