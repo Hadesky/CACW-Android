@@ -55,7 +55,6 @@ public class JPushSender
                 mPlatform = "android";
             else if (s == 2)
                 mPlatform = "all";
-
             else
                 throw new IllegalArgumentException("Platform argument error");
             return this;

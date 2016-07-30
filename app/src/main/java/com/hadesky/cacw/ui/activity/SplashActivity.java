@@ -9,6 +9,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 
 import cn.bmob.v3.BmobUser;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 启动页面
@@ -73,7 +74,17 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void setupView() {
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }

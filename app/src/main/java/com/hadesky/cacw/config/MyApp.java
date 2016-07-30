@@ -1,6 +1,7 @@
 package com.hadesky.cacw.config;
 
 import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -45,6 +46,17 @@ public class MyApp extends Application
         if (sJPushManager==null)
             sJPushManager = new JPushManager(new OkHttpClient());
         return sJPushManager;
+    }
+
+    /**
+     * 获得通知manager
+     * @return NotificationManager
+     */
+    public static NotificationManager getNotificationManager() {
+        if (mContext != null) {
+            return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        return null;
     }
 
     public static boolean isCurrentUser(UserBean sb)

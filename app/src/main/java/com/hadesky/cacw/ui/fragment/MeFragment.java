@@ -1,7 +1,11 @@
 package com.hadesky.cacw.ui.fragment;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.util.ImageUtils;
 
 /**
  * MeFragment
@@ -95,8 +100,19 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_memo:
-                AnimProgressDialog dialog = new AnimProgressDialog(getContext(), true, null, "载入备忘录中...");
-                dialog.show();
+                final NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
+                builder.setTicker("HelloWorld").setContentTitle("标题").setContentText("正文").setSubText("子标题")
+                        .setNumber(3).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL);
+                ImageUtils.getBitmapFromFresco(getAvatarUrl(), getContext(), new ImageUtils.Callback() {
+                    @Override
+                    public void receiveBitmap(Bitmap bitmap) {
+                        builder.setLargeIcon(bitmap);
+                        NotificationManager manager = MyApp.getNotificationManager();
+                        if (manager != null) {
+                            manager.notify(1, builder.build());
+                        }
+                    }
+                });
                 break;
             case R.id.layout_my_team:
                 Intent intent1 = new Intent(getContext(), MyTeamActivity.class);
