@@ -206,12 +206,12 @@ public class LoginActivity extends BaseActivity{
                                 navigateTo(MainActivity.class, true);
                                 LoginActivity.this.finish();
                             } else {
+                                UserBean.logOut();
                                 showToast("设备绑定失败，请检查网络！");
                             }
                         }
                     });
                 }
-
             }
         });
     }

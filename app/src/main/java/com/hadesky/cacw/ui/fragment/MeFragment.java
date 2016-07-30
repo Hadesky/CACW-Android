@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
@@ -20,6 +21,8 @@ import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.ImageUtils;
+
+import java.io.IOException;
 
 /**
  * MeFragment
@@ -100,19 +103,32 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_memo:
-                final NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
-                builder.setTicker("HelloWorld").setContentTitle("标题").setContentText("正文").setSubText("子标题")
-                        .setNumber(3).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL);
-                ImageUtils.getBitmapFromFresco(getAvatarUrl(), getContext(), new ImageUtils.Callback() {
+//                final NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
+//                builder.setTicker("HelloWorld").setContentTitle("标题").setContentText("正文").setSubText("子标题")
+//                        .setNumber(3).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL);
+//                ImageUtils.getBitmapFromFresco(getAvatarUrl(), getContext(), new ImageUtils.Callback() {
+//                    @Override
+//                    public void receiveBitmap(Bitmap bitmap) {
+//                        builder.setLargeIcon(bitmap);
+//                        NotificationManager manager = MyApp.getNotificationManager();
+//                        if (manager != null) {
+//                            manager.notify(1, builder.build());
+//                        }
+//                    }
+//                });
+                new Thread(){
                     @Override
-                    public void receiveBitmap(Bitmap bitmap) {
-                        builder.setLargeIcon(bitmap);
-                        NotificationManager manager = MyApp.getNotificationManager();
-                        if (manager != null) {
-                            manager.notify(1, builder.build());
+                    public void run() {
+                        JPushSender sender = new JPushSender.SenderBuilder().addAlias(MyApp.getCurrentUser().
+                                getObjectId()).Message("title", "message").build();
+                        try {
+                            MyApp.getJPushManager().sendMsg(sender).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-                });
+                }.start();
+
                 break;
             case R.id.layout_my_team:
                 Intent intent1 = new Intent(getContext(), MyTeamActivity.class);

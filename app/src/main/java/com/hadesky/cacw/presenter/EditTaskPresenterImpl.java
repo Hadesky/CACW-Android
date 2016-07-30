@@ -187,6 +187,16 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             List<BmobObject> add = new ArrayList<>();
             add.addAll(addlist);
             batch.insertBatch(add);
+
+            JPushManager manager = MyApp.getJPushManager();
+            JPushSender sender = null;
+            for (TaskMember taskMember : addlist) {
+                sender = new JPushSender.SenderBuilder().addAlias(taskMember.getObjectId())
+                        .Message("加入任务", "您已加入任务" + mTask.getTitle()).build();
+            }
+            if (sender != null) {
+                manager.sendMsg(sender);
+            }
         }
 
 
@@ -196,7 +206,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
 
 
         mView.showProgress();
-        JPushManager manager = MyApp.getJPushManager();
 
         batch.doBatch(new QueryListListener<BatchResult>()
         {
