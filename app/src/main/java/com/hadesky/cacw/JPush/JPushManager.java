@@ -6,7 +6,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-/**
+/** 极光推送本地SDK
  * Created by dzysg on 2016/7/30 0030.
  */
 public class JPushManager
@@ -22,7 +22,6 @@ public class JPushManager
         mAppkey = appKey;
         mSecret = secret;
     }
-
 
     public JPushManager(OkHttpClient client)
     {
@@ -50,4 +49,11 @@ public class JPushManager
         return mOkHttpClient.newCall(request);
     }
 
+
+//    public Call deleteTag(String tag)
+//    {
+//
+//
+//
+//    }
 }

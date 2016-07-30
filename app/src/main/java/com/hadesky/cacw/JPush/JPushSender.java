@@ -1,6 +1,5 @@
 package com.hadesky.cacw.JPush;
 
-import android.support.annotation.IntRange;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 推送请求body参数
  * Created by dzysg on 2016/7/30 0030.
  */
 public class JPushSender
@@ -23,6 +23,7 @@ public class JPushSender
     {
         mBody = body;
         Log.e("tag", mBody);
+
     }
 
     @Override
@@ -42,21 +43,20 @@ public class JPushSender
         private JSONArray mDeviceIds;
         private JSONArray mTags;
         private Map<String, String> mMsgExtra;
-
+        private JSONArray mAlias;
 
         public SenderBuilder()
         {
             mObject = new JSONObject();
         }
 
-        public SenderBuilder Platform(@IntRange(from = 1, to = 2) int s)
+        public SenderBuilder Platform(int platform)
         {
-            if (s == 1)
+            if (platform == 1)
                 mPlatform = "android";
-            else if (s == 2)
+            else if (platform == 2)
                 mPlatform = "all";
-            else
-                throw new IllegalArgumentException("Platform argument error");
+
             return this;
         }
 
@@ -67,6 +67,19 @@ public class JPushSender
             mDeviceIds.put(id);
             return this;
         }
+
+        public SenderBuilder addAlias(String... alias)
+        {
+            if (alias == null)
+                return this;
+
+            if (mAlias == null)
+                mAlias = new JSONArray();
+            for(String a : alias)
+                mAlias.put(a);
+            return this;
+        }
+
 
         public SenderBuilder Message(String title, String content)
         {
@@ -85,13 +98,18 @@ public class JPushSender
         }
 
 
-        public SenderBuilder addTag(String tag)
+        public SenderBuilder addTag(String... tag)
         {
+
+            if (tag == null)
+                return this;
 
             if (mTags == null)
                 mTags = new JSONArray();
-            mTags.put(tag);
-
+            for(String t : tag)
+            {
+                mTags.put(t);
+            }
             return this;
         }
 
@@ -103,13 +121,17 @@ public class JPushSender
                 if (mPlatform == null)
                     mPlatform = "android";
 
-                if (mDeviceIds!=null||mTags!=null)
+                if (mDeviceIds != null || mTags != null || mAlias != null)
                 {
                     mAudience = new JSONObject();
                     if (mDeviceIds != null)
                         mAudience.accumulate("registration_id", mDeviceIds);
                     if (mTags != null)
                         mAudience.accumulate("tag", mTags);
+
+                    if (mAlias != null)
+                        mAudience.accumulate("alias", mAlias);
+
                 }
 
 
@@ -127,6 +149,7 @@ public class JPushSender
                     }
                     mMessage.accumulate("extras", extra);
                 }
+
 
                 mObject = new JSONObject();
                 mObject.accumulate("platform", mPlatform);
