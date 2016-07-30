@@ -258,6 +258,8 @@
 
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <!-- Required. AppKey copied from Portal -->
+
+        <!--<meta-data android:name="JPUSH_APPKEY" android:value="02caa57e9f38da433e2af32b"/>-->
         <meta-data android:name="JPUSH_APPKEY" android:value="e1ddf6b7d3bb9c6ba2545a55"/>
     </application>
 

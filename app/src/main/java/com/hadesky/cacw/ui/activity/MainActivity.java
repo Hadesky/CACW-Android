@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;//主界面
@@ -154,7 +155,8 @@ public class MainActivity extends BaseActivity {
     private void logout()
     {
 
-        DatabaseManager.closeDb();
+        DatabaseManager.closeDb();//关闭数据库
+        JPushInterface.stopPush(this);
         BmobUser.logOut();
 
         Intent intent = new Intent(this, LoginActivity.class);

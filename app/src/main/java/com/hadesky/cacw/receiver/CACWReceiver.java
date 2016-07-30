@@ -9,6 +9,7 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 
 /**
+ *  推送接收器
  * Created by 45517 on 2016/7/27.
  */
 public class CACWReceiver extends BroadcastReceiver

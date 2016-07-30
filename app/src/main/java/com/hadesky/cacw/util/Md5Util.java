@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ *
  * Created by 45517 on 2015/11/22.
  */
 public final class Md5Util {
