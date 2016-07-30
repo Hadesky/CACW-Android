@@ -22,6 +22,10 @@ import com.hadesky.cacw.util.ImageUtils;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 /**
  * MeFragment
  * Created by Bright Van on 2015/9/7/007.
@@ -119,11 +123,17 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                     public void run() {
                         JPushSender sender = new JPushSender.SenderBuilder().addAlias(MyApp.getCurrentUser().
                                 getObjectId()).Message("title", "message").build();
-                        try {
-                            MyApp.getJPushManager().sendMsg(sender).execute();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        MyApp.getJPushManager().sendMsg(sender, new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+
+                            }
+                        });
                     }
                 }.start();
 

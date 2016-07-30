@@ -11,6 +11,7 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.EditTaskView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListListener;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -195,7 +199,17 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                         .Message("加入任务", "您已加入任务" + mTask.getTitle()).build();
             }
             if (sender != null) {
-                manager.sendMsg(sender);
+                manager.sendMsg(sender, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+
+                    }
+                });
             }
         }
 
