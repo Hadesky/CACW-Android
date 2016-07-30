@@ -156,6 +156,7 @@ public class MainActivity extends BaseActivity {
     {
 
         DatabaseManager.closeDb();//关闭数据库
+        JPushInterface.setAlias(getApplicationContext(), "", null);
         JPushInterface.stopPush(this);
         BmobUser.logOut();
 

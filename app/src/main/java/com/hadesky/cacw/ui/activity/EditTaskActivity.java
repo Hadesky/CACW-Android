@@ -64,7 +64,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private RecyclerView mRcv_members;
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
-    // TODO: 2016/7/6 0006 换成接口
+
     private EditTaskPresenterImpl mPresenter;
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务

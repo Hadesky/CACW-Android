@@ -1,5 +1,7 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.JPush.JPushManager;
+import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TaskMember;
@@ -32,8 +34,6 @@ import rx.functions.Func1;
  */
 public class EditTaskPresenterImpl implements EditTaskPresenter
 {
-
-
     TaskBean mTask;
 
     List<TaskMember> mMembers;
@@ -196,6 +196,8 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
 
 
         mView.showProgress();
+        JPushManager manager = MyApp.getJPushManager();
+
         batch.doBatch(new QueryListListener<BatchResult>()
         {
             @Override

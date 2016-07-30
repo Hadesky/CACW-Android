@@ -29,11 +29,16 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 public class LoginActivity extends BaseActivity{
 
@@ -183,16 +188,28 @@ public class LoginActivity extends BaseActivity{
         UserBean.loginByAccount(username, password, new LogInListener<UserBean>() {
 
             @Override
-            public void done(UserBean userBean, BmobException e) {
-                progressDialog.cancel();
+            public void done(UserBean userBean, final BmobException e) {
                 if (e!=null)
                 {
+                    progressDialog.cancel();
                     Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                 }else
                 {
+
                     JPushInterface.resumePush(MyApp.getAppContext());
-                    navigateTo(MainActivity.class,true);
-                    LoginActivity.this.finish();
+                    JPushInterface.setAlias(getApplicationContext(), MyApp.getCurrentUser().getObjectId(), new TagAliasCallback() {
+                        @Override
+                        public void gotResult(int i, String s, Set<String> set) {
+                            progressDialog.cancel();
+                            if (i == 0) {
+                                //成功设置
+                                navigateTo(MainActivity.class, true);
+                                LoginActivity.this.finish();
+                            } else {
+                                showToast("设备绑定失败，请检查网络！");
+                            }
+                        }
+                    });
                 }
 
             }

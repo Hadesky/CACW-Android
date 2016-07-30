@@ -9,6 +9,7 @@ import com.hadesky.cacw.JPush.JPushManager;
 import com.hadesky.cacw.bean.UserBean;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
