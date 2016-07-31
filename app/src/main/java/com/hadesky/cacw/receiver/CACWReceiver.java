@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
@@ -34,7 +33,8 @@ public class CACWReceiver extends BroadcastReceiver
                     .setContentTitle(title).setContentText(message).setAutoCancel(true)
                     .setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).build();
             NotificationManager manager = MyApp.getNotificationManager();
-            if (manager != null) {
+            if (manager != null)
+            {
                 manager.notify(0, notification);
             }
         }

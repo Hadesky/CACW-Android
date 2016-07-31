@@ -59,8 +59,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             @Override
             public void setData(final MessageBean bean)
             {
-                //如果是别人邀请我
-                if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)&&!isMe(bean))
+                //如果是别人邀请我  或者 别人申请加入我的团队
+                if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)||bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM))
                 {
                    setVisibility(R.id.layout_invite,View.VISIBLE);
                     View tv = findView(R.id.tv_accept);
@@ -68,7 +68,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                         @Override
                         public void onClick(View v)
                         {
-                            accept(bean);
+                            acceptJoinTeam(bean);
                         }
                     });
 
@@ -77,7 +77,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                         @Override
                         public void onClick(View v)
                         {
-                            reject(bean);
+                            rejectJoinTeam(bean);
                         }
                     });
 
@@ -114,15 +114,16 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     }
 
 
-    private void accept(MessageBean bean)
+    private void acceptJoinTeam(MessageBean bean)
     {
-        mPresenter.Accept(bean);
+        mPresenter.AcceptJoinTeam(bean);
     }
 
-    private void reject(MessageBean bean)
+    private void rejectJoinTeam(MessageBean bean)
     {
-        mPresenter.reject(bean);
+        mPresenter.rejectJoinTeam(bean);
     }
+
 
     public void addNewChat(MessageBean bean)
     {

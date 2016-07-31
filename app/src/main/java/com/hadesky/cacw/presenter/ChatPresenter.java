@@ -17,8 +17,9 @@ public interface ChatPresenter
 
     void onDestroy();
 
-    void Accept(MessageBean bean);
-    void reject(MessageBean bean);
+    void AcceptJoinTeam(MessageBean bean);
+    void rejectJoinTeam(MessageBean bean);
+
 
     void deleteChat();
 }

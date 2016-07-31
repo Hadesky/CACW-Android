@@ -15,7 +15,7 @@ import java.util.List;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.CountListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -53,7 +53,7 @@ public class ChatPresenterImpl implements ChatPresenter
         mNoMore = false;
         List<MessageBean> list = mDatabaseManager.queryMessageByUser(mReceiver.getObjectId(), pageSize, page);
         mView.showChatList(list);
-        if (list.size()==0)
+        if (list.size() == 0)
             mNoMore = true;
     }
 
@@ -108,31 +108,42 @@ public class ChatPresenterImpl implements ChatPresenter
     }
 
     @Override
-    public void Accept(final MessageBean bean)
+    public void AcceptJoinTeam(final MessageBean bean)
     {
-        //先判断当前是否已经是成员
 
+
+        //先判断当前是否已经是成员
         TeamBean b = new TeamBean();
         b.setObjectId(StringUtils.getTeamIdByMessageBean(bean));
 
+        UserBean ub;
+
+        //如果这个消息是团队拉我
+        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER))
+            ub = mUSer;
+        else //否则就是别人要进我的团队
+            ub = bean.getSender();
+
         BmobQuery<TeamMember> query = new BmobQuery<>();
-        query.addWhereEqualTo("mUser",new BmobPointer(mUSer));
-        query.count(TeamMember.class, new CountListener() {
+        query.addWhereEqualTo("mUser", new BmobPointer(ub));
+        query.addWhereEqualTo("mTeam", new BmobPointer(b));
+
+        query.findObjects(new FindListener<TeamMember>() {
             @Override
-            public void done(Integer integer, BmobException e)
+            public void done(List<TeamMember> list, BmobException e)
             {
-                if (e==null)
+                if (e == null)
                 {
-                    if (integer==0)
+                    if (list.size() == 0)
                         addToTeam(bean);
                     else
                     {
-                        mView.showMsg("你已经是该团队成员");
+                        mView.showMsg("已经是该团队成员");
                         mAdapter.delete(bean);
                         mDatabaseManager.deleteInviteMessage(bean);
                     }
 
-                }else
+                } else
                 {
                     mView.showMsg(e.getMessage());
                 }
@@ -144,21 +155,30 @@ public class ChatPresenterImpl implements ChatPresenter
 
     private void addToTeam(final MessageBean bean)
     {
+
+        UserBean ub;
+        //如果这个消息是团队拉我
+        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER))
+            ub = mUSer;
+        else //否则就是别人要进我的团队
+            ub = bean.getSender();
+
         TeamBean t = new TeamBean();
         t.setObjectId(StringUtils.getTeamIdByMessageBean(bean));
         TeamMember tm = new TeamMember();
         tm.setTeam(t);
-        tm.setUser(mUSer);
-        tm.save(new SaveListener<String>() {
+        tm.setUser(ub);
+        tm.save(new SaveListener<String>()
+        {
             @Override
             public void done(String s, BmobException e)
             {
-                if (e==null)
+                if (e == null)
                 {
                     mAdapter.delete(bean);
                     mDatabaseManager.deleteInviteMessage(bean);
                     mView.showMsg("加入成功");
-                }else
+                } else
                 {
                     mView.showMsg(e.getMessage());
                 }
@@ -167,15 +187,18 @@ public class ChatPresenterImpl implements ChatPresenter
     }
 
     @Override
-    public void reject(MessageBean bean)
+    public void rejectJoinTeam(MessageBean bean)
     {
         mAdapter.delete(bean);
         mDatabaseManager.deleteInviteMessage(bean);
     }
 
+
     @Override
-    public void deleteChat() {
-        if (mDatabaseManager != null) {
+    public void deleteChat()
+    {
+        if (mDatabaseManager != null)
+        {
             mDatabaseManager.deleteUserAndMessage(mReceiver.getObjectId());
             mView.finish();
         }

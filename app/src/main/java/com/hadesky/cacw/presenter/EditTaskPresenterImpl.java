@@ -110,45 +110,47 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             list.add(tm);
         }
 
-        mSubscription = mTask.saveObservable().observeOn(AndroidSchedulers.mainThread()).flatMap(new Func1<String, Observable<List<BmobObject>>>()
-        {
-            @Override
-            public Observable<List<BmobObject>> call(String s)
-            {
-                return Observable.just(list);
-            }
-        }).flatMap(new Func1<List<BmobObject>, Observable<List<BatchResult>>>()
-        {
-            @Override
-            public Observable<List<BatchResult>> call(List<BmobObject> bmobObjects)
-            {
-                BmobBatch batch = new BmobBatch();
-                batch.insertBatch(bmobObjects);
-                return batch.doBatchObservable();
-            }
-        }).subscribe(new Subscriber<List<BatchResult>>()
-        {
+        mSubscription = mTask.saveObservable().observeOn(AndroidSchedulers.mainThread())
 
-            @Override
-            public void onCompleted()
-            {
-                mView.hideProgress();
-            }
+                .flatMap(new Func1<String, Observable<List<BmobObject>>>()
+                {
+                    @Override
+                    public Observable<List<BmobObject>> call(String s)
+                    {
+                        return Observable.just(list);
+                    }
+                }).flatMap(new Func1<List<BmobObject>, Observable<List<BatchResult>>>()
+                {
+                    @Override
+                    public Observable<List<BatchResult>> call(List<BmobObject> bmobObjects)
+                    {
+                        BmobBatch batch = new BmobBatch();
+                        batch.insertBatch(bmobObjects);
+                        return batch.doBatchObservable();
+                    }
+                }).subscribe(new Subscriber<List<BatchResult>>()
+                {
 
-            @Override
-            public void onError(Throwable throwable)
-            {
-                mView.hideProgress();
-                mView.showMsg(throwable.getMessage());
-            }
+                    @Override
+                    public void onCompleted()
+                    {
+                        mView.hideProgress();
+                    }
 
-            @Override
-            public void onNext(List<BatchResult> batchResults)
-            {
-                mView.showMsg("创建成功");
-                mView.closePage();
-            }
-        });
+                    @Override
+                    public void onError(Throwable throwable)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<BatchResult> batchResults)
+                    {
+                        mView.showMsg("创建成功");
+                        mView.closePage();
+                    }
+                });
 
     }
 
@@ -178,7 +180,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         }
 
         //oldmember剩下的是要删除的
-
         if (mOldMembers.size() > 0)
         {
             List<BmobObject> del = new ArrayList<>();
@@ -193,31 +194,34 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             batch.insertBatch(add);
 
             JPushManager manager = MyApp.getJPushManager();
-            JPushSender sender = null;
-            for (TaskMember taskMember : addlist) {
-                sender = new JPushSender.SenderBuilder().addAlias(taskMember.getObjectId())
-                        .Message("加入任务", "您已加入任务" + mTask.getTitle()).build();
+            JPushSender.SenderBuilder builder = new JPushSender.SenderBuilder().Message("加入任务", "您已加入任务 " + mTask.getTitle());
+            for(TaskMember taskMember : addlist)
+            {
+                builder.addAlias(taskMember.getUser().getObjectId());
             }
-            if (sender != null) {
-                manager.sendMsg(sender, new Callback() {
+            JPushSender sender = builder.build();
+            if (sender != null)
+            {
+                manager.sendMsg(sender, new Callback()
+                {
                     @Override
-                    public void onFailure(Call call, IOException e) {
+                    public void onFailure(Call call, IOException e)
+                    {
 
                     }
 
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
+                    public void onResponse(Call call, Response response) throws IOException
+                    {
 
                     }
                 });
             }
         }
 
-
         List<BmobObject> task = new ArrayList<>();
         task.add(mTask);
         batch.updateBatch(task);
-
 
         mView.showProgress();
 

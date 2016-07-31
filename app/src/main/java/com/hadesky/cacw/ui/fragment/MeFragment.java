@@ -1,10 +1,7 @@
 package com.hadesky.cacw.ui.fragment;
 
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,7 +15,6 @@ import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
-import com.hadesky.cacw.util.ImageUtils;
 
 import java.io.IOException;
 
