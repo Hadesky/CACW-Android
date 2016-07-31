@@ -24,4 +24,9 @@ public final class IntentTag {
     public static final String TAG_TITLE = "title";
     public static final String TAG_TEAM_ID = "team_id";
     public static final String TAG_TASK_STATUS = "task_status";
+
+
+    public static final String ACTION_MSG_RECEIVE = "com.hadesky.cacw.intent.MSG";
+
+
 }

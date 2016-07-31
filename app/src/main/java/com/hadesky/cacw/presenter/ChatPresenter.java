@@ -9,6 +9,7 @@ import com.hadesky.cacw.bean.MessageBean;
 public interface ChatPresenter
 {
 
+    void loadNewMsg();
     void loadChatMessage();
 
     void send(String text);

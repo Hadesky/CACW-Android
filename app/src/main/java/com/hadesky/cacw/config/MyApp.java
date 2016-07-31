@@ -7,9 +7,9 @@ import android.content.Context;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hadesky.cacw.JPush.JPushManager;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.util.ActivityLifeCallBack;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
@@ -28,6 +28,8 @@ public class MyApp extends Application
     private static Context mContext;//App实例
     private static JPushManager sJPushManager;
 
+
+
     @Override
     public void onCreate()
     {
@@ -40,6 +42,7 @@ public class MyApp extends Application
         JPushInterface.init(this);
         Fresco.initialize(this);
         JPushManager.init("e1ddf6b7d3bb9c6ba2545a55","f8dd58cf4736e59d58a28432");
+        this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
     }
 
     public static JPushManager getJPushManager()
@@ -80,4 +83,5 @@ public class MyApp extends Application
     {
         return URL;
     }
+
 }

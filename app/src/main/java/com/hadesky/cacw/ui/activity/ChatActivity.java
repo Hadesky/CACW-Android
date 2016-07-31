@@ -1,14 +1,19 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +43,8 @@ public class ChatActivity extends BaseActivity implements ChatView
     private UserBean mReceiver;
     private ChatAdapter mAdapter;
     private TextView mTitle;
+    private BroadcastReceiver mBroadcastReceiver;
+
 
     @Override
     public int getLayoutId()
@@ -64,14 +71,13 @@ public class ChatActivity extends BaseActivity implements ChatView
     public void setupView()
     {
         UserBean bean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+
         if (bean==null)
         {
-            finish();
+           finish();
             return;
         }
         mReceiver = bean;
-
-        mTitle.setText(mReceiver.getNickName());
 
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,10 +138,30 @@ public class ChatActivity extends BaseActivity implements ChatView
             }
         });
 
+
         mPresenter=  new ChatPresenterImpl(this,mReceiver,mAdapter);
         mAdapter.setPresenter(mPresenter);
         mPresenter.loadChatMessage();
+        setupReciever();
+    }
 
+    private void setupReciever()
+    {
+        IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                Log.e("tag", "收到广播");
+                String id = intent.getStringExtra(IntentTag.TAG_USER_ID);
+                if (id.equals(mReceiver.getObjectId()))
+                {
+                    mPresenter.loadNewMsg();
+                }
+
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);
     }
 
 
@@ -178,6 +204,7 @@ public class ChatActivity extends BaseActivity implements ChatView
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override

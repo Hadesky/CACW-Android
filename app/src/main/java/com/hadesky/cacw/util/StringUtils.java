@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.MessageBean;
+import com.hadesky.cacw.bean.UserBean;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -171,5 +172,33 @@ public class StringUtils {
         result[1] = inviteString.substring(d[0] + 1, d[1]);
         result[2] = inviteString.substring(d[1] + 1, inviteString.length());
         return result;
+    }
+
+
+    public static String getObjectIdFromPushMsg(String msg)
+    {
+        if (msg==null)
+            return "";
+
+        if (msg.length()<12)
+            return "";
+        return msg.substring(2, 12);
+    }
+
+    public static String getContentFromPushMsg(String msg)
+    {
+        if (msg==null)
+            return "";
+
+        if (msg.length()<12)
+            return "";
+        return msg.substring(12);
+    }
+
+
+    //构造私信内容格式
+    public static String makeSendMsd(UserBean sender,String content)
+    {
+      return   "ms" + sender.getObjectId() + content;
     }
 }

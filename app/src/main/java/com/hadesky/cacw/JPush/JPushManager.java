@@ -1,10 +1,14 @@
 package com.hadesky.cacw.JPush;
 
+import java.io.IOException;
+
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /** 极光推送本地SDK
  * Created by dzysg on 2016/7/30 0030.
@@ -40,6 +44,21 @@ public class JPushManager
 
     public void sendMsg(JPushSender sender, Callback callback)
     {
+        if (callback==null)
+            callback = new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e)
+                {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException
+                {
+
+                }
+            };
+
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), sender.toString());
         Request request = new Request.Builder()
                 .url("https://api.jpush.cn/v3/push")
