@@ -8,6 +8,7 @@ import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.TeamMemberView;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -101,6 +102,12 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
     @Override
     public void deleteMember(final UserBean bean)
     {
+        if (bean.equals(MyApp.getCurrentUser()))
+        {
+            mView.showMsg("不能删除自己");
+            return;
+        }
+
         mView.showProgress();
         TeamMember del=null;
         for(TeamMember tm : mTeamMembers)
