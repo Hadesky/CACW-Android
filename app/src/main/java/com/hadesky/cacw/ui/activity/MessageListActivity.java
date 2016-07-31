@@ -1,6 +1,11 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +22,7 @@ import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.presenter.MessageListPresenter;
 import com.hadesky.cacw.presenter.MessageListPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.MessageListView;
 
 import java.util.ArrayList;
@@ -28,6 +34,8 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     private RecyclerView mRecyclerView;
     private BaseAdapter<MessageBean> mAdapter;
     private MessageListPresenter mListPresenter;
+    private BroadcastReceiver mBroadcastReceiver;
+
 
     @Override
     public int getLayoutId()
@@ -57,6 +65,20 @@ public class MessageListActivity extends BaseActivity implements MessageListView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mListPresenter = new MessageListPresenterImpl(this);
+        setupReciever();
+    }
+
+    private void setupReciever()
+    {
+        IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+               mListPresenter.loadMessageQuietly();
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Override
@@ -97,6 +119,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     {
         super.onDestroy();
         mListPresenter.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
