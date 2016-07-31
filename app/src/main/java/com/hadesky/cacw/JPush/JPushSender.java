@@ -155,7 +155,6 @@ public class JPushSender
                 mObject.accumulate("platform", mPlatform);
                 mObject.put("audience", mAudience == null ? "all" : mAudience);
                 mObject.put("message", mMessage);
-
             }
             catch (Exception e)
             {

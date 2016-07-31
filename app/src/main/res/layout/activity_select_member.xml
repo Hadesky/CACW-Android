@@ -39,7 +39,7 @@
         android:layout_height="50dp">
         <Button
             android:text="全选"
-            android:background="@drawable/bg_btn_select_member_normal"
+            android:background="@drawable/bg_btn_select_member"
             android:onClick="onSelectAll"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
