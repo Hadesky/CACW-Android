@@ -80,7 +80,6 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
 
         mPresenter.loadData();
 
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -100,9 +99,6 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
         if (adapter != null) {
             mRecyclerView.setAdapter(adapter);
 
-//            if (mRecyclerView.getScrollY() < mRecyclerView.getHeight()) {
-//                mScroller.setVisibility(View.INVISIBLE);
-//            }
         }
     }
 

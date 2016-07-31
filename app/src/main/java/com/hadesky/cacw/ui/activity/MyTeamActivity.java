@@ -12,7 +12,6 @@ import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.presenter.MyTeamPresenter;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.MyTeamView;
-import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
 import java.util.ArrayList;

@@ -1,8 +1,10 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.TeamMemberPresenter;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -24,6 +27,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import java.util.List;
 
 /**
+ *
  * Created by MicroStudent on 2016/7/16.
  */
 
@@ -31,7 +35,7 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         implements StickyRecyclerHeadersAdapter<TeamMemberAdapter.AlphabetViewHolder> {
 
     private UserBean mAdminUser;//团队管理员
-
+    private TeamMemberPresenter mPresenter;
     /**
      * 构造方法
      *
@@ -60,7 +64,27 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
                 }
             }
         });
+        viewHolder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
+            @Override
+            public boolean OnItemLongClick(View view, final int position)
+            {
+                new AlertDialog.Builder(mContext).setItems(new String[]{"删除"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                            if (mPresenter!=null)
+                                mPresenter.deleteMember(mDatas.get(position));
+                    }
+                }).show();
+                return true;
+            }
+        });
+
         return viewHolder;
+    }
+
+    public void setPresenter(TeamMemberPresenter presenter)
+    {
+        mPresenter = presenter;
     }
 
     /**
