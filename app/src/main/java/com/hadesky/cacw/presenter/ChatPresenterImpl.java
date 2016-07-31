@@ -81,7 +81,7 @@ public class ChatPresenterImpl implements ChatPresenter
                 {
                     if (list.size()>0)
                     {
-                        handlerNewChat(list);
+                        handleNewChat(list);
                     }
                 }
 
@@ -89,10 +89,8 @@ public class ChatPresenterImpl implements ChatPresenter
         });
     }
 
-    private void handlerNewChat(final List<MessageBean> mlist)
+    private void handleNewChat(final List<MessageBean> mlist)
     {
-
-
 
         for(MessageBean mb:mlist)
         {

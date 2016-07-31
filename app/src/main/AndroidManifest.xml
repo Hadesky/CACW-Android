@@ -4,15 +4,14 @@
 
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"/>
 
-    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
 
 
     <!-- 允许应用程序写数据到外部存储设备（主要是SD卡） -->
@@ -154,9 +153,13 @@
         </activity>
         <activity android:name=".ui.activity.SearchActivity">
         </activity>
-        <activity android:name=".ui.activity.MessageListActivity"
+        <activity
+            android:name=".ui.activity.MessageListActivity"
             android:launchMode="singleTask"
+            android:parentActivityName=".ui.activity.MainActivity"
             >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                             android:value=".ui.activity.MainActivity" />
         </activity>
         <activity android:name=".ui.activity.ChatActivity">
         </activity>
@@ -165,27 +168,28 @@
         <!-- Rich push 核心功能 since 2.0.6-->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
-            android:theme="@style/MyDialogStyle"
-            android:exported="false" >
+            android:exported="false"
+            android:theme="@style/MyDialogStyle">
         </activity>
 
         <!-- Required SDK核心功能-->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.ui.PushActivity"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能-->
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
         </service>
 
 
@@ -196,10 +200,10 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+                <action android:name="cn.jpush.android.intent.REGISTER"/>
+                <action android:name="cn.jpush.android.intent.REPORT"/>
+                <action android:name="cn.jpush.android.intent.PushService"/>
+                <action android:name="cn.jpush.android.intent.PUSH_TIME"/>
             </intent-filter>
         </service>
 
@@ -210,8 +214,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.intent.DaemonService"/>
+                <category android:name="${applicationId}"/>
             </intent-filter>
 
         </service>
@@ -222,47 +226,54 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>   <!--Required  显示通知栏 -->
+                <category android:name="${applicationId}"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
             <!-- Optional -->
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <data android:scheme="package" />
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
             </intent-filter>
 
         </receiver>
 
         <!-- Required SDK核心功能-->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false"/>
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
             android:name="com.hadesky.cacw.receiver.CACWReceiver"
-            android:exported="false"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="${applicationId}" />
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION"/>
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/> <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/> <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/> <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK"/> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION"/><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
+        <meta-data
+            android:name="JPUSH_CHANNEL"
+            android:value="developer-default"/>
         <!-- Required. AppKey copied from Portal -->
 
         <!--<meta-data android:name="JPUSH_APPKEY" android:value="02caa57e9f38da433e2af32b"/>-->
-        <meta-data android:name="JPUSH_APPKEY" android:value="e1ddf6b7d3bb9c6ba2545a55"/>
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="e1ddf6b7d3bb9c6ba2545a55"/>
     </application>
 
 </manifest>

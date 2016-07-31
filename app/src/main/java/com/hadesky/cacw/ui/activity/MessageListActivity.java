@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -110,8 +112,24 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if (item.getItemId()==android.R.id.home)
-            finish();
+        {
+            final Intent upIntent = NavUtils.getParentActivityIntent(this);
+            if (NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()) {
+                TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
+                finish();
+            } else {
+                NavUtils.navigateUpTo(this, upIntent);
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -119,7 +137,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     {
         super.onDestroy();
         mListPresenter.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+
     }
 
     @Override
