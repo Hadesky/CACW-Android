@@ -15,6 +15,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.MessageListActivity;
+import com.hadesky.cacw.ui.activity.TaskDetailActivity;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
 import com.hadesky.cacw.util.StringUtils;
 
@@ -44,8 +45,34 @@ public class CACWReceiver extends BroadcastReceiver
         //ms开头代表私信
         if (message.startsWith("ms"))
         {
-            handleMsg(context,title, message);
+            handleMsg(context, title, message);
+        } else if (message.startsWith("tm"))
+        {
+            handleTaskMsg(context, title, message);
         }
+    }
+
+    private void handleTaskMsg(Context context, String title, String message)
+    {
+
+        if (ActivityLifeCallBack.isForeground())//如果在前台,什么都不做
+            return;
+
+        String taskid = StringUtils.getObjectIdFromPushMsg(message);
+        String content = StringUtils.getContentFromPushMsg(message);
+
+        //弹通知,点击通知打开消息列表
+        Intent messageintent = new Intent(context, TaskDetailActivity.class);
+        messageintent.putExtra(IntentTag.TAG_TASK_ID, taskid);
+        PendingIntent i = PendingIntent.getActivity(context, 0, messageintent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(content).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).setContentIntent(i).build();
+        NotificationManager manager = MyApp.getNotificationManager();
+        if (manager != null)
+        {
+            manager.notify(0, notification);
+        }
+
     }
 
     private void handleMsg(Context context, String title, String message)
@@ -57,7 +84,6 @@ public class CACWReceiver extends BroadcastReceiver
 
         if (ActivityLifeCallBack.isForeground())//如果在前台，则发广播
         {
-
             Log.e(TAG, "应用在前台，发送广播");
             LocalBroadcastManager broadcastManagermanager = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
@@ -74,19 +100,13 @@ public class CACWReceiver extends BroadcastReceiver
         PendingIntent i = PendingIntent.getActivity(context, 0, messageintent, PendingIntent.FLAG_NO_CREATE);
 
 
-        Notification notification = new NotificationCompat
-                .Builder(context)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.icon)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setContentIntent(i)
-                .build();
+        Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(content).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).setContentIntent(i).build();
         NotificationManager manager = MyApp.getNotificationManager();
         if (manager != null)
         {
             manager.notify(0, notification);
         }
     }
+
+
 }

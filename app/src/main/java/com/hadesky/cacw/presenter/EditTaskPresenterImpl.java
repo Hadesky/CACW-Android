@@ -30,6 +30,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -105,10 +106,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
 
         mView.showProgress();
         final List<BmobObject> list = new ArrayList<>();
-        for(TaskMember tm : members)
-        {
-            list.add(tm);
-        }
+        list.addAll(members);
 
         mSubscription = mTask.saveObservable().observeOn(AndroidSchedulers.mainThread())
 
@@ -128,30 +126,54 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                         batch.insertBatch(bmobObjects);
                         return batch.doBatchObservable();
                     }
-                }).subscribe(new Subscriber<List<BatchResult>>()
-                {
-
+                })
+                .subscribe(new Action1<List<BatchResult>>() {
                     @Override
-                    public void onCompleted()
+                    public void call(List<BatchResult> batchResults)
                     {
+                        BmobException error = null;
+                        for(BatchResult br:batchResults)
+                        {
+                            if(br.getError() != null){
+                                error = br.getError();
+                                break;
+                            }
+
+                        }
                         mView.hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable)
-                    {
-                        mView.hideProgress();
-                        mView.showMsg(throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<BatchResult> batchResults)
-                    {
-                        mView.showMsg("创建成功");
-                        mView.closePage();
+                        if (error==null)
+                        {
+                            sendTaskCreatedPush(members);
+                            mView.showMsg("创建成功");
+                            mView.closePage();
+                        }else
+                        {
+                            mView.showMsg(error.getMessage());
+                        }
                     }
                 });
+    }
 
+    private void sendTaskCreatedPush(List<TaskMember> members)
+    {
+
+        //去掉自己
+        for(int i=0;i<members.size();i++)
+        {
+            if (members.get(i).getUser().equals(mCurrentUser))
+                members.remove(i);
+        }
+
+        String title="新任务";
+        String content = "tm" + mTask.getObjectId() + "你被加入任务 " + mTask.getTitle();
+
+        JPushSender.SenderBuilder builder =new JPushSender.SenderBuilder().Message(title,content);
+        for(TaskMember tm:members)
+        {
+            builder.addAlias(tm.getUser().getObjectId());
+        }
+        JPushSender sender = builder.build();
+        MyApp.getJPushManager().sendMsg(sender,null);
     }
 
 

@@ -149,7 +149,7 @@ public class SelectMemberActivity extends BaseActivity
             map.put(i, mCurrentUser.contains(bean));
         }
 
-        mAdapter = new SelectMemberAdapter(mAllUser, R.layout.item_select_members, map);
+        mAdapter = new SelectMemberAdapter(mAllUser, R.layout.list_item_select_members, map);
         mRecyclerView.setAdapter(mAdapter);
     }
 

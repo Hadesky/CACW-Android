@@ -18,6 +18,7 @@ import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TaskDetailView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.DateUtil;
@@ -104,16 +105,28 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
         TaskMember tm = (TaskMember) getIntent().getSerializableExtra("task");
         mIsFinished = getIntent().getBooleanExtra("isFinished",false);
-        if (tm == null) {
-            showToast("数据错误");
-            finish();
-            return;
-        }
-        mTask = tm.getTask();
-        showInfo(mTask);
 
-        mPresenter = new TaskDetailPresenterImpl(this, mTask);
-        mPresenter.LoadTaskMember();
+        if (tm == null) {
+            String taskid = getIntent().getStringExtra(IntentTag.TAG_TASK_ID);
+            if (taskid==null)
+            {
+                showToast("数据错误");
+                finish();
+            }else
+            {
+                mTask = new TaskBean();
+                mTask.setObjectId(taskid);
+                mPresenter = new TaskDetailPresenterImpl(this, mTask);
+                mPresenter.loadTaskInfo();
+            }
+        }else
+        {
+            mTask = tm.getTask();
+            showInfo(mTask);
+            mPresenter = new TaskDetailPresenterImpl(this, mTask);
+            mPresenter.LoadTaskMember();
+        }
+
     }
 
     @Override
@@ -163,6 +176,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void showInfo(TaskBean task) {
+        mTask = task;
         mTitle.setText(task.getTitle());
         mProject.setText(task.getProjectBean().getProjectName());
         mDetail.setText(task.getContent());

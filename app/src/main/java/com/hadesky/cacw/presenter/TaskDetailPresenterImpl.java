@@ -15,6 +15,7 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListListener;
+import cn.bmob.v3.listener.QueryListener;
 import rx.Subscription;
 
 /**
@@ -51,6 +52,31 @@ public class TaskDetailPresenterImpl implements TaskDetailPresenter {
                 else {
                     mTaskMembers = list;
                     mView.ShowMember(list);
+                }
+            }
+        });
+    }
+    @Override
+    public void loadTaskInfo()
+    {
+
+        mView.showProgress();
+        BmobQuery<TaskBean> query = new BmobQuery<>();
+        query.include("mProjectBean");
+        query.getObject(mTask.getObjectId(), new QueryListener<TaskBean>()
+        {
+            @Override
+            public void done(TaskBean taskBean, BmobException e)
+            {
+                mView.hideProgress();
+                if (e==null)
+                {
+                    mTask= taskBean;
+                    mView.showInfo(mTask);
+                    LoadTaskMember();
+                }else
+                {
+                    mView.showMsg(e.getMessage());
                 }
             }
         });
