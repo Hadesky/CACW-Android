@@ -29,4 +29,9 @@ public final class IntentTag {
     public static final String ACTION_MSG_RECEIVE = "com.hadesky.cacw.intent.MSG";
 
 
+    public static final String TAG_PUSH_TASK = "tk";
+    public static final String TAG_PUSH_MSG = "ms";
+    public static final String TAG_PUSH_TEAM = "tm";
+
+
 }

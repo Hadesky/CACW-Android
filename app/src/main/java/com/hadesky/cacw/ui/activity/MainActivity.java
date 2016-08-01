@@ -14,6 +14,7 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.database.DatabaseManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
@@ -54,10 +55,7 @@ public class MainActivity extends BaseActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
-
         mAppBarLayout  = (AppBarLayout) findViewById(R.id.appbar);
-
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
@@ -65,6 +63,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void setupView() {
+
+        if(MyApp.getCurrentUser()==null) {
+            navigateTo(LoginActivity.class, true);
+            finish();
+            return;
+        }
         setupTabView();
     }
 

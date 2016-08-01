@@ -12,6 +12,7 @@ import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
@@ -95,7 +96,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
 
         String title ="团队邀请";
         UserBean me = MyApp.getCurrentUser();
-        String content ="ms"+me.getObjectId()+me.getNickName() + "邀请你加入团队 " + mCurrentTeam.getTeamName();
+        String content = IntentTag.TAG_PUSH_MSG+me.getObjectId()+me.getNickName() + "邀请你加入团队 " + mCurrentTeam.getTeamName();
         JPushSender sender = new JPushSender.SenderBuilder().addAlias(invitedUser.getObjectId()).Message(title,content).build();
         MyApp.getJPushManager().sendMsg(sender,null);
     }

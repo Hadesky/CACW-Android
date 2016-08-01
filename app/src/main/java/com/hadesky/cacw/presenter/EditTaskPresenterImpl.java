@@ -8,6 +8,7 @@ import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.EditTaskView;
 
 import java.util.ArrayList;
@@ -135,7 +136,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                                 error = br.getError();
                                 break;
                             }
-
                         }
                         mView.hideProgress();
                         if (error==null)
@@ -161,7 +161,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                 members.remove(i);
         }
         String title="新任务";
-        String content = "tm" + mTask.getObjectId() + "你被加入任务 " + mTask.getTitle();
+        String content = IntentTag.TAG_PUSH_TASK + mTask.getObjectId() + "你被加入任务 " + mTask.getTitle();
 
         JPushSender.SenderBuilder builder =new JPushSender.SenderBuilder().Message(title,content);
         for(TaskMember tm:members)
@@ -198,7 +198,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         }
 
         String title="任务通知";
-        String content = "tm" + mTask.getObjectId() + "任务 " + mOldTask.getTitle()+" 信息发生变化";
+        String content = IntentTag.TAG_PUSH_TASK + mTask.getObjectId() + "任务 " + mOldTask.getTitle()+" 信息发生变化";
         JPushSender.SenderBuilder builder =new JPushSender.SenderBuilder().Message(title,content);
         for(TaskMember tm:members)
         {

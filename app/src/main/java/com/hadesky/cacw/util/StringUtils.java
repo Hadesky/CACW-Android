@@ -6,15 +6,16 @@ import android.support.annotation.Nullable;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.tag.IntentTag;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
  * Created by 45517 on 2016/7/22.
  */
-public class StringUtils {
+public class StringUtils
+{
 
     /**
      * 判断是否为电话号码
@@ -22,8 +23,10 @@ public class StringUtils {
      * @param s 判断的字符串
      * @return 是否电话号码
      */
-    public static boolean isPhoneNumber(String s) {
-        if (s == null || s.length() == 0) {
+    public static boolean isPhoneNumber(String s)
+    {
+        if (s == null || s.length() == 0)
+        {
             return false;
         }
         Pattern pattern = Pattern.compile("0?(13|14|15|18)[0-9]{9}");
@@ -31,8 +34,10 @@ public class StringUtils {
         return matcher.matches();
     }
 
-    public static boolean isEmail(String s) {
-        if (s == null || s.length() == 0) {
+    public static boolean isEmail(String s)
+    {
+        if (s == null || s.length() == 0)
+        {
             return false;
         }
         Pattern pattern = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
@@ -40,9 +45,12 @@ public class StringUtils {
         return matcher.matches();
     }
 
-    public static boolean isAllDigest(String key) {
-        for (int i = 0; i < key.length(); i++) {
-            if (key.charAt(i) < '0' || key.charAt(i) > '9') {
+    public static boolean isAllDigest(String key)
+    {
+        for(int i = 0; i < key.length(); i++)
+        {
+            if (key.charAt(i) < '0' || key.charAt(i) > '9')
+            {
                 return false;
             }
         }
@@ -53,29 +61,37 @@ public class StringUtils {
      * 组成邀请消息字符串
      */
     @Nullable
-    public static String composeInviteOrJoinString(String teamId, String teamName, String message) {
-        if (teamId == null || message == null || teamId.length() == 0) {
+    public static String composeInviteOrJoinString(String teamId, String teamName, String message)
+    {
+        if (teamId == null || message == null || teamId.length() == 0)
+        {
             //不允许teamId为空
             return null;
         }
-        if (message.length() == 0) {
+        if (message.length() == 0)
+        {
             return teamId + '$' + teamName;
         }
         return teamId + '$' + teamName + '$' + message;
     }
 
-    public static String removeBrackets(String s) {
-        if (s == null || s.length() <= 1) {
+    public static String removeBrackets(String s)
+    {
+        if (s == null || s.length() <= 1)
+        {
             return s;
         }
-        if (s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')') {
+        if (s.charAt(0) == '(' && s.charAt(s.length() - 1) == ')')
+        {
             return s.substring(1, s.length() - 1);
         }
         return s;
     }
 
-    public static String roundWithBrackets(String s) {
-        if (s == null) {
+    public static String roundWithBrackets(String s)
+    {
+        if (s == null)
+        {
             return null;
         }
         return '(' + s + ')';
@@ -83,45 +99,53 @@ public class StringUtils {
 
     /**
      * 根据拿到的Bean来生成显示给用户看的Message
-     *
      * @param bean 要生成message的Bean
      * @return message
      */
-    public static String messageBean2Msg(MessageBean bean, Context context) {
-        if (bean == null || context == null) {
+    public static String messageBean2Msg(MessageBean bean, Context context)
+    {
+        if (bean == null || context == null)
+        {
             return "";
         }
-        if (bean.getType().equals(MessageBean.TYPE_USER_TO_USER)) {
+        if (bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        {
             return bean.getMsg();
         }
-        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)) {
+        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER))
+        {
             //邀请新成员
             String[] defMsg = context.getResources().getStringArray(R.array.default_invite_message);
             String[] cut = cutInviteOrJoinString(bean.getMsg());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
 
-            if (cut.length == 2) {
+            if (cut.length == 2)
+            {
                 //只包含TeamId和teamName
                 return headMsg + defMsg[2];
-            } else {
-//                含有msg
+            } else
+            {
+                //                含有msg
                 String additionMsg = String.format(defMsg[1], cut[2]);
                 return headMsg + additionMsg + defMsg[2];
             }
         }
-        if (bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM)) {
+        if (bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM))
+        {
             //申请加入
             String[] defMsg = context.getResources().getStringArray(R.array.default_join_message);
             String[] cut = cutInviteOrJoinString(bean.getMsg());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
 
-            if (cut.length == 2) {
+            if (cut.length == 2)
+            {
                 //只包含TeamId和teamName
                 return headMsg + defMsg[2];
-            } else {
-//                含有msg
+            } else
+            {
+                //                含有msg
                 String additionMsg = String.format(defMsg[1], cut[2]);
                 return headMsg + additionMsg + defMsg[2];
             }
@@ -133,12 +157,28 @@ public class StringUtils {
      * 根据获取到的MessageBean解析得到TeamId
      */
     @Nullable
-    public static String getTeamIdByMessageBean(MessageBean bean) {
-        if (bean == null || bean.getType().equals(MessageBean.TYPE_USER_TO_USER)) {
+    public static String getTeamIdByMessageBean(MessageBean bean)
+    {
+        if (bean == null || bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        {
             return null;
         }
         String[] cut = cutInviteOrJoinString(bean.getMsg());
         return cut[0];
+    }
+
+    /**
+     * 根据获取到的MessageBean解析得到TeamId
+     */
+    @Nullable
+    public static String getTeamNameByMessageBean(MessageBean bean)
+    {
+        if (bean == null || bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        {
+            return null;
+        }
+        String[] cut = cutInviteOrJoinString(bean.getMsg());
+        return cut[1];
     }
 
     /**
@@ -147,20 +187,25 @@ public class StringUtils {
      * @param inviteString 拿到的消息内容
      * @return length为2时只包含teamId和teamName，为3时0是teamId，1是teamName,2是msg
      */
-    public static String[] cutInviteOrJoinString(String inviteString) {
-        if (inviteString == null) {
+    public static String[] cutInviteOrJoinString(String inviteString)
+    {
+        if (inviteString == null)
+        {
             return null;
         }
         int[] d = new int[2];
-        for (int i = 0,j = 0; i < inviteString.length(); i++) {
-            if (j <= 1 && inviteString.charAt(i) == '$') {
+        for(int i = 0, j = 0; i < inviteString.length(); i++)
+        {
+            if (j <= 1 && inviteString.charAt(i) == '$')
+            {
                 d[j] = i;
                 j++;
                 if (j == 2)
                     break;
             }
         }
-        if (d[1] == 0) {
+        if (d[1] == 0)
+        {
             //没有附带msg,直接返回的就是teamId和teamName
             String[] result = new String[2];
             result[0] = inviteString.substring(0, d[0]);
@@ -177,28 +222,27 @@ public class StringUtils {
 
     public static String getObjectIdFromPushMsg(String msg)
     {
-        if (msg==null)
+        if (msg == null)
             return "";
 
-        if (msg.length()<12)
+        if (msg.length() < 12)
             return "";
         return msg.substring(2, 12);
     }
 
     public static String getContentFromPushMsg(String msg)
     {
-        if (msg==null)
+        if (msg == null)
             return "";
 
-        if (msg.length()<12)
+        if (msg.length() < 12)
             return "";
         return msg.substring(12);
     }
 
-
     //构造私信内容格式
-    public static String makeSendMsd(UserBean sender,String content)
+    public static String makeSendMsd(UserBean sender, String content)
     {
-      return   "ms" + sender.getObjectId() + content;
+        return IntentTag.TAG_PUSH_MSG + sender.getObjectId() + content;
     }
 }

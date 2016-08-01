@@ -30,15 +30,15 @@ import cn.bmob.v3.listener.SaveListener;
  */
 public class ChatPresenterImpl implements ChatPresenter
 {
-   private   ChatView mView;
-    private  UserBean mReceiver;
-    private  UserBean mUSer;
-    private  DatabaseManager mDatabaseManager;
-    private  ChatAdapter mAdapter;
+    private ChatView mView;
+    private UserBean mReceiver;
+    private UserBean mUSer;
+    private DatabaseManager mDatabaseManager;
+    private ChatAdapter mAdapter;
 
-    private  boolean mNoMore;
-    private  int page = 1;
-    private  int pageSize = 20;
+    private boolean mNoMore;
+    private int page = 1;
+    private int pageSize = 20;
     private boolean mLoading = false;
     private boolean haveNewMsg = false;
 
@@ -67,7 +67,6 @@ public class ChatPresenterImpl implements ChatPresenter
     }
 
 
-
     @Override
     public void loadNewMsg()//从网络获取最新消息
     {
@@ -81,18 +80,19 @@ public class ChatPresenterImpl implements ChatPresenter
         BmobQuery<MessageBean> query = new BmobQuery<>();
         query.addWhereEqualTo("mReceiver", new BmobPointer(mUSer));
         query.addWhereEqualTo("mSender", new BmobPointer(mReceiver));
-        query.findObjects(new FindListener<MessageBean>() {
+        query.findObjects(new FindListener<MessageBean>()
+        {
             @Override
             public void done(List<MessageBean> list, BmobException e)
             {
-                if (e==null)
+                if (e == null)
                 {
-                    if (list.size()>0)
+                    if (list.size() > 0)
                     {
                         handleNewChat(list);
-                    }else
-                        mLoading =false;
-                }else
+                    } else
+                        mLoading = false;
+                } else
                 {
                     mView.showMsg(e.getMessage());
                     mLoading = false;
@@ -105,7 +105,7 @@ public class ChatPresenterImpl implements ChatPresenter
     private void handleNewChat(final List<MessageBean> mlist)
     {
 
-        for(MessageBean mb:mlist)
+        for(MessageBean mb : mlist)
         {
             mb.setHasRead(true);
         }
@@ -115,18 +115,19 @@ public class ChatPresenterImpl implements ChatPresenter
         List<BmobObject> olist = new ArrayList<>();
         olist.addAll(mlist);
         b.deleteBatch(olist);
-        b.doBatch(new QueryListListener<BatchResult>() {
+        b.doBatch(new QueryListListener<BatchResult>()
+        {
             @Override
             public void done(List<BatchResult> list, BmobException e)
             {
-                  if (e==null)
-                  {
-                      mDatabaseManager.saveMessage(mlist);//保存到本地数据库
-                      loadChatMessage();//重新从数据库获取一次
-                  }else
-                  {
-                      mView.showMsg(e.getMessage());
-                  }
+                if (e == null)
+                {
+                    mDatabaseManager.saveMessage(mlist);//保存到本地数据库
+                    loadChatMessage();//重新从数据库获取一次
+                } else
+                {
+                    mView.showMsg(e.getMessage());
+                }
                 mLoading = false;
                 if (haveNewMsg)
                 {
@@ -168,17 +169,17 @@ public class ChatPresenterImpl implements ChatPresenter
     }
 
 
-    //发送推送
+    //发送私信推送
     private void sendPush(String text)
     {
 
         String title;
         String content;
 
-        title = mUSer.getNickName()+" 给你发了一条消息";
+        title = mUSer.getNickName() + " 给你发了一条消息";
         content = StringUtils.makeSendMsd(mUSer, text);
         JPushSender sender = new JPushSender.SenderBuilder().addAlias(mReceiver.getObjectId()).Message(title, content).build();
-        MyApp.getJPushManager().sendMsg(sender,null);
+        MyApp.getJPushManager().sendMsg(sender, null);
     }
 
     @Override
@@ -206,11 +207,9 @@ public class ChatPresenterImpl implements ChatPresenter
     public void AcceptJoinTeam(final MessageBean bean)
     {
 
-
         //先判断当前是否已经是成员
         TeamBean b = new TeamBean();
         b.setObjectId(StringUtils.getTeamIdByMessageBean(bean));
-
         UserBean ub;
 
         //如果这个消息是团队拉我
@@ -223,7 +222,8 @@ public class ChatPresenterImpl implements ChatPresenter
         query.addWhereEqualTo("mUser", new BmobPointer(ub));
         query.addWhereEqualTo("mTeam", new BmobPointer(b));
 
-        query.findObjects(new FindListener<TeamMember>() {
+        query.findObjects(new FindListener<TeamMember>()
+        {
             @Override
             public void done(List<TeamMember> list, BmobException e)
             {
@@ -247,6 +247,26 @@ public class ChatPresenterImpl implements ChatPresenter
 
     }
 
+    //通知对方请求被接受
+    private void sendAcceptPush(MessageBean bean)
+    {
+        //如果这个消息是团队拉我，通知团队管理员
+        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER))
+        {
+            String title = "团队消息";
+            String content =  "用户 "+mUSer.getNickName()+ "接受了你的团队邀请";
+            JPushSender sender = new JPushSender.SenderBuilder().addAlias(bean.getSender().getObjectId()).Message(title, content).build();
+            MyApp.getJPushManager().sendMsg(sender, null);
+
+        } else //否则就是别人要进我的团队，通知申请者
+        {
+            String teamname = StringUtils.getTeamNameByMessageBean(bean);
+            String title = "团队消息";
+            String content =  "你的申请已被接受，成功加入团队 "+teamname;
+            JPushSender sender = new JPushSender.SenderBuilder().addAlias(bean.getSender().getObjectId()).Message(title, content).build();
+            MyApp.getJPushManager().sendMsg(sender, null);
+        }
+    }
 
     private void addToTeam(final MessageBean bean)
     {
@@ -270,6 +290,7 @@ public class ChatPresenterImpl implements ChatPresenter
             {
                 if (e == null)
                 {
+                    sendAcceptPush(bean);
                     mAdapter.delete(bean);
                     mDatabaseManager.deleteInviteMessage(bean);
                     mView.showMsg("加入成功");

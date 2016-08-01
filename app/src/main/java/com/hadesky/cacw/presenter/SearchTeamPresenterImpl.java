@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SearchTeamAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
@@ -175,8 +176,17 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
         builder.create().show();
     }
 
+    private void sendPush(TeamBean teamBean)
+    {
+        String title = "团队申请";
+        String content = "用户 " + MyApp.getCurrentUser().getNickName() + "申请加入团队 " + teamBean.getTeamName();
+        content = StringUtils.makeSendMsd(MyApp.getCurrentUser(), content);
+        JPushSender sender = new JPushSender.SenderBuilder().Message(title, content).addAlias(teamBean.getAdminUser().getObjectId()).build();
+        MyApp.getJPushManager().sendMsg(sender,null);
+    }
+
     private void handleJoinMessage(String s, final int position) {
-        TeamBean teamToApply = mAdapter.getDatas().get(position);
+        final TeamBean teamToApply = mAdapter.getDatas().get(position);
         MessageBean messageBean = new MessageBean();
         messageBean.setSender(MyApp.getCurrentUser());
         messageBean.setReceiver(teamToApply.getAdminUser());
@@ -188,6 +198,7 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
                 if (e == null) {
                     mView.showMsg("成功发送请求");
                     ((SearchTeamFragment) mView).disableJoinButton(position);
+                    sendPush(teamToApply);
                 } else {
                     mView.showMsg("发送失败，请检查网络");
                 }

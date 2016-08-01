@@ -14,6 +14,7 @@ import android.util.Log;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.TaskDetailActivity;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
@@ -43,10 +44,10 @@ public class CACWReceiver extends BroadcastReceiver
             return;
 
         //ms开头代表私信，tm代表任务信息
-        if (message.startsWith("ms"))
+        if (message.startsWith(IntentTag.TAG_PUSH_MSG))
         {
             handleMsg(context, title, message);
-        } else if (message.startsWith("tm"))
+        } else if (message.startsWith(IntentTag.TAG_PUSH_TASK))
         {
             handleTaskMsg(context, title, message);
         }else
@@ -55,12 +56,22 @@ public class CACWReceiver extends BroadcastReceiver
         }
     }
 
+
+    //普通消息点击打开主界面
     private void handleNormalMsg(Context context, String title, String message)
     {
         if (ActivityLifeCallBack.isForeground())//如果在前台,什么都不做
             return;
 
-        Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(message).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).build();
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent i = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new NotificationCompat
+                .Builder(context).setContentTitle(title)
+                .setContentText(message).setAutoCancel(true)
+                .setSmallIcon(R.mipmap.icon)
+                .setContentIntent(i)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .build();
         NotificationManager manager = MyApp.getNotificationManager();
         if (manager != null)
         {
