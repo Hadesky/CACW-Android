@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -72,15 +73,16 @@ public class MessageListActivity extends BaseActivity implements MessageListView
 
     private void setupReciever()
     {
-        IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
+
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent)
             {
-               mListPresenter.loadMessageQuietly();
+                Log.e("tag", "MessageListActivity 收到广播");
+                mListPresenter.loadMessageQuietly();
             }
         };
-        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);
+
     }
 
     @Override
@@ -149,6 +151,8 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     protected void onResume() {
         super.onResume();
         mListPresenter.loadMessageQuietly();
+        IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Override

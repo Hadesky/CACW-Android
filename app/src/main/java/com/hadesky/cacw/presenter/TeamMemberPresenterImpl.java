@@ -118,7 +118,6 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                 break;
             }
         }
-
         if (del!=null)
         {
             del.delete(new UpdateListener() {
@@ -135,6 +134,10 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                     }
                 }
             });
+        }else
+        {
+            mView.hideProgress();
+            mView.showMsg("该成员已经删除");
         }
     }
 
@@ -156,6 +159,12 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                 }
                 else
                 {
+                    if (list.size()==0)
+                    {
+                        mView.showMsg("删除成功");
+                        loadData();
+                        return;
+                    }
                     List<BmobObject> members = new ArrayList<>();
                     for(TaskMember tm : list)
                     {

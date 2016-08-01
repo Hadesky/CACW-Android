@@ -46,7 +46,6 @@ public class CACWReceiver extends BroadcastReceiver
         {
             handleMsg(context,title, message);
         }
-
     }
 
     private void handleMsg(Context context, String title, String message)

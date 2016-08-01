@@ -1,10 +1,10 @@
 package com.hadesky.cacw.presenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.InvitePersonAdapter;
 import com.hadesky.cacw.adapter.SearchPersonAdapter;
@@ -69,7 +69,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
     @Override
     public void handleInviteMessage(String s, final int position) {
         if (mInvitePersonFragment != null && mCurrentTeam != null) {
-            UserBean invitedUser = mAdapter.getDatas().get(position);
+            final UserBean invitedUser = mAdapter.getDatas().get(position);
             MessageBean messageBean = new MessageBean();
             messageBean.setSender(MyApp.getCurrentUser());
             messageBean.setReceiver(invitedUser);
@@ -81,12 +81,23 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
                     if (e == null) {
                         mInvitePersonFragment.showMsg("成功发送邀请");
                         mInvitePersonFragment.disableInviteButton(position);
+                        sendPush(invitedUser);
                     } else {
                         mInvitePersonFragment.showMsg("发送失败，请检查网络");
                     }
                 }
             });
         }
+    }
+
+    private void sendPush(UserBean invitedUser)
+    {
+
+        String title ="团队邀请";
+        UserBean me = MyApp.getCurrentUser();
+        String content ="ms"+me.getObjectId()+me.getNickName() + "邀请你加入团队 " + mCurrentTeam.getTeamName();
+        JPushSender sender = new JPushSender.SenderBuilder().addAlias(invitedUser.getObjectId()).Message(title,content).build();
+        MyApp.getJPushManager().sendMsg(sender,null);
     }
 
     private String handleMessage(String msg) {

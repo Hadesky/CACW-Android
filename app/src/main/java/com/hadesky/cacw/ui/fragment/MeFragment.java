@@ -1,7 +1,12 @@
 package com.hadesky.cacw.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +15,7 @@ import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.FinishedTaskActivity;
 import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
@@ -30,6 +36,8 @@ import okhttp3.Response;
 public class MeFragment extends BaseFragment implements View.OnClickListener {
     private SimpleDraweeView mAvatarImageView;
     private TextView userName;
+    private View mCircle;
+    private BroadcastReceiver mBroadcastReceiver;
 
     @Override
     public int getLayoutId() {
@@ -38,6 +46,8 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initViews(View view) {
+
+        mCircle = view.findViewById(R.id.view_red_circle);
         mAvatarImageView = (SimpleDraweeView) view.findViewById(R.id.iv_avatar);
         userName = (TextView) view.findViewById(R.id.tv_me_username);
         //暂时使用这种方式设置listener
@@ -52,6 +62,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void setupViews(Bundle bundle) {
 
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                Log.e("tag", "MeFragment 收到广播");
+                mCircle.setVisibility(View.VISIBLE);
+            }
+        };
     }
 
     private void loadUserInfo() {
@@ -66,6 +84,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
         }
         return null;
     }
+
+
+
 
     /**
      * 在Session中获取昵称
@@ -97,23 +118,11 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_remind:
+                mCircle.setVisibility(View.GONE);
                 intent = new Intent(getContext(), MessageListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.layout_memo:
-//                final NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext());
-//                builder.setTicker("HelloWorld").setContentTitle("标题").setContentText("正文").setSubText("子标题")
-//                        .setNumber(3).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL);
-//                ImageUtils.getBitmapFromFresco(getAvatarUrl(), getContext(), new ImageUtils.Callback() {
-//                    @Override
-//                    public void receiveBitmap(Bitmap bitmap) {
-//                        builder.setLargeIcon(bitmap);
-//                        NotificationManager manager = MyApp.getNotificationManager();
-//                        if (manager != null) {
-//                            manager.notify(1, builder.build());
-//                        }
-//                    }
-//                });
                 new Thread(){
                     @Override
                     public void run() {
@@ -132,7 +141,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                         });
                     }
                 }.start();
-
                 break;
             case R.id.layout_my_team:
                 Intent intent1 = new Intent(getContext(), MyTeamActivity.class);
@@ -147,5 +155,14 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         loadUserInfo();
+        IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(mBroadcastReceiver, filter);
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
     }
 }

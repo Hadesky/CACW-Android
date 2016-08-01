@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/color_base_window_background"
     android:orientation="vertical"
     >
@@ -110,10 +111,23 @@
                 android:src="@drawable/ic_alarm_clock"/>
 
             <TextView
+                android:id="@+id/tv_my_msg"
                 style="@style/tv_item_title_horizontal_relative"
                 android:layout_toRightOf="@id/iv_remind"
                 android:text="@string/setting_message"
                 />
+            <View
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/view_red_circle"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@id/tv_my_msg"
+                android:layout_toEndOf="@id/tv_my_msg"
+                android:background="@drawable/circle"
+                android:layout_height="10dp"
+                android:layout_width="10dp"
+                />
+
         </RelativeLayout>
     </LinearLayout>
 
