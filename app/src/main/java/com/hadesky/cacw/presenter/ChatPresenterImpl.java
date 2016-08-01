@@ -39,9 +39,8 @@ public class ChatPresenterImpl implements ChatPresenter
     private boolean mNoMore;
     private int page = 1;
     private int pageSize = 20;
-    private boolean mLoading = false;
+    private boolean mLoading = false; //代表当前正在获取聊天记录
     private boolean haveNewMsg = false;
-
 
     public ChatPresenterImpl(ChatView view, UserBean receiver, ChatAdapter adapter)
     {
@@ -71,7 +70,7 @@ public class ChatPresenterImpl implements ChatPresenter
     public void loadNewMsg()//从网络获取最新消息
     {
 
-        if (mLoading)//如果上一次加载还没有完成，先等上一次加载完
+        if (mLoading)//如果上一次加载还没有完成，先等上一次加载完，并记录haveNewMsg为true，当加载完成后再进行一次loadNewMsg
         {
             haveNewMsg = true;
             return;

@@ -2,6 +2,7 @@ package com.hadesky.cacw.presenter;
 
 import android.util.Log;
 
+import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TeamMemberAdapter;
 import com.hadesky.cacw.bean.TaskMember;
@@ -162,6 +163,7 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                     if (list.size()==0)
                     {
                         mView.showMsg("删除成功");
+                        sendDeleteMemberPush(bean);
                         mAdapter.getDatas().remove(bean);
                         mAdapter.notifyDataSetChanged();
                         return;
@@ -184,6 +186,7 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                             {
                                 mView.showMsg("删除成功");
                                 mAdapter.getDatas().remove(bean);
+                                sendDeleteMemberPush(bean);
                                 mAdapter.notifyDataSetChanged();
                             } else
                                 mView.showMsg(e.getMessage());
@@ -192,6 +195,16 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                 }
             }
         });
+    }
+
+    private void sendDeleteMemberPush(UserBean bean)
+    {
+        String title;
+        String content;
+        title = "团队消息";
+        content = "你已经被移出团队 " + mTeamBean.getTeamName();
+        JPushSender sender = new JPushSender.SenderBuilder().addAlias(bean.getObjectId()).Message(title, content).build();
+        MyApp.getJPushManager().sendMsg(sender, null);
     }
 
     @Override
