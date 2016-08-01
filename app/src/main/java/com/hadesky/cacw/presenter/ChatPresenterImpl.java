@@ -236,7 +236,6 @@ public class ChatPresenterImpl implements ChatPresenter
                         mAdapter.delete(bean);
                         mDatabaseManager.deleteInviteMessage(bean);
                     }
-
                 } else
                 {
                     mView.showMsg(e.getMessage());

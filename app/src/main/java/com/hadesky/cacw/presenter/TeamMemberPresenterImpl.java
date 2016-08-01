@@ -109,6 +109,12 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
             return;
         }
 
+        if (!mTeamBean.getAdminUser().equals(mUsers))
+        {
+            mView.showMsg("你当前不是团队管理员");
+            return;
+        }
+
         mView.showProgress();
         TeamMember del=null;
         for(TeamMember tm : mTeamMembers)
