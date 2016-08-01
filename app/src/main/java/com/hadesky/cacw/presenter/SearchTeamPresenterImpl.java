@@ -3,7 +3,6 @@ package com.hadesky.cacw.presenter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -73,7 +72,6 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
      */
     private void platformSearch(String key) {
         createMainQuery(key);
-
         mSubscription = mQuery.findObjects(new FindListener<TeamBean>() {
             @Override
             public void done(List<TeamBean> list, BmobException e) {
@@ -118,6 +116,10 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
         BmobQuery<TeamBean> nameQuery = new BmobQuery<>();
         nameQuery.addWhereContains("mTeamName", key);
         queries.add(nameQuery);
+
+        BmobQuery<TeamBean> NumQuery = new BmobQuery<>();
+        nameQuery.addWhereEqualTo("mTeamId", key);
+        queries.add(NumQuery);
 
         mQuery = new BmobQuery<>();
         mQuery.or(queries);
