@@ -39,6 +39,8 @@ public class ChatPresenterImpl implements ChatPresenter
     private  boolean mNoMore;
     private  int page = 1;
     private  int pageSize = 20;
+    private boolean mLoading = false;
+    private boolean haveNewMsg = false;
 
 
     public ChatPresenterImpl(ChatView view, UserBean receiver, ChatAdapter adapter)
@@ -70,6 +72,12 @@ public class ChatPresenterImpl implements ChatPresenter
     public void loadNewMsg()//从网络获取最新消息
     {
 
+        if (mLoading)//如果上一次加载还没有完成，先等上一次加载完
+        {
+            haveNewMsg = true;
+            return;
+        }
+        mLoading = true;
         BmobQuery<MessageBean> query = new BmobQuery<>();
         query.addWhereEqualTo("mReceiver", new BmobPointer(mUSer));
         query.addWhereEqualTo("mSender", new BmobPointer(mReceiver));
@@ -82,7 +90,12 @@ public class ChatPresenterImpl implements ChatPresenter
                     if (list.size()>0)
                     {
                         handleNewChat(list);
-                    }
+                    }else
+                        mLoading =false;
+                }else
+                {
+                    mView.showMsg(e.getMessage());
+                    mLoading = false;
                 }
 
             }
@@ -114,6 +127,12 @@ public class ChatPresenterImpl implements ChatPresenter
                   {
                       mView.showMsg(e.getMessage());
                   }
+                mLoading = false;
+                if (haveNewMsg)
+                {
+                    loadNewMsg();
+                    haveNewMsg = false;
+                }
             }
         });
     }

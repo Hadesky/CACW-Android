@@ -78,7 +78,7 @@ public class ChatActivity extends BaseActivity implements ChatView
             return;
         }
         mReceiver = bean;
-
+        mTitle.setText(bean.getNickName());
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)

@@ -25,11 +25,13 @@ import rx.Subscription;
  */
 public class MessageListPresenterImpl implements MessageListPresenter
 {
-    MessageListView mView;
-    DatabaseManager mDatabaseManager;
-    UserBean mUser;
-    Subscription mSubscription;
-    List<MessageBean> mNewMessage;
+    private MessageListView mView;
+    private  DatabaseManager mDatabaseManager;
+    private  UserBean mUser;
+    private  Subscription mSubscription;
+    private List<MessageBean> mNewMessage;
+    private boolean mLoading = false;
+    private boolean haveNewMsg = false;
 
     public MessageListPresenterImpl(MessageListView view)
     {
@@ -51,8 +53,15 @@ public class MessageListPresenterImpl implements MessageListPresenter
     @Override
     public void loadMessage()
     {
-        mView.showProgress();
 
+        if (mLoading)
+        {
+            haveNewMsg = true;
+            return;
+        }
+
+        mLoading = true;
+        mView.showProgress();
         BmobQuery<MessageBean> query = new BmobQuery<>();
         query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
         query.include("mSender,mReceiver");
@@ -66,6 +75,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
                 {
                     mView.hideProgress();
                     mView.showMsg(e.getMessage());
+                    mLoading = false;
                 } else
                 {
                     mNewMessage = list;
@@ -73,6 +83,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
                     {
                         mView.hideProgress();
                         loadMsgFromDB();//直接获取本地数据
+                        mLoading = false;
                     }else
                         deleteFromBmob(list); //如果有新数据，先删除后台的数据
                 }
@@ -83,6 +94,15 @@ public class MessageListPresenterImpl implements MessageListPresenter
 
     @Override
     public void loadMessageQuietly() {
+
+        if (mLoading)//如果上一次加载还没有完成，先等上一次加载完
+        {
+            haveNewMsg = true;
+            return;
+        }
+
+        mLoading = true;
+
         BmobQuery<MessageBean> query = new BmobQuery<>();
         query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
         query.include("mSender,mReceiver");
@@ -96,6 +116,12 @@ public class MessageListPresenterImpl implements MessageListPresenter
                 if (list.size()==0) //如果无有新数据
                 {
                     loadMsgFromDB();//直接获取本地数据
+                    mLoading = false;
+                    if (haveNewMsg)
+                    {
+                        haveNewMsg = false;
+                        loadMessageQuietly();
+                    }
                 }else
                     deleteFromBmob(list); //如果有新数据，先删除后台的数据
             }
@@ -110,10 +136,16 @@ public class MessageListPresenterImpl implements MessageListPresenter
             @Override
             public void done(List<BatchResult> list, BmobException e)
             {
+                mLoading = false;
                 if (e==null)//删除成功
                 {
                     mDatabaseManager.saveMessage(mNewMessage);//先存到数据库
                     loadMsgFromDB(); //再从数据库取出
+                    if (haveNewMsg)
+                    {
+                        haveNewMsg = false;
+                        loadMessageQuietly();
+                    }
                 }else
                 {
                     mView.hideProgress();
