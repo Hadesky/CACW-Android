@@ -3,11 +3,9 @@ package com.hadesky.cacw.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,44 +43,58 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
     public static final int TYPE_TEAM = 0;
     public static final int TYPE_NEW_TEAM = 1;
 
-    public MyTeamAdapter(List<TeamMember> list, @LayoutRes int layoutid) {
+    public MyTeamAdapter(List<TeamMember> list, @LayoutRes int layoutid)
+    {
         super(list, layoutid);
     }
 
+    private boolean mCache = false;
     private Subscription mSubscription;
 
     @Override
-    public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_NEW_TEAM) {
+    public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        if (viewType == TYPE_NEW_TEAM)
+        {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_new_team, parent, false);
             mContext = parent.getContext();
             return createNewTeamViewHolder(view);
-        } else {
+        } else
+        {
             return super.onCreateViewHolder(parent, viewType);
         }
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder<TeamMember> holder, int position) {
-        if (position >= mDatas.size()) {
+    public void onBindViewHolder(BaseViewHolder<TeamMember> holder, int position)
+    {
+        if (position >= mDatas.size())
+        {
             holder.setData(null);
-        } else {
+        } else
+        {
             super.onBindViewHolder(holder, position);
         }
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(int position)
+    {
         return position == mDatas.size() ? TYPE_NEW_TEAM : TYPE_TEAM;
     }
 
-    private BaseViewHolder<TeamMember> createNewTeamViewHolder(View view) {
-        return new BaseViewHolder<TeamMember>(view) {
+    private BaseViewHolder<TeamMember> createNewTeamViewHolder(View view)
+    {
+        return new BaseViewHolder<TeamMember>(view)
+        {
             @Override
-            public void setData(TeamMember teamMember) {
-                setOnItemClickListener(new OnItemClickListener() {
+            public void setData(TeamMember teamMember)
+            {
+                setOnItemClickListener(new OnItemClickListener()
+                {
                     @Override
-                    public void OnItemClick(View view1, int position) {
+                    public void OnItemClick(View view1, int position)
+                    {
                         Intent intent = new Intent(mContext, NewTeamActivity.class);
                         mContext.startActivity(intent);
                     }
@@ -92,45 +104,56 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mDatas.size() + 1;
     }
 
     @Override
-    public BaseViewHolder<TeamMember> createHolder(final View v, Context context) {
+    public BaseViewHolder<TeamMember> createHolder(final View v, Context context)
+    {
 
-        BaseViewHolder<TeamMember> holder = new BaseViewHolder<TeamMember>(v) {
+        BaseViewHolder<TeamMember> holder = new BaseViewHolder<TeamMember>(v)
+        {
             @Override
-            public void setData(TeamMember teamBean) {
+            public void setData(TeamMember teamBean)
+            {
                 setTextView(R.id.tv_team_name, teamBean.getTeam().getTeamName());
                 setTextView(R.id.tv_team_summary, teamBean.getTeam().getSummary());
 
                 loadMemberCount(teamBean);
                 SimpleDraweeView view = findView(R.id.sdv_team_icon);
-                if (teamBean.getTeam().getTeamAvatar() != null) {
+                if (teamBean.getTeam().getTeamAvatar() != null)
+                {
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(teamBean.getTeam().getTeamAvatar().getUrl()))
-//                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
+                            //                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
                             .build();
 
-                    DraweeController controller = Fresco.newDraweeControllerBuilder()
-                            .setImageRequest(request)
-                            .setOldController(view.getController())
-                            .build();
+                    DraweeController controller = Fresco.newDraweeControllerBuilder().setImageRequest(request).setOldController(view.getController()).build();
                     view.setController(controller);
-                } else {
+                } else
+                {
                     view.setImageURI((String) null);
                 }
                 Button newProjectBt = findView(R.id.bt_new_project);
             }
 
-            private void loadMemberCount(TeamMember teamBean) {
+            private void loadMemberCount(TeamMember teamBean)
+            {
                 BmobQuery<TeamMember> query = new BmobQuery<>();
                 query.addWhereEqualTo("mTeam", new BmobPointer(teamBean.getTeam()));
-                query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
-                mSubscription = query.findObjects(new FindListener<TeamMember>() {
+                if (mCache)
+                {
+                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+                    mCache = true;
+                }
+                mSubscription = query.findObjects(new FindListener<TeamMember>()
+                {
                     @Override
-                    public void done(List<TeamMember> list, BmobException e) {
-                        if (e == null) {
+                    public void done(List<TeamMember> list, BmobException e)
+                    {
+                        if (e == null)
+                        {
                             View view = findView(R.id.layout_member_count);
                             view.setVisibility(View.VISIBLE);
                             setTextView(R.id.tv_member_count, "" + list.size());
@@ -139,9 +162,11 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
                 });
             }
         };
-        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
+        holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener()
+        {
             @Override
-            public void OnItemClick(View view, int position) {
+            public void OnItemClick(View view, int position)
+            {
                 TeamBean teamBean = mDatas.get(position).getTeam();
                 navigateToTeamInfo(teamBean);
             }
@@ -150,29 +175,37 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
         return holder;
     }
 
-    private void navigateToTeamInfo(TeamBean teamBean) {
+    private void navigateToTeamInfo(TeamBean teamBean)
+    {
         Intent intent = new Intent(mContext, TeamInfoActivity.class);
         intent.putExtra(TeamInfoActivity.IntentTag, teamBean);
         mContext.startActivity(intent);
     }
 
-    class PaletteProcessor extends BasePostprocessor {
+    class PaletteProcessor extends BasePostprocessor
+    {
         private CardView mCardView;
-        public PaletteProcessor(CardView cardView) {
+
+        public PaletteProcessor(CardView cardView)
+        {
             mCardView = cardView;
         }
 
         @Override
-        public void process(Bitmap bitmap) {
-            if (mCardView != null) {
+        public void process(Bitmap bitmap)
+        {
+            if (mCardView != null)
+            {
                 int color = ImageUtils.getBitmapLightColor(bitmap);
                 mCardView.setCardBackgroundColor(color);
             }
         }
     }
 
-    public void onDestroy() {
-        if (mSubscription != null) {
+    public void onDestroy()
+    {
+        if (mSubscription != null)
+        {
             mSubscription.unsubscribe();
         }
     }

@@ -6,7 +6,7 @@ import android.view.View;
  *
  * Created by dzysg on 2016/7/23 0023.
  */
-public class SimpleHolder extends BaseViewHolder
+public class SimpleHolder<T> extends BaseViewHolder<T>
 {
 
     public SimpleHolder(View itemView)

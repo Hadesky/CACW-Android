@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
+import com.hadesky.cacw.adapter.viewholder.SimpleHolder;
 
 import java.util.List;
 
@@ -17,10 +18,12 @@ import java.util.List;
  */
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder<T>>
 {
-
+    private static final int EmptyViewType = 99;
     protected List<T> mDatas;
     protected Context mContext;
-    int itemLayoutId;
+    protected int itemLayoutId;
+    protected int mEmptyLayoutId = 0;
+    private boolean mShowEmptyView = false;
 
     public BaseAdapter(List<T> list, @LayoutRes int layoutid)
     {
@@ -29,20 +32,34 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
     @Override
-    public  BaseViewHolder<T> onCreateViewHolder(ViewGroup parent, int viewType)
+    public BaseViewHolder<T> onCreateViewHolder(ViewGroup parent, int viewType)
     {
-            if (mContext==null)
-                mContext = parent.getContext();
-            View view = LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false);
-            return createHolder(view,parent.getContext());
+        if (mContext == null)
+            mContext = parent.getContext();
+
+        if (mShowEmptyView&&mEmptyLayoutId!=0)
+        {
+            View view = LayoutInflater.from(parent.getContext()).inflate(mEmptyLayoutId, parent, false);
+            return new SimpleHolder<>(view);
+        }
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(itemLayoutId, parent, false);
+        return createHolder(view, parent.getContext());
     }
 
-    public abstract BaseViewHolder<T> createHolder(View v,Context context);
+    public abstract BaseViewHolder<T> createHolder(View v, Context context);
+
+
+    public void setEmptyLayoutId(@LayoutRes int emptyLayoutId)
+    {
+        mEmptyLayoutId = emptyLayoutId;
+    }
 
 
     public void setDatas(List<T> datas)
     {
-        if (datas != null) {
+        if (datas != null)
+        {
             mDatas = datas;
             notifyDataSetChanged();
         }
@@ -54,15 +71,33 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
     @Override
+    public int getItemViewType(int position)
+    {
+        if (mShowEmptyView)
+            return EmptyViewType;
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public int getItemCount()
     {
+        if (mDatas.size() == 0)
+        {
+            mShowEmptyView =true;
+            return 1;
+        }else
+            mShowEmptyView = false;
         return mDatas.size();
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder<T> holder, int position)
     {
-        T item = mDatas.get(position);
-        holder.setData(item);
+        if (!mShowEmptyView)
+        {
+            T item = mDatas.get(position);
+            holder.setData(item);
+        }
+
     }
 }

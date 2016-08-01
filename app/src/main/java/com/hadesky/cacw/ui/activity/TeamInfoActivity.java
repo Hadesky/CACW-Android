@@ -140,6 +140,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 @Override
                 public void onPullZoomEnd() {
                     mPresenters.refreshTeamInfo();
+                    mPresenters.getTeamMembers();
                 }
             });
         }

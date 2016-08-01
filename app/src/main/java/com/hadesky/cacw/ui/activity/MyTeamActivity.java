@@ -26,6 +26,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
     private MyTeamPresenter mPresenter;
     private SwipeRefreshLayout mRefreshLayout;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_my_team;
