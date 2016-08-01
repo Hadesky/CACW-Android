@@ -142,7 +142,7 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
     }
 
     //删除成员后删除相关的任务成员
-    private void deleteTask(UserBean bean)
+    private void deleteTask(final UserBean bean)
     {
         BmobQuery<TaskMember> query = new BmobQuery<>();
         query.addWhereEqualTo("mUser", new BmobPointer(bean));
@@ -162,7 +162,8 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                     if (list.size()==0)
                     {
                         mView.showMsg("删除成功");
-                        loadData();
+                        mAdapter.getDatas().remove(bean);
+                        mAdapter.notifyDataSetChanged();
                         return;
                     }
                     List<BmobObject> members = new ArrayList<>();
@@ -182,7 +183,8 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
                             if (e == null)
                             {
                                 mView.showMsg("删除成功");
-                                loadData();
+                                mAdapter.getDatas().remove(bean);
+                                mAdapter.notifyDataSetChanged();
                             } else
                                 mView.showMsg(e.getMessage());
                         }

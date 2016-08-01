@@ -160,9 +160,9 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
-    public void onStop()
+    public void onDestroyView()
     {
-        super.onStop();
+        super.onDestroyView();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mBroadcastReceiver);
     }
 }

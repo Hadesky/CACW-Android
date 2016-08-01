@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
@@ -28,7 +26,7 @@ import java.util.List;
  * Use the {@link TeamMemberFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamMemberFragment extends Fragment implements TeamMemberView{
+public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
 
     private RecyclerView mRecyclerView;
     private VerticalBouncyFastScroller mScroller;
@@ -42,14 +40,8 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
 
     private List<UserBean> mTeamMember;
 
-    public TeamMemberFragment() {
-        // Required empty public constructor
-    }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
      * @param teamBean 用于新建Fragment的TeamBean
      * @return A new instance of fragment TeamMemberFragment.
      */
@@ -70,17 +62,26 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
         mPresenter = new TeamMemberPresenterImpl(this);
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_team_member, container, false);
+    public int getLayoutId()
+    {
+        return R.layout.fragment_team_member;
+    }
+
+    @Override
+    protected void initViews(View view)
+    {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
         mScroller = (VerticalBouncyFastScroller) view.findViewById(R.id.vbfs);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
         mPresenter.loadData();
+    }
 
-        return view;
+    @Override
+    protected void setupViews(Bundle bundle)
+    {
+
     }
 
     @Override
@@ -129,6 +130,7 @@ public class TeamMemberFragment extends Fragment implements TeamMemberView{
 
     @Override
     public void showMsg(String s) {
+        showToast(s);
     }
 
     public void navigateToInviteMemberActivity() {
