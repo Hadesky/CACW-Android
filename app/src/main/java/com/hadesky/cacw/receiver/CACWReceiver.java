@@ -42,15 +42,32 @@ public class CACWReceiver extends BroadcastReceiver
         if (message == null)
             return;
 
-        //ms开头代表私信
+        //ms开头代表私信，tm代表任务信息
         if (message.startsWith("ms"))
         {
             handleMsg(context, title, message);
         } else if (message.startsWith("tm"))
         {
             handleTaskMsg(context, title, message);
+        }else
+        {
+            handleNormalMsg(context,title,message);
         }
     }
+
+    private void handleNormalMsg(Context context, String title, String message)
+    {
+        if (ActivityLifeCallBack.isForeground())//如果在前台,什么都不做
+            return;
+
+        Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(message).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).build();
+        NotificationManager manager = MyApp.getNotificationManager();
+        if (manager != null)
+        {
+            manager.notify(0, notification);
+        }
+    }
+
 
     private void handleTaskMsg(Context context, String title, String message)
     {
@@ -65,7 +82,6 @@ public class CACWReceiver extends BroadcastReceiver
         Intent messageintent = new Intent(context, TaskDetailActivity.class);
         messageintent.putExtra(IntentTag.TAG_TASK_ID, taskid);
         PendingIntent i = PendingIntent.getActivity(context, 0, messageintent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         Notification notification = new NotificationCompat.Builder(context).setContentTitle(title).setContentText(content).setAutoCancel(true).setSmallIcon(R.mipmap.icon).setDefaults(NotificationCompat.DEFAULT_ALL).setContentIntent(i).build();
         NotificationManager manager = MyApp.getNotificationManager();
         if (manager != null)

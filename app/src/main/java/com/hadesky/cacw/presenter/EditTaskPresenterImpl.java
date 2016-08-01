@@ -1,6 +1,5 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.JPush.JPushManager;
 import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
@@ -11,7 +10,6 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.view.EditTaskView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +21,6 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListListener;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -47,6 +42,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
     UserBean mCurrentUser;
     EditTaskView mView;
     Subscription mSubscription;
+    TaskBean mOldTask;
 
 
     public EditTaskPresenterImpl(EditTaskView view, TaskBean task, boolean isNewTask)
@@ -56,6 +52,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         mView = view;
         mCurrentUser = MyApp.getCurrentUser();
         mTask.setAdaminUserId(MyApp.getCurrentUser().getObjectId());
+        mOldTask = mTask.clone();
     }
 
     @Override
@@ -143,7 +140,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                         mView.hideProgress();
                         if (error==null)
                         {
-                            sendTaskCreatedPush(members);
+                            sendJoinTaskPush(members);
                             mView.showMsg("创建成功");
                             mView.closePage();
                         }else
@@ -154,16 +151,15 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                 });
     }
 
-    private void sendTaskCreatedPush(List<TaskMember> members)
+    //通知被加入任务
+    private void sendJoinTaskPush(List<TaskMember> members)
     {
-
         //去掉自己
         for(int i=0;i<members.size();i++)
         {
             if (members.get(i).getUser().equals(mCurrentUser))
                 members.remove(i);
         }
-
         String title="新任务";
         String content = "tm" + mTask.getObjectId() + "你被加入任务 " + mTask.getTitle();
 
@@ -177,6 +173,53 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
     }
 
 
+    //通知成员被移除
+    private void sendRemoveTaskPush(List<TaskMember> members)
+    {
+        String title="任务信息";
+        String content = "你已被移出任务 " + mTask.getTitle();
+        JPushSender.SenderBuilder builder =new JPushSender.SenderBuilder().Message(title,content);
+        for(TaskMember tm:members)
+        {
+            builder.addAlias(tm.getUser().getObjectId());
+        }
+        JPushSender sender = builder.build();
+        MyApp.getJPushManager().sendMsg(sender,null);
+    }
+
+    //通知任务被修改
+    private void sendTaskChangedPush(List<TaskMember> members)
+    {
+        //去掉自己
+        for(int i=0;i<members.size();i++)
+        {
+            if (members.get(i).getUser().equals(mCurrentUser))
+                members.remove(i);
+        }
+
+        String title="任务通知";
+        String content = "tm" + mTask.getObjectId() + "任务 " + mOldTask.getTitle()+" 信息发生变化";
+        JPushSender.SenderBuilder builder =new JPushSender.SenderBuilder().Message(title,content);
+        for(TaskMember tm:members)
+        {
+            builder.addAlias(tm.getUser().getObjectId());
+        }
+        JPushSender sender = builder.build();
+        MyApp.getJPushManager().sendMsg(sender,null);
+    }
+
+    private boolean checkTaskChange()
+    {
+        boolean same = mTask.getTitle().equals(mOldTask.getTitle());
+        same &= mTask.getStartDate().equals(mOldTask.getStartDate());
+        same &= mTask.getEndDate().equals(mOldTask.getEndDate());
+        same &= mTask.getLocation().equals(mOldTask.getLocation());
+        same &= mTask.getContent().equals(mOldTask.getContent());
+        same &= mTask.getLocation().equals(mOldTask.getLocation());
+        return !same;
+    }
+
+
     //保存编辑后的任务
     private void updateTask(List<TaskMember> members)
     {
@@ -185,10 +228,10 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             mView.showMsg("请等待成员加载完成");
             return;
         }
-
-
         BmobBatch batch = new BmobBatch();
-        List<TaskMember> addlist = new ArrayList<>();
+        final List<TaskMember> addlist = new ArrayList<>();
+        final List<TaskMember> common = new ArrayList<>();
+
 
         //剔除相同的成员
         for(TaskMember tm : members)
@@ -196,7 +239,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             if (mOldMembers.contains(tm))
             {
                 mOldMembers.remove(tm);
-
+                common.add(tm);//common是前后不变的成员
             } else
                 addlist.add(tm);
         }
@@ -208,37 +251,13 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             del.addAll(mOldMembers);
             batch.deleteBatch(del);
         }
+
         //addlist就是新增的
         if (addlist.size() > 0)
         {
             List<BmobObject> add = new ArrayList<>();
             add.addAll(addlist);
             batch.insertBatch(add);
-
-            JPushManager manager = MyApp.getJPushManager();
-            JPushSender.SenderBuilder builder = new JPushSender.SenderBuilder().Message("加入任务", "您已加入任务 " + mTask.getTitle());
-            for(TaskMember taskMember : addlist)
-            {
-                builder.addAlias(taskMember.getUser().getObjectId());
-            }
-            JPushSender sender = builder.build();
-            if (sender != null)
-            {
-                manager.sendMsg(sender, new Callback()
-                {
-                    @Override
-                    public void onFailure(Call call, IOException e)
-                    {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException
-                    {
-
-                    }
-                });
-            }
         }
 
         List<BmobObject> task = new ArrayList<>();
@@ -246,7 +265,6 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         batch.updateBatch(task);
 
         mView.showProgress();
-
         batch.doBatch(new QueryListListener<BatchResult>()
         {
             @Override
@@ -255,6 +273,11 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
                 mView.hideProgress();
                 if (e == null)
                 {
+                    sendJoinTaskPush(addlist);
+                    sendRemoveTaskPush(mOldMembers);
+                    if (checkTaskChange())
+                        sendTaskChangedPush(common);
+
                     mView.showMsg("保存成功");
                     mView.closePage();
                 } else

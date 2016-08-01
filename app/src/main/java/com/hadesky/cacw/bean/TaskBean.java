@@ -87,4 +87,18 @@ public class TaskBean extends BmobObject
         mEndDate = endDate;
     }
 
+    public TaskBean clone()
+    {
+        TaskBean taskBean = new TaskBean();
+        taskBean.setObjectId(getObjectId());
+        taskBean.setAdaminUserId(mAdaminUserId);
+        taskBean.setTitle(mTitle);
+        taskBean.setContent(mContent);
+        taskBean.setLocation(mLocation);
+        taskBean.setProjectBean(mProjectBean);
+        taskBean.setStartDate(mStartDate);
+        taskBean.setEndDate(mEndDate);
+        return taskBean;
+    }
+
 }
