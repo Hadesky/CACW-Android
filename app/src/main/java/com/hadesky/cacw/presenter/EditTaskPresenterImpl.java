@@ -264,6 +264,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         task.add(mTask);
         batch.updateBatch(task);
 
+
         mView.showProgress();
         batch.doBatch(new QueryListListener<BatchResult>()
         {

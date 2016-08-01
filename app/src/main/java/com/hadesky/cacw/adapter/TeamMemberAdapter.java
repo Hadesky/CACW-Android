@@ -64,21 +64,25 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
                 }
             }
         });
-        viewHolder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
-            @Override
-            public boolean OnItemLongClick(View view, final int position)
-            {
-                new AlertDialog.Builder(mContext).setItems(new String[]{"删除"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                            if (mPresenter!=null)
-                                mPresenter.deleteMember(mDatas.get(position));
+        if (MyApp.isCurrentUser(mAdminUser)) {
+            viewHolder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
+                @Override
+                public boolean OnItemLongClick(View view, final int position)
+                {
+                    if (!mDatas.get(position).equals(mAdminUser)) {
+                        new AlertDialog.Builder(mContext).setItems(new String[]{"移除成员"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (mPresenter!=null)
+                                    mPresenter.deleteMember(mDatas.get(position));
+                            }
+                        }).show();
+                        return true;
                     }
-                }).show();
-                return true;
-            }
-        });
-
+                    return false;
+                }
+            });
+        }
         return viewHolder;
     }
 

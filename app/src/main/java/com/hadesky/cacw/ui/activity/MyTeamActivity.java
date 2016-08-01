@@ -55,7 +55,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
 
         mPresenter = new MyTeamPresenterImpl(this);
 
-        mPresenter.LoadAllTeams(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        mPresenter.LoadAllTeams(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
 
         List<TeamMember> list = new ArrayList<>();
         mMyTeamAdapter.setDatas(list);

@@ -65,17 +65,17 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
             @Override
             public void OnItemClick(View view, int position)
             {
-                Intent i = new Intent(mContext, ChatActivity.class);
-                if (MyApp.isCurrentUser(mDatas.get(position).getReceiver()))
-                    i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getSender());
-                else
-                    i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getReceiver());
-                mContext.startActivity(i);
+                if (mDatas != null && !mDatas.isEmpty()) {
+                    Intent i = new Intent(mContext, ChatActivity.class);
+                    if (MyApp.isCurrentUser(mDatas.get(position).getReceiver()))
+                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getSender());
+                    else
+                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getReceiver());
+                    mContext.startActivity(i);
+                }
             }
         });
         holder.setOnItemLongClickListener(mOnItemLongClickListener);
         return holder;
     }
-
-
 }

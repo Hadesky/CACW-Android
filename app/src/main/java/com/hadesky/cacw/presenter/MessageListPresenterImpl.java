@@ -79,7 +79,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
                 } else
                 {
                     mNewMessage = list;
-                    if (list.size()==0) //如果无有新数据
+                    if (list.size()==0) //如果没有新数据
                     {
                         mView.hideProgress();
                         loadMsgFromDB();//直接获取本地数据
@@ -112,18 +112,20 @@ public class MessageListPresenterImpl implements MessageListPresenter
             @Override
             public void done(List<MessageBean> list, BmobException e)
             {
-                mNewMessage = list;
-                if (list.size()==0) //如果无有新数据
-                {
-                    loadMsgFromDB();//直接获取本地数据
-                    mLoading = false;
-                    if (haveNewMsg)
+                if (e == null) {
+                    mNewMessage = list;
+                    if (list.size()==0) //如果无有新数据
                     {
-                        haveNewMsg = false;
-                        loadMessageQuietly();
-                    }
-                }else
-                    deleteFromBmob(list); //如果有新数据，先删除后台的数据
+                        loadMsgFromDB();//直接获取本地数据
+                        mLoading = false;
+                        if (haveNewMsg)
+                        {
+                            haveNewMsg = false;
+                            loadMessageQuietly();
+                        }
+                    }else
+                        deleteFromBmob(list); //如果有新数据，先删除后台的数据
+                }
             }
         });
     }

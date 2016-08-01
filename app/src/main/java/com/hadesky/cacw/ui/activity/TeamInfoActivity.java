@@ -104,8 +104,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mAdapter = new BaseAdapter<TeamMember>(new ArrayList<TeamMember>(), R.layout.list_item_member) {
             @Override
             public BaseViewHolder<TeamMember> createHolder(View v, Context context) {
-
-                return new BaseViewHolder<TeamMember>(v) {
+                BaseViewHolder viewHolder = new BaseViewHolder<TeamMember>(v) {
                     @Override
                     public void setData(TeamMember o) {
                         setTextView(R.id.tv, o.getUser().getNickName());
@@ -115,6 +114,15 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                         }
                     }
                 };
+                viewHolder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
+                    @Override
+                    public void OnItemClick(View view, int position) {
+                        Intent intent = new Intent(TeamInfoActivity.this, UserInfoActivity.class);
+                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, mDatas.get(position).getUser());
+                        startActivity(intent);
+                    }
+                });
+                return viewHolder;
             }
         };
 
@@ -216,6 +224,11 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     }
 
     @Override
+    public void close() {
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -247,14 +260,40 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.changeIcon:
+            case R.id.action_change_icon:
                 changeTeamIcon();
+                return true;
+            case R.id.action_exit_team:
+                showExitDialog();
+                return true;
+            case R.id.action_del_team:
+                showDelTeamDialog();
                 return true;
             case android.R.id.home:
                 onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDelTeamDialog() {
+        new AlertDialog.Builder(this).setMessage("你确定要解散此团队吗？(与之相关的任务等会被清除，不可恢复)")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mPresenters.delCurrentTeam();
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).create().show();
+    }
+
+    private void showExitDialog() {
+        new AlertDialog.Builder(this).setMessage("你确定要退出该团队吗？")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mPresenters.exitTeam();
+                    }
+                }).setNegativeButton(android.R.string.cancel, null).create().show();
     }
 
     private void changeTeamIcon() {
