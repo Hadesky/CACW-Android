@@ -44,25 +44,30 @@
                 />
         </LinearLayout>
     </FrameLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabBackground="@color/color_primary"
+        app:tabTextColor="@android:color/white"
+        app:tabSelectedTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.hadesky.cacw.ui.widget.RevScrollView
+            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <FrameLayout
-                    android:id="@+id/container_person"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <FrameLayout
-                    android:id="@+id/container_team"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </com.hadesky.cacw.ui.widget.RevScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -1,17 +1,22 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.Context;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.adapter.ViewPagerAdapter;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
@@ -25,6 +30,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private FragmentManager mFragmentManager;
     private SwipeRefreshLayout mRefreshLayout;
 
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+
     private int mLoadingFragmentCount;
 
     @Override
@@ -37,11 +45,23 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
         mSearchEditText = (EditText) findViewById(R.id.et);
         mFragmentManager = getSupportFragmentManager();
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void setupView() {
+        List<View> views = new ArrayList<>();
+        View personOrTeamView = View.inflate(this, R.layout.layout_search_person_team, null);
+        View contentView = View.inflate(this, R.layout.layout_search_content, null);
+        views.add(personOrTeamView);
+        views.add(contentView);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(views);
+        adapter.setTitles(new String[]{"人或团队", "内容"});
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
         View view = findViewById(R.id.iv_arrow_back);
         if (view != null) {
             view.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +86,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
-                    hideAllFragment();
+//                    hideAllFragment();
                 }
                 loadSearchPersonFragment(s.toString());
                 loadSearchTeamFragment(s.toString());

@@ -118,10 +118,6 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
         nameQuery.addWhereContains("mTeamName", key);
         queries.add(nameQuery);
 
-        BmobQuery<TeamBean> NumQuery = new BmobQuery<>();
-        nameQuery.addWhereEqualTo("mTeamId", key);
-        queries.add(NumQuery);
-
         mQuery = new BmobQuery<>();
         mQuery.or(queries);
         mQuery.setLimit(QUERY_COUNT_EACH_QUERY);
