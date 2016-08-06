@@ -37,7 +37,7 @@ public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl impleme
 
     private InvitePersonFragment mInvitePersonFragment;
 
-    public InvitePersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context,
+    public InvitePersonPresenterImpl(SearchPersonOrTeamView view, Context context,
                                      InvitePersonFragment invitePersonFragment) {
         super(view, context);
         mInvitePersonFragment = invitePersonFragment;

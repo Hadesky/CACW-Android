@@ -14,7 +14,7 @@ import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.InvitePersonPresenter;
 import com.hadesky.cacw.presenter.InvitePersonPresenterImpl;
-import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
+import com.hadesky.cacw.presenter.SearchPresenter;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class InvitePersonFragment extends SearchPersonFragment implements Invite
     }
 
     @Override
-    protected SearchPersonOrTeamPresenter createPresenter() {
+    protected SearchPresenter createPresenter() {
         return new InvitePersonPresenterImpl(this, getContext(), this);
     }
 

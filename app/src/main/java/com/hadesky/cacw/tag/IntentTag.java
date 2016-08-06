@@ -11,6 +11,7 @@ public final class IntentTag {
     public static final String TAG_Task_MEMBER = "task_member";
     public static final String TAG_TEAM_MEMBER = "team_member";
     public static final String TAG_USER_BEAN_LIST = "team_member";
+    public static final String TAG_TASK_BEAN = "task_bean";
 
     private IntentTag() {
         throw new AssertionError();

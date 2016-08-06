@@ -24,13 +24,13 @@ import rx.Subscription;
  *
  * Created by 45517 on 2016/7/22.
  */
-public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter, BaseViewHolder.OnItemClickListener {
+public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolder.OnItemClickListener {
 
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
 
     private Subscription mSubscription;
 
-    protected SearchPersonOrTeamView<UserBean> mView;
+    protected SearchPersonOrTeamView mView;
 
     private BmobQuery<UserBean> mQuery;
 
@@ -40,7 +40,7 @@ public class SearchPersonPresenterImpl implements SearchPersonOrTeamPresenter, B
 
     private int mReceivedCount;//自从上次调用search之后查询到的数据数和
 
-    public SearchPersonPresenterImpl(SearchPersonOrTeamView<UserBean> view, Context context) {
+    public SearchPersonPresenterImpl(SearchPersonOrTeamView view, Context context) {
         mContext = context;
         mView = view;
         mAdapter = createAdapter();

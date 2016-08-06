@@ -1,22 +1,23 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.SearchTaskAdapter;
 import com.hadesky.cacw.adapter.ViewPagerAdapter;
+import com.hadesky.cacw.presenter.SearchPresenter;
+import com.hadesky.cacw.presenter.SearchTaskPresenterImpl;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
@@ -33,6 +34,11 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+    private SearchPresenter mSearchTaskPresenter;//人和团队的present在各自的fragment里面
+    private SearchTaskAdapter mSearchTaskAdapter;
+
+    private RecyclerView mSearchTaskRecyclerView;
+
     private int mLoadingFragmentCount;
 
     @Override
@@ -47,6 +53,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         mFragmentManager = getSupportFragmentManager();
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mSearchTaskPresenter = new SearchTaskPresenterImpl(this, this);
     }
 
     @Override
@@ -54,11 +61,11 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
     public void setupView() {
         List<View> views = new ArrayList<>();
         View personOrTeamView = View.inflate(this, R.layout.layout_search_person_team, null);
-        View contentView = View.inflate(this, R.layout.layout_search_content, null);
+        View taskView = View.inflate(this, R.layout.layout_search_task, null);
         views.add(personOrTeamView);
-        views.add(contentView);
+        views.add(taskView);
         ViewPagerAdapter adapter = new ViewPagerAdapter(views);
-        adapter.setTitles(new String[]{"人或团队", "内容"});
+        adapter.setTitles(new String[]{"人或团队", "任务"});
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -86,15 +93,27 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
-//                    hideAllFragment();
+                    hideAllFragment();
                 }
                 loadSearchPersonFragment(s.toString());
                 loadSearchTeamFragment(s.toString());
+                loadSearchTask(s.toString());
             }
         });
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeColors(ResourcesCompat.getColor(getResources(), R.color.color_primary, null));
         mRefreshLayout.setProgressViewOffset(true, -100, 50);
+    }
+
+    private void loadSearchTask(String s) {
+        if (mSearchTaskRecyclerView == null) {
+            mSearchTaskRecyclerView = (RecyclerView) findViewById(R.id.rv);
+            mSearchTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            if (mSearchTaskAdapter != null) {
+                mSearchTaskRecyclerView.setAdapter(mSearchTaskAdapter);
+            }
+        }
+        mSearchTaskPresenter.search(s);
     }
 
     private void hideAllFragment() {
@@ -168,5 +187,9 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         if (mRefreshLayout != null && mLoadingFragmentCount <= 0) {
             mRefreshLayout.setRefreshing(false);
         }
+    }
+
+    public void setSearchTaskAdapter(SearchTaskAdapter adapter) {
+        mSearchTaskAdapter = adapter;
     }
 }

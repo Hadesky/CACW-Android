@@ -33,7 +33,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         //这个方法用来实例化页卡
-        container.addView(mListViews.get(position), 0);//添加页卡
+        container.addView(mListViews.get(position));//添加页卡
         return mListViews.get(position);
     }
 

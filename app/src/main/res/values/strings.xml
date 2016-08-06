@@ -85,4 +85,6 @@
     <string name="you_are_not_admin">你当前不是管理员</string>
     <string name="short_phone">短号</string>
     <string name="delete_chat">删除对话</string>
+    <string name="attach_file">附件</string>
+    <string name="place">地点</string>
 </resources>

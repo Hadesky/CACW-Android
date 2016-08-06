@@ -32,9 +32,9 @@ import rx.Subscription;
 /**
  * Created by 45517 on 2016/7/22.
  */
-public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, BaseViewHolder.OnItemClickListener {
+public class SearchTeamPresenterImpl implements SearchPresenter, BaseViewHolder.OnItemClickListener {
     private static final String TAG = "SearchTeamPresenter";
-    private SearchPersonOrTeamView<TeamBean> mView;
+    private SearchPersonOrTeamView mView;
 
     private static final int QUERY_COUNT_EACH_QUERY = 5;//每次查询的数量
 
@@ -48,7 +48,7 @@ public class SearchTeamPresenterImpl implements SearchPersonOrTeamPresenter, Bas
 
     private Context mContext;
 
-    public SearchTeamPresenterImpl(SearchPersonOrTeamView<TeamBean> view, Context context) {
+    public SearchTeamPresenterImpl(SearchPersonOrTeamView view, Context context) {
         mView = view;
         mAdapter = new SearchTeamAdapter(null, R.layout.item_team_in_search, this);
         mView.setAdapter(mAdapter);

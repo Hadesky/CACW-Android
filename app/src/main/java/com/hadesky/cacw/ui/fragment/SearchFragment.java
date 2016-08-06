@@ -12,17 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.presenter.SearchPersonOrTeamPresenter;
+import com.hadesky.cacw.presenter.SearchPresenter;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
-
-import java.util.List;
 
 /**
  *
  * Created by 45517 on 2016/7/23.
  */
-public abstract class SearchFragment<Bean> extends Fragment implements SearchPersonOrTeamView<Bean>{
+public abstract class SearchFragment extends Fragment implements SearchPersonOrTeamView{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     protected static final String ARG_SEARCH_KEY = "search_key";
 
@@ -30,7 +27,7 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
 
     protected RecyclerView.Adapter mAdapter;
 
-    protected SearchPersonOrTeamPresenter mPresenter;
+    protected SearchPresenter mPresenter;
 
     protected RecyclerView mRecyclerView;
 
@@ -85,7 +82,7 @@ public abstract class SearchFragment<Bean> extends Fragment implements SearchPer
     protected abstract int getLayoutId();
 
 
-    protected abstract SearchPersonOrTeamPresenter createPresenter();
+    protected abstract SearchPresenter createPresenter();
 
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
