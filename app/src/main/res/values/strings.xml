@@ -10,6 +10,8 @@
     <string name="logout">退出登录</string>
     <string name="title_activity_setting">设置</string>
 
+    <string name="title">标题</string>
+
     <string name="title_activity_register">注册</string>
     <string name="terms_statement">通过创建账户，你同意我们的<b>使用条款</b>以及<b>隐私政策</b></string>
     <string name="title_activity_add_task">add task</string>
@@ -87,4 +89,5 @@
     <string name="delete_chat">删除对话</string>
     <string name="attach_file">附件</string>
     <string name="place">地点</string>
+    <string name="save">保存</string>
 </resources>

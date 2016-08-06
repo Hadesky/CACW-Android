@@ -13,7 +13,7 @@ public interface EditTaskPresenter {
 
     void loadTaskMember();
 
-    void saveTask(List<TaskMember> Members);
+    boolean saveTask(List<TaskMember> Members);
 
     void loadProjects();
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".ui.activity.TaskDetailActivity">
+    tools:context=".ui.activity.EditTaskActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,144 +27,82 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
+                android:hint="@string/title"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="任务标题:"
-                    android:textSize="16sp"/>
-
+                android:layout_marginTop="@dimen/spacing_normal">
                 <EditText
-                    android:id="@+id/edtTitle"
+                    android:id="@+id/et_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    tools:text="这个是任务标题"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    tools:text="任务标题"/>
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
-                android:id="@+id/start_date"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_list_item"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="开始日期:"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_start_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    tools:text="2015-01-01"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-
-            <LinearLayout
-                android:id="@+id/start_time"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_list_item"
-                android:clickable="true"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="开始时间:"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    tools:text="下午 12:30"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-
-            <LinearLayout
-                android:id="@+id/end_date"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_list_item"
-                android:clickable="true"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="结束日期:"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    tools:text="下午 12:30"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-            <LinearLayout
-                android:id="@+id/end_time"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bg_list_item"
-                android:clickable="true"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="结束时间:"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/tv_end_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    tools:text="下午 12:30"/>
+                android:layout_height="@dimen/list_item_height_larger">
+                <LinearLayout
+                    android:id="@+id/bt_start_date_time"
+                    android:background="@drawable/bg_list_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        tools:text="2016年8月6日"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        tools:text="16：00"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <ImageView
+                    android:src="@drawable/arrow_right_black"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"/>
+                <LinearLayout
+                    android:id="@+id/bt_end_date_time"
+                    android:background="@drawable/bg_list_item"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        tools:text="2016年8月6日"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        tools:text="16：00"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
 
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
                 android:id="@+id/project"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
@@ -172,7 +110,11 @@
                 android:background="@drawable/bg_list_item"
                 android:clickable="true"
                 android:orientation="horizontal">
-
+                <ImageView
+                    android:tint="@color/color_gray"
+                    android:src="@drawable/ic_label_black_24dp"
+                    android:layout_width="@dimen/image_more_small"
+                    android:layout_height="@dimen/image_more_small"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,11 +135,18 @@
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:tint="@color/color_gray"
+                    android:src="@drawable/ic_place_black_24dp"
+                    android:layout_width="@dimen/image_more_small"
+                    android:layout_height="@dimen/image_more_small"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -254,32 +203,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="16sp"
                     android:text="成员："/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcv_members"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    tools:visibility = "gone"
                     android:layout_marginTop="10dp"/>
             </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/ok"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
+            <android.support.v7.widget.CardView
+                android:id="@+id/bt_attach_file"
                 android:layout_margin="16dp"
-                android:background="?attr/colorPrimary"
-                android:clickable="true">
-
+                android:layout_width="@dimen/image_more_large"
+                android:layout_height="@dimen/image_more_large">
                 <TextView
+                    android:text="附件"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/ic_attach_file_black_24dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
-                    android:text="确定"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"/>
-            </RelativeLayout>
+                    android:layout_height="wrap_content"/>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </com.hadesky.cacw.ui.widget.RevScrollView>
 </RelativeLayout>

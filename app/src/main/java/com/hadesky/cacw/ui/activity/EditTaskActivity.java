@@ -5,10 +5,15 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,6 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.appeaser.sublimepickerlibrary.datepicker.SelectedDate;
+import com.appeaser.sublimepickerlibrary.helpers.SublimeOptions;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
@@ -27,6 +34,7 @@ import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.EditTaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
+import com.hadesky.cacw.ui.widget.DateTimePickerDialog;
 import com.hadesky.cacw.util.DateUtil;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
@@ -42,13 +50,9 @@ import cn.bmob.v3.datatype.BmobDate;
 public class EditTaskActivity extends BaseActivity implements EditTaskView, EditableMembersAdapter.OnMemberEditListener
 {
     private Toolbar mToolbar;
-    private View mStartDate;
-    private View mStartTime;
-    private View mEndDate;
-    private View mEndTime;
 
-    private TextView mTvDate;
-    private TextView mTvTime;
+    private TextView mTvStartDate;
+    private TextView mTvStartTime;
     private TextView mTvEndDate;
     private TextView mTvEndTime;
 
@@ -60,8 +64,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private EditText mEdtDetail;
     private View mProject;
 
-    private View mOk;
-    private RecyclerView mRcv_members;
+    private RecyclerView mRcvMembers;
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
 
@@ -73,7 +76,91 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
+    private int mStartHourOfDay, mStartMinute,mEndHourOfDay, mEndMinute;
     private List<TaskMember> mMembers;
+
+    private DateTimePickerDialog mDateTimePickerDialog;
+
+    private boolean isEdited = false;//是否已经更改
+
+    public static final String TIME_FORMAT = "%02d:%02d";
+    public static final String DATE_FORMAT = "%d-%02d-%02d";
+
+    private DateTimePickerDialog.Callback mDateTimeCallback = new DateTimePickerDialog.Callback() {
+        @Override
+        public void onCancelled() {
+            if (mDateTimePickerDialog != null) {
+                mDateTimePickerDialog.dismiss();
+            }
+        }
+
+        @Override
+        public void onDateTimeRecurrenceSet(SelectedDate selectedDate, int hourOfDay, int minute, int startOrEnd) {
+
+            if (selectedDate.getType() == SelectedDate.Type.RANGE) {
+                //选择了一个范围，直接用来做开始和结束
+                mCalendarStart = selectedDate.getStartDate();
+                mCalendarEnd = selectedDate.getEndDate();
+                mStartMinute = mEndMinute = minute;
+                mStartHourOfDay = mEndHourOfDay = hourOfDay;
+            } else if (startOrEnd == DateTimePickerDialog.TYPE_START) {
+                mCalendarStart = selectedDate.getStartDate();
+                if (mCalendarEnd == null || mCalendarEnd.compareTo(mCalendarStart) < 0) {
+                    //将end和start置同
+                    mCalendarEnd = mCalendarStart;
+                    mStartMinute = mEndMinute = minute;
+                    mStartHourOfDay = mEndHourOfDay = hourOfDay;
+                } else {
+                    mStartHourOfDay = hourOfDay;
+                    mStartMinute = minute;
+                }
+            } else {
+                //结束
+                mCalendarEnd = selectedDate.getStartDate();
+                if (mCalendarStart == null || mCalendarStart.compareTo(mCalendarEnd) > 0) {
+                    //将end和start置同
+                    mCalendarStart = mCalendarEnd;
+                    mStartMinute = mEndMinute = minute;
+                    mStartHourOfDay = mEndHourOfDay = hourOfDay;
+                } else {
+                    mEndHourOfDay = hourOfDay;
+                    mEndMinute = minute;
+                }
+            }
+            adjustDateTimeDisplay();
+            isEdited = true;
+        }
+    };
+
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            isEdited = true;
+        }
+    };
+
+    private void adjustDateTimeDisplay() {
+        if (mCalendarStart != null && mCalendarEnd != null) {
+            mTvStartDate.setText(String.format(Locale.getDefault(), DATE_FORMAT,
+                    mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH),
+                    mCalendarStart.get(Calendar.DAY_OF_MONTH)));
+            mTvEndDate.setText(String.format(Locale.getDefault(), DATE_FORMAT,
+                    mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH),
+                    mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
+        }
+        mTvStartTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mStartHourOfDay, mStartMinute));
+        mTvEndTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mEndHourOfDay, mEndMinute));
+    }
 
 
     @Override
@@ -86,29 +173,40 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     public void initView()
     {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mStartTime = findViewById(R.id.start_time);
-        mStartDate = findViewById(R.id.start_date);
         mProject = findViewById(R.id.project);
-        mOk = findViewById(R.id.ok);
+//        mOk = findViewById(R.id.ok);
 
-        mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mEdtTitle = (EditText) findViewById(R.id.edtTitle);
+        mRcvMembers = (RecyclerView) findViewById(R.id.rcv_members);
+        mEdtTitle = (EditText) findViewById(R.id.et_title);
         mEdtLocation = (EditText) findViewById(R.id.edtLoaction);
         mEdtDetail = (EditText) findViewById(R.id.edtDetail);
         mTvProject = (TextView) findViewById(R.id.tvProject);
 
         mTvEndDate = (TextView) findViewById(R.id.tv_end_date);
         mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
-        mEndDate = findViewById(R.id.end_date);
-        mEndTime = findViewById(R.id.end_time);
-        mTvDate = (TextView) findViewById(R.id.tv_start_date);
-        mTvTime = (TextView) findViewById(R.id.tv_start_time);
+//        mEndDate = findViewById(R.id.end_date);
+//        mEndTime = findViewById(R.id.end_time);
+        mTvStartDate = (TextView) findViewById(R.id.tv_start_date);
+        mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
+
+
+        mDateTimePickerDialog = new DateTimePickerDialog();
+        mDateTimePickerDialog.setCallback(mDateTimeCallback);
+        SublimeOptions options = new SublimeOptions();
+        int displayOptions = 0;
+        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
+        displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER;
+        options.setDisplayOptions(displayOptions);
+        options.setCanPickDateRange(true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(DateTimePickerDialog.SUBLIME_OPTIONS, options);
+        mDateTimePickerDialog.setArguments(bundle);
+        mDateTimePickerDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
     }
 
     @Override
     public void setupView()
     {
-
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
         mToolbar.setTitle(R.string.edit_task);
         setSupportActionBar(mToolbar);
@@ -119,8 +217,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         //初始化RecycleView
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4);//这个4后期需经过计算得出
         manager.setOrientation(GridLayoutManager.VERTICAL);
-        mRcv_members.setLayoutManager(manager);
-        mRcv_members.setVerticalFadingEdgeEnabled(false);
+        mRcvMembers.setLayoutManager(manager);
+        mRcvMembers.setVerticalFadingEdgeEnabled(false);
 
 
         //判定是新建来是编辑任务
@@ -141,7 +239,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mAdapter.setAbleToAdd(true);
         mAdapter.setAbleToDelete(true);
 
-        mRcv_members.setAdapter(mAdapter);
+        mRcvMembers.setAdapter(mAdapter);
 
 
         mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
@@ -151,83 +249,107 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private void setListener()
     {
-        //点击确定
-        mOk.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                saveTask();
-            }
-        });
 
+        //给所有的EditText添加监听，以判断是否被修改过
+        mEdtDetail.addTextChangedListener(mTextWatcher);
+        mEdtLocation.addTextChangedListener(mTextWatcher);
+        mEdtTitle.addTextChangedListener(mTextWatcher);
+//        //点击确定
+//        mOk.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                saveTask();
+//            }
+//        });
 
-        //点击开始时间
-        mStartTime.setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.bt_start_date_time).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                openTimeDialog(true);
+            public void onClick(View view) {
+                showStartTimeDialog();
             }
         });
-        //点击开始日期
-        mStartDate.setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.bt_end_date_time).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                openDateDialog(true);
+            public void onClick(View view) {
+                showEndTimeDialog();
             }
         });
-        //点击结束时间
-        mEndTime.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openTimeDialog(false);
-            }
-        });
-        //点击结束日期
-        mEndDate.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                openDateDialog(false);
-            }
-        });
+//
+//        //点击开始时间
+//        mStartTime.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                openTimeDialog(true);
+//            }
+//        });
+//        //点击开始日期
+//        mStartDate.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                openDateDialog(true);
+//            }
+//        });
+//        //点击结束时间
+//        mEndTime.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                openTimeDialog(false);
+//            }
+//        });
+//        //点击结束日期
+//        mEndDate.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                openDateDialog(false);
+//            }
+//        });
         //点击项目
         mProject.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (!newTask)
-                {
+                if (!newTask) {
                     showMsg("不可修改任务项目");
-                } else
+                } else {
                     mPresenter.loadProjects();
+                    isEdited = true;
+                }
             }
         });
-        //点击保存
-        mOk.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                saveTask();
-            }
-        });
+//        //点击保存
+//        mOk.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                saveTask();
+//            }
+//        });
+    }
 
+    private void showEndTimeDialog() {
+        mDateTimePickerDialog.show(getSupportFragmentManager(),"end");
+    }
+
+    private void showStartTimeDialog() {
+        mDateTimePickerDialog.show(getSupportFragmentManager(),"start");
     }
 
 
     private void saveTask()
     {
-
-        if (mTvDate.getText().length() == 0 || mTvTime.getText().length() == 0)
+        if (mTvStartDate.getText().length() == 0 || mTvStartTime.getText().length() == 0)
         {
             showToast(getString(R.string.please_select_Date));
             return;
@@ -246,6 +368,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mPresenter.saveTask(mAdapter.getDatas());
     }
+
 
     private void openDateDialog(final boolean start)
     {
@@ -276,7 +399,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private void openTimeDialog(final boolean start)
     {
-
         Calendar c;
         if (start)
             c = mCalendarStart;
@@ -309,8 +431,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private void setDateTextView()
     {
-        mTvDate.setText(String.format(Locale.US, "%d-%02d-%02d", mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH) + 1, mCalendarStart.get(Calendar.DAY_OF_MONTH)));
-        mTvTime.setText(String.format(Locale.US, "%02d:%02d", mCalendarStart.get(Calendar.HOUR_OF_DAY), mCalendarStart.get(Calendar.MINUTE)));
+        mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH) + 1, mCalendarStart.get(Calendar.DAY_OF_MONTH)));
+        mTvStartTime.setText(String.format(Locale.US, "%02d:%02d", mCalendarStart.get(Calendar.HOUR_OF_DAY), mCalendarStart.get(Calendar.MINUTE)));
         mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH) + 1, mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", mCalendarEnd.get(Calendar.HOUR_OF_DAY), mCalendarEnd.get(Calendar.MINUTE)));
     }
@@ -320,6 +442,9 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
+        if (item.getItemId() == R.id.action_save) {
+            saveTask();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -329,8 +454,19 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         if (mAdapter.getMode() == EditableMembersAdapter.MODE_DELETE)
         {
             mAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
-        } else
-        {
+        } else if (isEdited) {
+            new AlertDialog.Builder(this).setMessage("是否保存改动？").setNegativeButton("舍弃", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            }).setNeutralButton("取消", null).setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    saveTask();
+                }
+            }).create().show();
+        } else {
             super.onBackPressed();
         }
     }
@@ -380,6 +516,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                     mMembers.add(tm);
                 }
                 mAdapter.setDatas(mMembers);
+                isEdited = true;
             }
         } else
             super.onActivityResult(requestCode, resultCode, data);
@@ -434,7 +571,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }).show();
     }
 
-    //编辑任务不可改项目，新建任务改项目后所有成员重置
+    //编辑任务不可改项目，新建任务该项目后所有成员重置
     private void resetMembers()
     {
         mMembers = new ArrayList<>();
@@ -443,6 +580,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         tm.setTask(mTask);
         mMembers.add(tm);
         mAdapter.setDatas(mMembers);
+        isEdited = true;
     }
 
     private void initDateAndTime()
@@ -451,13 +589,14 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         {
             mCalendarStart = Calendar.getInstance();
             mCalendarEnd = Calendar.getInstance();
+            mStartMinute = mEndMinute = mCalendarStart.get(Calendar.MINUTE);
+            mStartHourOfDay = mEndHourOfDay = mCalendarStart.get(Calendar.HOUR_OF_DAY);
+            adjustDateTimeDisplay();
         } else
         {
-
             mCalendarStart = Calendar.getInstance();
             Date d = DateUtil.StringToDate(mTask.getStartDate().getDate());
             mCalendarStart.setTime(d);
-
 
             mCalendarEnd = Calendar.getInstance();
             Date ed = DateUtil.StringToDate(mTask.getEndDate().getDate());
@@ -465,6 +604,12 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit_task, menu);
+        return true;
+    }
 
     @Override
     public void showTaskDetail(TaskBean b)

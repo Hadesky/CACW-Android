@@ -101,13 +101,11 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
      */
     private void createNewTask(final List<TaskMember> members)
     {
-
         mView.showProgress();
         final List<BmobObject> list = new ArrayList<>();
         list.addAll(members);
 
         mSubscription = mTask.saveObservable().observeOn(AndroidSchedulers.mainThread())
-
                 .flatMap(new Func1<String, Observable<List<BmobObject>>>()
                 {
                     @Override
@@ -291,28 +289,27 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
 
 
     @Override
-    public void saveTask(List<TaskMember> members)
+    public boolean saveTask(List<TaskMember> members)
     {
         mMembers = members;
         if (mMembers == null)
-            return;
+            return false;
         if (members.size() == 0)
         {
             mView.showMsg("数据异常，成员数量为0");
-            return;
+            return false;
         }
 
         if (mTask.getProjectBean() == null)
         {
             mView.showMsg("请选择所属项目");
-            return;
+            return false;
         }
         if (mTask.getTitle().length() == 0)
         {
             mView.showMsg("标题不可为空");
-            return;
+            return false;
         }
-
 
         if (newTask)
         {
@@ -321,6 +318,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
         {
             updateTask(members);
         }
+        return true;
     }
 
     @Override
@@ -387,4 +385,7 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
             mSubscription.unsubscribe();
     }
 
+    public void saveTaskAndFinish() {
+
+    }
 }

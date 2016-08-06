@@ -14,6 +14,8 @@ import com.hadesky.cacw.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobACL;
 import cn.bmob.v3.BmobBatch;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
@@ -141,11 +143,20 @@ public class ChatPresenterImpl implements ChatPresenter
     @Override
     public void send(final String text)
     {
+        //不可修改，只有自己和对方可读
+        BmobACL acl = new BmobACL();
+        acl.setPublicReadAccess(false);
+        acl.setPublicWriteAccess(false);
+        acl.setReadAccess(mUSer, true);
+        acl.setReadAccess(mReceiver, true);
+        acl.setWriteAccess(mUSer, true);
+        acl.setWriteAccess(mReceiver, true);
         final MessageBean mb = new MessageBean();
         mb.setSender(mUSer);
         mb.setReceiver(mReceiver);
         mb.setType(MessageBean.TYPE_USER_TO_USER);
         mb.setMsg(text);
+        mb.setACL(acl);
 
         mAdapter.addNewChat(mb);
 

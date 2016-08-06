@@ -7,6 +7,8 @@ import com.hadesky.cacw.ui.view.NewTeamView;
 
 import java.io.File;
 
+import cn.bmob.v3.BmobACL;
+import cn.bmob.v3.BmobRole;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -28,11 +30,26 @@ public class NewTeamPresenterImpl implements NewTeamPresenter {
 
     private void createTeam(TeamBean teamBean)
     {
+        BmobACL acl = new BmobACL();
+        //只有管理员可写团队TeamBean
+        acl.setWriteAccess(MyApp.getCurrentUser(), true);
+        acl.setPublicWriteAccess(false);
+        acl.setPublicReadAccess(true);
 
         teamBean.setAdminUser(MyApp.getCurrentUser());
+        teamBean.setACL(acl);
+
+        //对于TeamMember来说，每一列只有自己和所在团队的管理员可以写操作
+        acl = new BmobACL();
+        acl.setPublicWriteAccess(false);
+        acl.setPublicReadAccess(true);
+        acl.setWriteAccess(MyApp.getCurrentUser(), true);
+
+
         final TeamMember tm = new TeamMember();
         tm.setTeam(teamBean);
         tm.setUser(MyApp.getCurrentUser());
+        tm.setACL(acl);
 
         teamBean.save(new SaveListener<String>() {
             @Override
