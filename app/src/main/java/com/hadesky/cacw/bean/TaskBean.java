@@ -11,8 +11,6 @@ import java.io.Serializable;
 public class TaskBean implements Serializable
 {
     private String mTitle = "";
-
-
     private String mContent="";
     private String mLocation = "";
     private ProjectBean mProjectBean;
@@ -37,17 +35,17 @@ public class TaskBean implements Serializable
         return mstartDate;
     }
 
-    public void setMstartDate(String mstartDate)
+    public void setStartDate(String mstartDate)
     {
         this.mstartDate = mstartDate;
     }
 
-    public String getMendDate()
+    public String getEndDate()
     {
         return mendDate;
     }
 
-    public void setMendDate(String mendDate)
+    public void setEndDate(String mendDate)
     {
         this.mendDate = mendDate;
     }

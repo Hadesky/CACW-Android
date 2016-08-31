@@ -117,7 +117,7 @@ public class SearchTaskAdapter extends BaseAdapter<TaskBean> {
                     setVisibility(R.id.layout_place, View.VISIBLE);
                     setTextView(R.id.tv_location, taskBean.getLocation());
                 }
-                setTextView(R.id.tv_date_time, taskBean.getMendDate());
+                setTextView(R.id.tv_date_time, taskBean.getEndDate());
             }
         };
     }

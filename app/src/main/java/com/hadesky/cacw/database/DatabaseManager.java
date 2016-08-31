@@ -314,7 +314,7 @@ public class DatabaseManager
         if (!cursor.isNull(cursor.getColumnIndex(Column_AvatarUrl)))
         {
             String url = cursor.getString(cursor.getColumnIndex(Column_AvatarUrl));
-            userBean.setAvatarUrl(url);
+            //userBean.setAvatarUrl(url);
         }
 
         userBean.setNickName(nickName);

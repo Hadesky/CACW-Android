@@ -180,7 +180,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mLocation.setText(task.getLocation());
 
         Calendar start = DateUtil.StringToCalendar(task.getMstartDate());
-        Calendar end = DateUtil.StringToCalendar(task.getMendDate());
+        Calendar end = DateUtil.StringToCalendar(task.getEndDate());
 
 
         mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", start.get(Calendar.YEAR), start.get(Calendar.MONTH) + 1, start.get(Calendar.DAY_OF_MONTH)));

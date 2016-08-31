@@ -24,7 +24,7 @@ public class TaskComparetor implements Comparator<TaskBean> {
 
         try {
             Date l = format.parse(lhs.getMstartDate());
-            Date r = format.parse(rhs.getMendDate());
+            Date r = format.parse(rhs.getEndDate());
             return l.compareTo(r);
 
         } catch (ParseException e) {

@@ -17,7 +17,6 @@ public class TeamBean implements Serializable
 
     private UserBean mAdminUser;//管理员
 
-
     public TeamBean() {
 
     }

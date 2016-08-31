@@ -14,19 +14,22 @@ public class UserBean implements Serializable
     public static final Byte SEX_FEMALE = 1;//性别女
     public static final Byte SEX_UNKNOW = 2;//性别保密
 
-    private String mAvatarUrl;
-
     private String mUsername;
     private String mNickName;
     private String mId;
     private Byte mSex = 0;//0是男，1是女，2是保密
-
+    private String mPhoneNumber;
     private String mShortNumber;//短号
-
     private String mSummary;//个人简介
-
     private String mAddress;//地址
+    private String mEmail;
+    public UserBean() {
+    }
 
+    public UserBean(String nickName)
+    {
+        mNickName = nickName;
+    }
     public String getSummary() {
         return mSummary;
     }
@@ -77,14 +80,6 @@ public class UserBean implements Serializable
         mNickName = nickName;
     }
 
-    public UserBean() {
-    }
-
-    public UserBean(String nickName)
-    {
-        mNickName = nickName;
-    }
-
 
     public Byte getSex() {
         return mSex;
@@ -102,14 +97,29 @@ public class UserBean implements Serializable
         this.mShortNumber = mShortNumber;
     }
 
+    public String getPhoneNumber()
+    {
+        return mPhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber)
+    {
+        mPhoneNumber = phoneNumber;
+    }
+
+    public String getEmail()
+    {
+        return mEmail;
+    }
+
+    public void setEmail(String email)
+    {
+        mEmail = email;
+    }
+
     public String getAvatarUrl()
     {
        return "";
-    }
-
-    public void setAvatarUrl(String avatarUrl)
-    {
-        mAvatarUrl = avatarUrl;
     }
 
     @Override
