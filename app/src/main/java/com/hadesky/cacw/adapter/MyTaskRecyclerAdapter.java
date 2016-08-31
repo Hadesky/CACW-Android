@@ -42,7 +42,7 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
             @Override
             public void setData(TaskBean o) {
                 setTextView(R.id.tv_title, o.getTitle());
-                String str = o.getMstartDate().substring(0, 10);
+                String str = o.getStartDate().substring(0, 10);
                 setTextView(R.id.tv_start_date, str);
                 CircleTextView v = findView(R.id.icon);
                 v.setText(o.getProjectBean().getProjectName());

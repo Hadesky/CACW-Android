@@ -14,9 +14,10 @@ public class TaskBean implements Serializable
     private String mContent="";
     private String mLocation = "";
     private ProjectBean mProjectBean;
-    private String mAdaminUserId = "";
-    private String mstartDate;
-    private String mendDate;
+    private String AdaminId = "";
+    private String startDate;
+    private String endDate;
+    private int isFinish;
 
     public ProjectBean getProjectBean() {
         return mProjectBean;
@@ -30,32 +31,42 @@ public class TaskBean implements Serializable
 
     }
 
-    public String getMstartDate()
+    public int getIsFinish()
     {
-        return mstartDate;
+        return isFinish;
+    }
+
+    public void setIsFinish(int isFinish)
+    {
+        this.isFinish = isFinish;
+    }
+
+    public String getStartDate()
+    {
+        return startDate;
     }
 
     public void setStartDate(String mstartDate)
     {
-        this.mstartDate = mstartDate;
+        this.startDate = mstartDate;
     }
 
     public String getEndDate()
     {
-        return mendDate;
+        return endDate;
     }
 
     public void setEndDate(String mendDate)
     {
-        this.mendDate = mendDate;
+        this.endDate = mendDate;
     }
 
-    public String getAdaminUserId() {
-        return mAdaminUserId;
+    public String getAdaminId() {
+        return AdaminId;
     }
 
-    public void setAdaminUserId(String adaminUserId) {
-        mAdaminUserId = adaminUserId;
+    public void setAdaminId(String adaminUserId) {
+        AdaminId = adaminUserId;
     }
 
     public String getLocation()

@@ -179,7 +179,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-        Calendar start = DateUtil.StringToCalendar(task.getMstartDate());
+        Calendar start = DateUtil.StringToCalendar(task.getStartDate());
         Calendar end = DateUtil.StringToCalendar(task.getEndDate());
 
 

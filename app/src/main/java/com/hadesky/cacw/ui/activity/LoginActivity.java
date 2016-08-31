@@ -24,18 +24,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.presenter.LoginPresenter;
+import com.hadesky.cacw.presenter.LoginPresenterImpl;
+import com.hadesky.cacw.ui.view.LoginView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
 
 import java.util.concurrent.ExecutionException;
 
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity implements LoginView{
 
     private EditText mUsername, mPassword;
     private Button mPwButton;
     private Button mLoginButton;
     private boolean mIsPwVisitable = false;
     private View mForgetPsw;
+    private AnimProgressDialog progressDialog;
+    private LoginPresenter mPresenter;
 
     @Override
     public int getLayoutId() {
@@ -59,9 +64,11 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void setupView() {
+        progressDialog = new AnimProgressDialog(this, false, null, "登录中...");
         setupPwButton();
         setupEditText();
         setupActionBar();
+        mPresenter = new LoginPresenterImpl(this);
 
     }
 
@@ -166,47 +173,42 @@ public class LoginActivity extends BaseActivity{
      * @param password 密码
      */
     private void login(final String username, final String password) throws ExecutionException, InterruptedException {
-        final AnimProgressDialog progressDialog = new AnimProgressDialog(this, false, null, "登录中...");
 
         //隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
         }
-        progressDialog.show();
-//        UserBean.loginByAccount(username, password, new LogInListener<UserBean>() {
-//
-//            @Override
-//            public void done(UserBean userBean, final BmobException e) {
-//                if (e!=null)
-//                {
-//                    progressDialog.cancel();
-//                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-//                }else
-//                {
-//
-//                    JPushInterface.resumePush(MyApp.getAppContext());
-//                    JPushInterface.setAlias(getApplicationContext(), MyApp.getCurrentUser().getObjectId(), new TagAliasCallback() {
-//                        @Override
-//                        public void gotResult(int i, String s, Set<String> set) {
-//                            progressDialog.cancel();
-//                            if (i == 0) {
-//                                //成功设置
-//                                navigateTo(MainActivity.class, true);
-//                                LoginActivity.this.finish();
-//                            } else {
-//                                UserBean.logOut();
-//                                showToast("设备绑定失败，请检查网络！");
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
+        mPresenter.login(username,password);
     }
 
     public void goRegisterActivity(View view) {
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onLoginSucceed()
+    {
+        navigateTo(MainActivity.class,false);
+        finish();
+    }
+
+    @Override
+    public void showProgress()
+    {
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgress()
+    {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showMsg(String s)
+    {
+        showToast(s);
     }
 }

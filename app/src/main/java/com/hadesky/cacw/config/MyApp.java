@@ -5,11 +5,18 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.network.CacwServer;
+import com.hadesky.cacw.network.CookieManager;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.jpush.android.api.JPushInterface;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -23,23 +30,35 @@ public class MyApp extends Application
     private static final String TAG = MyApp.class.getSimpleName();
     private static String URL;//服务器地址
     private static Context mContext;//App实例
-
-
-
+    private static OkHttpClient sOkHttpClient;
+    private static SessionManagement sSessionManagement;
+    private static CacwServer sApiServer;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-
-        URL = "http://115.28.15.194:8000";
+        URL = "http://192.168.199.234:8081";
         mContext = this;
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         Fresco.initialize(this);
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
+        sOkHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .client(sOkHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        sApiServer = retrofit.create(CacwServer.class);
     }
 
+    public static CacwServer getApiServer()
+    {
+        return sApiServer;
+    }
 
     /**
      * 获得通知manager
@@ -51,6 +70,14 @@ public class MyApp extends Application
         }
         return null;
     }
+
+    public static synchronized SessionManagement getSessionManager()
+    {
+        if(sSessionManagement==null)
+            sSessionManagement = new SessionManagement(getAppContext());
+        return sSessionManagement;
+    }
+
 
     public static boolean isCurrentUser(UserBean sb)
     {

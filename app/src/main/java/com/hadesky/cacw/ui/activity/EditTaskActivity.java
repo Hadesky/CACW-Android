@@ -590,7 +590,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         } else
         {
             mCalendarStart = Calendar.getInstance();
-            Date d = DateUtil.StringToDate(mTask.getMstartDate());
+            Date d = DateUtil.StringToDate(mTask.getStartDate());
             mCalendarStart.setTime(d);
 
             mCalendarEnd = Calendar.getInstance();
