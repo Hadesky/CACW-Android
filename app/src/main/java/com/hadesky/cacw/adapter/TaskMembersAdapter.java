@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.SelectMemberActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -28,16 +28,16 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static final int BUTTON_TYPE_DELETE = 2;
 
     private Context mContext;
-    private List<TaskMember> mDatas;
+    private List<UserBean> mDatas;
     private boolean ableToDelete = false;
     private boolean ableToAdd = false;
 
-    public TaskMembersAdapter(Context context, List<TaskMember> datas) {
+    public TaskMembersAdapter(Context context, List<UserBean> datas) {
         mContext = context;
         mDatas = datas;
     }
 
-    public void setDatas(List<TaskMember> list) {
+    public void setDatas(List<UserBean> list) {
         mDatas = list;
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 @Override
                 public void OnItemClick(View view, int position) {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getUser());
+                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position));
                     mContext.startActivity(intent);
                 }
             });
@@ -71,10 +71,9 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
 
     @Override
     public void onBindViewHolder(TaskMemberVH holder, int position) {
-        TaskMember tm = mDatas.get(position);
-        holder.setName(tm.getUser().getNickName());
-        holder.setFinish(tm.isFinish());
-        holder.setImageUri(tm.getUser().getAvatarUrl());
+        UserBean tm = mDatas.get(position);
+        holder.setName(tm.getNickName());
+        holder.setImageUri(tm.getAvatarUrl());
 
     }
 

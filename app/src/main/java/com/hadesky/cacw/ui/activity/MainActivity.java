@@ -23,7 +23,6 @@ import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
@@ -162,7 +161,6 @@ public class MainActivity extends BaseActivity {
         DatabaseManager.closeDb();//关闭数据库
         JPushInterface.setAlias(getApplicationContext(), "", null);
         JPushInterface.stopPush(this);
-        BmobUser.logOut();
 
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

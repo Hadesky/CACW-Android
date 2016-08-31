@@ -12,7 +12,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TeamMemberPresenter;
-import com.hadesky.cacw.presenter.TeamMemberPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.view.TeamMemberView;
@@ -59,7 +58,8 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
         if (getArguments() != null) {
             mTeamBean = (TeamBean) getArguments().getSerializable(ARG_TEAM_BEAN);
         }
-        mPresenter = new TeamMemberPresenterImpl(this);
+
+        //mPresenter = new TeamMemberPresenterImpl(this);
     }
 
 

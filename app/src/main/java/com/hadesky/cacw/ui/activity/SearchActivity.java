@@ -17,7 +17,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SearchTaskAdapter;
 import com.hadesky.cacw.adapter.ViewPagerAdapter;
 import com.hadesky.cacw.presenter.SearchPresenter;
-import com.hadesky.cacw.presenter.SearchTaskPresenterImpl;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
@@ -53,7 +52,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         mFragmentManager = getSupportFragmentManager();
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mSearchTaskPresenter = new SearchTaskPresenterImpl(this, this);
+        //mSearchTaskPresenter = new SearchTaskPresenterImpl(this, this);
     }
 
     @Override

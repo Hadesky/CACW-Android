@@ -1,7 +1,6 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
+import java.io.Serializable;
 
 /**
  * 一项任务的实体对象类
@@ -9,16 +8,17 @@ import cn.bmob.v3.datatype.BmobDate;
  */
 
 
-public class TaskBean extends BmobObject
+public class TaskBean implements Serializable
 {
     private String mTitle = "";
-    private BmobDate mStartDate;
-    private BmobDate mEndDate;
+
 
     private String mContent="";
     private String mLocation = "";
     private ProjectBean mProjectBean;
     private String mAdaminUserId = "";
+    private String mstartDate;
+    private String mendDate;
 
     public ProjectBean getProjectBean() {
         return mProjectBean;
@@ -30,6 +30,26 @@ public class TaskBean extends BmobObject
 
     public TaskBean() {
 
+    }
+
+    public String getMstartDate()
+    {
+        return mstartDate;
+    }
+
+    public void setMstartDate(String mstartDate)
+    {
+        this.mstartDate = mstartDate;
+    }
+
+    public String getMendDate()
+    {
+        return mendDate;
+    }
+
+    public void setMendDate(String mendDate)
+    {
+        this.mendDate = mendDate;
     }
 
     public String getAdaminUserId() {
@@ -60,7 +80,6 @@ public class TaskBean extends BmobObject
     }
 
 
-
     public String getTitle()
     {
         return mTitle;
@@ -71,34 +90,5 @@ public class TaskBean extends BmobObject
         mTitle = title;
     }
 
-    public BmobDate getStartDate() {
-        return mStartDate;
-    }
-
-    public void setStartDate(BmobDate startDate) {
-        mStartDate = startDate;
-    }
-
-    public BmobDate getEndDate() {
-        return mEndDate;
-    }
-
-    public void setEndDate(BmobDate endDate) {
-        mEndDate = endDate;
-    }
-
-    public TaskBean clone()
-    {
-        TaskBean taskBean = new TaskBean();
-        taskBean.setObjectId(getObjectId());
-        taskBean.setAdaminUserId(mAdaminUserId);
-        taskBean.setTitle(mTitle);
-        taskBean.setContent(mContent);
-        taskBean.setLocation(mLocation);
-        taskBean.setProjectBean(mProjectBean);
-        taskBean.setStartDate(mStartDate);
-        taskBean.setEndDate(mEndDate);
-        return taskBean;
-    }
 
 }

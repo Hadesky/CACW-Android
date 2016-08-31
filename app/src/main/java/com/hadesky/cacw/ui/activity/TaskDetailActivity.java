@@ -14,10 +14,8 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
-import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
-import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TaskDetailView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
@@ -94,7 +92,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
-        mAdapter = new TaskMembersAdapter(this, new ArrayList<TaskMember>());
+        mAdapter = new TaskMembersAdapter(this, new ArrayList<UserBean>());
         mRcv_members.setAdapter(mAdapter);
 
         mBtnEditTask.setOnClickListener(this);
@@ -103,7 +101,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
-        TaskMember tm = (TaskMember) getIntent().getSerializableExtra("task");
+        TaskBean tm = (TaskBean) getIntent().getSerializableExtra("task");
         mIsFinished = getIntent().getBooleanExtra("isFinished",false);
 
         if (tm == null) {
@@ -115,15 +113,14 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
             }else
             {
                 mTask = new TaskBean();
-                mTask.setObjectId(taskid);
-                mPresenter = new TaskDetailPresenterImpl(this, mTask);
+                //mPresenter = new TaskDetailPresenterImpl(this, mTask);
                 mPresenter.loadTaskInfo();
             }
         }else
         {
-            mTask = tm.getTask();
+            mTask = tm;
             showInfo(mTask);
-            mPresenter = new TaskDetailPresenterImpl(this, mTask);
+            //mPresenter = new TaskDetailPresenterImpl(this, mTask);
             mPresenter.LoadTaskMember();
         }
 
@@ -182,8 +179,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-        Calendar start = DateUtil.StringToCalendar(task.getStartDate().getDate());
-        Calendar end = DateUtil.StringToCalendar(task.getEndDate().getDate());
+        Calendar start = DateUtil.StringToCalendar(task.getMstartDate());
+        Calendar end = DateUtil.StringToCalendar(task.getMendDate());
 
 
         mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", start.get(Calendar.YEAR), start.get(Calendar.MONTH) + 1, start.get(Calendar.DAY_OF_MONTH)));
@@ -191,14 +188,15 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", end.get(Calendar.YEAR), end.get(Calendar.MONTH) + 1, end.get(Calendar.DAY_OF_MONTH)));
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
-        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
-            mBtnEditTask.setVisibility(View.INVISIBLE);
-            mBtnDelTask.setVisibility(View.INVISIBLE);
-        }
+        //判断显示删除按钮
+//        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
+//            mBtnEditTask.setVisibility(View.INVISIBLE);
+//            mBtnDelTask.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override
-    public void ShowMember(List<TaskMember> users) {
+    public void ShowMember(List<UserBean> users) {
         mAdapter.setDatas(users);
     }
 

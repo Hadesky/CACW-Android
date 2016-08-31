@@ -2,13 +2,11 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
@@ -119,7 +117,7 @@ public class SearchTaskAdapter extends BaseAdapter<TaskBean> {
                     setVisibility(R.id.layout_place, View.VISIBLE);
                     setTextView(R.id.tv_location, taskBean.getLocation());
                 }
-                setTextView(R.id.tv_date_time, taskBean.getEndDate().getDate());
+                setTextView(R.id.tv_date_time, taskBean.getMendDate());
             }
         };
     }

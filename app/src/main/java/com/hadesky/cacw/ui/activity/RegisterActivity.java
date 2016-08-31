@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.presenter.RegisterPresenterImpl;
+
 import com.hadesky.cacw.ui.view.RegisterView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.DeletableEditText;
@@ -29,7 +29,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
     private DeletableEditText pswEditText;
     private DeletableEditText pswConfirmEditText;
 
-    private RegisterPresenterImpl presenter;
+    //private RegisterPresenterImpl presenter;
     private DisableBtHandler handler;
 
     @Override
@@ -47,7 +47,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
 
         progressDialog = new AnimProgressDialog(this);
         emailEditText = (DeletableEditText) findViewById(R.id.det_username);
-        presenter = new RegisterPresenterImpl(this);
+        //presenter = new RegisterPresenterImpl(this);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
             public void onClick(View v) {
                 String email = emailEditText.getText().toString();
                 if (isEmail(email)) {
-                    presenter.getAuthCode(email);
+                    //presenter.getAuthCode(email);
                 }else showMsg("请输入正确格式的邮箱地址！");
             }
         });
@@ -87,7 +87,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView {
                     return;
                 }
                 // TODO: 2016/7/5 0005 这里没用到验证码
-                presenter.register(email,pswEditText.getText().toString(),"0");
+                //presenter.register(email,pswEditText.getText().toString(),"0");
             }
         });
 

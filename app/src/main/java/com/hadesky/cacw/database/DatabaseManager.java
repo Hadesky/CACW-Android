@@ -48,7 +48,7 @@ public class DatabaseManager
     private DatabaseManager(Context context)
     {
         mUser = MyApp.getCurrentUser();
-        mHelper = new DatabaseHelper(context, mUser.getObjectId());
+        mHelper = new DatabaseHelper(context, mUser.getId());
         db = mHelper.getWritableDatabase();
     }
 
@@ -167,14 +167,14 @@ public class DatabaseManager
     {
 
 
-        if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
+        if (bean.getSender().getId().equals(mUser.getId()))
             saveOrUpdateUser(bean.getReceiver());
         else
             saveOrUpdateUser(bean.getSender());
 
         ContentValues cv = new ContentValues();
-        cv.put(Column_Sender, bean.getSender().getObjectId());
-        cv.put(Column_Receiver, bean.getReceiver().getObjectId());
+//        cv.put(Column_Sender, bean.getSender().getObjectId());
+//        cv.put(Column_Receiver, bean.getReceiver().getObjectId());
         cv.put(Column_Type, bean.getType());
         cv.put(Column_Content, bean.getMsg());
         cv.put(Column_hasRead, bean.getHasRead());
@@ -188,14 +188,14 @@ public class DatabaseManager
         db.beginTransaction();
         for(MessageBean bean : list)
         {
-            if (bean.getSender().getObjectId().equals(mUser.getObjectId()))
+            if (bean.getSender().getId().equals(mUser.getId()))
                 saveOrUpdateUser(bean.getReceiver());
             else
                 saveOrUpdateUser(bean.getSender());
 
             ContentValues cv = new ContentValues();
-            cv.put(Column_Sender, bean.getSender().getObjectId());
-            cv.put(Column_Receiver, bean.getReceiver().getObjectId());
+            cv.put(Column_Sender, bean.getSender().getId());
+            cv.put(Column_Receiver, bean.getReceiver().getId());
             cv.put(Column_Type, bean.getType());
             cv.put(Column_Content, bean.getMsg());
             cv.put(Column_hasRead, bean.getHasRead());
@@ -207,11 +207,11 @@ public class DatabaseManager
 
     public void saveOrUpdateUser(UserBean user)
     {
-        Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_OId + " =? ", new String[]{user.getObjectId()});
+        Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_OId + " =? ", new String[]{user.getId()+""});
         if (!cursor.moveToFirst())
         {
             ContentValues cv = new ContentValues();
-            cv.put(Column_OId, user.getObjectId());
+            cv.put(Column_OId, user.getId());
             cv.put(Column_NickName, user.getNickName());
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
@@ -222,7 +222,7 @@ public class DatabaseManager
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
             cv.put(Column_NickName, user.getNickName());
-            db.update(Table_Users, cv, Column_OId + "=?", new String[]{user.getObjectId()});
+            db.update(Table_Users, cv, Column_OId + "=?", new String[]{user.getId()+""});
         }
         cursor.close();
     }
@@ -316,7 +316,7 @@ public class DatabaseManager
             String url = cursor.getString(cursor.getColumnIndex(Column_AvatarUrl));
             userBean.setAvatarUrl(url);
         }
-        userBean.setObjectId(oid);
+
         userBean.setNickName(nickName);
 
         return userBean;
@@ -327,7 +327,7 @@ public class DatabaseManager
         MessageBean bean = new MessageBean();
 
         String sender = cursor.getString(cursor.getColumnIndex(Column_Sender));
-        if (sender.equals(mUser.getObjectId()))
+        if (sender.equals(mUser.getId()))
         {
             bean.setSender(mUser);
             String to = cursor.getString(cursor.getColumnIndex(Column_Receiver));

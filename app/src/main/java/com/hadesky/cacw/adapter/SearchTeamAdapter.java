@@ -12,8 +12,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
 
 import java.lang.ref.WeakReference;
@@ -112,8 +110,8 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
                     setTextView(R.id.tv_summary, team.getSummary());
                 }
                 SimpleDraweeView view = findView(R.id.iv_avatar);
-                if (team.getTeamAvatar() != null) {
-                    view.setImageURI(team.getTeamAvatar().getUrl());
+                if (team.getTeamAvatarUrl() != null) {
+                    view.setImageURI(team.getTeamAvatarUrl());
                 } else {
                     view.setImageURI((String) null);
                 }
@@ -164,11 +162,11 @@ public class SearchTeamAdapter extends BaseAdapter<TeamBean> {
         return position == mDatas.size() ? TYPE_NEXT_RESULT : TYPE_TEAM;
     }
 
-    public void setMyTeams(List<TeamMember> myTeams) {
+    public void setMyTeams(List<TeamBean> myTeams) {
         if (myTeams != null) {
             mMyTeams = new ArrayList<>();
-            for (TeamMember team : myTeams) {
-                mMyTeams.add(team.getTeam());
+            for (TeamBean team : myTeams) {
+                mMyTeams.add(team);
             }
         }
     }

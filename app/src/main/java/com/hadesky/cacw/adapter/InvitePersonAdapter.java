@@ -39,8 +39,8 @@ public class InvitePersonAdapter extends SearchPersonAdapter {
             setTextView(R.id.tv_nick_name, userBean.getNickName());
             setTextView(R.id.tv_summary, userBean.getSummary());
             SimpleDraweeView view = findView(R.id.iv_avatar);
-            if (userBean.getUserAvatar() != null) {
-                view.setImageURI(userBean.getUserAvatar().getUrl());
+            if (userBean.getAvatarUrl() != null) {
+                view.setImageURI(userBean.getAvatarUrl());
             } else {
                 view.setImageURI((String) null);
             }

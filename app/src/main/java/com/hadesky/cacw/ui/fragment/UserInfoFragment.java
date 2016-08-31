@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -21,18 +20,10 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.ImageActivity;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
 import com.hadesky.cacw.ui.widget.PullToZoomScrollViewEx;
-import com.hadesky.cacw.util.StringUtils;
-
-import java.io.File;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 
 /**
  *
@@ -109,16 +100,16 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void loadUserInfo() {
-        if (mUserBean != null) {
-            if (mUserBean.getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
-                //是当前用户，不联网查询
-                updateData(MyApp.getCurrentUser());
-                hideAllActionButton();
-                return;
-            }
-            updateData(mUserBean);
-            setupActionButtonListener(mUserBean);
-        }
+//        if (mUserBean != null) {
+//            if (mUserBean.getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
+//                //是当前用户，不联网查询
+//                updateData(MyApp.getCurrentUser());
+//                hideAllActionButton();
+//                return;
+//            }
+//            updateData(mUserBean);
+//            setupActionButtonListener(mUserBean);
+//        }
     }
 
     private void setupActionButtonListener(UserBean userBean) {
@@ -131,27 +122,27 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
 
 
     private void updateData(UserBean bean) {
-        if (bean != null) {
-            mNickNameView.setText(bean.getNickName());
-            showOrHide(mEmailView, mEmailLayout, bean.getEmail());
-            showOrHide(mPhoneView, mPhoneLayout, bean.getMobilePhoneNumber());
-            showOrHide(mAddressView, mAddressLayout, bean.getAddress());
-            if (bean.getShortNumber() != null && !bean.getShortNumber().isEmpty()) {
-                mShortPhoneView.setText(StringUtils.roundWithBrackets(bean.getShortNumber()));
-                mShortPhoneButton.setVisibility(View.VISIBLE);
-            } else {
-                mShortPhoneButton.setVisibility(View.GONE);
-                mShortPhoneView.setVisibility(View.GONE);
-            }
-            mSummaryView.setText(bean.getSummary());
-            if (bean.getSex() != null) {
-                mSexView.setImageLevel(bean.getSex());
-            }
-            if (bean.getUserAvatar() != null) {
-                mAvatarView.setImageURI(bean.getUserAvatar().getUrl());
-                mAvatarView.setTag(bean.getUserAvatar().getUrl());//将url作为tag放在iv里面
-            }
-        }
+//        if (bean != null) {
+//            mNickNameView.setText(bean.getNickName());
+//            showOrHide(mEmailView, mEmailLayout, bean.getEmail());
+//            showOrHide(mPhoneView, mPhoneLayout, bean.getMobilePhoneNumber());
+//            showOrHide(mAddressView, mAddressLayout, bean.getAddress());
+//            if (bean.getShortNumber() != null && !bean.getShortNumber().isEmpty()) {
+//                mShortPhoneView.setText(StringUtils.roundWithBrackets(bean.getShortNumber()));
+//                mShortPhoneButton.setVisibility(View.VISIBLE);
+//            } else {
+//                mShortPhoneButton.setVisibility(View.GONE);
+//                mShortPhoneView.setVisibility(View.GONE);
+//            }
+//            mSummaryView.setText(bean.getSummary());
+//            if (bean.getSex() != null) {
+//                mSexView.setImageLevel(bean.getSex());
+//            }
+//            if (bean.getUserAvatar() != null) {
+//                mAvatarView.setImageURI(bean.getUserAvatar().getUrl());
+//                mAvatarView.setTag(bean.getUserAvatar().getUrl());//将url作为tag放在iv里面
+//            }
+//        }
     }
 
     private void showOrHide(TextView view, ViewGroup layout, String data) {

@@ -28,7 +28,6 @@ import com.hadesky.cacw.adapter.ChatAdapter;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.ChatPresenter;
-import com.hadesky.cacw.presenter.ChatPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.ChatView;
 
@@ -139,7 +138,7 @@ public class ChatActivity extends BaseActivity implements ChatView
         });
 
 
-        mPresenter=  new ChatPresenterImpl(this,mReceiver,mAdapter);
+        //mPresenter=  new ChatPresenterImpl(this,mReceiver,mAdapter);
         mAdapter.setPresenter(mPresenter);
         mPresenter.loadChatMessage();
         setupReciever();
@@ -154,7 +153,7 @@ public class ChatActivity extends BaseActivity implements ChatView
             {
                 Log.e("tag", "收到广播");
                 String id = intent.getStringExtra(IntentTag.TAG_USER_ID);
-                if (id.equals(mReceiver.getObjectId()))
+                if (id.equals(mReceiver.getId()))
                 {
                     mPresenter.loadNewMsg();
                 }

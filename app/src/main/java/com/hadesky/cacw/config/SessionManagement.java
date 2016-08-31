@@ -86,9 +86,7 @@ public class SessionManagement {
     public UserBean getUserDetails() {
 
         UserBean bean = new UserBean();
-        bean.setObjectId(mPref.getString(KEY_USER_ID,""));
         bean.setUsername(mPref.getString(KEY_NAME, "蚂蚁"));
-
 
         // return user
         return bean;

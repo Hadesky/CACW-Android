@@ -1,22 +1,14 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.TeamMemberFragment;
-import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 
 public class TeamMemberActivity extends BaseActivity {
 

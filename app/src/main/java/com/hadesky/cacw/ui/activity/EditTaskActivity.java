@@ -27,10 +27,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.EditTaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
@@ -43,8 +40,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import cn.bmob.v3.datatype.BmobDate;
 
 
 public class EditTaskActivity extends BaseActivity implements EditTaskView, EditableMembersAdapter.OnMemberEditListener
@@ -68,7 +63,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
 
-    private EditTaskPresenterImpl mPresenter;
+    //private EditTaskPresenterImpl mPresenter;
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务
     private List<ProjectBean> mProjectList;
@@ -77,7 +72,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
     private int mStartHourOfDay, mStartMinute,mEndHourOfDay, mEndMinute;
-    private List<TaskMember> mMembers;
+    private List<UserBean> mMembers;
 
     private DateTimePickerDialog mDateTimePickerDialog;
 
@@ -235,15 +230,15 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             initDateAndTime();
         }
 
-        mAdapter = new EditableMembersAdapter(new ArrayList<TaskMember>(), this, this, mTask);
+        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this, mTask);
         mAdapter.setAbleToAdd(true);
         mAdapter.setAbleToDelete(true);
 
         mRcvMembers.setAdapter(mAdapter);
 
 
-        mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
-        mPresenter.loadTaskMember();
+        //mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
+       // mPresenter.loadTaskMember();
         setListener();
     }
 
@@ -322,7 +317,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 if (!newTask) {
                     showMsg("不可修改任务项目");
                 } else {
-                    mPresenter.loadProjects();
+                    //mPresenter.loadProjects();
                     isEdited = true;
                 }
             }
@@ -360,13 +355,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             return;
         }
 
-        mTask.setStartDate(new BmobDate(mCalendarStart.getTime()));
-        mTask.setEndDate(new BmobDate(mCalendarEnd.getTime()));
-        mTask.setTitle(mEdtTitle.getText().toString());
-        mTask.setLocation(mEdtLocation.getText().toString());
-        mTask.setContent(mEdtDetail.getText().toString());
-
-        mPresenter.saveTask(mAdapter.getDatas());
+//        mTask.setStartDate(new BmobDate(mCalendarStart.getTime()));
+//        mTask.setEndDate(new BmobDate(mCalendarEnd.getTime()));
+//        mTask.setTitle(mEdtTitle.getText().toString());
+//        mTask.setLocation(mEdtLocation.getText().toString());
+//        mTask.setContent(mEdtDetail.getText().toString());
+//
+//        mPresenter.saveTask(mAdapter.getDatas());
     }
 
 
@@ -476,11 +471,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     public boolean onMemberDelete(UserBean user)
     {
 
-        if (user.getObjectId().equals(MyApp.getCurrentUser().getObjectId()))
-        {
-            showMsg("不能删除自己");
-            return false;
-        }
+//        if (user.getObjectId().equals(MyApp.getCurrentUser().getObjectId()))
+//        {
+//            showMsg("不能删除自己");
+//            return false;
+//        }
         return true;
     }
 
@@ -507,15 +502,15 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             ArrayList<UserBean> list = (ArrayList<UserBean>) data.getSerializableExtra(IntentTag.TAG_USER_BEAN_LIST);
             if (list != null)
             {
-                mMembers = new ArrayList<>();
-                for(UserBean ub : list)
-                {
-                    TaskMember tm = new TaskMember();
-                    tm.setTask(mTask);
-                    tm.setUser(ub);
-                    mMembers.add(tm);
-                }
-                mAdapter.setDatas(mMembers);
+//                mMembers = new ArrayList<>();
+//                for(UserBean ub : list)
+//                {
+//                    TaskMember tm = new TaskMember();
+//                    tm.setTask(mTask);
+//                    tm.setUser(ub);
+//                    mMembers.add(tm);
+//                }
+//                mAdapter.setDatas(mMembers);
                 isEdited = true;
             }
         } else
@@ -523,7 +518,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
     @Override
-    public void showTaskMember(List<TaskMember> members)
+    public void showTaskMember(List<UserBean> members)
     {
         mAdapter.setDatas(members);
         mMembers = members;
@@ -560,7 +555,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (mTask.getProjectBean()!=null&& mTask.getProjectBean().getObjectId().equals(mProjectList.get(which).getObjectId()))
+                if (mTask.getProjectBean()!=null&& mTask.getProjectBean().equals(mProjectList.get(which)))
                     return;
 
                 mTask.setProjectBean(mProjectList.get(which));
@@ -574,13 +569,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     //编辑任务不可改项目，新建任务该项目后所有成员重置
     private void resetMembers()
     {
-        mMembers = new ArrayList<>();
-        TaskMember tm = new TaskMember();
-        tm.setUser(MyApp.getCurrentUser());
-        tm.setTask(mTask);
-        mMembers.add(tm);
-        mAdapter.setDatas(mMembers);
-        isEdited = true;
+//        mMembers = new ArrayList<>();
+//        TaskMember tm = new TaskMember();
+//        tm.setUser(MyApp.getCurrentUser());
+//        tm.setTask(mTask);
+//        mMembers.add(tm);
+//        mAdapter.setDatas(mMembers);
+//        isEdited = true;
     }
 
     private void initDateAndTime()
@@ -595,11 +590,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         } else
         {
             mCalendarStart = Calendar.getInstance();
-            Date d = DateUtil.StringToDate(mTask.getStartDate().getDate());
+            Date d = DateUtil.StringToDate(mTask.getMstartDate());
             mCalendarStart.setTime(d);
 
             mCalendarEnd = Calendar.getInstance();
-            Date ed = DateUtil.StringToDate(mTask.getEndDate().getDate());
+            Date ed = DateUtil.StringToDate(mTask.getMendDate());
             mCalendarEnd.setTime(ed);
         }
     }
@@ -645,6 +640,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     protected void onDestroy()
     {
         super.onDestroy();
-        mPresenter.onDestroy();
+        //mPresenter.onDestroy();
     }
 }

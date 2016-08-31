@@ -27,10 +27,9 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
-import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
@@ -55,7 +54,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     private TextView mTvSummary;
     private TextView mTvProjectCount;
     private RecyclerView mRcvMembers;
-    private BaseAdapter<TeamMember> mAdapter;
+    private BaseAdapter<UserBean> mAdapter;
     private TeamInfoPresenter mPresenters;
     private TeamBean mTeam;
     private SimpleDraweeView mSimpleDraweeView;
@@ -101,16 +100,16 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
         showInfo();
 
-        mAdapter = new BaseAdapter<TeamMember>(new ArrayList<TeamMember>(), R.layout.list_item_member) {
+        mAdapter = new BaseAdapter<UserBean>(new ArrayList<UserBean>(), R.layout.list_item_member) {
             @Override
-            public BaseViewHolder<TeamMember> createHolder(View v, Context context) {
-                BaseViewHolder viewHolder = new BaseViewHolder<TeamMember>(v) {
+            public BaseViewHolder<UserBean> createHolder(View v, Context context) {
+                BaseViewHolder viewHolder = new BaseViewHolder<UserBean>(v) {
                     @Override
-                    public void setData(TeamMember o) {
-                        setTextView(R.id.tv, o.getUser().getNickName());
-                        if (o.getUser().getAvatarUrl() != null) {
+                    public void setData(UserBean o) {
+                        setTextView(R.id.tv, o.getNickName());
+                        if (o.getAvatarUrl() != null) {
                             SimpleDraweeView avatar = findView(R.id.iv_avatar);
-                            avatar.setImageURI(o.getUser().getAvatarUrl());
+                            avatar.setImageURI(o.getAvatarUrl());
                         }
                     }
                 };
@@ -118,7 +117,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     @Override
                     public void OnItemClick(View view, int position) {
                         Intent intent = new Intent(TeamInfoActivity.this, UserInfoActivity.class);
-                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, mDatas.get(position).getUser());
+                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, mDatas.get(position));
                         startActivity(intent);
                     }
                 });
@@ -133,7 +132,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers.setAdapter(mAdapter);
 
 
-        mPresenters = new TeamInfoPresenterImpl(mTeam, this);
+       //mPresenters = new TeamInfoPresenterImpl(mTeam, this);
         mPresenters.getTeamMembers();
         mPresenters.getProjectCount();
 
@@ -203,8 +202,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamId.setText(String.valueOf(mTeam.getTeamId()));
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
-        if (mTeam.getTeamAvatar() != null) {
-            Uri uri = Uri.parse(mTeam.getTeamAvatar().getUrl());
+        if (mTeam.getTeamAvatarUrl() != null) {
+            Uri uri = Uri.parse(mTeam.getTeamAvatarUrl());
             mSimpleDraweeView.setImageURI(uri);
 
             DraweeController controller = Fresco.newDraweeControllerBuilder()
@@ -346,7 +345,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
 
     @Override
-    public void showMembers(List<TeamMember> list) {
+    public void showMembers(List<UserBean> list) {
         mAdapter.setDatas(list);
         mRcvMembers.setLayoutFrozen(true);
     }

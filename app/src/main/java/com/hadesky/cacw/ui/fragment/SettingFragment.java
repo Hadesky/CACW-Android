@@ -12,13 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.activity.MainActivity;
-import com.hp.hpl.sparta.xpath.Step;
-
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  *
@@ -79,16 +73,16 @@ public class SettingFragment extends PreferenceFragment
     }
 
     private void tryToChangePw(String old, String newPw) {
-        BmobUser.updateCurrentUserPassword(old, newPw, new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    showToast("密码修改成功!");
-                } else {
-                    showToast(e.getMessage());
-                }
-            }
-        });
+//        BmobUser.updateCurrentUserPassword(old, newPw, new UpdateListener() {
+//            @Override
+//            public void done(BmobException e) {
+//                if (e == null) {
+//                    showToast("密码修改成功!");
+//                } else {
+//                    showToast(e.getMessage());
+//                }
+//            }
+//        });
     }
 
     private void showToast(String toast) {

@@ -21,38 +21,31 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.ui.activity.NewTeamActivity;
 import com.hadesky.cacw.ui.activity.TeamInfoActivity;
 import com.hadesky.cacw.util.ImageUtils;
 
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import rx.Subscription;
-
 /**
  * 我的团队adapter
  * Created by 45517 on 2016/3/21.
  */
-public class MyTeamAdapter extends BaseAdapter<TeamMember>
+public class MyTeamAdapter extends BaseAdapter<TeamBean>
 {
     public static final int TYPE_TEAM = 0;
     public static final int TYPE_NEW_TEAM = 1;
 
-    public MyTeamAdapter(List<TeamMember> list, @LayoutRes int layoutid)
+    public MyTeamAdapter(List<TeamBean> list, @LayoutRes int layoutid)
     {
         super(list, layoutid);
     }
 
     private boolean mCache = false;
-    private Subscription mSubscription;
+//    private Subscription mSubscription;
 
     @Override
-    public BaseViewHolder<TeamMember> onCreateViewHolder(ViewGroup parent, int viewType)
+    public BaseViewHolder<TeamBean> onCreateViewHolder(ViewGroup parent, int viewType)
     {
         if (viewType == TYPE_NEW_TEAM)
         {
@@ -66,7 +59,7 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder<TeamMember> holder, int position)
+    public void onBindViewHolder(BaseViewHolder<TeamBean> holder, int position)
     {
         if (position >= mDatas.size())
         {
@@ -83,12 +76,12 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
         return position == mDatas.size() ? TYPE_NEW_TEAM : TYPE_TEAM;
     }
 
-    private BaseViewHolder<TeamMember> createNewTeamViewHolder(View view)
+    private BaseViewHolder<TeamBean> createNewTeamViewHolder(View view)
     {
-        return new BaseViewHolder<TeamMember>(view)
+        return new BaseViewHolder<TeamBean>(view)
         {
             @Override
-            public void setData(TeamMember teamMember)
+            public void setData(TeamBean teamMember)
             {
                 setOnItemClickListener(new OnItemClickListener()
                 {
@@ -110,22 +103,22 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
     }
 
     @Override
-    public BaseViewHolder<TeamMember> createHolder(final View v, Context context)
+    public BaseViewHolder<TeamBean> createHolder(final View v, Context context)
     {
 
-        BaseViewHolder<TeamMember> holder = new BaseViewHolder<TeamMember>(v)
+        BaseViewHolder<TeamBean> holder = new BaseViewHolder<TeamBean>(v)
         {
             @Override
-            public void setData(TeamMember teamBean)
+            public void setData(TeamBean teamBean)
             {
-                setTextView(R.id.tv_team_name, teamBean.getTeam().getTeamName());
-                setTextView(R.id.tv_team_summary, teamBean.getTeam().getSummary());
+                setTextView(R.id.tv_team_name, teamBean.getTeamName());
+                setTextView(R.id.tv_team_summary, teamBean.getSummary());
 
                 loadMemberCount(teamBean);
                 SimpleDraweeView view = findView(R.id.sdv_team_icon);
-                if (teamBean.getTeam().getTeamAvatar() != null)
+                if (teamBean.getTeamAvatarUrl() != null)
                 {
-                    ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(teamBean.getTeam().getTeamAvatar().getUrl()))
+                    ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(teamBean.getTeamAvatarUrl()))
                             //                            .setPostprocessor(new PaletteProcessor((CardView) findView(R.id.card_view)))
                             .build();
 
@@ -138,28 +131,9 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
                 Button newProjectBt = findView(R.id.bt_new_project);
             }
 
-            private void loadMemberCount(TeamMember teamBean)
+            private void loadMemberCount(TeamBean teamBean)
             {
-                BmobQuery<TeamMember> query = new BmobQuery<>();
-                query.addWhereEqualTo("mTeam", new BmobPointer(teamBean.getTeam()));
-                if (mCache)
-                {
-                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
-                    mCache = true;
-                }
-                mSubscription = query.findObjects(new FindListener<TeamMember>()
-                {
-                    @Override
-                    public void done(List<TeamMember> list, BmobException e)
-                    {
-                        if (e == null)
-                        {
-                            View view = findView(R.id.layout_member_count);
-                            view.setVisibility(View.VISIBLE);
-                            setTextView(R.id.tv_member_count, "" + list.size());
-                        }
-                    }
-                });
+
             }
         };
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener()
@@ -167,7 +141,7 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
             @Override
             public void OnItemClick(View view, int position)
             {
-                TeamBean teamBean = mDatas.get(position).getTeam();
+                TeamBean teamBean = mDatas.get(position);
                 navigateToTeamInfo(teamBean);
             }
         });
@@ -204,9 +178,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamMember>
 
     public void onDestroy()
     {
-        if (mSubscription != null)
-        {
-            mSubscription.unsubscribe();
-        }
+
     }
 }

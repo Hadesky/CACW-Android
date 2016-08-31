@@ -10,7 +10,7 @@ import android.view.View;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.ui.activity.BaseActivity;
 import com.hadesky.cacw.ui.activity.MainActivity;
@@ -23,29 +23,29 @@ import java.util.List;
  * 任务列表Adapter
  * Created by ziyue on 2015/7/24 0024.
  */
-public class MyTaskRecyclerAdapter extends BaseAdapter<TaskMember>
+public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
 {
 
     private MyTaskPresenter mPresenter;
     private boolean mIsFinished = false; //是否为已经查看完成任务的界面
 
-    public MyTaskRecyclerAdapter(List<TaskMember> list, MyTaskPresenter presenter, @LayoutRes int resId, boolean finished) {
+    public MyTaskRecyclerAdapter(List<TaskBean> list, MyTaskPresenter presenter, @LayoutRes int resId, boolean finished) {
         super(list, resId);
         mPresenter = presenter;
         mIsFinished = finished;
     }
 
     @Override
-    public BaseViewHolder<TaskMember> createHolder(View v, Context context) {
+    public BaseViewHolder<TaskBean> createHolder(View v, Context context) {
 
-        final BaseViewHolder<TaskMember> holder = new BaseViewHolder<TaskMember>(v) {
+        final BaseViewHolder<TaskBean> holder = new BaseViewHolder<TaskBean>(v) {
             @Override
-            public void setData(TaskMember o) {
-                setTextView(R.id.tv_title, o.getTask().getTitle());
-                String str = o.getTask().getStartDate().getDate().substring(0, 10);
+            public void setData(TaskBean o) {
+                setTextView(R.id.tv_title, o.getTitle());
+                String str = o.getMstartDate().substring(0, 10);
                 setTextView(R.id.tv_start_date, str);
                 CircleTextView v = findView(R.id.icon);
-                v.setText(o.getTask().getProjectBean().getProjectName());
+                v.setText(o.getProjectBean().getProjectName());
             }
         };
 

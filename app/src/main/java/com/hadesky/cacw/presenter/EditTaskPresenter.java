@@ -1,6 +1,6 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.TaskBean;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface EditTaskPresenter {
 
     void loadTaskMember();
 
-    boolean saveTask(List<TaskMember> Members);
+    boolean saveTask(List<TaskBean> Members);
 
     void loadProjects();
 

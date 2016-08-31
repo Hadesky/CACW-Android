@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.presenter.NewTeamPresenter;
-import com.hadesky.cacw.presenter.NewTeamPresenterImpl;
+
 import com.hadesky.cacw.ui.view.NewTeamView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
@@ -70,7 +70,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
         setSupportActionBar(mToolbars);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mPresenters = new NewTeamPresenterImpl(this);
+       // mPresenters = new NewTeamPresenterImpl(this);
     }
 
 

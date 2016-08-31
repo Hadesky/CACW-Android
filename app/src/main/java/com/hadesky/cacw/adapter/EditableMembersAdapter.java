@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -36,7 +35,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
 
     private boolean ableToAdd = false;
 
-    private List<TaskMember> members;
+    private List<UserBean> members;
     private Context mContext;
     private LayoutInflater inflater;
     private int mode = 0;
@@ -53,7 +52,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         void onAddMember();
     }
 
-    public EditableMembersAdapter(List<TaskMember> member, Context context, OnMemberEditListener listener, TaskBean task)
+    public EditableMembersAdapter(List<UserBean> member, Context context, OnMemberEditListener listener, TaskBean task)
     {
         this.mOnMemberEditListener = listener;
         this.mContext = context;
@@ -64,13 +63,13 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDatas(List<TaskMember> list)
+    public void setDatas(List<UserBean> list)
     {
         members = list;
         notifyDataSetChanged();
     }
 
-    public List<TaskMember> getDatas()
+    public List<UserBean> getDatas()
     {
         return members;
     }
@@ -94,12 +93,12 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                     {
                         //点击到头像
                         Intent intent = new Intent(mContext, UserInfoActivity.class);
-                        intent.putExtra(IntentTag.TAG_USER_BEAN, members.get(position).getUser());
+                        intent.putExtra(IntentTag.TAG_USER_BEAN, members.get(position));
                         mContext.startActivity(intent);
                     } else
                     {
                         //点击到头像的删除按钮
-                        if (mOnMemberEditListener.onMemberDelete(members.get(position).getUser()))
+                        if (mOnMemberEditListener.onMemberDelete(members.get(position)))
                         {
                             members.remove(position);
                             notifyDataSetChanged();
@@ -155,8 +154,8 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 holder.setDeleteViewVisible(true);
                 holder.avatarView.setClickable(false);
             }
-            holder.setText(members.get(position).getUser().getNickName());
-            holder.setImageUrl(members.get(position).getUser().getAvatarUrl());
+            holder.setText(members.get(position).getNickName());
+            holder.setImageUrl(members.get(position).getAvatarUrl());
 
         } else if (holder.getViewType() == BUTTON_TYPE_DELETE)
         {

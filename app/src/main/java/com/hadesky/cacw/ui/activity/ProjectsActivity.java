@@ -1,27 +1,18 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 
 public class ProjectsActivity extends BaseActivity {
     private Toolbar toolbar;
@@ -75,56 +66,30 @@ public class ProjectsActivity extends BaseActivity {
     }
     private void OnCreateProjectClick()
     {
-        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
-
-            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
-            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.project_name))
-                    .setView(view)
-                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            createProject(editText.getText().toString());
-                        }
-                    });
-            builder.create().show();
-        }else
-        {
-            showToast(getString(R.string.you_are_not_admin) );
-
-        }
+//        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
+//
+//            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
+//            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+//                    .setTitle(getString(R.string.project_name))
+//                    .setView(view)
+//                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            createProject(editText.getText().toString());
+//                        }
+//                    });
+//            builder.create().show();
+//        }else
+//        {
+//            showToast(getString(R.string.you_are_not_admin) );
+//
+//        }
     }
 
     private void createProject(String name)
     {
-        if (name.trim().length()==0)
-        {
-            showToast("名字非法");
-            return;
-        }
-        mProgressDialog.show();
-        ProjectBean bean = new ProjectBean();
-        bean.setProjectName(name);
-        bean.setTeam(mTeam);
 
-        bean.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                mProgressDialog.dismiss();
-                if (e==null)
-                {
-                    showToast("创建成功");
-                    ProjectFragment fragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(ProjectFragment.FregmentTAG);
-                    if (fragment!=null)
-                    {
-                        fragment.refresh();
-                    }
-                }else{
-                    showToast(e.getMessage());
-                }
-            }
-        });
 
     }
 

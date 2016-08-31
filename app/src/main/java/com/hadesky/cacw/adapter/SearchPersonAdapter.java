@@ -160,8 +160,8 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
                 setTextView(R.id.tv_summary, userBean.getSummary());
             }
             SimpleDraweeView view = findView(R.id.iv_avatar);
-            if (userBean.getUserAvatar() != null) {
-                view.setImageURI(userBean.getUserAvatar().getUrl());
+            if (userBean.getAvatarUrl() != null) {
+                view.setImageURI(userBean.getAvatarUrl());
             } else {
                 view.setImageURI((String) null);
             }

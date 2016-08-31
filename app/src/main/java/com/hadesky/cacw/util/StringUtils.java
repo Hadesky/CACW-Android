@@ -243,6 +243,6 @@ public class StringUtils
     //构造私信内容格式
     public static String makeSendMsd(UserBean sender, String content)
     {
-        return IntentTag.TAG_PUSH_MSG + sender.getObjectId() + content;
+        return IntentTag.TAG_PUSH_MSG + sender.getId() + content;
     }
 }

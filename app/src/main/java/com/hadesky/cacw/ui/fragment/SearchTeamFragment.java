@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.SearchPresenter;
-import com.hadesky.cacw.presenter.SearchTeamPresenterImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +28,8 @@ public class SearchTeamFragment extends SearchFragment {
 
     @Override
     protected SearchPresenter createPresenter() {
-        return new SearchTeamPresenterImpl(this, getContext());
+        // TODO: 2016/8/31 0031 ps
+        return null;// new SearchTeamPresenterImpl(this, getContext());
     }
 
     public void disableJoinButton(int position) {

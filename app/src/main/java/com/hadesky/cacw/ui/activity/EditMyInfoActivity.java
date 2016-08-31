@@ -8,12 +8,10 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,7 +20,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.EditMyInfoPresenter;
-import com.hadesky.cacw.presenter.EditMyInfoPresenterImpl;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.util.FileUtil;
@@ -66,7 +63,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
         mShortPhone = (TextView) findViewById(R.id.tv_short_phone);
         mAddressTextView = (TextView) findViewById(R.id.tv_address);
 
-        mPresenter = new EditMyInfoPresenterImpl(this);
+       // mPresenter = new EditMyInfoPresenterImpl(this);
     }
 
     @Override
@@ -228,7 +225,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
      * @return 临时文件名
      */
     private String getTempFileName(String originalOrLow) {
-        return MyApp.getCurrentUser().getObjectId() + originalOrLow;
+        return MyApp.getCurrentUser().getId() + originalOrLow;
     }
 
     @Override

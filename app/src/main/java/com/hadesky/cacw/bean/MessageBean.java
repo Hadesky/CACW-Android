@@ -1,13 +1,14 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobObject;
+import java.io.Serializable;
 
 /**
  *  消息实体
  * Created by MicroStudent on 2016/7/16.
  */
 
-public class MessageBean extends BmobObject {
+public class MessageBean implements Serializable
+{
 
     public static final Byte TYPE_USER_TO_TEAM = 1;
     public static final Byte TYPE_TEAM_TO_USER = 0;

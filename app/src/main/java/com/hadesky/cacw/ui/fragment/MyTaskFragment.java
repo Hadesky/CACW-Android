@@ -8,9 +8,8 @@ import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
-import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
@@ -58,7 +57,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         }
 
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
-        mPresenter = new MyTaskPresenterImpl(this, mFinishTaskMode);
+        //mPresenter = new MyTaskPresenterImpl(this, mFinishTaskMode);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
@@ -67,7 +66,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskMember>(), mPresenter, R.layout.list_item_teamtask, mFinishTaskMode);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask, mFinishTaskMode);
         mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
@@ -90,7 +89,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     @Override
-    public void showDatas(List<TaskMember> tasks)
+    public void showDatas(List<TaskBean> tasks)
     {
         mAdapter.setDatas(tasks);
         mAdapter.notifyDataSetChanged();

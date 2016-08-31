@@ -5,14 +5,11 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.hadesky.cacw.JPush.JPushManager;
+
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
-import okhttp3.OkHttpClient;
 
 
 /**
@@ -26,7 +23,7 @@ public class MyApp extends Application
     private static final String TAG = MyApp.class.getSimpleName();
     private static String URL;//服务器地址
     private static Context mContext;//App实例
-    private static JPushManager sJPushManager;
+
 
 
 
@@ -37,20 +34,12 @@ public class MyApp extends Application
 
         URL = "http://115.28.15.194:8000";
         mContext = this;
-        Bmob.initialize(this, "e3eaf0e8f1712c6cb3dee7ba7cc995de");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         Fresco.initialize(this);
-        JPushManager.init("e1ddf6b7d3bb9c6ba2545a55","f8dd58cf4736e59d58a28432");
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
     }
 
-    public static JPushManager getJPushManager()
-    {
-        if (sJPushManager==null)
-            sJPushManager = new JPushManager(new OkHttpClient());
-        return sJPushManager;
-    }
 
     /**
      * 获得通知manager
@@ -70,7 +59,7 @@ public class MyApp extends Application
 
     public static UserBean getCurrentUser()
     {
-        return BmobUser.getCurrentUser(UserBean.class);
+        return new UserBean();
     }
 
     public static Context getAppContext()

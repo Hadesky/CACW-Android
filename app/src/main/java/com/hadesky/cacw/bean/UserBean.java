@@ -1,13 +1,14 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
+
+import java.io.Serializable;
 
 /**
  *
  * Created by 45517 on 2015/10/17.
  */
-public class UserBean extends BmobUser{
+public class UserBean implements Serializable
+{
 
     public static final Byte SEX_MALE = 0;//性别男
     public static final Byte SEX_FEMALE = 1;//性别女
@@ -15,10 +16,9 @@ public class UserBean extends BmobUser{
 
     private String mAvatarUrl;
 
-    private BmobFile mUserAvatar;
-
+    private String mUsername;
     private String mNickName;
-
+    private String mId;
     private Byte mSex = 0;//0是男，1是女，2是保密
 
     private String mShortNumber;//短号
@@ -43,6 +43,27 @@ public class UserBean extends BmobUser{
         return mNickName;
     }
 
+
+    public String  getId()
+    {
+        return mId;
+    }
+
+    public void setId(String  id)
+    {
+        mId = id;
+    }
+
+    public String getUsername()
+    {
+        return mUsername;
+    }
+
+    public void setUsername(String username)
+    {
+        mUsername = username;
+    }
+
     public String getAddress() {
         return mAddress;
     }
@@ -64,14 +85,6 @@ public class UserBean extends BmobUser{
         mNickName = nickName;
     }
 
-    public BmobFile getUserAvatar() {
-        return mUserAvatar;
-    }
-
-    public void setUserAvatar(BmobFile mUserAvatar) {
-        this.mUserAvatar = mUserAvatar;
-    }
-
 
     public Byte getSex() {
         return mSex;
@@ -91,11 +104,7 @@ public class UserBean extends BmobUser{
 
     public String getAvatarUrl()
     {
-        if (mAvatarUrl==null&&mUserAvatar!=null)
-        {
-            mAvatarUrl = mUserAvatar.getUrl();
-        }
-        return mAvatarUrl;
+       return "";
     }
 
     public void setAvatarUrl(String avatarUrl)
@@ -108,22 +117,5 @@ public class UserBean extends BmobUser{
         return getNickName();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o != null && o instanceof UserBean) {
-            if (((UserBean) o).getObjectId().equals(getObjectId())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        if (getObjectId() != null) {
-            result = 31 * result + getObjectId().hashCode();
-        }
-        return result;
-    }
 }

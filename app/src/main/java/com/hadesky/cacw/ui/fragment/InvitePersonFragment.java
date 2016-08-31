@@ -13,7 +13,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.InvitePersonPresenter;
-import com.hadesky.cacw.presenter.InvitePersonPresenterImpl;
 import com.hadesky.cacw.presenter.SearchPresenter;
 import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 
@@ -73,7 +72,7 @@ public class InvitePersonFragment extends SearchPersonFragment implements Invite
 
     @Override
     protected SearchPresenter createPresenter() {
-        return new InvitePersonPresenterImpl(this, getContext(), this);
+        return null;//new InvitePersonPresenterImpl(this, getContext(), this);
     }
 
     @Override

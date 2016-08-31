@@ -15,7 +15,6 @@ import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyProjectPresenter;
-import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
 import com.hadesky.cacw.ui.view.MyProjectView;
 
 import java.util.ArrayList;
@@ -57,7 +56,8 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
             teamBean = (TeamBean) getArguments().getSerializable(TeamBundleTAG);
 
         // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
-        myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
+        // TODO: 2016/8/31 0031 presenter
+        //myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
 
         myProjectPresenter.loadProject();
 

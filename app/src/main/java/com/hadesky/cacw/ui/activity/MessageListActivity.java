@@ -24,7 +24,6 @@ import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.presenter.MessageListPresenter;
-import com.hadesky.cacw.presenter.MessageListPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.MessageListView;
 
@@ -67,7 +66,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
         mAdapter = new MessageListAdapter(new ArrayList<MessageBean>(), R.layout.list_item_message, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-        mListPresenter = new MessageListPresenterImpl(this);
+        //mListPresenter = new MessageListPresenterImpl(this);
         setupReciever();
     }
 
