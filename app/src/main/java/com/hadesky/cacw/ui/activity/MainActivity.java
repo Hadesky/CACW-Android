@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setupView() {
 
-        if(MyApp.getCurrentUser()==null) {
+        if(MyApp.getUsername()==null) {
             navigateTo(LoginActivity.class, true);
             finish();
             return;
@@ -122,9 +122,6 @@ public class MainActivity extends BaseActivity {
 
         MenuItem addItem = menu.getItem(0);
 
-
-        //mPopupMenu = new PopupMenu(this,addView);
-        //getMenuInflater().inflate(R.menu.menu_task_popup,addItem.getSubMenu());
         return true;
     }
 

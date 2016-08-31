@@ -8,7 +8,7 @@ import com.hadesky.cacw.bean.TaskBean;
  */
 public interface MyTaskPresenter
 {
-     void LoadTasks();
+     void LoadTasks(int state);
      void CompleteTask(TaskBean pos);
     void onDestroy();
 

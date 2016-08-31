@@ -48,7 +48,9 @@ public class LoginPresenterImpl implements LoginPresenter
             {
                 mView.hideProgress();
                 if (stringBaseResult.getState_code() == 0)
+                {
                     mView.onLoginSucceed();
+                }
                 else
                     mView.showMsg(stringBaseResult.getError_msg());
             }

@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.model.SessionManagement;
 import com.hadesky.cacw.network.CacwServer;
 import com.hadesky.cacw.network.CookieManager;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
@@ -33,6 +34,9 @@ public class MyApp extends Application
     private static OkHttpClient sOkHttpClient;
     private static SessionManagement sSessionManagement;
     private static CacwServer sApiServer;
+    private static String sUsername;
+    private static String sDeviceId;
+
 
     @Override
     public void onCreate()
@@ -53,6 +57,14 @@ public class MyApp extends Application
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         sApiServer = retrofit.create(CacwServer.class);
+    }
+
+
+    public static String getDeviceId()
+    {
+        if(sDeviceId==null)
+            sDeviceId =   JPushInterface.getRegistrationID(getAppContext());
+        return sDeviceId;
     }
 
     public static CacwServer getApiServer()
@@ -78,7 +90,6 @@ public class MyApp extends Application
         return sSessionManagement;
     }
 
-
     public static boolean isCurrentUser(UserBean sb)
     {
         return getCurrentUser().equals(sb);
@@ -87,6 +98,19 @@ public class MyApp extends Application
     public static UserBean getCurrentUser()
     {
         return new UserBean();
+    }
+
+    public static String getUsername()
+    {
+        if(sUsername==null)
+            sUsername = MyApp.getSessionManager().getCurrentUser();
+        return sUsername;
+    }
+
+    public static void setUsername(String username)
+    {
+
+        sUsername = username;
     }
 
     public static Context getAppContext()

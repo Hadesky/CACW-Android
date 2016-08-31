@@ -1,4 +1,4 @@
-package com.hadesky.cacw.config;
+package com.hadesky.cacw.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,18 @@ public class SessionManagement {
     public SessionManagement(Context context) {
 
         mPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+    }
+
+    public String getCurrentUser()
+    {
+        return mPref.getString("user",null);
+    }
+
+    public void setCurrentUser(String u)
+    {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putString("user",u);
+        editor.apply();
     }
 
 

@@ -24,7 +24,8 @@ import java.util.List;
  * 项目页面
  * Created by Bright Van on 2015/9/7/007.
  */
-public class ProjectFragment extends BaseFragment implements MyProjectView {
+public class ProjectFragment extends BaseFragment implements MyProjectView
+{
     private RecyclerView recyclerView;
     private ProjectAdapter mAdapter;
     private MyProjectPresenter myProjectPresenter;
@@ -35,12 +36,14 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
 
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutId()
+    {
         return R.layout.fragment_project;
     }
 
     @Override
-    protected void initViews(View view) {
+    protected void initViews(View view)
+    {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.layout_swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_project);
         mAdapter = new ProjectAdapter(new ArrayList<ProjectBean>(), R.layout.list_item_project);
@@ -48,7 +51,8 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
 
 
     @Override
-    protected void setupViews(Bundle bundle) {
+    protected void setupViews(Bundle bundle)
+    {
 
         TeamBean teamBean = null;
 
@@ -59,13 +63,15 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         // TODO: 2016/8/31 0031 presenter
         //myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
 
-        myProjectPresenter.loadProject();
+        //myProjectPresenter.loadProject();
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         swipeRefreshLayout.setProgressViewOffset(true, -100, 50);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 myProjectPresenter.loadProject();
             }
         });
@@ -75,66 +81,75 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         recyclerView.addItemDecoration(new Decoration(getContext()));
     }
 
-    public void refresh() {
+    public void refresh()
+    {
         myProjectPresenter.loadProject();
     }
 
     @Override
-    public void showProgress() {
+    public void showProgress()
+    {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideProgress() {
+    public void hideProgress()
+    {
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showMsg(String s) {
+    public void showMsg(String s)
+    {
         showToast(s);
     }
 
     @Override
-    public void showProject(List<ProjectBean> data) {
+    public void showProject(List<ProjectBean> data)
+    {
         mAdapter.setDatas(data);
     }
 
     @Override
-    public void onFailure(String msg) {
+    public void onFailure(String msg)
+    {
         showToast(msg);
     }
 
 
-
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
-        myProjectPresenter.onDestroy();
+        if (myProjectPresenter != null)
+            myProjectPresenter.onDestroy();
     }
 
 
     /**
      * 自定义分割线
      */
-    public class Decoration extends RecyclerView.ItemDecoration {
-        private final int[] ATTRS = new int[]{
-                android.R.attr.listDivider
-        };
+    public class Decoration extends RecyclerView.ItemDecoration
+    {
+        private final int[] ATTRS = new int[]{android.R.attr.listDivider};
         //分隔线
         private Drawable mDecoration;
 
 
-        public Decoration(Context context) {
+        public Decoration(Context context)
+        {
             mDecoration = context.obtainStyledAttributes(ATTRS).getDrawable(0);
         }
 
         @Override
-        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state)
+        {
             final int left = parent.getPaddingLeft();
             final int right = parent.getWidth() - parent.getPaddingRight();
 
             final int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
+            for(int i = 0; i < childCount; i++)
+            {
                 final View view = parent.getChildAt(i);
                 final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) view.getLayoutParams();
                 final int top = view.getBottom() + params.bottomMargin;
@@ -145,7 +160,8 @@ public class ProjectFragment extends BaseFragment implements MyProjectView {
         }
 
         @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state)
+        {
             outRect.set(0, 0, 0, mDecoration.getIntrinsicHeight());
         }
     }

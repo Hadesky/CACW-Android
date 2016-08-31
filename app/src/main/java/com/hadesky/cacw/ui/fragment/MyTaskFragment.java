@@ -10,6 +10,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
+import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
@@ -57,7 +58,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         }
 
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
-        //mPresenter = new MyTaskPresenterImpl(this, mFinishTaskMode);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
@@ -72,7 +72,9 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mPresenter.LoadTasks();
+
+        mPresenter = new MyTaskPresenterImpl(this);
+        mPresenter.LoadTasks(0);
     }
 
     @Override
@@ -85,7 +87,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh()
     {
-        mPresenter.LoadTasks();
+        mPresenter.LoadTasks(0);
     }
 
     @Override
@@ -94,7 +96,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mAdapter.setDatas(tasks);
         mAdapter.notifyDataSetChanged();
     }
-
 
     @Override
     public void showProgress()

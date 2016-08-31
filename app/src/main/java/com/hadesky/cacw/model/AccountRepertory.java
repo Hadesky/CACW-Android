@@ -24,18 +24,23 @@ public class AccountRepertory
         mCacwServer = MyApp.getApiServer();
     }
 
-    public Observable<BaseResult<String>> login(String username, String psw)
+    public Observable<BaseResult<String>> login(final String username, String psw)
     {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username",username);
         jsonObject.addProperty("psw",psw);
+        jsonObject.addProperty("deviceId",MyApp.getDeviceId());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
         return mCacwServer.login(body).subscribeOn(Schedulers.io())
         .doOnNext(new Action1<BaseResult<String>>() {
             @Override
             public void call(BaseResult<String> stringBaseResult)
             {
-                MyApp.getSessionManager().setLogin(true);
+                if(stringBaseResult.getState_code()==0)
+                {
+                    MyApp.getSessionManager().setLogin(true);
+                    MyApp.getSessionManager().setCurrentUser(username);
+                }
             }
         });
     }
