@@ -159,6 +159,7 @@ public class MainActivity extends BaseActivity {
         JPushInterface.setAlias(getApplicationContext(), "", null);
         JPushInterface.stopPush(this);
 
+        MyApp.getSessionManager().saveSeesion(null);
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

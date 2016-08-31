@@ -35,7 +35,7 @@ public class SessionManagement {
 
     public boolean isLogin()
     {
-       return  mPref.getBoolean(IS_LOGIN,false);
+       return  getSession()!=null;
     }
 
     public void setLogin(boolean l)
@@ -48,7 +48,7 @@ public class SessionManagement {
     public void saveSeesion(String s)
     {
         SharedPreferences.Editor editor = mPref.edit();
-        editor.putString("ss",null);
+        editor.putString("ss",s);
         editor.apply();
     }
     public String getSession()
