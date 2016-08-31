@@ -38,12 +38,6 @@ public class SessionManagement {
        return  getSession()!=null;
     }
 
-    public void setLogin(boolean l)
-    {
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putBoolean(IS_LOGIN,l);
-        editor.apply();
-    }
 
     public void saveSeesion(String s)
     {

@@ -27,12 +27,11 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
 {
 
     private MyTaskPresenter mPresenter;
-    private boolean mIsFinished = false; //是否为已经查看完成任务的界面
 
-    public MyTaskRecyclerAdapter(List<TaskBean> list, MyTaskPresenter presenter, @LayoutRes int resId, boolean finished) {
+
+    public MyTaskRecyclerAdapter(List<TaskBean> list, MyTaskPresenter presenter, @LayoutRes int resId) {
         super(list, resId);
         mPresenter = presenter;
-        mIsFinished = finished;
     }
 
     @Override
@@ -40,22 +39,22 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
 
         final BaseViewHolder<TaskBean> holder = new BaseViewHolder<TaskBean>(v) {
             @Override
-            public void setData(TaskBean o) {
-                setTextView(R.id.tv_title, o.getTitle());
-                String str = o.getStartDate().substring(0, 10);
+            public void setData(TaskBean task) {
+                setTextView(R.id.tv_title, task.getTitle());
+                String str = task.getStartDate().substring(0, 10);
                 setTextView(R.id.tv_start_date, str);
                 CircleTextView v = findView(R.id.icon);
-                v.setText(o.getProjectBean().getProjectName());
+                v.setText(task.getProject().getName());
             }
         };
 
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
+
                 //打开任务详情
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
                 i.putExtra("task", mDatas.get(position));
-                i.putExtra("isFinished", mIsFinished);
                 ((BaseActivity) mContext).startActivityForResult(i, MainActivity.RequestCode_TaskChange);
             }
         });
@@ -63,7 +62,7 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
         holder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
             @Override
             public boolean OnItemLongClick(View view, final int position) {
-                if (mIsFinished)
+                if (mDatas.get(position).isFinish())
                     return true;
 
                 new AlertDialog.Builder(mContext).setItems(new String[]{"完成"}, new DialogInterface.OnClickListener() {

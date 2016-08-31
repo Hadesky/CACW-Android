@@ -50,7 +50,7 @@ public class ProjectDetailActivity extends BaseActivity implements View.OnClickL
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(mProjectBean.getProjectName());
+            getSupportActionBar().setTitle(mProjectBean.getName());
         }
 
         //设置阴影

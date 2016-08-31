@@ -33,7 +33,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MyTaskPresenter mPresenter;
-    private boolean mFinishTaskMode = false;//是否用于显示已经完成任务
 
     @Override
     public int getLayoutId()
@@ -51,11 +50,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     protected void setupViews(Bundle bundle)
     {
-        Bundle b = getArguments();
-        if (b != null)
-        {
-            mFinishTaskMode = b.getBoolean("isFinished");
-        }
 
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
 
@@ -66,7 +60,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask, mFinishTaskMode);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask);
         mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);

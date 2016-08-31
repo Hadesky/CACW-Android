@@ -6,9 +6,10 @@ package com.hadesky.cacw.network;
  */
 public class BaseResult<T>
 {
-    private String error_msg;
-    private int state_code;
-    private T data;
+    protected String error_msg;
+    protected int state_code;
+    protected T data;
+
 
     @Override
     public String toString()

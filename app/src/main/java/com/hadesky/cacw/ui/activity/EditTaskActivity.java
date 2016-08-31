@@ -482,14 +482,14 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     @Override
     public void onAddMember() //当+号被点击时调用
     {
-        if (mTask.getProjectBean() == null)
+        if (mTask.getProject() == null)
         {
             showToast("请先选择项目");
             return;
         }
         Intent i = new Intent(this, SelectMemberActivity.class);
         i.putExtra(IntentTag.TAG_Task_MEMBER, (ArrayList<?>) mMembers);
-        i.putExtra(IntentTag.TAG_PROJECT_BEAN, mTask.getProjectBean());
+        i.putExtra(IntentTag.TAG_PROJECT_BEAN, mTask.getProject());
         startActivityForResult(i, 0);
     }
 
@@ -547,7 +547,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         final String[] items = new String[beanList.size()];
         for(int i = 0; i < beanList.size(); i++)
         {
-            items[i] = beanList.get(i).getProjectName();
+            items[i] = beanList.get(i).getName();
         }
 
         new AlertDialog.Builder(EditTaskActivity.this).setItems(items, new DialogInterface.OnClickListener()
@@ -555,11 +555,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (mTask.getProjectBean()!=null&& mTask.getProjectBean().equals(mProjectList.get(which)))
+                if (mTask.getProject()!=null&& mTask.getProject().equals(mProjectList.get(which)))
                     return;
 
-                mTask.setProjectBean(mProjectList.get(which));
-                mTvProject.setText(mProjectList.get(which).getProjectName());
+                mTask.setProject(mProjectList.get(which));
+                mTvProject.setText(mProjectList.get(which).getName());
                 resetMembers();
 
             }
@@ -611,7 +611,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
 
         mEdtTitle.setText(b.getTitle());
-        mTvProject.setText(b.getProjectBean().getProjectName());
+        mTvProject.setText(b.getProject().getName());
         mEdtLocation.setText(b.getLocation());
         mEdtDetail.setText(b.getContent());
         setDateTextView();

@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class ProjectBean  implements Serializable
 {
 
-    private String mProjectName;//Item的文字
-    private TeamBean mTeam;//所属团队
+    private String name;//Item的文字
+    private TeamBean team;//所属团队
     private int id;
     private int AdminId;
     private int isPrivate=0;
@@ -61,23 +61,23 @@ public class ProjectBean  implements Serializable
     }
 
     public ProjectBean(String title) {
-        this.mProjectName = title;
+        this.name = title;
     }
 
     public TeamBean getTeam() {
-        return mTeam;
+        return team;
     }
 
     public void setTeam(TeamBean mTeam) {
-        this.mTeam = mTeam;
+        this.team = mTeam;
     }
 
-    public String getProjectName() {
-        return mProjectName;
+    public String getName() {
+        return name;
     }
 
-    public void setProjectName(String title) {
-        this.mProjectName = title;
+    public void setName(String title) {
+        this.name = title;
     }
 
 

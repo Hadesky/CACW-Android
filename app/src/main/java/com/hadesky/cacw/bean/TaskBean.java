@@ -1,5 +1,7 @@
 package com.hadesky.cacw.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,35 +12,40 @@ import java.io.Serializable;
 
 public class TaskBean implements Serializable
 {
-    private String mTitle = "";
-    private String mContent="";
-    private String mLocation = "";
-    private ProjectBean mProjectBean;
-    private String AdaminId = "";
+
+    @SerializedName("title")
+    private String mTitle;
+
+    @SerializedName("content")
+    private String mContent;
+
+    @SerializedName("location")
+    private String mLocation;
+
+    @SerializedName("project")
+    private ProjectBean mProject;
+    private String AdminId = "";
     private String startDate;
     private String endDate;
-    private int isFinish;
+    private int finish;
 
-    public ProjectBean getProjectBean() {
-        return mProjectBean;
+    public ProjectBean getProject() {
+        return mProject;
     }
 
-    public void setProjectBean(ProjectBean projectBean) {
-        mProjectBean = projectBean;
+    public void setProject(ProjectBean project) {
+        mProject = project;
     }
 
-    public TaskBean() {
 
-    }
-
-    public int getIsFinish()
+    public boolean isFinish()
     {
-        return isFinish;
+        return finish==1;
     }
 
-    public void setIsFinish(int isFinish)
+    public void setFinish(int finish)
     {
-        this.isFinish = isFinish;
+        this.finish = finish;
     }
 
     public String getStartDate()
@@ -61,12 +68,12 @@ public class TaskBean implements Serializable
         this.endDate = mendDate;
     }
 
-    public String getAdaminId() {
-        return AdaminId;
+    public String getAdminId() {
+        return AdminId;
     }
 
-    public void setAdaminId(String adaminUserId) {
-        AdaminId = adaminUserId;
+    public void setAdminId(String adaminUserId) {
+        AdminId = adaminUserId;
     }
 
     public String getLocation()

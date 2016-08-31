@@ -175,7 +175,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     public void showInfo(TaskBean task) {
         mTask = task;
         mTitle.setText(task.getTitle());
-        mProject.setText(task.getProjectBean().getProjectName());
+        mProject.setText(task.getProject().getName());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 

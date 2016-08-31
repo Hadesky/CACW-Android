@@ -26,7 +26,7 @@ public class CookieManager implements CookieJar
         session =  MyApp.getSessionManager().getSession();
         if(session!=null)
         {
-            Cookie c = new Cookie.Builder().name("sessionId").value(session).domain(MyApp.getURL()).build();
+            Cookie c = new Cookie.Builder().name("sessionId").value(session).domain("192.168.199.234").build();
             mCookies.add(c);
         }
     }

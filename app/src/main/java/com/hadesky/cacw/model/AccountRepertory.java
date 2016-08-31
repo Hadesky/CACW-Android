@@ -38,7 +38,6 @@ public class AccountRepertory
             {
                 if(stringBaseResult.getState_code()==0)
                 {
-                    MyApp.getSessionManager().setLogin(true);
                     MyApp.getSessionManager().setCurrentUser(username);
                 }
             }
