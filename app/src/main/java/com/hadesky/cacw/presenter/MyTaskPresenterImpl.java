@@ -4,13 +4,11 @@ import android.util.Log;
 
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.model.TaskRepertory;
-import com.hadesky.cacw.network.BaseResult;
 import com.hadesky.cacw.ui.view.TaskView;
 
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**主界面 我的任务
  * Created by dzysg on 2016/8/31 0031.
@@ -36,29 +34,23 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     {
 
         mView.showProgress();
-        mRepertory.getTaskList(state).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseResult<List<TaskBean>>>() {
+        mRepertory.getTaskList(state)
+                .subscribe(new Subscriber<List<TaskBean>>() {
                     @Override
                     public void onCompleted()
                     {
-
+                        mView.hideProgress();
                     }
-
                     @Override
                     public void onError(Throwable e)
                     {
                         mView.hideProgress();
+                        Log.e("tag", e.getMessage());
                     }
-
                     @Override
-                    public void onNext(BaseResult<List<TaskBean>> listBaseResult)
+                    public void onNext(List<TaskBean> list)
                     {
-                        mView.hideProgress();
-                        Log.e("tag",listBaseResult.toString());
-                        if(listBaseResult.getState_code()==0)
-                            mView.showDatas(listBaseResult.getData());
-                        else
-                            mView.showMsg(listBaseResult.getError_msg());
+                        mView.showDatas(list);
                     }
                 });
     }

@@ -10,6 +10,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTeamAdapter;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyTeamPresenter;
+import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.MyTeamView;
 import com.hadesky.cacw.util.FullyGridLayoutManager;
 
@@ -51,12 +52,8 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
-       // mPresenter = new MyTeamPresenterImpl(this);
-
+        mPresenter = new MyTeamPresenterImpl(this);
         mPresenter.LoadAllTeams();
-
-        List<TeamBean> list = new ArrayList<>();
-        mMyTeamAdapter.setDatas(list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -4,9 +4,11 @@ import com.google.gson.JsonObject;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.network.BaseResult;
 import com.hadesky.cacw.network.CacwServer;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -24,37 +26,42 @@ public class AccountRepertory
         mCacwServer = MyApp.getApiServer();
     }
 
-    public Observable<BaseResult<String>> login(final String username, String psw)
+    public Observable<String> login(final String username, String psw)
     {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username",username);
         jsonObject.addProperty("psw",psw);
         jsonObject.addProperty("deviceId",MyApp.getDeviceId());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
-        return mCacwServer.login(body).subscribeOn(Schedulers.io())
-        .doOnNext(new Action1<BaseResult<String>>() {
-            @Override
-            public void call(BaseResult<String> stringBaseResult)
-            {
-                if(stringBaseResult.getState_code()==0)
-                {
-                    MyApp.getSessionManager().setCurrentUser(username);
-                }
-            }
-        });
+
+        return  mCacwServer.login(body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s)
+                    {
+                        MyApp.getSessionManager().setCurrentUser(username);
+                    }
+                }).observeOn(AndroidSchedulers.mainThread());
     }
+
 
     public Observable<BaseResult<String>> logout()
     {
         return mCacwServer.logout().subscribeOn(Schedulers.io());
     }
 
-    public Observable<BaseResult<String>> register(String username, String psw)
+    public Observable<String> register(String username, String psw)
     {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("username",username);
         jsonObject.addProperty("psw",psw);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
-        return mCacwServer.register(body).subscribeOn(Schedulers.io());
+
+        return mCacwServer.register(body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
