@@ -2,6 +2,7 @@ package com.hadesky.cacw.model.network;
 
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.bean.UserBean;
 
 import java.util.List;
 
@@ -50,5 +51,22 @@ public interface CacwServer
 
     @GET("/v1/team/list")
     Observable<BaseResult<List<TeamBean>>> getTeamList(@Query("allcolumn") boolean all);
+
+
+    @GET("/v1/team/{tid}")
+    Observable<BaseResult<TeamBean>> getTeamInfo(@Path("tid") int tid);
+
+
+    @GET("/v1/team/{tid}/members")
+    Observable<BaseResult<List<UserBean>>> getTeamMember(
+            @Path("tid") int tid,
+            @Query("limit") int limit,
+            @Query("offset") int offset,
+            @Query("allcolumn") boolean allcolumn
+    );
+
+
+    @POST("/v1/team/{tid}")
+    Observable<BaseResult<String>> modifyTeamInfo(@Path("tid") int tid, @Body RequestBody body);
 
 }

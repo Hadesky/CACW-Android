@@ -7,9 +7,11 @@ import java.io.File;
  * Created by dzysg on 2016/7/12 0012.
  */
 public interface TeamInfoPresenter {
-    void refreshTeamInfo();
+    void getTeamInfo();
     void getTeamMembers();
-    void changeSummary(String s);
+    void modifySummary(String s);
+    void modifyNotice(String s);
+
     void saveTeamIcon(File file);
     void onDestroy();
     void getProjectCount();

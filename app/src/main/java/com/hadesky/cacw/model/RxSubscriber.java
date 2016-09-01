@@ -13,7 +13,7 @@ import com.hadesky.cacw.util.ActivityLifeCallBack;
 import rx.Subscriber;
 
 /**
- *
+ * 用于presenter里每个接口的订阅器
  * Created by dzysg on 2016/9/1 0001.
  */
 public abstract class RxSubscriber<T> extends Subscriber<T>
@@ -33,11 +33,12 @@ public abstract class RxSubscriber<T> extends Subscriber<T>
     public final void onError(Throwable e)
     {
         e.printStackTrace();
+
+        //session过期
         if (e instanceof SessionException)
         {
             try
             {
-
                 if(ActivityLifeCallBack.mTop.get()!=null)
                 {
                     new AlertDialog.Builder(ActivityLifeCallBack.mTop.get())
@@ -47,7 +48,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T>
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i)
                                 {
-
+                                    //清除cookie,重启app
                                     CookieManager.clearCookie();
                                     Intent intent = MyApp.getAppContext().getPackageManager()
                                             .getLaunchIntentForPackage( MyApp.getAppContext().getPackageName());

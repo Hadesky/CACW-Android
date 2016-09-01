@@ -91,4 +91,5 @@
     <string name="place">地点</string>
     <string name="save">保存</string>
     <string name="session_expire">你的登录信息已经过期，请重新登录</string>
+    <string name="notice">公告</string>
 </resources>

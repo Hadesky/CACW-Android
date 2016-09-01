@@ -35,7 +35,7 @@ public class MyApp extends Application
     private static SessionManagement sSessionManagement;
     private static CacwServer sApiServer;
     private static String sDeviceId;
-
+    private static int sUserId = -1;
 
     @Override
     public void onCreate()
@@ -47,24 +47,20 @@ public class MyApp extends Application
         JPushInterface.init(this);
         Fresco.initialize(this);
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
-        sOkHttpClient = new OkHttpClient.Builder()
-                .writeTimeout(10,TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
+        sOkHttpClient = new OkHttpClient.Builder().writeTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .client(sOkHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(URL).client(sOkHttpClient).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         sApiServer = retrofit.create(CacwServer.class);
+
+        sUserId = getCurrentId();
+
     }
 
 
     public static String getDeviceId()
     {
-        if(sDeviceId==null)
-            sDeviceId =   JPushInterface.getRegistrationID(getAppContext());
+        if (sDeviceId == null)
+            sDeviceId = JPushInterface.getRegistrationID(getAppContext());
         return sDeviceId;
     }
 
@@ -75,10 +71,13 @@ public class MyApp extends Application
 
     /**
      * 获得通知manager
+     *
      * @return NotificationManager
      */
-    public static NotificationManager getNotificationManager() {
-        if (mContext != null) {
+    public static NotificationManager getNotificationManager()
+    {
+        if (mContext != null)
+        {
             return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return null;
@@ -86,19 +85,26 @@ public class MyApp extends Application
 
     public static synchronized SessionManagement getSessionManager()
     {
-        if(sSessionManagement==null)
+        if (sSessionManagement == null)
             sSessionManagement = new SessionManagement(getAppContext());
         return sSessionManagement;
     }
 
     public static boolean isCurrentUser(UserBean sb)
     {
-        return sb.getId()==getCurrentId();
+        return sb.getId() == getCurrentId();
+    }
+
+    public static void setCurrentId(int id)
+    {
+        sUserId = id;
     }
 
     public static int getCurrentId()
     {
-        return getSessionManager().getCurrentUser();
+        if (sUserId < 0)
+            sUserId = getSessionManager().getCurrentUser();
+        return sUserId;
     }
 
     public static Context getAppContext()

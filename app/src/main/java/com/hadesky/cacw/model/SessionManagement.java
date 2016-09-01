@@ -18,8 +18,6 @@ public class SessionManagement {
         mPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
     }
 
-
-
     public void clear()
     {
         setNickName(null);
@@ -47,10 +45,10 @@ public class SessionManagement {
     public void setCurrentUser(String u)
     {
         SharedPreferences.Editor editor = mPref.edit();
-        editor.putString("user",u);
+        editor.putInt("user",Integer.parseInt(u));
         editor.apply();
-    }
 
+    }
 
     public boolean isLogin()
     {

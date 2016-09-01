@@ -14,70 +14,73 @@ public class UserBean implements Serializable
     public static final Byte SEX_FEMALE = 1;//性别女
     public static final Byte SEX_UNKNOW = 2;//性别保密
 
-    private String mUsername;
-    private String mNickName;
-    private int mId;
+    private String username;
+    private String nickName;
+    private int id;
     private Byte mSex = 0;//0是男，1是女，2是保密
-    private String mPhoneNumber;
-    private String mShortNumber;//短号
-    private String mSummary;//个人简介
-    private String mAddress;//地址
-    private String mEmail;
-    public UserBean() {
+    private String mobilePhone;
+    private String shortNumber;//短号
+    private String summary;//个人简介
+    private String address;//地址
+    private String email;
+
+    public UserBean()
+    {
+
     }
 
     public UserBean(String nickName)
     {
-        mNickName = nickName;
+        this.nickName = nickName;
     }
     public String getSummary() {
-        return mSummary;
+        return summary;
     }
 
     public void setSummary(String summary) {
-        mSummary = summary;
+        this.summary = summary;
     }
 
     public String getNickName()
     {
-        if (mNickName == null) {
+        if (nickName == null) {
             return "蚂蚁";
         }
-        return mNickName;
+        return nickName;
     }
 
 
     public int  getId()
     {
-        return mId;
+        return id;
     }
 
     public void setId(int  id)
     {
-        mId = id;
+        this.id = id;
     }
 
     public String getUsername()
     {
-        return mUsername;
+        return username;
     }
 
     public void setUsername(String username)
     {
-        mUsername = username;
+        this.username = username;
     }
 
     public String getAddress() {
-        return mAddress;
+        return address;
     }
 
     public void setAddress(String address) {
-        mAddress = address;
+        this.address = address;
     }
 
     public void setNickName(String nickName)
     {
-        mNickName = nickName;
+        this.nickName = nickName;
     }
 
 
@@ -90,31 +93,31 @@ public class UserBean implements Serializable
     }
 
     public String getShortNumber() {
-        return mShortNumber;
+        return shortNumber;
     }
 
     public void setShortNumber(String mShortNumber) {
-        this.mShortNumber = mShortNumber;
+        this.shortNumber = mShortNumber;
     }
 
-    public String getPhoneNumber()
+    public String getMobilePhone()
     {
-        return mPhoneNumber;
+        return mobilePhone;
     }
 
-    public void setPhoneNumber(String phoneNumber)
+    public void setMobilePhone(String mobilePhone)
     {
-        mPhoneNumber = phoneNumber;
+        this.mobilePhone = mobilePhone;
     }
 
     public String getEmail()
     {
-        return mEmail;
+        return email;
     }
 
     public void setEmail(String email)
     {
-        mEmail = email;
+        this.email = email;
     }
 
     public String getAvatarUrl()

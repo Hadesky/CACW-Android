@@ -30,6 +30,7 @@ import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
+import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
@@ -53,6 +54,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     private TextView mTvTeamId;
     private TextView mTvSummary;
     private TextView mTvProjectCount;
+    private TextView mTvNotice;
     private RecyclerView mRcvMembers;
     private BaseAdapter<UserBean> mAdapter;
     private TeamInfoPresenter mPresenters;
@@ -76,6 +78,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
         mTvProjectCount = (TextView) findViewById(R.id.tv_project_count);
+        mTvNotice = (TextView) findViewById(R.id.tv_team_notice);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null)
@@ -103,7 +106,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mAdapter = new BaseAdapter<UserBean>(new ArrayList<UserBean>(), R.layout.list_item_member) {
             @Override
             public BaseViewHolder<UserBean> createHolder(View v, Context context) {
-                BaseViewHolder viewHolder = new BaseViewHolder<UserBean>(v) {
+                BaseViewHolder<UserBean> viewHolder = new BaseViewHolder<UserBean>(v) {
                     @Override
                     public void setData(UserBean o) {
                         setTextView(R.id.tv, o.getNickName());
@@ -131,8 +134,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
         mRcvMembers.setAdapter(mAdapter);
 
-
-       //mPresenters = new TeamInfoPresenterImpl(mTeam, this);
+        //Presenters 加载数据
+        mPresenters = new TeamInfoPresenterImpl(this,mTeam.getId());
         mPresenters.getTeamMembers();
         mPresenters.getProjectCount();
 
@@ -143,11 +146,11 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 public void onPullZooming(int newScrollValue) {
 
                 }
-
                 @Override
                 public void onPullZoomEnd() {
-                    mPresenters.refreshTeamInfo();
+                    mPresenters.getTeamInfo();
                     mPresenters.getTeamMembers();
+                    mRcvMembers.setLayoutFrozen(false);
                 }
             });
         }
@@ -175,6 +178,18 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 }
             });
         }
+        //点击公告
+        v = findViewById(R.id.team_notice);
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     onNoticeClick();
+                }
+            });
+        }
+
+
         //点击团队成员，打开团队成员列表
         v = findViewById(R.id.layout_team_member);
         if (v != null) {
@@ -197,11 +212,13 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         }
     }
 
-    @Override
-    public void showInfo() {
+
+    private void showInfo() {
+
         mTvTeamId.setText(String.valueOf(mTeam.getId()));
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
+        mTvNotice.setText(mTeam.getNotice());
         if (mTeam.getTeamAvatarUrl() != null) {
             Uri uri = Uri.parse(mTeam.getTeamAvatarUrl());
             mSimpleDraweeView.setImageURI(uri);
@@ -232,8 +249,30 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         super.onResume();
     }
 
+    //点击公告
+    private void onNoticeClick() {
+
+        if (mTeam.getAdminId()==MyApp.getCurrentId()) {
+            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
+            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+            editText.setText(mTvNotice.getText());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle(R.string.notice)
+                    .setView(view)
+                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPresenters.modifyNotice(editText.getText().toString());
+                        }
+                    });
+            builder.create().show();
+        }
+    }
+
+
+    //点击简介
     private void onSummaryClick() {
-        // TODO: 2016/9/1 0001
+
         if (mTeam.getAdminId()==MyApp.getCurrentId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
@@ -244,7 +283,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mPresenters.changeSummary(editText.getText().toString());
+                            mPresenters.modifySummary(editText.getText().toString());
                         }
                     });
             builder.create().show();

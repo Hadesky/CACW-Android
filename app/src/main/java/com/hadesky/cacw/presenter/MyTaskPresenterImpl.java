@@ -47,6 +47,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
                         {
                             mView.hideProgress();
                             mView.showDatas(list);
+
                         }
                     });
     }
