@@ -9,7 +9,6 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -37,14 +36,7 @@ public class AccountRepertory
         return  mCacwServer.login(body)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
-                .doOnNext(new Action1<String>() {
-                    @Override
-                    public void call(String s)
-                    {
-//                        MyApp.getSessionManager().setCurrentUser(username);
-//                        MyApp.getSessionManager().saveSeesion(s);
-                    }
-                }).observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 

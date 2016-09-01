@@ -47,8 +47,8 @@ import java.util.List;
 public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     static public final String IntentTag = "team";
-    static public final String TeamIconFileName_Low = "team_icon_low";
-    static public final String TeamIconFileName= "team_icon";
+    static public final String TeamIconFileName_Low = "team_icon_low.jpg";
+    static public final String TeamIconFileName= "team_icon.jpg";
     private TextView mTvTeamName;
     private TextView mTvTeamId;
     private TextView mTvSummary;

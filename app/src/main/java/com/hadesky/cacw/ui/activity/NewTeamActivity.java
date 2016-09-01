@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.presenter.NewTeamPresenter;
-
+import com.hadesky.cacw.presenter.NewTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.NewTeamView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.CircleImageView;
@@ -33,7 +33,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
     NewTeamPresenter mPresenters;
 
 
-    private static final String TEMP_FILE_NAME = "team_cache_bitmap";
+    private static final String TEMP_FILE_NAME = "team_cache_bitmap.jpg";
     private File mAvatarFile;
     private AnimProgressDialog mProgressDialog;
 
@@ -66,11 +66,10 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
                 createTeam();
             }
         });
-
         setSupportActionBar(mToolbars);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-       // mPresenters = new NewTeamPresenterImpl(this);
+        mPresenters = new NewTeamPresenterImpl(this);
     }
 
 
@@ -132,7 +131,6 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
                         Uri filePath = data.getData();
                         System.out.println("path " + filePath);
                         Bitmap selectedImage = BitmapFactory.decodeFile(filePath.getPath());
-
                         mCircleImageViews.setImageBitmap(selectedImage);
                         mAvatarFile = ImageResizer.getCompressBitmap(filePath.getPath(), TeamInfoActivity.TeamIconFileName_Low, this);
                     }

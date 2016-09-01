@@ -48,7 +48,9 @@ public class MyApp extends Application
         JPushInterface.init(this);
         Fresco.initialize(this);
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
-        sOkHttpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
+        sOkHttpClient = new OkHttpClient.Builder()
+                .writeTimeout(10,TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
