@@ -16,7 +16,7 @@ public class UserBean implements Serializable
 
     private String mUsername;
     private String mNickName;
-    private String mId;
+    private int mId;
     private Byte mSex = 0;//0是男，1是女，2是保密
     private String mPhoneNumber;
     private String mShortNumber;//短号
@@ -47,12 +47,12 @@ public class UserBean implements Serializable
     }
 
 
-    public String  getId()
+    public int  getId()
     {
         return mId;
     }
 
-    public void setId(String  id)
+    public void setId(int  id)
     {
         mId = id;
     }

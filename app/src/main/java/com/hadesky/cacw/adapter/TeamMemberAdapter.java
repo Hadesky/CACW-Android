@@ -54,7 +54,7 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         viewHolder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                if (mDatas.get(position).equals(MyApp.getCurrentUser())) {
+                if (mDatas.get(position).equals(MyApp.getCurrentId())) {
                     Intent intent = new Intent(mContext, MyInfoActivity.class);
                     mContext.startActivity(intent);
                 } else {

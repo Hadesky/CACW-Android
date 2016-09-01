@@ -418,7 +418,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     public boolean onMemberDelete(UserBean user)
     {
 
-//        if (user.getObjectId().equals(MyApp.getCurrentUser().getObjectId()))
+//        if (user.getObjectId().equals(MyApp.getCurrentId().getObjectId()))
 //        {
 //            showMsg("不能删除自己");
 //            return false;
@@ -518,7 +518,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
 //        mMembers = new ArrayList<>();
 //        TaskMember tm = new TaskMember();
-//        tm.setUser(MyApp.getCurrentUser());
+//        tm.setUser(MyApp.getCurrentId());
 //        tm.setTask(mTask);
 //        mMembers.add(tm);
 //        mAdapter.setDatas(mMembers);

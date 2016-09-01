@@ -66,7 +66,7 @@ public class ProjectsActivity extends BaseActivity {
     }
     private void OnCreateProjectClick()
     {
-//        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
+//        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentId().getObjectId())) {
 //
 //            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
 //            final EditText editText = (EditText) view.findViewById(R.id.edit_text);

@@ -101,9 +101,9 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
 
     private void loadUserInfo() {
 //        if (mUserBean != null) {
-//            if (mUserBean.getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
+//            if (mUserBean.getObjectId().equals(MyApp.getCurrentId().getObjectId())) {
 //                //是当前用户，不联网查询
-//                updateData(MyApp.getCurrentUser());
+//                updateData(MyApp.getCurrentId());
 //                hideAllActionButton();
 //                return;
 //            }

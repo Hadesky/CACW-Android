@@ -6,6 +6,8 @@ import com.hadesky.cacw.ui.view.NewTeamView;
 
 import java.io.File;
 
+import rx.Subscription;
+
 /**
  *
  * Created by dzysg on 2016/9/1 0001.
@@ -15,6 +17,7 @@ public class NewTeamPresenterImpl implements NewTeamPresenter
 
     private TeamRepertory mTeamRepertory;
     private NewTeamView mView;
+    private Subscription mSubscription;
 
     public NewTeamPresenterImpl(NewTeamView view)
     {
@@ -27,7 +30,7 @@ public class NewTeamPresenterImpl implements NewTeamPresenter
     {
 
         mView.showProgress();
-        mTeamRepertory.createTeam(team,avatar).subscribe(new RxSubscriber<String>() {
+        mSubscription = mTeamRepertory.createTeam(team,avatar).subscribe(new RxSubscriber<String>() {
             @Override
             public void _onError(Throwable e)
             {
@@ -43,5 +46,12 @@ public class NewTeamPresenterImpl implements NewTeamPresenter
                 mView.Close();
             }
         });
+    }
+
+    @Override
+    public void cancel()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 }

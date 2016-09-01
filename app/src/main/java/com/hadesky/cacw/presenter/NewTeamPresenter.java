@@ -8,4 +8,6 @@ import java.io.File;
  */
 public interface NewTeamPresenter {
     void createTeam(String team, File avatar);
+
+    void cancel();
 }

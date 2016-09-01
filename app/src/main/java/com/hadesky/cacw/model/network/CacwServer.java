@@ -1,6 +1,7 @@
 package com.hadesky.cacw.model.network;
 
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.TeamBean;
 
 import java.util.List;
 
@@ -45,5 +46,9 @@ public interface CacwServer
     Observable<BaseResult<String>> createTeam(@Path("teamname")String name,
                                               @Part MultipartBody.Part file,
                                               @Part("des") String des);
+
+
+    @GET("/v1/team/list")
+    Observable<BaseResult<List<TeamBean>>> getTeamList(@Query("allcolumn") boolean all);
 
 }

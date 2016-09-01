@@ -1,6 +1,5 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,8 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
@@ -38,7 +35,7 @@ public class UserInfoActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
-        if (mUserBean.equals(MyApp.getCurrentUser())) {
+        if (mUserBean.equals(MyApp.getCurrentId())) {
             navigateTo(MyInfoActivity.class, false);
             finish();
         }
@@ -91,7 +88,7 @@ public class UserInfoActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                if (mUserBean == null || mUserBean.equals(MyApp.getCurrentUser())) {
+                if (mUserBean == null || mUserBean.equals(MyApp.getCurrentId())) {
                     return;
                 }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);

@@ -62,7 +62,7 @@ public class RegisterPresenterImpl implements RegisterPresenter
     @Override
     public void cancelRequest()
     {
-        if (mSubscription != null)
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
             mSubscription.unsubscribe();
     }
 }

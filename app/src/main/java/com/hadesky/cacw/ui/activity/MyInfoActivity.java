@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
@@ -45,7 +44,7 @@ public class MyInfoActivity extends BaseActivity {
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentUser());
+            bundle.putSerializable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentId());
             fragment.setArguments(bundle);
             fm.beginTransaction()
                     .add(R.id.container, fragment)

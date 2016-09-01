@@ -30,7 +30,6 @@ public class DatabaseManager
 
     public static final String Table_Message = "Message";
     public static final String Table_Users = "Users";
-
     public static final String Column_Sender = "Sender";
     public static final String Column_Receiver = "Receiver";
     public static final String Column_Content = "content";
@@ -43,12 +42,12 @@ public class DatabaseManager
     public static final String Column_AvatarUrl = "avatarUrl";
 
 
-    private UserBean mUser;
+    private int mUser;
 
     private DatabaseManager(Context context)
     {
-        mUser = MyApp.getCurrentUser();
-        mHelper = new DatabaseHelper(context, mUser.getId());
+        mUser = MyApp.getCurrentId();
+        mHelper = new DatabaseHelper(context,"user_"+mUser);
         db = mHelper.getWritableDatabase();
     }
 
@@ -167,7 +166,7 @@ public class DatabaseManager
     {
 
 
-        if (bean.getSender().getId().equals(mUser.getId()))
+        if (bean.getSender().getId()==mUser)
             saveOrUpdateUser(bean.getReceiver());
         else
             saveOrUpdateUser(bean.getSender());
@@ -188,7 +187,7 @@ public class DatabaseManager
         db.beginTransaction();
         for(MessageBean bean : list)
         {
-            if (bean.getSender().getId().equals(mUser.getId()))
+            if (bean.getSender().getId()==mUser)
                 saveOrUpdateUser(bean.getReceiver());
             else
                 saveOrUpdateUser(bean.getSender());
@@ -324,28 +323,29 @@ public class DatabaseManager
 
     private MessageBean getMessage(Cursor cursor)
     {
-        MessageBean bean = new MessageBean();
+        // TODO: 2016/9/1 0001
+//        MessageBean bean = new MessageBean();
+//
+//        String sender = cursor.getString(cursor.getColumnIndex(Column_Sender));
+//        if (sender.equals(mUser.getId()))
+//        {
+//            bean.setSender(mUser);
+//            String to = cursor.getString(cursor.getColumnIndex(Column_Receiver));
+//            bean.setReceiver(getUserById(to));
+//        } else
+//        {
+//            bean.setReceiver(mUser);
+//            bean.setSender(getUserById(sender));
+//        }
+//
+//        int type = cursor.getInt(cursor.getColumnIndex(Column_Type));
+//        bean.setType((byte) type);
+//        String content = cursor.getString(cursor.getColumnIndex(Column_Content));
+//        bean.setMsg(content);
+//        int read = cursor.getInt(cursor.getColumnIndex(Column_hasRead));
+//        bean.setHasRead(read == 1);
 
-        String sender = cursor.getString(cursor.getColumnIndex(Column_Sender));
-        if (sender.equals(mUser.getId()))
-        {
-            bean.setSender(mUser);
-            String to = cursor.getString(cursor.getColumnIndex(Column_Receiver));
-            bean.setReceiver(getUserById(to));
-        } else
-        {
-            bean.setReceiver(mUser);
-            bean.setSender(getUserById(sender));
-        }
-
-        int type = cursor.getInt(cursor.getColumnIndex(Column_Type));
-        bean.setType((byte) type);
-        String content = cursor.getString(cursor.getColumnIndex(Column_Content));
-        bean.setMsg(content);
-        int read = cursor.getInt(cursor.getColumnIndex(Column_hasRead));
-        bean.setHasRead(read == 1);
-
-        return bean;
+        return null;
     }
 
 }

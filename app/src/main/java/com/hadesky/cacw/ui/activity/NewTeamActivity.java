@@ -48,7 +48,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
         mBtnSubmit = (Button) findViewById(R.id.btn_submit);
         mToolbars = (Toolbar) findViewById(R.id.toolbar);
         mEdtTeamName = (EditText) findViewById(R.id.edt_team_name);
-        mProgressDialog = new AnimProgressDialog(this, false, null, "创建中...");
+        mProgressDialog = new AnimProgressDialog(this,true, null, "创建中...");
     }
 
     @Override
@@ -156,5 +156,7 @@ public class NewTeamActivity extends BaseActivity implements NewTeamView {
     @Override
     public void Close() {
         finish();
+        if(mPresenters!=null)
+            mPresenters.cancel();
     }
 }

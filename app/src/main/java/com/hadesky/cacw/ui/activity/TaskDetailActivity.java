@@ -189,7 +189,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
         //判断显示删除按钮
-//        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
+//        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentId().getObjectId())) {
 //            mBtnEditTask.setVisibility(View.INVISIBLE);
 //            mBtnDelTask.setVisibility(View.INVISIBLE);
 //        }

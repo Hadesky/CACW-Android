@@ -24,7 +24,7 @@ public class TaskBean implements Serializable
 
     @SerializedName("project")
     private ProjectBean mProject;
-    private String AdminId = "";
+    private int AdminId;
     private String startDate;
     private String endDate;
     private int finish;
@@ -68,11 +68,11 @@ public class TaskBean implements Serializable
         this.endDate = mendDate;
     }
 
-    public String getAdminId() {
+    public int getAdminId() {
         return AdminId;
     }
 
-    public void setAdminId(String adaminUserId) {
+    public void setAdminId(int adaminUserId) {
         AdminId = adaminUserId;
     }
 

@@ -9,6 +9,8 @@ import com.hadesky.cacw.ui.view.TaskView;
 
 import java.util.List;
 
+import rx.Subscription;
+
 /**主界面 我的任务
  * Created by dzysg on 2016/8/31 0031.
  */
@@ -18,6 +20,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
 
     private TaskView mView;
     private TaskRepertory mRepertory;
+    private Subscription mSubscription;
     public MyTaskPresenterImpl(TaskView view)
     {
         mView = view;
@@ -31,7 +34,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     public void LoadTasks(int state)
     {
         mView.showProgress();
-        mRepertory.getTaskList(state)
+        mSubscription = mRepertory.getTaskList(state)
                     .subscribe(new RxSubscriber<List<TaskBean>>() {
                         @Override
                         public void _onError(Throwable e)
@@ -57,6 +60,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     @Override
     public void onDestroy()
     {
-
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 }

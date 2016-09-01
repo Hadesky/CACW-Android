@@ -114,7 +114,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamBean>
                 setTextView(R.id.tv_team_name, teamBean.getTeamName());
                 setTextView(R.id.tv_team_summary, teamBean.getSummary());
 
-                loadMemberCount(teamBean);
                 SimpleDraweeView view = findView(R.id.sdv_team_icon);
                 if (teamBean.getTeamAvatarUrl() != null)
                 {
@@ -131,10 +130,6 @@ public class MyTeamAdapter extends BaseAdapter<TeamBean>
                 Button newProjectBt = findView(R.id.bt_new_project);
             }
 
-            private void loadMemberCount(TeamBean teamBean)
-            {
-
-            }
         };
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener()
         {

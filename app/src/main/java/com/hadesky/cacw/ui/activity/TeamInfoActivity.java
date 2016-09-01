@@ -199,7 +199,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     @Override
     public void showInfo() {
-        mTvTeamId.setText(String.valueOf(mTeam.getTeamId()));
+        mTvTeamId.setText(String.valueOf(mTeam.getId()));
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
         if (mTeam.getTeamAvatarUrl() != null) {
@@ -233,7 +233,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     }
 
     private void onSummaryClick() {
-        if (mTeam.getAdminUser().equals(MyApp.getCurrentUser())) {
+        // TODO: 2016/9/1 0001
+        if (mTeam.getAdminId()==MyApp.getCurrentId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             editText.setText(mTvSummary.getText());

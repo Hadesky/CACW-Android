@@ -225,7 +225,7 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
      * @return 临时文件名
      */
     private String getTempFileName(String originalOrLow) {
-        return MyApp.getCurrentUser().getId() + originalOrLow;
+        return MyApp.getCurrentId() + originalOrLow;
     }
 
     @Override

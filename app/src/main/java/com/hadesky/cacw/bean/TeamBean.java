@@ -1,5 +1,7 @@
 package com.hadesky.cacw.bean;
 
+import com.hadesky.cacw.config.MyApp;
+
 import java.io.Serializable;
 
 /**
@@ -9,57 +11,65 @@ import java.io.Serializable;
 public class TeamBean implements Serializable
 {
 
-    private Long mTeamId;
 
-    private String mTeamName;
+    private int id;
+    private String teamName;
+    private String summary;//团队介绍
+    private int AdminId;
+    private String notice;
 
-    private String mSummary;//团队介绍
+    public int getAdminId()
+    {
+        return AdminId;
+    }
 
-    private UserBean mAdminUser;//管理员
+    public void setAdminId(int adminId)
+    {
+        AdminId = adminId;
+    }
 
-    public TeamBean() {
+    public String getNotice()
+    {
+        return notice;
+    }
 
+    public void setNotice(String notice)
+    {
+        this.notice = notice;
     }
 
     public String getSummary() {
-        return mSummary;
+        return summary;
     }
 
     public void setSummary(String summary) {
-        mSummary = summary;
+        this.summary = summary;
     }
 
     public TeamBean(String mTeamName) {
-        this.mTeamName = mTeamName;
+        this.teamName = mTeamName;
     }
 
-    public Long getTeamId() {
-        return mTeamId;
+    public int getId() {
+        return id;
     }
 
-    public void setTeamId(Long teamId) {
-        mTeamId = teamId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public UserBean getAdminUser() {
-        return mAdminUser;
-    }
-
-    public void setAdminUser(UserBean adminUser) {
-        mAdminUser = adminUser;
-    }
 
     public String getTeamName() {
-        return mTeamName;
+        return teamName;
     }
 
     public void setTeamName(String team_name) {
-        this.mTeamName = team_name;
+        this.teamName = team_name;
     }
 
 
     public String getTeamAvatarUrl()
     {
-        return "";
+        return MyApp.getURL()+"/v1/images/team_"+id+".jpg";
     }
 }

@@ -34,7 +34,6 @@ public class MyApp extends Application
     private static OkHttpClient sOkHttpClient;
     private static SessionManagement sSessionManagement;
     private static CacwServer sApiServer;
-    private static String sUsername;
     private static String sDeviceId;
 
 
@@ -94,25 +93,12 @@ public class MyApp extends Application
 
     public static boolean isCurrentUser(UserBean sb)
     {
-        return getCurrentUser().equals(sb);
+        return sb.getId()==getCurrentId();
     }
 
-    public static UserBean getCurrentUser()
+    public static int getCurrentId()
     {
-        return new UserBean();
-    }
-
-    public static String getUsername()
-    {
-        if(sUsername==null)
-            sUsername = MyApp.getSessionManager().getCurrentUser();
-        return sUsername;
-    }
-
-    public static void setUsername(String username)
-    {
-
-        sUsername = username;
+        return getSessionManager().getCurrentUser();
     }
 
     public static Context getAppContext()

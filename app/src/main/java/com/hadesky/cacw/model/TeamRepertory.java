@@ -1,9 +1,11 @@
 package com.hadesky.cacw.model;
 
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.network.CacwServer;
 
 import java.io.File;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -45,11 +47,19 @@ public class TeamRepertory
              body = MultipartBody.Part.createFormData("img", avatar.getName(), requestFile);
         }
 
-//        RequestBody description = RequestBody.create(MediaType.parse("multipart/form-data"),"des");
-
         return mCacwServer.createTeam(name,body,"dex")
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+
+    public Observable<List<TeamBean>> getTeamList()
+    {
+        return   mCacwServer.getTeamList(true)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<TeamBean>>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

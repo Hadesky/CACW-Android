@@ -14,7 +14,6 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.DatabaseManager;
 import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
@@ -63,12 +62,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void setupView() {
-
-        if(MyApp.getUsername()==null) {
-            navigateTo(LoginActivity.class, true);
-            finish();
-            return;
-        }
         setupTabView();
     }
 

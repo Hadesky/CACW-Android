@@ -1,7 +1,5 @@
 package com.hadesky.cacw.model.network;
 
-import android.util.Log;
-
 import com.hadesky.cacw.config.MyApp;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class CookieManager implements CookieJar
     public static void clearCookie()
     {
 
-        MyApp.getSessionManager().saveSeesion(null);
+        MyApp.getSessionManager().clear();
         mCookies.clear();
     }
 
@@ -56,8 +54,9 @@ public class CookieManager implements CookieJar
                 {
                     //本地保存cookie
                     MyApp.getSessionManager().saveSeesion(c.value());
-                    Log.e("tag", "session get  " + c.value());
-                    break;
+                }else if(c.name().equals("uid"))
+                {
+                    MyApp.getSessionManager().setCurrentUser(c.value());
                 }
             }
         }

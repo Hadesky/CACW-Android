@@ -12,17 +12,36 @@ public class SessionManagement {
     private SharedPreferences mPref;
     private final static int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "CACWPref";
-    private static final String IS_LOGIN = "IsLogIn";
 
 
     public SessionManagement(Context context) {
-
         mPref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
     }
 
-    public String getCurrentUser()
+
+
+    public void clear()
     {
-        return mPref.getString("user",null);
+        setNickName(null);
+        setCurrentUser(null);
+        saveSeesion(null);
+    }
+
+    public void setNickName(String name)
+    {
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putString("nickName",name);
+        editor.apply();
+    }
+
+    public String getNickName()
+    {
+        return mPref.getString("nickName",null);
+    }
+
+    public int getCurrentUser()
+    {
+        return mPref.getInt("user",-1);
     }
 
     public void setCurrentUser(String u)
