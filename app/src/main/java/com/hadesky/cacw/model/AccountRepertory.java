@@ -2,8 +2,8 @@ package com.hadesky.cacw.model;
 
 import com.google.gson.JsonObject;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.network.BaseResult;
-import com.hadesky.cacw.network.CacwServer;
+import com.hadesky.cacw.model.network.BaseResult;
+import com.hadesky.cacw.model.network.CacwServer;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -41,7 +41,8 @@ public class AccountRepertory
                     @Override
                     public void call(String s)
                     {
-                        MyApp.getSessionManager().setCurrentUser(username);
+//                        MyApp.getSessionManager().setCurrentUser(username);
+//                        MyApp.getSessionManager().saveSeesion(s);
                     }
                 }).observeOn(AndroidSchedulers.mainThread());
     }

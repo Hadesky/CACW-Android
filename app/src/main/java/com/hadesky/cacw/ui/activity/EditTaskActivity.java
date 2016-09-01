@@ -249,15 +249,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mEdtDetail.addTextChangedListener(mTextWatcher);
         mEdtLocation.addTextChangedListener(mTextWatcher);
         mEdtTitle.addTextChangedListener(mTextWatcher);
-//        //点击确定
-//        mOk.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                saveTask();
-//            }
-//        });
+
 
         findViewById(R.id.bt_start_date_time).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,43 +263,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 showEndTimeDialog();
             }
         });
-//
-//        //点击开始时间
-//        mStartTime.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openTimeDialog(true);
-//            }
-//        });
-//        //点击开始日期
-//        mStartDate.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openDateDialog(true);
-//            }
-//        });
-//        //点击结束时间
-//        mEndTime.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openTimeDialog(false);
-//            }
-//        });
-//        //点击结束日期
-//        mEndDate.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openDateDialog(false);
-//            }
-//        });
+
         //点击项目
         mProject.setOnClickListener(new View.OnClickListener()
         {
@@ -322,15 +278,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 }
             }
         });
-//        //点击保存
-//        mOk.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                saveTask();
-//            }
-//        });
     }
 
     private void showEndTimeDialog() {

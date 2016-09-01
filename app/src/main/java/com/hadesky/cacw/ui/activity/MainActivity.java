@@ -16,6 +16,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.DatabaseManager;
+import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
@@ -159,7 +160,8 @@ public class MainActivity extends BaseActivity {
         JPushInterface.setAlias(getApplicationContext(), "", null);
         JPushInterface.stopPush(this);
 
-        MyApp.getSessionManager().saveSeesion(null);
+        //消除相关Cookie
+        CookieManager.clearCookie();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

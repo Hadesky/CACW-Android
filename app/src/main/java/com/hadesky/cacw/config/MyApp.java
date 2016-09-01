@@ -7,8 +7,8 @@ import android.content.Context;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.model.SessionManagement;
-import com.hadesky.cacw.network.CacwServer;
-import com.hadesky.cacw.network.CookieManager;
+import com.hadesky.cacw.model.network.CacwServer;
+import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
 
 import java.util.concurrent.TimeUnit;

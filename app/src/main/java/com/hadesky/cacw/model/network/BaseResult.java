@@ -1,4 +1,4 @@
-package com.hadesky.cacw.network;
+package com.hadesky.cacw.model.network;
 
 /**
  *

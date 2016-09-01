@@ -1,4 +1,4 @@
-package com.hadesky.cacw.network;
+package com.hadesky.cacw.model.network;
 
 import android.util.Log;
 
@@ -11,22 +11,36 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 
-/**
- *
+/** Cookie管理 ，用于okhttp
  * Created by dzysg on 2016/8/31 0031.
  */
 public class CookieManager implements CookieJar
 {
 
     private String session;
-    private List<Cookie> mCookies= new ArrayList<>();
+    private static List<Cookie> mCookies = new ArrayList<>();
+
+    public static void clearCookie()
+    {
+
+        MyApp.getSessionManager().saveSeesion(null);
+        mCookies.clear();
+    }
 
     public CookieManager()
     {
-        session =  MyApp.getSessionManager().getSession();
-        if(session!=null)
+        initCookie();
+    }
+
+
+    private void initCookie()
+    {
+        session = MyApp.getSessionManager().getSession();
+        if (session != null)
         {
             Cookie c = new Cookie.Builder().name("sessionId").value(session).domain("192.168.199.234").build();
+            if(mCookies==null)
+                mCookies = new ArrayList<>();
             mCookies.add(c);
         }
     }
@@ -34,16 +48,15 @@ public class CookieManager implements CookieJar
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies)
     {
-        if(url.toString().contains("/login"))
+        if (url.toString().contains("/login"))
         {
-            for(Cookie c:cookies)
+            for(Cookie c : cookies)
             {
-                if(c.name().equals("sessionId"))
+                if (c.name().equals("sessionId"))
                 {
                     //本地保存cookie
                     MyApp.getSessionManager().saveSeesion(c.value());
-                    session = c.value();
-                    Log.e("tag","session get  "+session);
+                    Log.e("tag", "session get  " + c.value());
                     break;
                 }
             }
@@ -53,6 +66,8 @@ public class CookieManager implements CookieJar
     @Override
     public List<Cookie> loadForRequest(HttpUrl url)
     {
+        if (mCookies == null || mCookies.size() == 0)
+            initCookie();
         return mCookies;
     }
 }
