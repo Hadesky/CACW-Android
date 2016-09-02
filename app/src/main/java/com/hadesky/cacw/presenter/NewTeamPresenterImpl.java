@@ -32,10 +32,10 @@ public class NewTeamPresenterImpl implements NewTeamPresenter
         mView.showProgress();
         mSubscription = mTeamRepertory.createTeam(team,avatar).subscribe(new RxSubscriber<String>() {
             @Override
-            public void _onError(Throwable e)
+            public void _onError(String e)
             {
                 mView.hideProgress();
-                mView.showMsg(e.getMessage());
+                mView.showMsg(e);
             }
 
             @Override

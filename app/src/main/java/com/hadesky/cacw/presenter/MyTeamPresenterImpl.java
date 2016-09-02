@@ -31,10 +31,10 @@ public class MyTeamPresenterImpl implements MyTeamPresenter
         mView.showProgress();
         mSubscription  =  mTeamRepertory.getTeamList().subscribe(new RxSubscriber<List<TeamBean>>() {
             @Override
-            public void _onError(Throwable e)
+            public void _onError(String e)
             {
                 mView.hideProgress();
-                mView.showMsg(e.getMessage());
+                mView.showMsg(e);
             }
 
             @Override

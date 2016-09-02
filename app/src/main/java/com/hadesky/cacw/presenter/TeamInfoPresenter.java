@@ -14,7 +14,6 @@ public interface TeamInfoPresenter {
 
     void saveTeamIcon(File file);
     void onDestroy();
-    void getProjectCount();
 
     void delCurrentTeam();
 

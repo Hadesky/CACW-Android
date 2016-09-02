@@ -69,4 +69,10 @@ public interface CacwServer
     @POST("/v1/team/{tid}")
     Observable<BaseResult<String>> modifyTeamInfo(@Path("tid") int tid, @Body RequestBody body);
 
+
+    //第三个参数暂时无用
+    @POST("/v1/team/{tid}/upload")
+    @Multipart()
+    Observable<BaseResult<String>> modifyTeamIcon(@Path("tid")int tid,
+                                              @Part MultipartBody.Part file);
 }

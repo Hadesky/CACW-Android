@@ -1,7 +1,5 @@
 package com.hadesky.cacw.presenter;
 
-import android.util.Log;
-
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.model.RxSubscriber;
 import com.hadesky.cacw.model.TaskRepertory;
@@ -37,10 +35,10 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
         mSubscription = mRepertory.getTaskList(state)
                     .subscribe(new RxSubscriber<List<TaskBean>>() {
                         @Override
-                        public void _onError(Throwable e)
+                        public void _onError(String e)
                         {
                             mView.hideProgress();
-                            Log.e("tag", e.getMessage());
+                            mView.showMsg(e);
                         }
                         @Override
                         public void _onNext(List<TaskBean> list)

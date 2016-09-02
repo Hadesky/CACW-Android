@@ -137,7 +137,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         //Presenters 加载数据
         mPresenters = new TeamInfoPresenterImpl(this,mTeam.getId());
         mPresenters.getTeamMembers();
-        mPresenters.getProjectCount();
 
         PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.zoom_scrollView);
         if (scrollView != null) {
@@ -219,6 +218,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
         mTvNotice.setText(mTeam.getNotice());
+        mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),mTeam.getProjectCount()));
         if (mTeam.getTeamAvatarUrl() != null) {
             Uri uri = Uri.parse(mTeam.getTeamAvatarUrl());
             mSimpleDraweeView.setImageURI(uri);
@@ -390,10 +390,6 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers.setLayoutFrozen(true);
     }
 
-    @Override
-    public void showProjectCount(int num) {
-            mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),num));
-    }
 
     @Override
     public void showProgress() {

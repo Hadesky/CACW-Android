@@ -17,6 +17,20 @@ public class TeamBean implements Serializable
     private String summary;//团队介绍
     private int AdminId;
     private String notice;
+    private int projectCount;
+    private int memberCount;
+    private String avatarUrl;
+
+
+    public int getProjectCount()
+    {
+        return projectCount;
+    }
+
+    public int getMemberCount()
+    {
+        return memberCount;
+    }
 
     public int getAdminId()
     {
@@ -70,6 +84,6 @@ public class TeamBean implements Serializable
 
     public String getTeamAvatarUrl()
     {
-        return MyApp.getURL()+"/v1/images/team_"+id+".jpg";
+        return MyApp.getURL()+"/v1/images/team_"+id+"_"+avatarUrl+".jpg";
     }
 }

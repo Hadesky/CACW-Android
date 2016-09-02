@@ -42,10 +42,10 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
         Subscription subscription  =  mTeamRepertory.getTeamInfo(tid)
                 .subscribe(new RxSubscriber<TeamBean>() {
                     @Override
-                    public void _onError(Throwable e)
+                    public void _onError(String e)
                     {
                         mView.hideProgress();
-                        mView.showMsg(e.getMessage());
+                        mView.showMsg(e);
                     }
 
                     @Override
@@ -53,7 +53,6 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
                     {
                         mView.hideProgress();
                         mView.showInfo(teamBean);
-
                     }
                 });
         mSubscriptionList.add(subscription);
@@ -66,10 +65,10 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
         Subscription subscription  =  mTeamRepertory.getTeamMember(tid,4,0,false)
                 .subscribe(new RxSubscriber<List<UserBean>>() {
                     @Override
-                    public void _onError(Throwable e)
+                    public void _onError(String e)
                     {
                         mView.hideProgress();
-                        mView.showMsg(e.getMessage());
+                        mView.showMsg(e);
                     }
 
                     @Override
@@ -90,10 +89,10 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
         Subscription subscription  =  mTeamRepertory.modifyTeamInfo(tid,info)
                 .subscribe(new RxSubscriber<String>() {
                     @Override
-                    public void _onError(Throwable e)
+                    public void _onError(String e)
                     {
                         mView.hideProgress();
-                        mView.showMsg(e.getMessage());
+                        mView.showMsg(e);
                     }
 
                     @Override
@@ -110,13 +109,14 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
     {
         Map<String, String> info = new HashMap<>();
         info.put("notice",s);
+        mView.showProgress();
         Subscription subscription  =  mTeamRepertory.modifyTeamInfo(tid,info)
                 .subscribe(new RxSubscriber<String>() {
                     @Override
-                    public void _onError(Throwable e)
+                    public void _onError(String e)
                     {
                         mView.hideProgress();
-                        mView.showMsg(e.getMessage());
+                        mView.showMsg(e);
                     }
                     @Override
                     public void _onNext(String teamBean)
@@ -130,7 +130,24 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
     @Override
     public void saveTeamIcon(File file)
     {
+        mView.showProgress();
+        Subscription s = mTeamRepertory.modifyTeamIcon(tid,file)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
 
+                    }
+
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                    }
+                });
+        mSubscriptionList.add(s);
     }
 
     @Override
@@ -139,11 +156,6 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
         mSubscriptionList.unsubscribe();
     }
 
-    @Override
-    public void getProjectCount()
-    {
-
-    }
 
     @Override
     public void delCurrentTeam()

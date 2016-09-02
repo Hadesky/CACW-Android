@@ -3,12 +3,15 @@ package com.hadesky.cacw.model;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.model.network.SessionException;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
+
+import java.net.SocketTimeoutException;
 
 import rx.Subscriber;
 
@@ -20,7 +23,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T>
 {
 
 
-    public abstract void _onError(Throwable e);
+    public abstract void _onError(String msg);
 
     public abstract void _onNext(T t);
 
@@ -33,9 +36,14 @@ public abstract class RxSubscriber<T> extends Subscriber<T>
     public final void onError(Throwable e)
     {
         e.printStackTrace();
+        Log.e("tag", e.getMessage());
 
+        if(e instanceof SocketTimeoutException)
+        {
+            _onError("连接超时");
+        }
         //session过期
-        if (e instanceof SessionException)
+        else if (e instanceof SessionException)
         {
             try
             {
@@ -60,11 +68,10 @@ public abstract class RxSubscriber<T> extends Subscriber<T>
             }
             catch (Exception ex)
             {
-                _onError(ex);
+                _onError(ex.getMessage());
             }
-
         } else
-            _onError(e);
+            _onError(e.getMessage());
     }
 
     @Override

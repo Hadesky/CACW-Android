@@ -93,4 +93,18 @@ public class TeamRepertory
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    public Observable<String> modifyTeamIcon(int tid,File file)
+    {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part  body = MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+
+       return mCacwServer.modifyTeamIcon(tid, body)
+               .subscribeOn(Schedulers.io())
+               .compose(RxHelper.<String>handleResult())
+               .observeOn(AndroidSchedulers.mainThread())
+               ;
+
+    }
+
 }

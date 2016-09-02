@@ -12,7 +12,6 @@ import java.util.List;
 public interface TeamInfoView extends BaseView {
 
     void showMembers(List<UserBean> list);
-    void showProjectCount(int num);
     void showInfo(TeamBean bean);
     void close();
 }
