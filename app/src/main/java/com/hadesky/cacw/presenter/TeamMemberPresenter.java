@@ -2,15 +2,13 @@ package com.hadesky.cacw.presenter;
 
 import com.hadesky.cacw.bean.UserBean;
 
-import java.util.List;
-
 /**
  *
  * Created by MicroStudent on 2016/7/16.
  */
 
 public interface TeamMemberPresenter {
-    void loadData();
+    void loadMembers();
 
     void onDestroy();
 
@@ -18,5 +16,4 @@ public interface TeamMemberPresenter {
 
     void deleteMember(UserBean bean);
 
-    List<UserBean> getData();
 }

@@ -1,5 +1,6 @@
 package com.hadesky.cacw.model.network;
 
+import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
@@ -23,6 +24,9 @@ import rx.Observable;
  */
 public interface CacwServer
 {
+
+
+
 
 
     @POST("/v1/account/register")
@@ -60,7 +64,7 @@ public interface CacwServer
     @GET("/v1/team/{tid}/members")
     Observable<BaseResult<List<UserBean>>> getTeamMember(
             @Path("tid") int tid,
-            @Query("limit") int limit,
+            @Query("limit") Integer limit,
             @Query("offset") int offset,
             @Query("allcolumn") boolean allcolumn
     );
@@ -75,4 +79,12 @@ public interface CacwServer
     @Multipart()
     Observable<BaseResult<String>> modifyTeamIcon(@Path("tid")int tid,
                                               @Part MultipartBody.Part file);
+
+    @GET("/v1/team/{tid}/projectlist")
+    Observable<BaseResult<List<ProjectBean>>> getTeamProjects(@Path("tid")int tid,@Query("state") String state);
+
+    @POST("/v1/project/create")
+    Observable<BaseResult<String>> createProject(@Body RequestBody body);
+
+
 }

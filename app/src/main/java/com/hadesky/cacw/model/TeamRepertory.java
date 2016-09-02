@@ -1,6 +1,7 @@
 package com.hadesky.cacw.model;
 
 import com.google.gson.JsonObject;
+import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
@@ -66,7 +67,7 @@ public class TeamRepertory
     }
 
 
-    public Observable<List<UserBean>> getTeamMember(int tid, int limit, int offset, boolean all)
+    public Observable<List<UserBean>> getTeamMember(int tid, Integer limit, Integer offset, boolean all)
     {
 
         return mCacwServer.getTeamMember(tid, limit, offset, all)
@@ -106,5 +107,37 @@ public class TeamRepertory
                ;
 
     }
+
+
+
+    public Observable<List<ProjectBean>> getTeamProjects(int tid,Boolean isFile)
+    {
+       String state;
+        if(isFile==null)
+            state = null;
+        else if(isFile)
+            state = "file";
+        else
+            state = "unfile";
+
+       return  mCacwServer.getTeamProjects(tid,state)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<ProjectBean>>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> createTeamProject(int tid,String pname)
+    {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("teamid",tid);
+        jsonObject.addProperty("projectname",pname);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
+
+       return  mCacwServer.createProject(body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

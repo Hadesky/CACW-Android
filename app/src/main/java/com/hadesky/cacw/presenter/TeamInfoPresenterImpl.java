@@ -24,7 +24,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
     private TeamInfoView mView;
     private TeamRepertory mTeamRepertory;
     private SubscriptionList mSubscriptionList = new SubscriptionList();
-
+    private TeamBean mTeam;
 
     int tid;
 
@@ -53,6 +53,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
                     {
                         mView.hideProgress();
                         mView.showInfo(teamBean);
+                        mTeam = teamBean;
                     }
                 });
         mSubscriptionList.add(subscription);
@@ -82,7 +83,7 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
     }
 
     @Override
-    public void modifySummary(String s)
+    public void modifySummary(final String s)
     {
         Map<String, String> info = new HashMap<>();
         info.put("summary",s);
@@ -99,13 +100,15 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
                     public void _onNext(String teamBean)
                     {
                         mView.hideProgress();
+                        mTeam.setSummary(s);
+                        mView.showInfo(mTeam);
                     }
                 });
         mSubscriptionList.add(subscription);
     }
 
     @Override
-    public void modifyNotice(String s)
+    public void modifyNotice(final String s)
     {
         Map<String, String> info = new HashMap<>();
         info.put("notice",s);
@@ -122,6 +125,8 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
                     public void _onNext(String teamBean)
                     {
                         mView.hideProgress();
+                        mTeam.setNotice(s);
+                        mView.showInfo(mTeam);
                     }
                 });
         mSubscriptionList.add(subscription);

@@ -1,16 +1,22 @@
 package com.hadesky.cacw.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.MyProjectPresenter;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 
@@ -18,7 +24,7 @@ public class ProjectsActivity extends BaseActivity {
     private Toolbar toolbar;
     private TeamBean mTeam;
     private AnimProgressDialog mProgressDialog;
-
+    private MyProjectPresenter mPresenter;
 
     @Override
     public int getLayoutId() {
@@ -34,10 +40,8 @@ public class ProjectsActivity extends BaseActivity {
     @Override
     public void setupView() {
 
-        mProgressDialog = new AnimProgressDialog(this, false, null, "请稍候...");
-
         Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(ProjectFragment.TeamBundleTAG);
+        mTeam = (TeamBean) i.getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
         if (mTeam==null)
         {
             showToast("找不到项目");
@@ -52,45 +56,49 @@ public class ProjectsActivity extends BaseActivity {
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.container);
+
+        ProjectFragment fragment = (ProjectFragment) fm.findFragmentById(R.id.container);
 
         if (fragment == null) {
             fragment = new ProjectFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ProjectFragment.TeamBundleTAG,mTeam);
-            fragment.setArguments(bundle);
-            fm.beginTransaction()
-                    .add(R.id.container,fragment,ProjectFragment.FregmentTAG)
-                    .commit();
+//            mPresenter = new MyProjectPresenterImpl(fragment,mTeam);
+//            fragment.setPresenter(presenter);
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(IntentTag.TAG_TEAM_BEAN,mTeam);
+        fragment.setArguments(bundle);
+        fm.beginTransaction()
+                .add(R.id.container,fragment,ProjectFragment.FregmentTAG)
+                .commit();
     }
     private void OnCreateProjectClick()
     {
-//        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentId().getObjectId())) {
-//
-//            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
-//            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-//                    .setTitle(getString(R.string.project_name))
-//                    .setView(view)
-//                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            createProject(editText.getText().toString());
-//                        }
-//                    });
-//            builder.create().show();
-//        }else
-//        {
-//            showToast(getString(R.string.you_are_not_admin) );
-//
-//        }
+        if (mTeam.getAdminId()==MyApp.getCurrentId()) {
+            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
+            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.project_name))
+                    .setView(view)
+                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            createProject(editText.getText().toString());
+                        }
+                    });
+            builder.create().show();
+        }else
+        {
+            showToast(getString(R.string.you_are_not_admin) );
+        }
     }
 
     private void createProject(String name)
     {
-
-
+        ProjectFragment fragment = (ProjectFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment != null) {
+            fragment.createProject(name);
+        }
     }
 
     @Override

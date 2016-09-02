@@ -31,7 +31,7 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
-import com.hadesky.cacw.ui.fragment.ProjectFragment;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
@@ -47,7 +47,6 @@ import java.util.List;
 
 public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
-    static public final String IntentTag = "team";
     static public final String TeamIconFileName_Low = "team_icon_low.jpg";
     static public final String TeamIconFileName= "team_icon.jpg";
     private TextView mTvTeamName;
@@ -137,6 +136,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         //Presenters 加载数据
         mPresenters = new TeamInfoPresenterImpl(this,mTeam.getId());
         mPresenters.getTeamMembers();
+        mPresenters.getTeamInfo();
 
         PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.zoom_scrollView);
         if (scrollView != null) {
@@ -172,7 +172,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(TeamInfoActivity.this, ProjectsActivity.class);
-                    i.putExtra(ProjectFragment.TeamBundleTAG, mTeam);
+                    i.putExtra(IntentTag.TAG_TEAM_BEAN , mTeam);
                     startActivity(i);
                 }
             });
@@ -205,7 +205,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     private void loadTeamBeanFromIntent() {
         Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(IntentTag);
+        mTeam = (TeamBean) i.getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
         if (mTeam == null) {
             finish();
         }

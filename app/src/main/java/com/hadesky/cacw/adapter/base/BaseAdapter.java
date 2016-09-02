@@ -22,7 +22,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     protected List<T> mDatas;
     protected Context mContext;
     protected int itemLayoutId;
-    protected int mEmptyLayoutId = 0;
+    protected int mEmptyLayoutId = -1;
     private boolean mShowEmptyView = false;
 
     public BaseAdapter(List<T> list, @LayoutRes int layoutid)
@@ -81,7 +81,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     @Override
     public int getItemCount()
     {
-        if (mDatas.size() == 0)
+        if (mDatas.size() == 0&&mEmptyLayoutId>0)
         {
             mShowEmptyView =true;
             return 1;

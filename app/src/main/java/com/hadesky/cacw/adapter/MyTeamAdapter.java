@@ -21,6 +21,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.NewTeamActivity;
 import com.hadesky.cacw.ui.activity.TeamInfoActivity;
 import com.hadesky.cacw.util.ImageUtils;
@@ -147,7 +148,7 @@ public class MyTeamAdapter extends BaseAdapter<TeamBean>
     private void navigateToTeamInfo(TeamBean teamBean)
     {
         Intent intent = new Intent(mContext, TeamInfoActivity.class);
-        intent.putExtra(TeamInfoActivity.IntentTag, teamBean);
+        intent.putExtra(IntentTag.TAG_TEAM_BEAN, teamBean);
         mContext.startActivity(intent);
     }
 

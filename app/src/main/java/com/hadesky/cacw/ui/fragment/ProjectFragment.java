@@ -15,6 +15,8 @@ import com.hadesky.cacw.adapter.ProjectAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyProjectPresenter;
+import com.hadesky.cacw.presenter.MyProjectPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.MyProjectView;
 
 import java.util.ArrayList;
@@ -31,7 +33,6 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
     private MyProjectPresenter myProjectPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public static final String TeamBundleTAG = "team";
     public static final String FregmentTAG = "team";
 
 
@@ -57,13 +58,16 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         TeamBean teamBean = null;
 
         if (getArguments() != null)
-            teamBean = (TeamBean) getArguments().getSerializable(TeamBundleTAG);
+            teamBean = (TeamBean) getArguments().getSerializable(IntentTag.TAG_TEAM_BEAN);
 
-        // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
-        // TODO: 2016/8/31 0031 presenter
-        //myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
+        if (myProjectPresenter == null)
+        {
+            // teamBean为null表示这是个人的所有项目，不为Null表示这是团队的项目
+            myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
+        }
 
-        //myProjectPresenter.loadProject();
+
+        myProjectPresenter.loadProject();
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         swipeRefreshLayout.setProgressViewOffset(true, -100, 50);
@@ -81,9 +85,13 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
         recyclerView.addItemDecoration(new Decoration(getContext()));
     }
 
-    public void refresh()
+
+    public void createProject(String name)
     {
-        myProjectPresenter.loadProject();
+        if (name.length() > 10)
+            showToast("项目名称不能超过10个字");
+        else
+            myProjectPresenter.createProject(name);
     }
 
     @Override

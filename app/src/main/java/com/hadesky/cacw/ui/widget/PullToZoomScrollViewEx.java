@@ -48,11 +48,11 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
             @Override
             public void onInternalScrollChanged(int left, int top, int oldLeft, int oldTop) {
                 if (isPullToZoomEnabled() && isParallax()) {//如果可以下拉了，而且开启了视差模式
-                    Log.d(TAG, "onScrollChanged --> getScrollY() = " + mRootView.getScrollY());
+                    //d(TAG, "onScrollChanged --> getScrollY() = " + mRootView.getScrollY());
 
                     float f = mHeaderHeight - mHeaderContainer.getBottom() + mRootView.getScrollY();
 
-                    Log.d(TAG, "onScrollChanged --> f = " + f);
+                   // Log.d(TAG, "onScrollChanged --> f = " + f);
 
                     if ((f > 0.0F) && (f < mHeaderHeight)) {
                         int i = (int) (0.65D * f);
