@@ -28,6 +28,8 @@ import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.presenter.EditTaskPresenter;
+import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.EditTaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
@@ -63,7 +65,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
 
-    //private EditTaskPresenterImpl mPresenter;
+    private EditTaskPresenter mPresenter;
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务
     private List<ProjectBean> mProjectList;
@@ -73,7 +75,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private Calendar mCalendarEnd;
     private int mStartHourOfDay, mStartMinute,mEndHourOfDay, mEndMinute;
     private List<UserBean> mMembers;
-
     private DateTimePickerDialog mDateTimePickerDialog;
 
     private boolean isEdited = false;//是否已经更改
@@ -169,7 +170,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mProject = findViewById(R.id.project);
-//        mOk = findViewById(R.id.ok);
+
 
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_members);
         mEdtTitle = (EditText) findViewById(R.id.et_title);
@@ -179,8 +180,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mTvEndDate = (TextView) findViewById(R.id.tv_end_date);
         mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
-//        mEndDate = findViewById(R.id.end_date);
-//        mEndTime = findViewById(R.id.end_time);
+
         mTvStartDate = (TextView) findViewById(R.id.tv_start_date);
         mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
 
@@ -214,15 +214,20 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcvMembers.setLayoutManager(manager);
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
-
+        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this, mTask);
+        mAdapter.setAbleToAdd(true);
+        mAdapter.setAbleToDelete(true);
+        mRcvMembers.setAdapter(mAdapter);
 
         //判定是新建来是编辑任务
-        mTask = (TaskBean) getIntent().getSerializableExtra("task");
+        mTask = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
+        mMembers = (List<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_Task_MEMBER);
         if (mTask != null)
         {
             newTask = false;
             initDateAndTime();//这个方法一定要在newTask被赋值之后
             showTaskDetail(mTask);
+            showTaskMember(mMembers);
         } else
         {
             newTask = true;
@@ -230,15 +235,9 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             initDateAndTime();
         }
 
-        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this, mTask);
-        mAdapter.setAbleToAdd(true);
-        mAdapter.setAbleToDelete(true);
-
-        mRcvMembers.setAdapter(mAdapter);
 
 
-        //mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
-       // mPresenter.loadTaskMember();
+        mPresenter = new EditTaskPresenterImpl(this, mTask);
         setListener();
     }
 
@@ -271,7 +270,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             public void onClick(View v)
             {
                 if (!newTask) {
-                    showMsg("不可修改任务项目");
+                    showMsg(getString(R.string.can_not_modify_project));
                 } else {
                     //mPresenter.loadProjects();
                     isEdited = true;
@@ -311,7 +310,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 //        mPresenter.saveTask(mAdapter.getDatas());
     }
 
-
+    @Deprecated
     private void openDateDialog(final boolean start)
     {
         Calendar c;
@@ -338,7 +337,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         d.show();
     }
 
-
+    @Deprecated
     private void openTimeDialog(final boolean start)
     {
         Calendar c;
@@ -434,9 +433,14 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             showToast("请先选择项目");
             return;
         }
+        if(mTask.getProject().isPrivate())
+        {
+            showToast("个人项目不是添加成员");
+            return;
+        }
+
         Intent i = new Intent(this, SelectMemberActivity.class);
-        i.putExtra(IntentTag.TAG_Task_MEMBER, (ArrayList<?>) mMembers);
-        i.putExtra(IntentTag.TAG_PROJECT_BEAN, mTask.getProject());
+        i.putExtra(IntentTag.TAG_PROJECT_ID, mTask.getProject().getId());
         startActivityForResult(i, 0);
     }
 

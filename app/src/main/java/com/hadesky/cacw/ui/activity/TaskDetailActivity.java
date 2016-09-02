@@ -52,6 +52,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TaskMembersAdapter mAdapter;
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
+    private ArrayList<UserBean> mMembers;
 
     @Override
     public int getLayoutId()
@@ -139,7 +140,9 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         if (v.getId() == R.id.btn_edit)
         {
             Intent i = new Intent(this, EditTaskActivity.class);
-            i.putExtra("task", mTask);
+            i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
+            i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+
             startActivityForResult(i, MainActivity.RequestCode_TaskChange);
         } else if (v.getId() == R.id.btn_del)
         {
@@ -205,6 +208,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void ShowMember(List<UserBean> users)
     {
+        mMembers = (ArrayList<UserBean>) users;
         mAdapter.setDatas(users);
     }
 

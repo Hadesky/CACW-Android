@@ -53,8 +53,10 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     private TextView mTvTeamId;
     private TextView mTvSummary;
     private TextView mTvProjectCount;
+    private TextView mTvMemberCount;
     private TextView mTvNotice;
     private RecyclerView mRcvMembers;
+
     private BaseAdapter<UserBean> mAdapter;
     private TeamInfoPresenter mPresenters;
     private TeamBean mTeam;
@@ -77,6 +79,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
         mTvProjectCount = (TextView) findViewById(R.id.tv_project_count);
+        mTvMemberCount = (TextView) findViewById(R.id.tv_team_member_count);
         mTvNotice = (TextView) findViewById(R.id.tv_team_notice);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -219,10 +222,11 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mTvSummary.setText(mTeam.getSummary());
         mTvNotice.setText(mTeam.getNotice());
         mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),mTeam.getProjectCount()));
+        mTvMemberCount.setText(String.format(getString(R.string.member_count),mTeam.getMemberCount()));
+
         if (mTeam.getTeamAvatarUrl() != null) {
             Uri uri = Uri.parse(mTeam.getTeamAvatarUrl());
             mSimpleDraweeView.setImageURI(uri);
-
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new BlurProcessor()).build())
                     .build();

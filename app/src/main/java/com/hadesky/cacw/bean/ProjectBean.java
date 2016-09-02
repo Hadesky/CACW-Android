@@ -30,9 +30,9 @@ public class ProjectBean  implements Serializable
         this.isFile = isFile;
     }
 
-    public int getIsPrivate()
+    public boolean isPrivate()
     {
-        return isPrivate;
+        return isPrivate>0;
     }
 
     public void setIsPrivate(int isPrivate)
