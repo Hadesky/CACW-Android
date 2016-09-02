@@ -86,5 +86,7 @@ public interface CacwServer
     @POST("/v1/project/create")
     Observable<BaseResult<String>> createProject(@Body RequestBody body);
 
+    @GET("/v1/task/{tid}/members")
+    Observable<BaseResult<List<UserBean>>> getTaskMembers(@Path("tid")int tid);
 
 }

@@ -13,6 +13,9 @@ import java.io.Serializable;
 public class TaskBean implements Serializable
 {
 
+
+    private int id;
+
     @SerializedName("title")
     private String mTitle;
 
@@ -28,6 +31,17 @@ public class TaskBean implements Serializable
     private String startDate;
     private String endDate;
     private int finish;
+
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public ProjectBean getProject() {
         return mProject;

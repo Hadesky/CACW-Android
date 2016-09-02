@@ -169,11 +169,17 @@
             <ImageView style="@style/paddingDividingLine"/>
 
             <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:orientation="horizontal">
+                <ImageView
+                    android:tint="@color/color_gray"
+                    android:src="@drawable/ic_task_content"
+                    android:layout_width="@dimen/image_more_small"
+                    android:layout_height="@dimen/image_more_small"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -201,6 +207,7 @@
                 android:orientation="vertical">
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"

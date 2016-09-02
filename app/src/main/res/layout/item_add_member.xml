@@ -7,6 +7,7 @@
               android:clickable="true"
               android:paddingTop="2dp">
     <ImageView
+        android:padding="2dp"
         android:src="@drawable/ic_add_circle_outline"
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"

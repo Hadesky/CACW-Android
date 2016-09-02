@@ -12,6 +12,7 @@ import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.BaseActivity;
 import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.activity.TaskDetailActivity;
@@ -54,7 +55,7 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
 
                 //打开任务详情
                 Intent i = new Intent(mContext, TaskDetailActivity.class);
-                i.putExtra("task", mDatas.get(position));
+                i.putExtra(IntentTag.TAG_TASK_BEAN, mDatas.get(position));
                 ((BaseActivity) mContext).startActivityForResult(i, MainActivity.RequestCode_TaskChange);
             }
         });

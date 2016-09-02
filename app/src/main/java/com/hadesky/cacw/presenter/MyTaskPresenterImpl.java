@@ -22,7 +22,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     public MyTaskPresenterImpl(TaskView view)
     {
         mView = view;
-        mRepertory = new TaskRepertory();
+        mRepertory = TaskRepertory.getInstance();
     }
 
     /** 任务状态

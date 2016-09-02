@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -120,13 +119,12 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         private OnItemClickListener mOnItemClickListener;
         private TextView mName;
-        private ImageView mIvIsFinish;
         private SimpleDraweeView mAvatar;
 
         public TaskMemberVH(View itemView, OnItemClickListener listener) {
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.tv_name);
-            mIvIsFinish = (ImageView) itemView.findViewById(R.id.iv_is_finish);
+
             mAvatar = (SimpleDraweeView) itemView.findViewById(R.id.iv_avatar);
 
             itemView.setOnClickListener(this);
@@ -136,13 +134,6 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         public void setImageUri(String uri)
         {
             mAvatar.setImageURI(uri);
-        }
-
-        public void setFinish(boolean b) {
-            if (b)
-                mIvIsFinish.setVisibility(View.VISIBLE);
-            else
-                mIvIsFinish.setVisibility(View.INVISIBLE);
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.hadesky.cacw.model;
 
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.network.CacwServer;
 
@@ -19,11 +20,21 @@ public class TaskRepertory
 
     CacwServer mCacwServer;
 
+    private  static TaskRepertory sTaskRepertory;
+
+
+    public static TaskRepertory getInstance()
+    {
+        if(sTaskRepertory==null)
+            sTaskRepertory = new TaskRepertory();
+        return sTaskRepertory;
+    }
+
+
     public TaskRepertory()
     {
         mCacwServer = MyApp.getApiServer();
     }
-
 
     /**
      * 获取任务列表
@@ -46,6 +57,15 @@ public class TaskRepertory
         }
         return mCacwServer.getTaskList(query).subscribeOn(Schedulers.io())
                 .compose(RxHelper.<List<TaskBean>>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<List<UserBean>> getTaskMember(int tid)
+    {
+        return mCacwServer.getTaskMembers(tid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<UserBean>>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

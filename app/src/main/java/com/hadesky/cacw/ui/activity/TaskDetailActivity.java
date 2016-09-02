@@ -15,7 +15,9 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
+import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TaskDetailView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
@@ -27,7 +29,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView {
+public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView
+{
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -50,15 +53,15 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
 
-    private boolean mIsFinished;//是否为已经查看完成任务的界面
-
     @Override
-    public int getLayoutId() {
+    public int getLayoutId()
+    {
         return R.layout.activity_task_detail;
     }
 
     @Override
-    public void initView() {
+    public void initView()
+    {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
@@ -78,7 +81,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void setupView() {
+    public void setupView()
+    {
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
 
 
@@ -101,33 +105,26 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
-        TaskBean tm = (TaskBean) getIntent().getSerializableExtra("task");
-        mIsFinished = getIntent().getBooleanExtra("isFinished",false);
+        TaskBean tm = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
 
-        if (tm == null) {
-            String taskid = getIntent().getStringExtra(IntentTag.TAG_TASK_ID);
-            if (taskid==null)
-            {
-                showToast("数据错误");
-                finish();
-            }else
-            {
-                mTask = new TaskBean();
-                //mPresenter = new TaskDetailPresenterImpl(this, mTask);
-                mPresenter.loadTaskInfo();
-            }
-        }else
+
+        if (tm == null)
         {
-            mTask = tm;
-            showInfo(mTask);
-            //mPresenter = new TaskDetailPresenterImpl(this, mTask);
-            mPresenter.LoadTaskMember();
+            finish();
+            return;
         }
+
+
+        mTask = tm;
+        mPresenter = new TaskDetailPresenterImpl(this, mTask);
+        showInfo(mTask);
+        mPresenter.LoadTaskMember();
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
 
@@ -136,16 +133,21 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
     //点击编辑
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
 
-        if (v.getId() == R.id.btn_edit) {
+        if (v.getId() == R.id.btn_edit)
+        {
             Intent i = new Intent(this, EditTaskActivity.class);
             i.putExtra("task", mTask);
             startActivityForResult(i, MainActivity.RequestCode_TaskChange);
-        } else if (v.getId() == R.id.btn_del) {
-            new AlertDialog.Builder(this).setTitle("你确定要删除任务吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        } else if (v.getId() == R.id.btn_del)
+        {
+            new AlertDialog.Builder(this).setTitle("你确定要删除任务吗？").setPositiveButton("确定", new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which)
+                {
                     mPresenter.onDeleteTask();
                 }
             }).setNegativeButton("取消", null).show();
@@ -154,14 +156,17 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
 
         if (resultCode == MainActivity.result_task_change)
         {
             setResult(resultCode);
-            if (data != null) {
+            if (data != null)
+            {
                 TaskBean taskBean = (TaskBean) data.getSerializableExtra("task");
-                if (taskBean != null) {
+                if (taskBean != null)
+                {
                     mTask = taskBean;
                     showInfo(mTask);
                     mPresenter.LoadTaskMember();
@@ -172,7 +177,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void showInfo(TaskBean task) {
+    public void showInfo(TaskBean task)
+    {
         mTask = task;
         mTitle.setText(task.getTitle());
         mProject.setText(task.getProject().getName());
@@ -189,36 +195,42 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
         //判断显示删除按钮
-//        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentId().getObjectId())) {
-//            mBtnEditTask.setVisibility(View.INVISIBLE);
-//            mBtnDelTask.setVisibility(View.INVISIBLE);
-//        }
+        if (mTask.getAdminId() != MyApp.getCurrentId())
+        {
+            mBtnEditTask.setVisibility(View.INVISIBLE);
+            mBtnDelTask.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
-    public void ShowMember(List<UserBean> users) {
+    public void ShowMember(List<UserBean> users)
+    {
         mAdapter.setDatas(users);
     }
 
 
     @Override
-    public void closeActivity() {
+    public void closeActivity()
+    {
         setResult(MainActivity.result_task_change);
         finish();
     }
 
     @Override
-    public void showProgress() {
+    public void showProgress()
+    {
         mProgressDialog.show();
     }
 
     @Override
-    public void hideProgress() {
+    public void hideProgress()
+    {
         mProgressDialog.dismiss();
     }
 
     @Override
-    public void showMsg(String s) {
+    public void showMsg(String s)
+    {
         showToast(s);
     }
 }
