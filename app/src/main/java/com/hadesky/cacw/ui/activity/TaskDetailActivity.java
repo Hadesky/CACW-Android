@@ -167,7 +167,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
             setResult(resultCode);
             if (data != null)
             {
-                TaskBean taskBean = (TaskBean) data.getSerializableExtra("task");
+                TaskBean taskBean = (TaskBean) data.getSerializableExtra(IntentTag.TAG_TASK_BEAN);
                 if (taskBean != null)
                 {
                     mTask = taskBean;
@@ -198,7 +198,7 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
         //判断显示删除按钮
-        if (mTask.getAdminId() != MyApp.getCurrentId())
+        if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
         {
             mBtnEditTask.setVisibility(View.INVISIBLE);
             mBtnDelTask.setVisibility(View.INVISIBLE);

@@ -46,7 +46,7 @@ public class DatabaseManager
 
     private DatabaseManager(Context context)
     {
-        mUser = MyApp.getCurrentId();
+        mUser = MyApp.getCurrentUser().getId();
         mHelper = new DatabaseHelper(context,"user_"+mUser);
         db = mHelper.getWritableDatabase();
     }

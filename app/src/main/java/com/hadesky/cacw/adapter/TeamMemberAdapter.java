@@ -54,7 +54,7 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         viewHolder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                if (mDatas.get(position).equals(MyApp.getCurrentId())) {
+                if (mDatas.get(position).equals(MyApp.getCurrentUser())) {
                     Intent intent = new Intent(mContext, MyInfoActivity.class);
                     mContext.startActivity(intent);
                 } else {
@@ -64,7 +64,7 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
                 }
             }
         });
-        if (MyApp.isCurrentUser(mAdminUser)) {
+        if (MyApp.getCurrentUser().equals(mAdminUser)) {
             viewHolder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
                 @Override
                 public boolean OnItemLongClick(View view, final int position)

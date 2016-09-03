@@ -36,6 +36,7 @@ public class MyApp extends Application
     private static CacwServer sApiServer;
     private static String sDeviceId;
     private static int sUserId = -1;
+    private static UserBean mUser;
 
     @Override
     public void onCreate()
@@ -48,12 +49,8 @@ public class MyApp extends Application
         Fresco.initialize(this);
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
         sOkHttpClient = new OkHttpClient.Builder().writeTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl(URL).client(sOkHttpClient).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         sApiServer = retrofit.create(CacwServer.class);
-
-        sUserId = getCurrentId();
-
     }
 
 
@@ -90,32 +87,33 @@ public class MyApp extends Application
         return sSessionManagement;
     }
 
+    //messageList用到
     public static boolean isCurrentUser(UserBean sb)
     {
-        return sb.getId() == getCurrentId();
+        return true;
     }
 
-    public static void setCurrentId(int id)
+
+    public static void setCurrentUser(UserBean u)
     {
-        sUserId = id;
+        mUser = u;
     }
 
-    public static int getCurrentId()
+    public static UserBean getCurrentUser()
     {
-        if (sUserId < 0)
-            sUserId = getSessionManager().getCurrentUser();
-        return sUserId;
+        if(mUser==null)
+            mUser = getSessionManager().getUser();
+        return mUser;
     }
+
 
     public static Context getAppContext()
     {
         return mContext;
     }
 
-
     public static String getURL()
     {
         return URL;
     }
-
 }

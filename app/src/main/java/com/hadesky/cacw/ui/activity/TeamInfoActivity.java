@@ -255,8 +255,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     //点击公告
     private void onNoticeClick() {
-
-        if (mTeam.getAdminId()==MyApp.getCurrentId()) {
+        if (mTeam.getAdminId()==MyApp.getCurrentUser().getId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             editText.setText(mTvNotice.getText());
@@ -277,7 +276,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
     //点击简介
     private void onSummaryClick() {
 
-        if (mTeam.getAdminId()==MyApp.getCurrentId()) {
+        if (mTeam.getAdminId()==MyApp.getCurrentUser().getId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             editText.setText(mTvSummary.getText());

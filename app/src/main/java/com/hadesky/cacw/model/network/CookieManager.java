@@ -54,11 +54,7 @@ public class CookieManager implements CookieJar
                 {
                     //本地保存cookie
                     MyApp.getSessionManager().saveSeesion(c.value());
-                }else if(c.name().equals("uid"))
-                {
-                    //本地保存userid
-                    MyApp.getSessionManager().setCurrentUser(c.value());
-                    MyApp.setCurrentId(Integer.parseInt(c.value()));
+                    break;
                 }
             }
         }

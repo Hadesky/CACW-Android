@@ -1,6 +1,7 @@
 package com.hadesky.cacw.model;
 
 import com.google.gson.JsonObject;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.network.BaseResult;
 import com.hadesky.cacw.model.network.CacwServer;
@@ -10,6 +11,7 @@ import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -36,17 +38,23 @@ public class AccountRepertory
 
         return  mCacwServer.login(body)
                 .subscribeOn(Schedulers.io())
-                .compose(RxHelper.<String>handleResult())
-                .doOnNext(new Action1<String>() {
+                .compose(RxHelper.<UserBean>handleResult())
+                .doOnNext(new Action1<UserBean>() {
                     @Override
-                    public void call(String s)
+                    public void call(UserBean s)
                     {
-                        MyApp.getSessionManager().setNickName(s);
+                        MyApp.getSessionManager().saveUser(s);
+                    }
+                })
+                .map(new Func1<UserBean, String>() {
+                    @Override
+                    public String call(UserBean bean)
+                    {
+                        return "";
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
 
     public Observable<BaseResult<String>> logout()
     {

@@ -81,5 +81,10 @@ public class ProjectBean  implements Serializable
     }
 
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj != null && obj instanceof ProjectBean && ((ProjectBean) obj).id == id;
 
+    }
 }

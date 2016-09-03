@@ -131,4 +131,12 @@ public class UserBean implements Serializable
     }
 
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj==null||!(obj instanceof UserBean))
+            return false;
+
+        return ((UserBean) obj).getId()==this.id;
+    }
 }

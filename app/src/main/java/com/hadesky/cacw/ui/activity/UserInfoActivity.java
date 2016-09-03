@@ -35,7 +35,7 @@ public class UserInfoActivity extends BaseActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
-        if (mUserBean.equals(MyApp.getCurrentId())) {
+        if (mUserBean.equals(MyApp.getCurrentUser())) {
             navigateTo(MyInfoActivity.class, false);
             finish();
         }
@@ -88,7 +88,7 @@ public class UserInfoActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                if (mUserBean == null || mUserBean.equals(MyApp.getCurrentId())) {
+                if (mUserBean == null || mUserBean.equals(MyApp.getCurrentUser())) {
                     return;
                 }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);

@@ -169,7 +169,6 @@ public class MainActivity extends BaseActivity {
         {
             mMyTaskFragment.onRefresh();
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 

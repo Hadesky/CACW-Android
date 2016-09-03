@@ -196,9 +196,10 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mPresenter = presenter;
     }
 
+
     private boolean isMe(MessageBean bean)
     {
-        return MyApp.isCurrentUser(bean.getSender());
+        return MyApp.getCurrentUser().equals(bean.getSender());
     }
 
     @Override

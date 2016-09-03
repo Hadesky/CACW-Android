@@ -34,7 +34,7 @@ public interface CacwServer
 
 
     @POST("/v1/account/login")
-    Observable<BaseResult<String>> login(@Body RequestBody body);
+    Observable<BaseResult<UserBean>> login(@Body RequestBody body);
 
 
     @GET("/v1/account/logout")
@@ -88,5 +88,12 @@ public interface CacwServer
 
     @GET("/v1/task/{tid}/members")
     Observable<BaseResult<List<UserBean>>> getTaskMembers(@Path("tid")int tid);
+
+    @POST("/v1/task/create")
+    Observable<BaseResult<TaskBean>> createTask(@Body RequestBody body);
+
+    @GET("/v1/project/list")
+    Observable<BaseResult<List<ProjectBean>>> getProjectList(
+            @Query("type") String type, @Query("state") String state);
 
 }
