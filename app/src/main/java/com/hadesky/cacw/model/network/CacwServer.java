@@ -10,6 +10,7 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -96,4 +97,10 @@ public interface CacwServer
     Observable<BaseResult<List<ProjectBean>>> getProjectList(
             @Query("type") String type, @Query("state") String state);
 
+
+    @POST("/v1/task/{tid}")
+    Observable<BaseResult<String>> modifyTaskInfo(@Path("tid") int tid, @Body RequestBody body);
+
+    @DELETE("/v1/task/{tid}")
+    Observable<BaseResult<String>> deleteTask(@Path("tid") int tid);
 }

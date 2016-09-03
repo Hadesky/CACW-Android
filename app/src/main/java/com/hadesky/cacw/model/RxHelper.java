@@ -16,12 +16,12 @@ import rx.schedulers.Schedulers;
 public class RxHelper
 {
 
-    public static <T> Observable.Transformer<T, T> io_main()
+    public static <T> Observable.Transformer<BaseResult<T>, BaseResult<T>> io_main()
     {
-        return new Observable.Transformer<T, T>()
+        return new Observable.Transformer<BaseResult<T>, BaseResult<T>>()
         {
             @Override
-            public Observable<T> call(Observable<T> tObservable)
+            public Observable<BaseResult<T>> call(Observable<BaseResult<T>> tObservable)
             {
                 return tObservable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }

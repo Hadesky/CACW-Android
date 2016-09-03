@@ -165,8 +165,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
         if (mCalendarStart != null && mCalendarEnd != null)
         {
-            mTvStartDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH), mCalendarStart.get(Calendar.DAY_OF_MONTH)));
-            mTvEndDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH), mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
+            mTvStartDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH)+1, mCalendarStart.get(Calendar.DAY_OF_MONTH)));
+            mTvEndDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH)+1, mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
         }
         mTvStartTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mStartHourOfDay, mStartMinute));
         mTvEndTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mEndHourOfDay, mEndMinute));
@@ -321,6 +321,12 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             showToast("开始时间晚于结束时间");
             return;
         }
+
+        mTask.setStartDate(DateUtil.getSimpleDateFormat().format(mCalendarStart.getTime()));
+        mTask.setEndDate(DateUtil.getSimpleDateFormat().format(mCalendarEnd.getTime()));
+        mTask.setTitle(mEdtTitle.getText().toString());
+        mTask.setLocation(mEdtLocation.getText().toString());
+        mTask.setContent(mEdtDetail.getText().toString());
         if (newTask)
         {
             if (mTask.getProject() == null)
@@ -328,12 +334,6 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
                 showMsg("请先选择项目");
                 return;
             }
-
-            mTask.setStartDate(mCalendarStart.getTime().toString());
-            mTask.setEndDate(mCalendarEnd.getTime().toString());
-            mTask.setTitle(mEdtTitle.getText().toString());
-            mTask.setLocation(mEdtLocation.getText().toString());
-            mTask.setContent(mEdtDetail.getText().toString());
             mPresenter.createTask(mMembers);
         } else
         {
@@ -638,6 +638,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     protected void onDestroy()
     {
         super.onDestroy();
-        //mPresenter.onDestroy();
+        if (mPresenter != null)
+            mPresenter.onDestroy();
     }
 }

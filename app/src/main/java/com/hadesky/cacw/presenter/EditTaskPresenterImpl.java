@@ -41,7 +41,26 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
     @Override
     public void saveTask()
     {
-
+        if(mTask.getTitle()==null||mTask.getTitle().length()==0)
+        {
+            mView.showMsg("请填写任务标题");
+            return;
+        }
+        mSubscription = mTaskRepertory.modifyTaskInfo(mTask)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                    }
+                    @Override
+                    public void _onNext(String taskBean)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg("保存成功");
+                        mView.close();
+                    }
+                });
     }
 
     @Override
@@ -107,6 +126,8 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
     @Override
     public void onDestroy()
     {
-
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
+
 }

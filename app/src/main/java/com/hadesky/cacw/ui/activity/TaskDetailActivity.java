@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
 
     private RecyclerView mRcv_members;
-    private View mBtnEditTask;
     private View mBtnDelTask;
     private NestedScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
@@ -67,7 +67,6 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mBtnEditTask = findViewById(R.id.btn_edit);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView);
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
@@ -100,15 +99,12 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mAdapter = new TaskMembersAdapter(this, new ArrayList<UserBean>());
         mRcv_members.setAdapter(mAdapter);
 
-        mBtnEditTask.setOnClickListener(this);
         mBtnDelTask.setOnClickListener(this);
 
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
         TaskBean tm = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
-
-
         if (tm == null)
         {
             finish();
@@ -123,37 +119,22 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (item.getItemId() == android.R.id.home)
-            onBackPressed();
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    //点击编辑
+    //点击删除
     @Override
     public void onClick(View v)
     {
 
-        if (v.getId() == R.id.btn_edit)
+       if (v.getId() == R.id.btn_del)
         {
-            Intent i = new Intent(this, EditTaskActivity.class);
-            i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
-            i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
-
-            startActivityForResult(i, MainActivity.RequestCode_TaskChange);
-        } else if (v.getId() == R.id.btn_del)
-        {
-            new AlertDialog.Builder(this).setTitle("你确定要删除任务吗？").setPositiveButton("确定", new DialogInterface.OnClickListener()
+            new AlertDialog.Builder(this).setMessage(R.string.confirm_to_del_task).setPositiveButton(R.string.OK, new DialogInterface.OnClickListener()
             {
                 @Override
                 public void onClick(DialogInterface dialog, int which)
                 {
                     mPresenter.onDeleteTask();
                 }
-            }).setNegativeButton("取消", null).show();
+            }).setNegativeButton(R.string.cancel, null).show();
 
         }
     }
@@ -200,9 +181,38 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         //判断显示删除按钮
         if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
         {
-            mBtnEditTask.setVisibility(View.INVISIBLE);
             mBtnDelTask.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+
+
+        if (item.getItemId() == R.id.action_edit)
+        {
+            if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
+            {
+                showToast("你不能编辑其他人的创建任务");
+                return true;
+            }
+            Intent i = new Intent(this, EditTaskActivity.class);
+            i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
+            i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+            startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_task_detail, menu);
+        return true;
     }
 
     @Override

@@ -63,6 +63,23 @@ public class TaskDetailPresenterImpl implements TaskDetailPresenter
     @Override
     public void onDeleteTask()
     {
+        mView.showProgress();
+        mSubscription = mTaskRepertory.deleteTask(mTask.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
 
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg("删除成功");
+                        mView.closeActivity();
+                    }
+                });
     }
 }

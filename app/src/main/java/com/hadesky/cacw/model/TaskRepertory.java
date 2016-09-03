@@ -98,4 +98,30 @@ public class TaskRepertory
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+
+    public Observable<String> modifyTaskInfo(TaskBean task)
+    {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("title",task.getTitle());
+        jsonObject.addProperty("content",task.getContent());
+        jsonObject.addProperty("location",task.getLocation());
+        jsonObject.addProperty("startDate",task.getStartDate());
+        jsonObject.addProperty("endDate",task.getEndDate());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
+        return  mCacwServer.modifyTaskInfo(task.getId(),body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+
+    public Observable<String> deleteTask(int tid)
+    {
+        return mCacwServer.deleteTask(tid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }
