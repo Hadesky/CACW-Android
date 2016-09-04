@@ -44,7 +44,7 @@ public class MyInfoActivity extends BaseActivity {
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentUser());
+            bundle.putParcelable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentUser());
             fragment.setArguments(bundle);
             fm.beginTransaction()
                     .add(R.id.container, fragment)

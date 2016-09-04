@@ -61,7 +61,7 @@ public class UserInfoFragment extends BaseFragment implements View.OnClickListen
         mAvatarView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_avatar);
         mZoomView = (SimpleDraweeView) pullToZoomScrollView.findViewById(R.id.iv_zoom);
 
-        mUserBean = (UserBean) getArguments().getSerializable(IntentTag.TAG_USER_BEAN);
+        mUserBean =  getArguments().getParcelable(IntentTag.TAG_USER_BEAN);
 
         mCallButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_call);
         mSMSButton = (ImageButton) pullToZoomScrollView.findViewById(R.id.bt_sms);

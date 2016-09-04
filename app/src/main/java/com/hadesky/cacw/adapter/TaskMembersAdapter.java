@@ -2,6 +2,7 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 @Override
                 public void OnItemClick(View view, int position) {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position));
+                    intent.putExtra(IntentTag.TAG_USER_BEAN, (Parcelable)mDatas.get(position));
                     mContext.startActivity(intent);
                 }
             });

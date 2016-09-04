@@ -69,7 +69,7 @@ public class ChatActivity extends BaseActivity implements ChatView
     @Override
     public void setupView()
     {
-        UserBean bean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+        UserBean bean = (UserBean) getIntent().getParcelableExtra(IntentTag.TAG_USER_BEAN);
 
         if (bean==null)
         {

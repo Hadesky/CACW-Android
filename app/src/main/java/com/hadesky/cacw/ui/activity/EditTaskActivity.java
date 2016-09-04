@@ -75,7 +75,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
     private int mStartHourOfDay, mStartMinute, mEndHourOfDay, mEndMinute;
-    private List<UserBean> mMembers;
+    private ArrayList<UserBean> mMembers;
     private DateTimePickerDialog mDateTimePickerDialog;
 
     private boolean isEdited = false;//是否已经更改
@@ -235,7 +235,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         //判定是新建还是编辑任务
         mTask = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
-        mMembers = (List<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_Task_MEMBER);
+        mMembers = (ArrayList<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_Task_MEMBER);
         if (mTask != null)
         {
             newTask = false;
@@ -474,13 +474,16 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
         if (mTask.getProject().isPrivate())
         {
-            showToast("个人项目不是添加成员");
+            showToast("个人项目不能添加成员");
             return;
         }
-
         Intent i = new Intent(this, SelectMemberActivity.class);
+
         i.putExtra(IntentTag.TAG_PROJECT_ID, mTask.getProject().getId());
-        startActivityForResult(i, 0);
+        i.putExtra(IntentTag.TAG_TASK_ID,mTask.getId());
+        i.putParcelableArrayListExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+
+        startActivityForResult(i,0);
     }
 
     @Override
@@ -490,26 +493,19 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         //从选择成员界面回来
         if (resultCode == Activity.RESULT_OK)
         {
-            ArrayList<UserBean> list = (ArrayList<UserBean>) data.getSerializableExtra(IntentTag.TAG_USER_BEAN_LIST);
+            ArrayList<UserBean> list = (ArrayList<UserBean>) data.getSerializableExtra(IntentTag.TAG_Task_MEMBER);
             if (list != null)
             {
-                //                mMembers = new ArrayList<>();
-                //                for(UserBean ub : list)
-                //                {
-                //                    TaskMember tm = new TaskMember();
-                //                    tm.setTask(mTask);
-                //                    tm.setUser(ub);
-                //                    mMembers.add(tm);
-                //                }
-                //                mAdapter.setDatas(mMembers);
-                isEdited = true;
+                mMembers.addAll(list);
+                mAdapter.notifyDataSetChanged();
+                //isEdited = true;
             }
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
-    public void showTaskMember(List<UserBean> members)
+    public void showTaskMember(ArrayList<UserBean> members)
     {
         mAdapter.setDatas(members);
         mMembers = members;

@@ -66,7 +66,7 @@ public interface CacwServer
     Observable<BaseResult<List<UserBean>>> getTeamMember(
             @Path("tid") int tid,
             @Query("limit") Integer limit,
-            @Query("offset") int offset,
+            @Query("offset") Integer offset,
             @Query("allcolumn") boolean allcolumn
     );
 
@@ -103,4 +103,11 @@ public interface CacwServer
 
     @DELETE("/v1/task/{tid}")
     Observable<BaseResult<String>> deleteTask(@Path("tid") int tid);
+
+    @GET("/v1/project/{pid}")
+    Observable<BaseResult<ProjectBean>> getProject(@Path("pid") int pid);
+
+    @POST("/v1/task/{tid}/members")
+    Observable<BaseResult<String>> addTaskMember(@Path("tid") int id,@Body RequestBody body);
+
 }

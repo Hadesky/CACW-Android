@@ -24,15 +24,18 @@ public class SelectMemberAdapter extends BaseAdapter<UserBean>
 {
 
 
-    private Map<Integer, Boolean> mSelectMap = new HashMap<>();
+    private Map<Integer, Boolean> mSelectMap;
 
 
     public SelectMemberAdapter(List<UserBean> datas, @LayoutRes int id, Map<Integer, Boolean> map)
     {
         super(datas, id);
         if (datas == null)
-            mDatas = new ArrayList<>();
+            datas = new ArrayList<>();
+        mDatas =datas;
 
+        if (map == null)
+            map = new HashMap<>();
         mSelectMap = map;
     }
 
@@ -48,7 +51,7 @@ public class SelectMemberAdapter extends BaseAdapter<UserBean>
                 setCheckBox(R.id.cb, mSelectMap.get(getLayoutPosition()));
                 SimpleDraweeView view = findView(R.id.iv_avatar);
                 view.setImageURI(bean.getAvatarUrl());
-                setTextView(R.id.tv_nick_name,bean.getNickName());
+                setTextView(R.id.tv_nick_name, bean.getNickName());
             }
         };
         holder.setOnItemClickListener(new BaseViewHolder.OnItemClickListener()
@@ -74,12 +77,11 @@ public class SelectMemberAdapter extends BaseAdapter<UserBean>
     @Override
     public void setDatas(List<UserBean> datas)
     {
-        mSelectMap = new HashMap<>();
+        mSelectMap.clear();
         for(int i = 0; i < datas.size(); i++)
         {
             mSelectMap.put(i, false);
         }
-
         super.setDatas(datas);
     }
 

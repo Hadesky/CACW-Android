@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -122,7 +123,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     @Override
                     public void OnItemClick(View view, int position) {
                         Intent intent = new Intent(TeamInfoActivity.this, UserInfoActivity.class);
-                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, mDatas.get(position));
+                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, (Parcelable)mDatas.get(position));
                         startActivity(intent);
                     }
                 });

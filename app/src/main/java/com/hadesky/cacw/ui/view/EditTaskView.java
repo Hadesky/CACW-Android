@@ -4,6 +4,7 @@ import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.UserBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface EditTaskView extends BaseView{
 
-    void showTaskMember(List<UserBean> members);
+    void showTaskMember(ArrayList<UserBean> members);
 
     void close();
 

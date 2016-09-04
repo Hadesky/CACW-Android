@@ -1,10 +1,9 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -68,9 +67,9 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
                 if (mDatas != null && !mDatas.isEmpty()) {
                     Intent i = new Intent(mContext, ChatActivity.class);
                     if (MyApp.isCurrentUser(mDatas.get(position).getReceiver()))
-                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getSender());
+                        i.putExtra(IntentTag.TAG_USER_BEAN, (Parcelable)mDatas.get(position).getSender());
                     else
-                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getReceiver());
+                        i.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable) mDatas.get(position).getReceiver());
                     mContext.startActivity(i);
                 }
             }
