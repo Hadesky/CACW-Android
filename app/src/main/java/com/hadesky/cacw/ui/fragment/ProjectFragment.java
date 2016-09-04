@@ -66,7 +66,6 @@ public class ProjectFragment extends BaseFragment implements MyProjectView
             myProjectPresenter = new MyProjectPresenterImpl(this, teamBean);
         }
 
-
         myProjectPresenter.loadProject();
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));

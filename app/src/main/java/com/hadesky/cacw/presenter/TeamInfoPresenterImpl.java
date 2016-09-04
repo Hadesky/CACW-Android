@@ -1,7 +1,9 @@
 package com.hadesky.cacw.presenter;
 
+import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.RxSubscriber;
 import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.TeamInfoView;
@@ -171,6 +173,29 @@ public class TeamInfoPresenterImpl implements TeamInfoPresenter
     @Override
     public void exitTeam()
     {
+        if(mTeam.getAdminId()== MyApp.getCurrentUser().getId())
+        {
+            mView.showMsg(MyApp.getAppContext().getString(R.string.you_are_admin_can_not_exit));
+            return;
+        }
+        mView.showProgress();
+        mTeamRepertory.exitTeam(mTeam.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(MyApp.getAppContext().getString(R.string.succeed_exit_team));
+                        mView.close();
+                    }
+                });
 
     }
 }

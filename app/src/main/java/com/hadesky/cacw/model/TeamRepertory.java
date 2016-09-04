@@ -148,5 +148,13 @@ public class TeamRepertory
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<String> exitTeam(int tid)
+    {
+        return  mCacwServer.exitTeam(tid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

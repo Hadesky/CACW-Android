@@ -131,4 +131,8 @@ public interface CacwServer
     Observable<BaseResult<String>> removeTeamMember(@Path("tid") int tid, @Query(
             "memberid") int userid);
 
+
+    @GET("/v1/team/{tid}/out")
+    Observable<BaseResult<String>> exitTeam(@Path("tid") int tid);
+
 }

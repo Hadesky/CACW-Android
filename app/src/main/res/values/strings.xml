@@ -95,4 +95,6 @@
     <string name="can_not_modify_project">不可修改任务项目</string>
     <string name="member_count">%d人</string>
     <string name="confirm_to_del_task">你确定要删除任务吗？</string>
+    <string name="you_are_admin_can_not_exit">你当前是团队管理员，不能退出团队</string>
+    <string name="succeed_exit_team">退出成功</string>
 </resources>

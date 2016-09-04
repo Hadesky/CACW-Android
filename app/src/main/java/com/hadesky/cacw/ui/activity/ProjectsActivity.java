@@ -61,8 +61,6 @@ public class ProjectsActivity extends BaseActivity {
 
         if (fragment == null) {
             fragment = new ProjectFragment();
-//            mPresenter = new MyProjectPresenterImpl(fragment,mTeam);
-//            fragment.setPresenter(presenter);
         }
 
         Bundle bundle = new Bundle();
