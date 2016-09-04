@@ -4,6 +4,8 @@ package com.hadesky.cacw.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.hadesky.cacw.config.MyApp;
+
 import java.io.Serializable;
 
 /**
@@ -23,12 +25,13 @@ public class UserBean implements Parcelable,Serializable
     private String nickName;
     private int id;
 
-    private int sex = 0;//0是男，1是女，2是保密
+    private int sex = 2;//0是男，1是女，2是保密
     private String mobilePhone;
     private String shortNumber;//短号
     private String summary;//个人简介
     private String address;//地址
     private String email;
+    private String avatarUrl;
 
     public UserBean()
     {
@@ -139,9 +142,16 @@ public class UserBean implements Parcelable,Serializable
         this.email = email;
     }
 
+    public void setAvatarUrl(String s)
+    {
+        avatarUrl = s;
+    }
+
     public String getAvatarUrl()
     {
-       return "";
+        if(avatarUrl==null||avatarUrl.length()==0)
+            return null;
+         return   MyApp.getURL()+"/v1/images/user_"+id+"_"+avatarUrl+".jpg";
     }
 
     @Override
@@ -175,6 +185,7 @@ public class UserBean implements Parcelable,Serializable
             u.setAddress(parcel.readString());
             u.setEmail(parcel.readString());
             u.setSex(parcel.readInt());
+            u.setAvatarUrl(parcel.readString());
             return u;
         }
 
@@ -203,5 +214,6 @@ public class UserBean implements Parcelable,Serializable
         parcel.writeString(address);
         parcel.writeString(email);
         parcel.writeInt(sex);
+        parcel.writeString(avatarUrl);
     }
 }

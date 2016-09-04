@@ -61,7 +61,9 @@ public class SessionManagement
         }
         catch (Exception e)
         {
-            Log.e("tag", e.getMessage());
+            Log.e("tag","load user fail");
+
+            Log.e("tag",e.getMessage());
         }
         finally
         {
@@ -82,6 +84,9 @@ public class SessionManagement
     }
 
 
+    /** 将用户信息保存到本地文件，并更新Myapp的userbean
+     * @param u
+     */
     public void saveUser(UserBean u)
     {
         FileOutputStream outputStream = null;

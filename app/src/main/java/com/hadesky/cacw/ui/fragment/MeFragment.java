@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.FinishedTaskActivity;
 import com.hadesky.cacw.ui.activity.MessageListActivity;
@@ -69,26 +70,15 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private String getAvatarUrl() {
-//        UserBean bean = MyApp.getCurrentId();
-//        if (bean != null && bean.getAvatarUrl() != null) {
-//            return bean.getAvatarUrl();
-//        }
-        return null;
+       return MyApp.getCurrentUser().getAvatarUrl();
     }
-
-
-
 
     /**
      * 在Session中获取昵称
      * @return 用户名
      */
     private String getNickName() {
-        String nickName = null;
-        if (nickName == null) {
-            return "蚂蚁";
-        }
-        return nickName;
+        return MyApp.getCurrentUser().getNickName();
     }
 
 

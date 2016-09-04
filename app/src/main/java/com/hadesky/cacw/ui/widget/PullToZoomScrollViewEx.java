@@ -68,15 +68,15 @@ public class PullToZoomScrollViewEx extends PullToZoomBase<ScrollView> {
 
     @Override
     protected void pullHeaderToZoom(int newScrollValue) {
-        Log.d(TAG, "pullHeaderToZoom --> newScrollValue = " + newScrollValue);
-        Log.d(TAG, "pullHeaderToZoom --> mHeaderHeight = " + mHeaderHeight);
+        //Log.d(TAG, "pullHeaderToZoom --> newScrollValue = " + newScrollValue);
+        //Log.d(TAG, "pullHeaderToZoom --> mHeaderHeight = " + mHeaderHeight);
         if (mScalingRunnable != null && !mScalingRunnable.isFinished()) {
             mScalingRunnable.abortAnimation();
         }
 
         reducerAnimator.setCurrentPlayTime(Math.abs(newScrollValue));
 
-        Log.d(TAG, "pullHeaderToZoom --> wrappedInt = " + reducerAnimator.getAnimatedValue());
+        //Log.d(TAG, "pullHeaderToZoom --> wrappedInt = " + reducerAnimator.getAnimatedValue());
 
         ViewGroup.LayoutParams localLayoutParams = mHeaderContainer.getLayoutParams();
         localLayoutParams.height = (int)reducerAnimator.getAnimatedValue() + mHeaderHeight;

@@ -110,4 +110,11 @@ public interface CacwServer
     @POST("/v1/task/{tid}/members")
     Observable<BaseResult<String>> addTaskMember(@Path("tid") int id,@Body RequestBody body);
 
+    @POST("/v1/task/{tid}/DeleteMembers ")
+    Observable<BaseResult<String>> deleteTaskMember(@Path("tid") int id,@Body RequestBody body);
+
+
+    @GET("/v1/user/{username}")
+    Observable<BaseResult<UserBean>> getUserInfo(@Path("username") String username);
+
 }

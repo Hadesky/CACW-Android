@@ -150,4 +150,20 @@ public class TaskRepertory
                 .compose(RxHelper.<String>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<String> deleteTaskMembers(int tid,List<UserBean> member)
+    {
+
+        JsonArray jsonArray = new JsonArray();
+        for(UserBean ub:member)
+        {
+            jsonArray.add(ub.getId());
+        }
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonArray.toString());
+        return mCacwServer.deleteTaskMember(tid,body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

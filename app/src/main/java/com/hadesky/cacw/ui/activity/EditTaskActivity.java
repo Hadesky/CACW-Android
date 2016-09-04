@@ -53,9 +53,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private TextView mTvStartTime;
     private TextView mTvEndDate;
     private TextView mTvEndTime;
-
     private TextView mTvProject;
-
 
     private EditText mEdtTitle;
     private EditText mEdtLocation;
@@ -451,21 +449,32 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     }
 
 
-    @Override
-    public boolean onMemberDelete(UserBean user)
-    {
 
+    @Override
+    public void onMemberDelete(final UserBean user)
+    {
+        //当成员被点X删除时调用
         if (user.getId() == MyApp.getCurrentUser().getId())
         {
             showMsg("不能删除自己");
-            return false;
+        }else
+        {
+            new AlertDialog.Builder(this).setMessage("是否确定移除成员 "+user.getNickName()+"?")
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            mPresenter.deleteMember(user);
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel,null)
+                    .create()
+                    .show();
         }
-        isEdited = true;
-        return true;
     }
 
     @Override
-    public void onAddMember() //当+号被点击时调用
+    public void onAddMemberClick() //当+号被点击时调用
     {
         if (mTask.getProject() == null)
         {
@@ -498,6 +507,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             {
                 mMembers.addAll(list);
                 mAdapter.notifyDataSetChanged();
+                setResult(MainActivity.result_task_change);
                 //isEdited = true;
             }
         } else
@@ -528,6 +538,14 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
         setResult(MainActivity.result_task_change, i);
         finish();
+    }
+
+    @Override
+    public void deleteMember(UserBean bean)
+    {
+        mMembers.remove(bean);
+        mAdapter.notifyDataSetChanged();
+        setResult(MainActivity.result_task_change);
     }
 
     @Override

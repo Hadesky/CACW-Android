@@ -17,6 +17,8 @@ public interface EditTaskView extends BaseView{
 
     void close();
 
+    void deleteMember(UserBean bean);
+
     void showProjects(List<ProjectBean> projectBeen);
 
     void showTaskDetail(TaskBean b);

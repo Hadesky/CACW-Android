@@ -8,6 +8,7 @@ import com.hadesky.cacw.model.TaskRepertory;
 import com.hadesky.cacw.model.network.ProjectRepertory;
 import com.hadesky.cacw.ui.view.EditTaskView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -97,9 +98,27 @@ public class EditTaskPresenterImpl implements EditTaskPresenter
     }
 
     @Override
-    public void deleteMember(List<UserBean> member)
+    public void deleteMember(final UserBean member)
     {
-
+        List<UserBean> list = new ArrayList<>();
+        list.add(member);
+        mView.showProgress();
+        mSubscription= mTaskRepertory.deleteTaskMembers(mTask.getId(),list)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg("删除成功");
+                        mView.deleteMember(member);
+                    }
+                });
     }
 
     @Override

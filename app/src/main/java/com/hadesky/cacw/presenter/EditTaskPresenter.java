@@ -16,8 +16,10 @@ public interface EditTaskPresenter {
     void saveTask();
 
     void createTask(List<UserBean> member);
+
     void addMember(List<UserBean> member);
-    void deleteMember(List<UserBean> member);
+
+    void deleteMember(UserBean member);
 
     void loadProjects();
 

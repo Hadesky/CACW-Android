@@ -144,7 +144,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
         PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.zoom_scrollView);
         if (scrollView != null) {
-            scrollView.setOnPullZoomListener(new PullToZoomBase.OnPullZoomListener() {
+            scrollView.addOnPullZoomListeners(new PullToZoomBase.OnPullZoomListener() {
                 @Override
                 public void onPullZooming(int newScrollValue) {
 

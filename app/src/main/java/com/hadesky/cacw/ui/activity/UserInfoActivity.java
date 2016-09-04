@@ -25,6 +25,8 @@ public class UserInfoActivity extends BaseActivity
     private UserBean mUserBean;
     private FloatingActionButton mMessageButton;
 
+
+
     @Override
     public int getLayoutId()
     {
@@ -77,7 +79,6 @@ public class UserInfoActivity extends BaseActivity
                     mMessageButton.show();
                 }
             }
-
             @Override
             public void onPullZoomEnd() {
                 mMessageButton.show();
@@ -92,7 +93,6 @@ public class UserInfoActivity extends BaseActivity
                     return;
                 }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);
-
                 i.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable)mUserBean);
                 startActivity(i);
             }
