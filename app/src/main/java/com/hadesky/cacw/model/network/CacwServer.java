@@ -117,4 +117,12 @@ public interface CacwServer
     @GET("/v1/user/{username}")
     Observable<BaseResult<UserBean>> getUserInfo(@Path("username") String username);
 
+
+    @POST("/v1/user")
+    Observable<BaseResult<String>> modifyUserInfo(@Body RequestBody body);
+
+
+    @POST("/v1/user/upload")
+    @Multipart()
+    Observable<BaseResult<String>> modifyUserIcon(@Part MultipartBody.Part file);
 }

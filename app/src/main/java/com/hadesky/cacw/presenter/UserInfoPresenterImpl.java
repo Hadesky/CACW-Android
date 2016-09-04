@@ -33,7 +33,7 @@ public class UserInfoPresenterImpl implements UserInfoPresenter
     @Override
     public void loadUserInfo()
     {
-        mUserRepertory.updateUserInfo(mUser.getUsername())
+        mUserRepertory.updateMyUserInfo(mUser.getUsername())
                 .subscribe(new RxSubscriber<UserBean>() {
                     @Override
                     public void _onError(String msg)

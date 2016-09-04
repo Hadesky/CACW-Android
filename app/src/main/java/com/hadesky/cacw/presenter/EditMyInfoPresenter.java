@@ -1,6 +1,6 @@
 package com.hadesky.cacw.presenter;
 
-import android.net.Uri;
+import java.io.File;
 
 /**
  * Created by MicroStudent on 2016/7/10.
@@ -8,9 +8,9 @@ import android.net.Uri;
 
 public interface EditMyInfoPresenter {
 
-    void updateAvatar(String avatarPath);
+    void updateAvatar(File avatar);
 
-    void updateSexual(Byte sex);
+    void updateSexual(int sex);
 
     void updateSummary(String summary);
 
@@ -23,4 +23,6 @@ public interface EditMyInfoPresenter {
     void updateShortPhone(String shortPhone);
 
     void updateAddress(String address);
+
+    void cancel();
 }
