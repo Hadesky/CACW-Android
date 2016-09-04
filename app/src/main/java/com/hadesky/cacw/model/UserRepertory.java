@@ -39,8 +39,17 @@ public class UserRepertory
     }
 
 
-    //只能用于更新自己的信息
-    public Observable<UserBean> updateMyUserInfo(String username)
+    public Observable<UserBean> getUserInfo(String username)
+    {
+        return  mCacwServer.getUserInfo(username)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<UserBean>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    //只能用于更新自己的信息,获取最新数据并保存
+    public Observable<UserBean> loadAndUpdateMyInfo(String username)
     {
         return  mCacwServer.getUserInfo(username)
                 .subscribeOn(Schedulers.io())

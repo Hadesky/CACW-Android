@@ -147,14 +147,14 @@ public class UserInfoFragment extends BaseFragment implements UserInfoView, View
         if (mUserBean.getId() == MyApp.getCurrentUser().getId())
         {
             showUserInfo(mUserBean);
-        }
+        }else
+            mPresenter.loadUserInfo();
     }
 
 
     @Override
     public void showUserInfo(UserBean user)
     {
-
         if (user != null)
         {
             if (user.getId() == MyApp.getCurrentUser().getId())

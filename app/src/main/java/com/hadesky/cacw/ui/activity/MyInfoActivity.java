@@ -14,6 +14,8 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 
+
+//这个activity是在MeFragment 点进去打开的界面，带有编辑菜单
 public class MyInfoActivity extends BaseActivity {
     private Toolbar toolbar;
 
