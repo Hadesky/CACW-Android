@@ -125,4 +125,10 @@ public interface CacwServer
     @POST("/v1/user/upload")
     @Multipart()
     Observable<BaseResult<String>> modifyUserIcon(@Part MultipartBody.Part file);
+
+
+    @DELETE("/v1/team/{tid}")
+    Observable<BaseResult<String>> removeTeamMember(@Path("tid") int tid, @Query(
+            "memberid") int userid);
+
 }

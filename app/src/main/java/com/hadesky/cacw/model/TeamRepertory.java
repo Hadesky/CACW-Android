@@ -18,7 +18,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
+/**团队数据仓库
  * Created by dzysg on 2016/9/1 0001.
  */
 public class TeamRepertory
@@ -134,6 +134,15 @@ public class TeamRepertory
         RequestBody body = RequestBody.create(MediaType.parse("application/json"),jsonObject.toString());
 
        return  mCacwServer.createProject(body)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<String> removeTeamMember(int tid,int userid)
+    {
+        return mCacwServer.removeTeamMember(tid,userid)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());

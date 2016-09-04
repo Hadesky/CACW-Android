@@ -4,6 +4,7 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TeamMemberAdapter;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.RxSubscriber;
 import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.TeamMemberView;
@@ -71,10 +72,37 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
         return 0;
     }
 
-    @Override
-    public void deleteMember(UserBean bean)
-    {
 
+    @Override
+    public void deleteMember(final UserBean bean)
+    {
+        if(MyApp.getCurrentUser().getId()!=mTeam.getAdminId())
+        {
+            mView.showMsg("你不是团队管理员，不能删除成员");
+            return;
+        }
+        if(MyApp.getCurrentUser().getId()==bean.getId())
+        {
+            mView.showMsg("不能删除自己");
+            return;
+        }
+        mTeamRepertory.removeTeamMember(mTeam.getId(),bean.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mUsers.remove(bean);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void handleResult(List<UserBean> list) {
@@ -88,9 +116,9 @@ public class TeamMemberPresenterImpl implements TeamMemberPresenter
         }
         mUsers = users;
         mAdapter = new TeamMemberAdapter(users, R.layout.item_user, admin);
+        mAdapter.setPresenter(this);
         mView.setAdapter(mAdapter);
         mView.addItemDecoration(new StickyRecyclerHeadersDecoration(mAdapter));
         mView.setData(users.toArray());
     }
-
 }

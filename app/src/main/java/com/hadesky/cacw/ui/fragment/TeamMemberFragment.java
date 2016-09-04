@@ -37,7 +37,6 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
 
     private List<UserBean> mTeamMember;
 
-
     /**
      * @param teamBean 用于新建Fragment的TeamBean
      * @return A new instance of fragment TeamMemberFragment.
@@ -123,6 +122,7 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
     public void showMsg(String s) {
         showToast(s);
     }
+
 
     public void navigateToInviteMemberActivity() {
         ArrayList<UserBean> data =null; //(ArrayList<UserBean>) mPresenter.getData();
