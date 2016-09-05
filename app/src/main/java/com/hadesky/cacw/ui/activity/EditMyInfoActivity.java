@@ -269,8 +269,6 @@ public class EditMyInfoActivity extends BaseActivity implements View.OnClickList
                 if (resultCode == RESULT_OK && data != null)
                 {
                     Intent intent = new Intent("com.android.camera.action.CROP");
-                    //intent.setClassName("com.android.gallery3d", "com.android.gallery3d.filtershow.crop.CropActivity");
-                    // indicate image type and Uri
                     intent.setDataAndType(data.getData(), "image/*");
                     intent.putExtra("crop", "true");
                     intent.putExtra("aspectX", 1);

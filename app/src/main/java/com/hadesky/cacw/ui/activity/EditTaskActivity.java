@@ -250,6 +250,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             initDateAndTime();
         }
         mPresenter = new EditTaskPresenterImpl(this, mTask);
+
         setListener();
     }
 
@@ -518,8 +519,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     @Override
     public void showTaskMember(ArrayList<UserBean> members)
     {
-        mAdapter.setDatas(members);
-        mMembers = members;
+        if(members!=null)
+        {
+            mAdapter.setDatas(members);
+            mMembers = members;
+        }
     }
 
     @Override

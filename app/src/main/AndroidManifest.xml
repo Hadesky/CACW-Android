@@ -25,7 +25,7 @@
     <!-- 获取WIFI信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!-- 允许访问GPS -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
     <!-- 改变WiFi状态 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <!-- 读取手机状态 -->
@@ -39,8 +39,10 @@
     <!-- 访问系统图库获得图片 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- 蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!--<uses-permission android:name="android.permission.BLUETOOTH"/>-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>-->
+
+
     <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- 读取账户权限 -->
@@ -48,7 +50,7 @@
     <uses-permission android:name="ANDROID.PERMISSION.GET_ACCOUNTS_PRIVILEGED"/>
     <uses-permission android:name="ANDROID.PERMISSION.ACCOUNT_MANAGER"/>
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!--<uses-permission android:name="android.permission.CALL_PHONE"/>-->
 
     <application
         android:name=".config.MyApp"

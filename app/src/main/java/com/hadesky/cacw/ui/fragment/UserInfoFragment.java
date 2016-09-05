@@ -1,12 +1,9 @@
 package com.hadesky.cacw.ui.fragment;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -15,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
@@ -250,29 +246,31 @@ public class UserInfoFragment extends BaseFragment implements UserInfoView, View
         {
             case R.id.bt_call:
                 String uri = "tel:" + mPhoneView.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_CALL);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(uri));
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
-                    return;
-                } else
-                {
-                    getContext().startActivity(intent);
-                }
+                getContext().startActivity(intent);
+//                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else
+//                {
+//                    getContext().startActivity(intent);
+//                }
                 break;
             case R.id.bt_call_short:
                 uri = "tel:" + mShortPhoneView.getText().toString();
-                intent = new Intent(Intent.ACTION_CALL);
+                intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(uri));
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
-                {
-                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
-                    return;
-                } else
-                {
-                    getContext().startActivity(intent);
-                }
+                getContext().startActivity(intent);
+//                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+//                {
+//                    Toast.makeText(getContext(), "权限不足，请检查是否赋予了正确的权限", Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else
+//                {
+//                    getContext().startActivity(intent);
+//                }
                 break;
             case R.id.bt_email:
                 intent = new Intent(Intent.ACTION_SENDTO);

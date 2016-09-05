@@ -3,8 +3,10 @@ package com.hadesky.cacw.config;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.model.SessionManagement;
 import com.hadesky.cacw.model.network.CacwServer;
@@ -46,7 +48,13 @@ public class MyApp extends Application
         mContext = this;
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        Fresco.initialize(this);
+
+
+        ImagePipelineConfig config =ImagePipelineConfig.newBuilder(this)
+                .setBitmapsConfig(Bitmap.Config.RGB_565)
+                .build();
+        Fresco.initialize(this,config);
+
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
         sOkHttpClient = new OkHttpClient.Builder().writeTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(URL).client(sOkHttpClient).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
