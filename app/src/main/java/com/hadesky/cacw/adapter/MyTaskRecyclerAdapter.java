@@ -17,7 +17,10 @@ import com.hadesky.cacw.ui.activity.BaseActivity;
 import com.hadesky.cacw.ui.activity.MainActivity;
 import com.hadesky.cacw.ui.activity.TaskDetailActivity;
 import com.hadesky.cacw.ui.widget.CircleTextView;
+import com.hadesky.cacw.util.DateUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -28,11 +31,17 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
 {
 
     private MyTaskPresenter mPresenter;
-
+    private String mToday;
+    private String mTomorow;
 
     public MyTaskRecyclerAdapter(List<TaskBean> list, MyTaskPresenter presenter, @LayoutRes int resId) {
         super(list, resId);
         mPresenter = presenter;
+        SimpleDateFormat format = DateUtil.getSimpleDateFormat();
+        Calendar today = Calendar.getInstance();
+        mToday = format.format(today.getTime());
+        today.add(Calendar.DATE,1);
+        mTomorow = format.format(today.getTime());
     }
 
     @Override
@@ -42,7 +51,15 @@ public class MyTaskRecyclerAdapter extends BaseAdapter<TaskBean>
             @Override
             public void setData(TaskBean task) {
                 setTextView(R.id.tv_title, task.getTitle());
+                //显示日期
+
+
                 String str = task.getStartDate().substring(0, 10);
+                if(mToday.startsWith(str))
+                    str = "今天";
+                else if(mTomorow.startsWith(str))
+                    str = "明天";
+
                 setTextView(R.id.tv_start_date, str);
                 CircleTextView v = findView(R.id.icon);
                 v.setText(task.getProject().getName());

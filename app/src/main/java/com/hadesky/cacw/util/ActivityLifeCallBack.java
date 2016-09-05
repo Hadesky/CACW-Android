@@ -15,6 +15,7 @@ public class ActivityLifeCallBack implements Application.ActivityLifecycleCallba
     private static int count = 0;
     public static WeakReference<Activity> mTop;
 
+
     public ActivityLifeCallBack()
     {
         count = 0;

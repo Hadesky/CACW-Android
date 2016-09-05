@@ -97,4 +97,6 @@
     <string name="confirm_to_del_task">你确定要删除任务吗？</string>
     <string name="you_are_admin_can_not_exit">你当前是团队管理员，不能退出团队</string>
     <string name="succeed_exit_team">退出成功</string>
+    <string name="time_error">开始时间晚于结束时间</string>
+    <string name="please_select_project">请先选择项目</string>
 </resources>

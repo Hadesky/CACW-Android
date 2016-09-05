@@ -199,10 +199,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mDateTimePickerDialog = new DateTimePickerDialog();
         mDateTimePickerDialog.setCallback(mDateTimeCallback);
+
         SublimeOptions options = new SublimeOptions();
         int displayOptions = 0;
-        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
-        displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER;
+        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER; //开日期选择
+        displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER; //开时间选择
         options.setDisplayOptions(displayOptions);
         options.setCanPickDateRange(true);
         Bundle bundle = new Bundle();
@@ -316,7 +317,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
         if (mCalendarStart.compareTo(mCalendarEnd) > 0)
         {
-            showToast("开始时间晚于结束时间");
+            showToast(getString(R.string.time_error));
             return;
         }
 
@@ -329,7 +330,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         {
             if (mTask.getProject() == null)
             {
-                showMsg("请先选择项目");
+                showMsg(getString(R.string.please_select_project));
                 return;
             }
             mPresenter.createTask(mMembers);
