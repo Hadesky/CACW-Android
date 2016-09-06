@@ -15,9 +15,32 @@ public class ProjectBean  implements Serializable
     private int AdminId;
     private int isPrivate=0;
     private int isFile = 0;
+    private int taskCount;//任务总数
+    private int unfinishTaskCount;//没完成的任务数
+
 
     public ProjectBean() {
 
+    }
+
+    public int getTaskCount()
+    {
+        return taskCount;
+    }
+
+    public void setTaskCount(int taskCount)
+    {
+        this.taskCount = taskCount;
+    }
+
+    public int getUnfinishTaskCount()
+    {
+        return unfinishTaskCount;
+    }
+
+    public void setUnfinishTaskCount(int unfinishTaskCount)
+    {
+        this.unfinishTaskCount = unfinishTaskCount;
     }
 
     public int getIsFile()

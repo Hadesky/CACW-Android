@@ -28,11 +28,17 @@ public class TaskRepertory
 
     private static TaskRepertory sTaskRepertory;
 
+    private static class holder
+    {
+        public static TaskRepertory instance = new TaskRepertory();
+    }
+
+
 
     public static TaskRepertory getInstance()
     {
         if (sTaskRepertory == null)
-            sTaskRepertory = new TaskRepertory();
+            sTaskRepertory = holder.instance;
         return sTaskRepertory;
     }
 

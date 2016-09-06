@@ -70,6 +70,7 @@ public class MainActivity extends BaseActivity {
      */
     private void setupTabView() {
         String[] titles = getResources().getStringArray(R.array.tab_titles);
+
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[0]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[1]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[2]));

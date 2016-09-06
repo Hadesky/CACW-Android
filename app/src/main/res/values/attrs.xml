@@ -48,4 +48,16 @@
 
     </declare-styleable>
 
+    <!--搜索控件-->
+    <declare-styleable name="CircleProgress">
+        <attr name="circle_width" format="dimension" />
+        <attr name="text_color" format="color" />
+        <attr name="circle_color" format="color" />
+        <attr name="unfinish_color" format="color" />
+        <attr name="text" format="string" />
+        <attr name="text_size" format="dimension" />
+        <attr name="percent" format="float" />
+    </declare-styleable>
+
+
 </resources>

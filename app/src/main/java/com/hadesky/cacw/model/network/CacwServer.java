@@ -135,4 +135,9 @@ public interface CacwServer
     @GET("/v1/team/{tid}/out")
     Observable<BaseResult<String>> exitTeam(@Path("tid") int tid);
 
+    @GET("/v1/project/{pid}/tasklist")
+    Observable<BaseResult<List<TaskBean>>> getProjectTask(@Path("pid") int tid,@Query("state") String state);
+
+
+
 }

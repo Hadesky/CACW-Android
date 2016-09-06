@@ -1,6 +1,7 @@
 package com.hadesky.cacw.model.network;
 
 import com.hadesky.cacw.bean.ProjectBean;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.RxHelper;
 
@@ -19,10 +20,17 @@ public class ProjectRepertory
 
     private static ProjectRepertory sProjectRepertory;
     private CacwServer mCacwServer;
+
+
+    private static class holder
+    {
+        public static ProjectRepertory instance = new ProjectRepertory();
+    }
+
     public static ProjectRepertory getInstance()
     {
         if(sProjectRepertory==null)
-            sProjectRepertory = new ProjectRepertory();
+            sProjectRepertory = holder.instance;
         return sProjectRepertory;
     }
 
@@ -58,6 +66,33 @@ public class ProjectRepertory
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<List<ProjectBean>>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<TaskBean>> getProjectTask(int projectid,int state)
+    {
+        String query=null;
+        if(state==0)
+            query = "unfinish";
+        else if(state==1)
+            query = "finished";
+        else
+            query = "all";
+        return mCacwServer.getProjectTask(projectid,query)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<TaskBean>>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+
+    public Observable<ProjectBean> getProject(int pid)
+    {
+
+        return mCacwServer.getProject(pid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<ProjectBean>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
 }

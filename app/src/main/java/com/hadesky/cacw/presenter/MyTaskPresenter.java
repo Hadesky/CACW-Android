@@ -8,8 +8,9 @@ import com.hadesky.cacw.bean.TaskBean;
  */
 public interface MyTaskPresenter
 {
-     void LoadTasks(int state);
-     void CompleteTask(TaskBean pos);
+    //0为未完成 1 为完成 2为所有
+    void LoadTasks(int state,int projectid);
+    void CompleteTask(TaskBean pos);
     void onDestroy();
 
 }

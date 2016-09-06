@@ -11,6 +11,7 @@ import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
@@ -33,6 +34,8 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MyTaskPresenter mPresenter;
+    private int mProjectId = -1;
+    private int mState = 0;
 
     @Override
     public int getLayoutId()
@@ -52,7 +55,6 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     {
 
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         mSwipeRefreshLayout.setProgressViewOffset(true, -100, 50);
@@ -66,9 +68,16 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mPresenter = new MyTaskPresenterImpl(this);
-        mPresenter.LoadTasks(0);
+
+        Bundle arg = getArguments();
+        if(arg!=null)
+        {
+            mProjectId = arg.getInt(IntentTag.TAG_PROJECT_ID,-1);
+            mState = arg.getInt(IntentTag.TAG_TASK_STATUS,0);
+        }
+
+        mPresenter.LoadTasks(mState,mProjectId);
     }
 
     @Override
@@ -81,7 +90,7 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh()
     {
-        mPresenter.LoadTasks(0);
+        mPresenter.LoadTasks(mState,mProjectId);
     }
 
     @Override
