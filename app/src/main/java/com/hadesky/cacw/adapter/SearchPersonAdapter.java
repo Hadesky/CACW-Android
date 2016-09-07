@@ -64,12 +64,12 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
 
     public void addData(List<UserBean> userBeen, boolean isFinal) {
         if (mDatas != null) {
-            int start = mDatas.size();
-            mDatas.addAll(userBeen);
             this.isFinal = isFinal;
             if (isFinal) {
                 notifyItemRemoved(mDatas.size());
             }
+            int start = mDatas.size();
+            mDatas.addAll(userBeen);
             notifyItemRangeInserted(start, userBeen.size());
         }
     }

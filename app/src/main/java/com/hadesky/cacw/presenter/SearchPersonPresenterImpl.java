@@ -17,8 +17,12 @@ import com.hadesky.cacw.ui.activity.UserInfoActivity;
 import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.subjects.PublishSubject;
 
 /**
  * f 搜索用户
@@ -26,7 +30,6 @@ import rx.Subscription;
  */
 public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolder.OnItemClickListener
 {
-
     private SearchPersonOrTeamView mView;
     private UserRepertory mUserRepertory;
     private int page = 1;
@@ -38,6 +41,11 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
     private String mSearchText;
     private Subscription mSubscription;
     private UserBean Me;
+    private PublishSubject<String> mPublishSubject ;
+    private boolean mIsShow = false;
+    private boolean mHasAdapter = false;
+
+
 
     public SearchPersonPresenterImpl(SearchPersonOrTeamView view, Context context)
     {
@@ -46,11 +54,29 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
         mUserRepertory = UserRepertory.getInstance();
         mAdapter = new SearchPersonAdapter(null, R.layout.item_person_in_search, this);
         Me = MyApp.getCurrentUser();
+        mPublishSubject = PublishSubject.create();
+        //1秒搜索延迟，即以1秒内最后一次的关键词为准
+        mPublishSubject.debounce(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s)
+                    {
+                        doSearch(s);
+                    }
+                });
     }
 
-    @Override
-    public void search(String key)
+
+    private void doSearch(String key)
     {
+        if(key.length()==0)
+        {
+            mView.hide();
+            mIsShow = false;
+            return;
+        }
+
         page = 1;
         mIsFinal = false;
         mSearchText = key;
@@ -68,22 +94,35 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
             public void _onNext(List<UserBean> userBeen)
             {
                 mView.hideProgress();
-                mView.show();
+
                 if (userBeen.size() == 0)
+                {
                     mView.hide();
+                }
                 else
                 {
-                    mView.setAdapter(mAdapter);
+                    mView.show();
                     if(userBeen.remove(Me))
                         mIsFinal = userBeen.size() < pageSize-1;
                     else
                         mIsFinal = userBeen.size() < pageSize;
-
+                    if(!mHasAdapter)
+                    {
+                        mView.setAdapter(mAdapter);
+                        mHasAdapter =  true;
+                    }
                     mAdapter.setData(userBeen, mIsFinal);
                     mUsers = userBeen;
                 }
             }
         });
+    }
+
+
+    @Override
+    public void search(String key)
+    {
+        mPublishSubject.onNext(key);
     }
 
     @Override
@@ -111,9 +150,7 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
                     mIsFinal = userBeen.size() < pageSize-1;
                 else
                     mIsFinal = userBeen.size() < pageSize;
-
                 mView.hideProgress();
-
                 mAdapter.addData(userBeen, mIsFinal);
             }
         });

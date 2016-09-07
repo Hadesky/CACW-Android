@@ -24,7 +24,7 @@ public class SearchPersonFragment extends SearchFragment {
     }
 
     public void updateSearchKey(String searchKey) {
-        if (searchKey != null && searchKey.length() != 0) {
+        if (searchKey != null) {
             mPresenter.search(searchKey);
         }
     }

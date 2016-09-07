@@ -133,7 +133,7 @@ public class CircleProgressView extends View
     {
         super.onDraw(canvas);
         canvas.drawArc(rectF,0,360*mPercent,false,mCiclePain);
-        canvas.drawArc(rectF,360*mPercent,360,false,mUnFinishPain);
+        canvas.drawArc(rectF,0,-360*(1-mPercent),false,mUnFinishPain);
         canvas.drawText(mText,mWidth/2,mHeigh/2+offY,mTextPain);
     }
 }
