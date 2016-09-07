@@ -140,4 +140,14 @@ public interface CacwServer
 
 
 
+    @GET("/v1/task/{tid}/finish")
+    Observable<BaseResult<String>> finishTask(@Path("tid") int tid);
+
+
+
+    @GET("/v1/user/search")
+    Observable<BaseResult<List<UserBean>>> searchUser(@Query("query") String text,@Query("limit")int limit,@Query("offset")int offset);
+
+
+
 }

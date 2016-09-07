@@ -35,7 +35,6 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private SearchPresenter mSearchTaskPresenter;//人和团队的present在各自的fragment里面
     private SearchTaskAdapter mSearchTaskAdapter;
-
     private RecyclerView mSearchTaskRecyclerView;
 
     private int mLoadingFragmentCount;
@@ -95,8 +94,8 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     hideAllFragment();
                 }
                 loadSearchPersonFragment(s.toString());
-                loadSearchTeamFragment(s.toString());
-                loadSearchTask(s.toString());
+                //loadSearchTeamFragment(s.toString());
+                //loadSearchTask(s.toString());
             }
         });
         mRefreshLayout.setOnRefreshListener(this);

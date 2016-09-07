@@ -6,6 +6,7 @@ import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.network.CacwServer;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -23,12 +24,16 @@ public class UserRepertory
 {
 
     CacwServer mCacwServer;
+
     private static UserRepertory sUserRepertory;
+    private static class  holder{
+        private static UserRepertory instance=new UserRepertory();
+    }
 
     public static UserRepertory getInstance()
     {
         if(sUserRepertory==null)
-            sUserRepertory = new UserRepertory();
+            sUserRepertory = holder.instance;
         return sUserRepertory;
     }
 
@@ -91,6 +96,15 @@ public class UserRepertory
         return mCacwServer.modifyUserIcon(body)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<List<UserBean>> searchUser(String text,int limit,int offset)
+    {
+        return mCacwServer.searchUser(text,limit,offset)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<UserBean>>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

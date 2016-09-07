@@ -1,6 +1,7 @@
 package com.hadesky.cacw.presenter;
 
 import com.hadesky.cacw.bean.TaskBean;
+import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.RxSubscriber;
 import com.hadesky.cacw.model.TaskRepertory;
 import com.hadesky.cacw.model.network.ProjectRepertory;
@@ -22,7 +23,7 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
     private TaskRepertory mTaskRepertory;
     private ProjectRepertory mProjectRepertory;
     private Subscription mSubscription;
-
+    private List<TaskBean> mTasks;
 
     public MyTaskPresenterImpl(TaskView view)
     {
@@ -61,15 +62,37 @@ public class MyTaskPresenterImpl implements MyTaskPresenter
                         public void _onNext(List<TaskBean> list)
                         {
                             mView.hideProgress();
+                            mTasks = list;
                             mView.showDatas(list);
                         }
                     });
     }
 
-    @Override
-    public void CompleteTask(TaskBean pos)
-    {
 
+    @Override
+    public void CompleteTask(final TaskBean task)
+    {
+        if(task.getAdminId()!= MyApp.getCurrentUser().getId())
+        {
+            mView.showMsg("你不是任务创建者");
+            return;
+        }
+
+
+        mSubscription =  mTaskRepertory.completeTask(task.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mTasks.remove(task);
+                        mView.showDatas(mTasks);
+                    }
+                });
     }
 
     @Override

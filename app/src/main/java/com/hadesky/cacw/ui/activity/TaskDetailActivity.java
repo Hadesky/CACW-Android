@@ -185,24 +185,34 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private void onEditTaskClick()
+    {
+        if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
+        {
+            showToast(getString(R.string.you_are_admin_can_not_exit));
+            return;
+        }
+        if(mTask.isFinish())
+        {
+            showToast(getString(R.string.can_not_edit_finished_task));
+            return;
+        }
+
+
+        Intent i = new Intent(this, EditTaskActivity.class);
+        i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
+        i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+        startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
-
-
         if (item.getItemId() == R.id.action_edit)
         {
-            if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
-            {
-                showToast("你不能编辑其他人的创建任务");
-                return true;
-            }
-            Intent i = new Intent(this, EditTaskActivity.class);
-            i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
-            i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
-            startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+            onEditTaskClick();
         }
         return super.onOptionsItemSelected(item);
     }

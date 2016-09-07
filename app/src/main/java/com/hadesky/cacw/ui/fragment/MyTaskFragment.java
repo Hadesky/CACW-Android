@@ -62,13 +62,14 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask);
-        mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         mPresenter = new MyTaskPresenterImpl(this);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask);
+        mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
+        mRecyclerView.setAdapter(mAdapter);
 
         Bundle arg = getArguments();
         if(arg!=null)

@@ -172,4 +172,12 @@ public class TaskRepertory
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<String> completeTask(int tid)
+    {
+        return mCacwServer.finishTask(tid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

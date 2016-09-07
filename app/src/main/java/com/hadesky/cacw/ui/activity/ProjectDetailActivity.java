@@ -159,7 +159,6 @@ public class ProjectDetailActivity extends BaseActivity implements ProjectDetail
             p = 0f;
             mTvTaskCount.setText("无任务");
         }
-
         else
         {
             p = (bean.getTaskCount() - bean.getUnfinishTaskCount()) * 1.0f / bean.getTaskCount();
