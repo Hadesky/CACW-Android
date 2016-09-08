@@ -86,7 +86,6 @@ public class ProjectDetailActivity extends BaseActivity implements ProjectDetail
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-
         mPresenter = new ProjectDetailPresenterImpl(this);
         mPresenter.loadProject(mProjectBean.getId());
     }
@@ -107,7 +106,7 @@ public class ProjectDetailActivity extends BaseActivity implements ProjectDetail
         mTvProjectName.setText(bean.getName());
         if (bean.isPrivate())
             mTvTeamName.setText("私人项目");
-        else
+        else if(bean.getTeam()!=null)
             mTvTeamName.setText(bean.getTeam().getTeamName());
     }
 
@@ -172,7 +171,6 @@ public class ProjectDetailActivity extends BaseActivity implements ProjectDetail
             percent = percent.substring(0, percent.length() - 2);
 
         mProgressView.setText(percent + "%");
-
         mProgressView.setPercent(p);
     }
 

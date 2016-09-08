@@ -62,7 +62,6 @@ public class SessionManagement
         catch (Exception e)
         {
             Log.e("tag","load user fail");
-
             Log.e("tag",e.getMessage());
         }
         finally

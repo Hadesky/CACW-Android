@@ -18,7 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/** 任务数据仓库
+/** 任务数据仓库，包括新建任务、编辑任务、获取任务等
  * Created by dzysg on 2016/8/31 0031.
  */
 public class TaskRepertory
@@ -32,8 +32,6 @@ public class TaskRepertory
     {
         public static TaskRepertory instance = new TaskRepertory();
     }
-
-
 
     public static TaskRepertory getInstance()
     {

@@ -94,7 +94,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                     hideAllFragment();
                 }
                 loadSearchPersonFragment(s.toString());
-                //loadSearchTeamFragment(s.toString());
+                loadSearchTeamFragment(s.toString());
                 //loadSearchTask(s.toString());
             }
         });

@@ -49,7 +49,6 @@ public class MyApp extends Application
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
-
         ImagePipelineConfig config =ImagePipelineConfig.newBuilder(this)
                 .setBitmapsConfig(Bitmap.Config.RGB_565)
                 .build();

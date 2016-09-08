@@ -18,14 +18,13 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**团队数据仓库
+/**团队数据仓库，包括新建团队、获取团队资料等
  * Created by dzysg on 2016/9/1 0001.
  */
 public class TeamRepertory
 {
 
     CacwServer mCacwServer;
-
     private static TeamRepertory sTeamRepertory;
 
     public static TeamRepertory getInstance()
@@ -151,6 +150,30 @@ public class TeamRepertory
     public Observable<String> exitTeam(int tid)
     {
         return  mCacwServer.exitTeam(tid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<TeamBean>> searchTeam(String key,int limit,int offset)
+    {
+        return mCacwServer.searchTeam(key,limit,offset)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<List<TeamBean>>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> invitePerson(int tid,int uid)
+    {
+        return mCacwServer.inviteUser(tid,uid)
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> applyTeam(int tid,String content)
+    {
+        return mCacwServer.applyTeam(tid,content)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());

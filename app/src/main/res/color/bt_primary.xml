@@ -6,4 +6,7 @@
     <item
         android:state_enabled="true"
         android:color="@color/color_primary"/>
+    <item
+        android:state_enabled="false"
+        android:color="@color/color_gray"/>
 </selector>

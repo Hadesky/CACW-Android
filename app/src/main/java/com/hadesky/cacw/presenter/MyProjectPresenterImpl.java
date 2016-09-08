@@ -43,7 +43,7 @@ public class MyProjectPresenterImpl implements MyProjectPresenter
         Observable<List<ProjectBean>> observable;
         if (mTeamRepertory != null)
         {
-            observable = mTeamRepertory.getTeamProjects(mTeamBean.getId(), null);
+            observable = mTeamRepertory.getTeamProjects(mTeamBean.getId(),null);
 
         } else
         {

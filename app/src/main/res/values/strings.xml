@@ -101,4 +101,6 @@
     <string name="please_select_project">请先选择项目</string>
     <string name="can_not_edit_task">你不能编辑其他人的创建任务</string>
     <string name="can_not_edit_finished_task">任务已完成，无法编辑</string>
+    <string name="user">用户</string>
+    <string name="file">归档</string>
 </resources>

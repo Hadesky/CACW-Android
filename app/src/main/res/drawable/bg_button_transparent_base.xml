@@ -6,4 +6,7 @@
     <item
         android:state_enabled="true"
         android:drawable="@drawable/bg_rounded_transparent_primary" />
+    <item
+        android:state_enabled="false"
+        android:drawable="@drawable/bg_rounded_transparent_gray" />
 </selector>

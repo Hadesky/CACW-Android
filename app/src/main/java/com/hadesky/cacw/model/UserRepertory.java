@@ -17,7 +17,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-/** 用户信息仓库
+/** 用户信息仓库，包括获取用户资料、编辑等
  * Created by dzysg on 2016/9/4 0004.
  */
 public class UserRepertory

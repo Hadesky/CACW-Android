@@ -20,7 +20,6 @@ public class CookieManager implements CookieJar
 
     public static void clearCookie()
     {
-
         MyApp.getSessionManager().clear();
         mCookies.clear();
     }
@@ -46,6 +45,7 @@ public class CookieManager implements CookieJar
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies)
     {
+        //如果是登录的时候，则获取返回的sessionId
         if (url.toString().contains("/login"))
         {
             for(Cookie c : cookies)

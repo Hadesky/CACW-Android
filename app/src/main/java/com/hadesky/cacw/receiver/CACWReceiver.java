@@ -39,21 +39,20 @@ public class CACWReceiver extends BroadcastReceiver
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 
         Log.d(TAG, title + "  " + message);
-
         if (message == null)
             return;
 
         //ms开头代表私信，tm代表任务信息
-        if (message.startsWith(IntentTag.TAG_PUSH_MSG))
-        {
-            handleMsg(context, title, message);
-        } else if (message.startsWith(IntentTag.TAG_PUSH_TASK))
-        {
-            handleTaskMsg(context, title, message);
-        }else
-        {
-            handleNormalMsg(context,title,message);
-        }
+//        if (message.startsWith(IntentTag.TAG_PUSH_MSG))
+//        {
+//            handleMsg(context, title, message);
+//        } else if (message.startsWith(IntentTag.TAG_PUSH_TASK))
+//        {
+//            handleTaskMsg(context, title, message);
+//        }else
+//        {
+//            handleNormalMsg(context,title,message);
+//        }
     }
 
 

@@ -54,6 +54,21 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
             view.setVisibility(visibility);
         }
     }
+    public void setBtnText(@IdRes int id,String text)
+    {
+        Button view = findView(id);
+        if (view != null) {
+            view.setText(text);
+        }
+    }
+
+    public void setEnable(@IdRes int id,boolean b)
+    {
+        Button view = findView(id);
+        if (view != null) {
+            view.setEnabled(b);
+        }
+    }
 
     public <Tv> Tv findView(@IdRes int id) {
         View view = mViews.get(id);

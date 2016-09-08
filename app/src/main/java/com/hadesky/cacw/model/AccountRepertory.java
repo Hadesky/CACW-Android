@@ -15,7 +15,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- *
+ * 用户帐户模块，包括登录、注册等
  * Created by dzysg on 2016/8/31 0031.
  */
 public class AccountRepertory
