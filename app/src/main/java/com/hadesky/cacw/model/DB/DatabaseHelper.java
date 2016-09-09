@@ -1,4 +1,4 @@
-package com.hadesky.cacw.model;
+package com.hadesky.cacw.model.DB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,17 +22,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //创建表格task
         db.execSQL("CREATE TABLE Message (" +
-                "Sender TEXT not null," +
-                "Receiver TEXT null," +
+                "id Integer ,"+
+                "other Integer not null," +
                 "type Integer not null," +
-                "content TEXT not null," +
+                "content TEXT ," +
+                "isMe Integer not null," +
+                "teamId Integer ," +
                 "hasRead Integer not null" + //1 为已读
                 ")");
 
         db.execSQL("CREATE TABLE Users (" +
-                "ObjectId text primary key," +
+                "id Integer primary key," +
                 "NickName Text," +
                 "avatarUrl Text" +
                 ")");

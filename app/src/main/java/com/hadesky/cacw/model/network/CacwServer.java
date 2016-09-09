@@ -1,5 +1,6 @@
 package com.hadesky.cacw.model.network;
 
+import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.bean.TeamBean;
@@ -157,5 +158,11 @@ public interface CacwServer
 
     @GET("/v1/team/apply")
     Observable<BaseResult<String>> applyTeam(@Query("tid")int tid,@Query("content")String content);
+
+    @GET("/v1/message")
+    Observable<BaseResult<List<MessageBean>>> getMessages();
+
+    @POST("/v1/message")
+    Observable<BaseResult<String>> sendMessage(@Body RequestBody body);
 
 }

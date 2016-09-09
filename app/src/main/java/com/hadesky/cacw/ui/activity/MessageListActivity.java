@@ -24,6 +24,7 @@ import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.presenter.MessageListPresenter;
+import com.hadesky.cacw.presenter.MessageListPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.MessageListView;
 
@@ -66,7 +67,8 @@ public class MessageListActivity extends BaseActivity implements MessageListView
         mAdapter = new MessageListAdapter(new ArrayList<MessageBean>(), R.layout.list_item_message, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
-        //mListPresenter = new MessageListPresenterImpl(this);
+        mListPresenter = new MessageListPresenterImpl(this);
+        mListPresenter.loadMessage();
         setupReciever();
     }
 
@@ -78,7 +80,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
             public void onReceive(Context context, Intent intent)
             {
                 Log.e("tag", "MessageListActivity 收到广播");
-                mListPresenter.loadMessageQuietly();
+                mListPresenter.loadMessage();
             }
         };
 
@@ -149,13 +151,15 @@ public class MessageListActivity extends BaseActivity implements MessageListView
     @Override
     protected void onResume() {
         super.onResume();
-        mListPresenter.loadMessageQuietly();
+
+        mAdapter.notifyDataSetChanged();
         IntentFilter filter = new IntentFilter(IntentTag.ACTION_MSG_RECEIVE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);
     }
 
     @Override
     public boolean OnItemLongClick(View view, final int position) {
+
         new AlertDialog.Builder(this).setItems(new String[]{"删除聊天记录"}, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

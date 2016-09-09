@@ -12,7 +12,5 @@ public interface MessageListPresenter
 
     void loadMessage();
 
-    void loadMessageQuietly();
-
     void deleteMessage(MessageBean bean);
 }

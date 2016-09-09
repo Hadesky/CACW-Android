@@ -102,21 +102,22 @@ public class StringUtils
      * @param bean 要生成message的Bean
      * @return message
      */
+
     public static String messageBean2Msg(MessageBean bean, Context context)
     {
         if (bean == null || context == null)
         {
             return "";
         }
-        if (bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        if (bean.getType()==(MessageBean.TYPE_USER_TO_USER))
         {
-            return bean.getMsg();
+            return bean.getContent();
         }
-        if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER))
+        if (bean.getType()==(MessageBean.TYPE_TEAM_TO_USER))
         {
             //邀请新成员
             String[] defMsg = context.getResources().getStringArray(R.array.default_invite_message);
-            String[] cut = cutInviteOrJoinString(bean.getMsg());
+            String[] cut = cutInviteOrJoinString(bean.getContent());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
 
@@ -131,11 +132,11 @@ public class StringUtils
                 return headMsg + additionMsg + defMsg[2];
             }
         }
-        if (bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM))
+        if (bean.getType()==(MessageBean.TYPE_USER_TO_TEAM))
         {
             //申请加入
             String[] defMsg = context.getResources().getStringArray(R.array.default_join_message);
-            String[] cut = cutInviteOrJoinString(bean.getMsg());
+            String[] cut = cutInviteOrJoinString(bean.getContent());
 
             String headMsg = String.format(defMsg[0], bean.getSender().getNickName(), cut[1]);
 
@@ -159,11 +160,11 @@ public class StringUtils
     @Nullable
     public static String getTeamIdByMessageBean(MessageBean bean)
     {
-        if (bean == null || bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        if (bean == null || bean.getType()==(MessageBean.TYPE_USER_TO_USER))
         {
             return null;
         }
-        String[] cut = cutInviteOrJoinString(bean.getMsg());
+        String[] cut = cutInviteOrJoinString(bean.getContent());
         return cut[0];
     }
 
@@ -173,11 +174,11 @@ public class StringUtils
     @Nullable
     public static String getTeamNameByMessageBean(MessageBean bean)
     {
-        if (bean == null || bean.getType().equals(MessageBean.TYPE_USER_TO_USER))
+        if (bean == null || bean.getType()==(MessageBean.TYPE_USER_TO_USER))
         {
             return null;
         }
-        String[] cut = cutInviteOrJoinString(bean.getMsg());
+        String[] cut = cutInviteOrJoinString(bean.getContent());
         return cut[1];
     }
 

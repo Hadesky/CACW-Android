@@ -1,4 +1,4 @@
-package com.hadesky.cacw.model;
+package com.hadesky.cacw.model.DB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,19 +35,23 @@ public class DatabaseManager
     public static final String Column_Content = "content";
     public static final String Column_Type = "type";
     public static final String Column_hasRead = "hasRead";
+    public static final String Column_IsMe = "isMe";
 
 
-    public static final String Column_OId = "ObjectId";
+    public static final String Column_Other = "other";
+    public static final String Column_TeamId = "teamId";
+
+    public static final String Column_Id = "id";
     public static final String Column_NickName = "NickName";
     public static final String Column_AvatarUrl = "avatarUrl";
 
 
-    private int mUser;
+    private UserBean mUser;
 
     private DatabaseManager(Context context)
     {
-        mUser = MyApp.getCurrentUser().getId();
-        mHelper = new DatabaseHelper(context,"user_"+mUser);
+        mUser = MyApp.getCurrentUser();
+        mHelper = new DatabaseHelper(context,"user_"+mUser.getId());
         db = mHelper.getWritableDatabase();
     }
 
@@ -66,18 +70,18 @@ public class DatabaseManager
         if (instance==null)
             return;
         instance.db.close();
+        instance = null;
     }
-
 
     /**
      * 根据ID查找消息
      *
-     * @param id       用户Objectid
+     * @param id       用户 id
      * @param pageSise 每页大小
      * @param PageNum  页码 从 1 开始
      * @return 消息列表
      */
-    public List<MessageBean> queryMessageByUser(String id, int pageSise, int PageNum)
+    public List<MessageBean> queryMessageByUser(int id, int pageSise, int PageNum)
     {
 
         List<MessageBean> list = new ArrayList<>();
@@ -85,12 +89,11 @@ public class DatabaseManager
         if (pageSise <= 0 || PageNum <= 0)
             return list;
 
-
         //先算出有多个条数据
-        StringBuilder sql = new StringBuilder("select * from " + Table_Message + " " +
-                "where " + Column_Sender + " = ? or " + Column_Receiver + "= ? ");// limit " + pageSise + " offset " + offset;
+        StringBuilder sql = new StringBuilder("select * from " + Table_Message +
+                " where " + Column_Other + " = ?");
 
-        Cursor cursor = db.rawQuery(sql.toString(), new String[]{id, id});
+        Cursor cursor = db.rawQuery(sql.toString(), new String[]{String.valueOf(id)});
 
         int count = cursor.getCount();
         cursor.close();
@@ -112,30 +115,23 @@ public class DatabaseManager
             else
                 return list;
         }
-
-
         sql.append("limit ").append(limit).append("  offset ").append(offset);
-        cursor = db.rawQuery(sql.toString(), new String[]{id, id});
-
+        cursor = db.rawQuery(sql.toString(), new String[]{String.valueOf(id)});
         while (cursor.moveToNext())
         {
             list.add(getMessage(cursor));
         }
-
         cursor.close();
         return list;
     }
 
-    public MessageBean queryLastMessageByUser(String id)
+
+    public MessageBean queryLastMessageByUser(int id)
     {
-
         String sql = "select * from " + Table_Message + " " +
-                "where " + Column_Sender + " = ? or " + Column_Receiver + "= ? ";
-
-        Cursor cursor = db.rawQuery(sql, new String[]{id, id});
-
+                "where " + Column_Other+"=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{id+""});
         MessageBean mb = null;
-
         if (cursor.moveToLast())
             mb = getMessage(cursor);
         cursor.close();
@@ -143,20 +139,16 @@ public class DatabaseManager
     }
 
 
-    public List<UserBean> queryAllUsers()
+    public List<Integer> queryAllUserId()
     {
         String sql = "select * from " + Table_Users;
         Cursor cursor = db.rawQuery(sql, null);
 
-        List<UserBean> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
 
         while (cursor.moveToNext())
         {
-            UserBean u = getUserBean(cursor);
-            if (u != null)
-            {
-                list.add(u);
-            }
+            list.add(cursor.getInt(cursor.getColumnIndex(Column_Id)));
         }
         cursor.close();
         return list;
@@ -164,21 +156,16 @@ public class DatabaseManager
 
     public void saveMessage(MessageBean bean)
     {
-
-
-        if (bean.getSender().getId()==mUser)
-            saveOrUpdateUser(bean.getReceiver());
-        else
-            saveOrUpdateUser(bean.getSender());
-
+        saveOrUpdateUser(bean.getOther());
         ContentValues cv = new ContentValues();
-//        cv.put(Column_Sender, bean.getSender().getObjectId());
-//        cv.put(Column_Receiver, bean.getReceiver().getObjectId());
+        cv.put(Column_Id,bean.getId());
+        cv.put(Column_Other,bean.getOther().getId());
         cv.put(Column_Type, bean.getType());
-        cv.put(Column_Content, bean.getMsg());
-        cv.put(Column_hasRead, bean.getHasRead());
+        cv.put(Column_Content, bean.getContent());
+        cv.put(Column_hasRead, bean.isHasRead());
+        cv.put(Column_IsMe,bean.isMe());
+        cv.put(Column_TeamId,bean.getTeamid());
         db.insert(Table_Message, null, cv);
-
     }
 
     public void saveMessage(List<MessageBean> list)
@@ -187,18 +174,7 @@ public class DatabaseManager
         db.beginTransaction();
         for(MessageBean bean : list)
         {
-            if (bean.getSender().getId()==mUser)
-                saveOrUpdateUser(bean.getReceiver());
-            else
-                saveOrUpdateUser(bean.getSender());
-
-            ContentValues cv = new ContentValues();
-            cv.put(Column_Sender, bean.getSender().getId());
-            cv.put(Column_Receiver, bean.getReceiver().getId());
-            cv.put(Column_Type, bean.getType());
-            cv.put(Column_Content, bean.getMsg());
-            cv.put(Column_hasRead, bean.getHasRead());
-            db.insert(Table_Message, null, cv);
+           saveMessage(bean);
         }
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -206,11 +182,11 @@ public class DatabaseManager
 
     public void saveOrUpdateUser(UserBean user)
     {
-        Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_OId + " =? ", new String[]{user.getId()+""});
+        Cursor cursor = db.rawQuery("select * from " + Table_Users + " where " + Column_Id + " =? ", new String[]{user.getId()+""});
         if (!cursor.moveToFirst())
         {
             ContentValues cv = new ContentValues();
-            cv.put(Column_OId, user.getId());
+            cv.put(Column_Id, user.getId());
             cv.put(Column_NickName, user.getNickName());
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
@@ -221,35 +197,30 @@ public class DatabaseManager
             if (user.getAvatarUrl() != null)
                 cv.put(Column_AvatarUrl, user.getAvatarUrl());
             cv.put(Column_NickName, user.getNickName());
-            db.update(Table_Users, cv, Column_OId + "=?", new String[]{user.getId()+""});
+            db.update(Table_Users, cv, Column_Id + "=?", new String[]{user.getId()+""});
         }
         cursor.close();
     }
 
 
-    public void setMessageHasRead(String oid)
+    //把这个人的对话全部设为已读
+    public void setMessageHasRead(int other)
     {
         ContentValues cv = new ContentValues(1);
         cv.put(Column_hasRead, true);
-        db.update(Table_Message, cv, Column_Sender + " = ? or " + Column_Receiver + " =? ", new String[]{oid, oid});
+        db.update(Table_Message, cv, Column_Other + " = ?", new String[]{other+""});
     }
 
 
     public void setMessageHasRead(List<MessageBean> list)
     {
-        db.beginTransaction();
 
+        db.beginTransaction();
         ContentValues cv = new ContentValues(1);
-        String column = "";
         for(MessageBean mb : list)
         {
-            if (MyApp.isCurrentUser(mb.getReceiver()))
-                column = Column_Receiver;
-            else
-                column = Column_Sender;
-
             cv.put(Column_hasRead, true);
-            db.update(Table_Message, cv, column + "=?", new String[]{column});
+            db.update(Table_Message,cv,Column_Other+ "=?", new String[]{mb.getOther().getId()+""});
         }
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -280,20 +251,20 @@ public class DatabaseManager
 
     public void deleteUser(String objectId)
     {
-        db.delete(Table_Users, Column_OId + "=?", new String[]{objectId});
+        db.delete(Table_Users, Column_Id + "=?", new String[]{objectId});
     }
 
-    public void deleteUserAndMessage(String objectId)
+    public void deleteUserAndMessage(int id)
     {
-        db.delete(Table_Users, Column_OId + "=?", new String[]{objectId});
-        db.delete(Table_Message, Column_Sender + "=? or " + Column_Receiver + "=?", new String[]{objectId, objectId});
+        db.delete(Table_Users, Column_Id + "=?", new String[]{String.valueOf(id)});
+        db.delete(Table_Message, Column_Other+"=?", new String[]{String.valueOf(id)});
     }
 
 
-    public UserBean getUserById(String id)
+    public UserBean getUserById(int id)
     {
-        String sql = "Select * from " + Table_Users + " Where " + Column_OId + " =? ";
-        Cursor cursor = db.rawQuery(sql, new String[]{id});
+        String sql = "Select * from " + Table_Users + " Where " + Column_Id + " =? ";
+        Cursor cursor = db.rawQuery(sql, new String[]{id+""});
         UserBean userBean = null;
         if (cursor.moveToFirst())
             userBean = getUserBean(cursor);
@@ -307,45 +278,35 @@ public class DatabaseManager
     {
 
         UserBean userBean = new UserBean();
-        String oid = cursor.getString(cursor.getColumnIndex(Column_OId));
+        int id = cursor.getInt(cursor.getColumnIndex(Column_Id));
         String nickName = cursor.getString(cursor.getColumnIndex(Column_NickName));
 
         if (!cursor.isNull(cursor.getColumnIndex(Column_AvatarUrl)))
         {
-            String url = cursor.getString(cursor.getColumnIndex(Column_AvatarUrl));
-            //userBean.setAvatarUrl(url);
+             String url = cursor.getString(cursor.getColumnIndex(Column_AvatarUrl));
+            userBean.setAvatarUrl(url);
         }
 
         userBean.setNickName(nickName);
-
+        userBean.setId(id);
         return userBean;
     }
 
     private MessageBean getMessage(Cursor cursor)
     {
-        // TODO: 2016/9/1 0001
-//        MessageBean bean = new MessageBean();
-//
-//        String sender = cursor.getString(cursor.getColumnIndex(Column_Sender));
-//        if (sender.equals(mUser.getId()))
-//        {
-//            bean.setSender(mUser);
-//            String to = cursor.getString(cursor.getColumnIndex(Column_Receiver));
-//            bean.setReceiver(getUserById(to));
-//        } else
-//        {
-//            bean.setReceiver(mUser);
-//            bean.setSender(getUserById(sender));
-//        }
-//
-//        int type = cursor.getInt(cursor.getColumnIndex(Column_Type));
-//        bean.setType((byte) type);
-//        String content = cursor.getString(cursor.getColumnIndex(Column_Content));
-//        bean.setMsg(content);
-//        int read = cursor.getInt(cursor.getColumnIndex(Column_hasRead));
-//        bean.setHasRead(read == 1);
 
-        return null;
+        MessageBean bean = new MessageBean();
+        bean.setOther(getUserById(cursor.getInt(cursor.getColumnIndex(Column_Other))));
+        int type = cursor.getInt(cursor.getColumnIndex(Column_Type));
+        bean.setType(type);
+        String content = cursor.getString(cursor.getColumnIndex(Column_Content));
+        bean.setContent(content);
+        int read = cursor.getInt(cursor.getColumnIndex(Column_hasRead));
+        bean.setHasRead(read == 1);
+        bean.setTeamid(cursor.getInt(cursor.getColumnIndex(Column_TeamId)));
+        bean.setId(cursor.getInt(cursor.getColumnIndex(Column_Id)));
+        bean.setMe(cursor.getInt(cursor.getColumnIndex(Column_IsMe))==1);
+        return bean;
     }
 
 }

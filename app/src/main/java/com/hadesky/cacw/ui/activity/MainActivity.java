@@ -14,7 +14,7 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
-import com.hadesky.cacw.model.DatabaseManager;
+import com.hadesky.cacw.model.DB.DatabaseManager;
 import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
