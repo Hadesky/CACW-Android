@@ -22,6 +22,16 @@ public class AccountRepertory
 {
 
     CacwServer mCacwServer;
+    private static class holder
+    {
+        public static AccountRepertory instance = new AccountRepertory();
+    }
+
+    public static AccountRepertory getInstance()
+    {
+        return holder.instance;
+    }
+
 
     public AccountRepertory( )
     {

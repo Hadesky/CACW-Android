@@ -70,6 +70,7 @@ public class MessageListActivity extends BaseActivity implements MessageListView
         mListPresenter = new MessageListPresenterImpl(this);
         mListPresenter.loadMessage();
         setupReciever();
+
     }
 
     private void setupReciever()
@@ -83,7 +84,6 @@ public class MessageListActivity extends BaseActivity implements MessageListView
                 mListPresenter.loadMessage();
             }
         };
-
     }
 
     @Override

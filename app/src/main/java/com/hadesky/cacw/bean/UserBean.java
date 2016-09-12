@@ -147,6 +147,11 @@ public class UserBean implements Parcelable,Serializable
         avatarUrl = s;
     }
 
+    public String getAvatarHash()
+    {
+        return avatarUrl;
+    }
+
     public String getAvatarUrl()
     {
         if(avatarUrl==null||avatarUrl.length()==0)

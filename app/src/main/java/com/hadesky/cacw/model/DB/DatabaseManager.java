@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +46,14 @@ public class DatabaseManager
 
 
     private UserBean mUser;
+    private boolean close = true;
 
     private DatabaseManager(Context context)
     {
         mUser = MyApp.getCurrentUser();
         mHelper = new DatabaseHelper(context,"user_"+mUser.getId());
         db = mHelper.getWritableDatabase();
+        close = false;
     }
 
     public static synchronized DatabaseManager getInstance(Context context)
@@ -189,13 +190,13 @@ public class DatabaseManager
             cv.put(Column_Id, user.getId());
             cv.put(Column_NickName, user.getNickName());
             if (user.getAvatarUrl() != null)
-                cv.put(Column_AvatarUrl, user.getAvatarUrl());
+                cv.put(Column_AvatarUrl, user.getAvatarHash());
             db.insert(Table_Users, null, cv);
         } else
         {
             ContentValues cv = new ContentValues();
             if (user.getAvatarUrl() != null)
-                cv.put(Column_AvatarUrl, user.getAvatarUrl());
+                cv.put(Column_AvatarUrl, user.getAvatarHash());
             cv.put(Column_NickName, user.getNickName());
             db.update(Table_Users, cv, Column_Id + "=?", new String[]{user.getId()+""});
         }
@@ -243,11 +244,10 @@ public class DatabaseManager
 
     }
 
-    public void deleteInviteMessage(MessageBean bean)
+    public void deleteMessageById(int id)
     {
-        db.delete(Table_Message,Column_Content+" like ?",new String[]{StringUtils.getTeamIdByMessageBean(bean)+"$%"});
+        db.delete(Table_Message,Column_Id+" = ?",new String[]{String.valueOf(id)});
     }
-
 
     public void deleteUser(String objectId)
     {

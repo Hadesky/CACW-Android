@@ -6,6 +6,7 @@ import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.model.MessageRepertory;
 import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.ChatView;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class ChatPresenterImpl implements ChatPresenter
     private UserBean me;
     private ChatAdapter mAdapter;
     private MessageRepertory mMessageRepertory;
-
+    private TeamRepertory mTeamRepertory;
     private int page =1;
     private int pageSize = 20;
 
@@ -33,12 +34,13 @@ public class ChatPresenterImpl implements ChatPresenter
         me = MyApp.getCurrentUser();
         mAdapter = adapter;
         mMessageRepertory = new MessageRepertory();
+        mTeamRepertory = TeamRepertory.getInstance();
     }
 
     @Override
     public void loadNewMsg()
     {
-
+        //这个是用于收到推送时更新
     }
 
     @Override
@@ -84,9 +86,6 @@ public class ChatPresenterImpl implements ChatPresenter
                         mAdapter.onSucceed(bean);
                     }
                 });
-
-
-
     }
 
     @Override
@@ -102,15 +101,29 @@ public class ChatPresenterImpl implements ChatPresenter
     }
 
     @Override
-    public void AcceptJoinTeam(MessageBean bean)
+    public void AcceptJoinTeam(final MessageBean bean)
     {
+         mTeamRepertory.addTeamMember(bean)
+                 .subscribe(new RxSubscriber<String>() {
+                     @Override
+                     public void _onError(String msg)
+                     {
+                         mView.showMsg(msg);
+                     }
 
+                     @Override
+                     public void _onNext(String s)
+                     {
+                         mAdapter.delete(bean);
+                     }
+                 });
     }
 
     @Override
     public void rejectJoinTeam(MessageBean bean)
     {
-
+        mAdapter.delete(bean);
+        mMessageRepertory.deleteMessageById(bean.getId()).subscribe();
     }
 
     @Override

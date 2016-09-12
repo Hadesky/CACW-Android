@@ -58,7 +58,9 @@ public class MessageRepertory
                 List<MessageBean> mlist = new ArrayList<>();
                 for(Integer i:ids)
                 {
-                    mlist.add(mDatabaseManager.queryLastMessageByUser(i)); //找到每个人最后一条消息
+                    MessageBean t = mDatabaseManager.queryLastMessageByUser(i);
+                    if(t!=null)
+                    mlist.add(t); //找到每个人最后一条消息
                 }
                 return Observable.just(mlist);
             }
@@ -90,7 +92,7 @@ public class MessageRepertory
 
 
 
-    public Observable<Integer> deleteMessage(final int uid)
+    public Observable<Integer> deleteUserMessage(final int uid)
     {
         return Observable.just(uid)
                 .subscribeOn(Schedulers.io())
@@ -103,6 +105,19 @@ public class MessageRepertory
                 })
                 .observeOn(AndroidSchedulers.mainThread());
 
+    }
+
+    public Observable<String> deleteMessageById(final int id)
+    {
+       return  Observable.just("")
+               .subscribeOn(Schedulers.io())
+               .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s)
+                    {
+                        mDatabaseManager.deleteMessageById(id);
+                    }
+                });
     }
 
 

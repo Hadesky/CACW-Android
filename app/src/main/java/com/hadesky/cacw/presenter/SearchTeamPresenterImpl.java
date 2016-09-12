@@ -172,7 +172,7 @@ public class SearchTeamPresenterImpl implements SearchPresenter, BaseViewHolder.
                     @Override
                     public void _onError(String msg)
                     {
-
+                        mView.showMsg(msg);
                     }
                     @Override
                     public void _onNext(String s)

@@ -61,8 +61,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             @Override
             public void setData(final MessageBean bean)
             {
-                //如果是别人邀请我  或者 别人申请加入我的团队
-                if (false)
+                //如果是别人申请加入我的团队
+                if (bean.getType()==1)
                 {
                    setVisibility(R.id.layout_invite,View.VISIBLE);
                     View tv = findView(R.id.tv_accept);
@@ -73,7 +73,6 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                             acceptJoinTeam(bean);
                         }
                     });
-
                     tv = findView(R.id.tv_reject);
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -142,8 +141,9 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
 
     public void delete(MessageBean bean)
     {
-        mDatas.remove(bean);
-        notifyDataSetChanged();
+        int i = mDatas.indexOf(bean);
+        mDatas.remove(i);
+        notifyItemRemoved(i);
     }
 
 

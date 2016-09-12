@@ -14,7 +14,6 @@ import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.ChatActivity;
-import com.hadesky.cacw.util.StringUtils;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
             {
                 UserBean u = messageBean.getOther();
                 setTextView(R.id.tv_nick_name, u.getNickName());
-                setTextView(R.id.tv_msg, StringUtils.messageBean2Msg(messageBean,mContext));
+                setTextView(R.id.tv_msg,messageBean.getContent());
                 SimpleDraweeView iv = findView(R.id.iv_avatar);
                 iv.setImageURI(u.getAvatarUrl());
 

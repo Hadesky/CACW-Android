@@ -14,7 +14,10 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
+import com.hadesky.cacw.model.AccountRepertory;
 import com.hadesky.cacw.model.DB.DatabaseManager;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.network.BaseResult;
 import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
@@ -115,8 +118,6 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem addItem = menu.getItem(0);
-
         return true;
     }
 
@@ -150,16 +151,27 @@ public class MainActivity extends BaseActivity {
     private void logout()
     {
 
-        DatabaseManager.closeDb();//关闭数据库
-        JPushInterface.setAlias(getApplicationContext(), "", null);
-        JPushInterface.stopPush(this);
 
-        //消除相关Cookie
-        CookieManager.clearCookie();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        AccountRepertory.getInstance().logout().subscribe(new RxSubscriber<BaseResult<String>>() {
+            @Override
+            public void _onError(String msg)
+            {
+                showToast(msg);
+            }
+            @Override
+            public void _onNext(BaseResult<String> stringBaseResult)
+            {
+                DatabaseManager.closeDb();//关闭数据库
+                JPushInterface.setAlias(getApplicationContext(), "", null);
+                JPushInterface.stopPush(MainActivity.this);
+                //消除相关Cookie
+                CookieManager.clearCookie();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 

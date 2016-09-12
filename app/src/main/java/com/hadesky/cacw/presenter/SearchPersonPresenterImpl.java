@@ -24,7 +24,7 @@ import rx.functions.Action1;
 import rx.subjects.PublishSubject;
 
 /**
- * f 搜索用户
+ *  搜索用户
  * Created by dzysg on 2016/9/7 0007.
  */
 public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolder.OnItemClickListener

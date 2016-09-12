@@ -128,8 +128,13 @@ public interface CacwServer
     Observable<BaseResult<String>> modifyUserIcon(@Part MultipartBody.Part file);
 
 
-    @DELETE("/v1/team/{tid}")
-    Observable<BaseResult<String>> removeTeamMember(@Path("tid") int tid, @Query(
+    @DELETE("/v1/team/{tid}/members")
+    Observable<BaseResult<String>> deleteTeamMember(@Path("tid") int tid, @Query(
+            "memberid") int userid);
+
+
+    @POST("/v1/team/{tid}/members")
+    Observable<BaseResult<String>> addTeamMember(@Path("tid") int tid, @Query(
             "memberid") int userid);
 
 

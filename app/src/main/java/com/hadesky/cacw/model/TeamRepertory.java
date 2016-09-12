@@ -1,10 +1,12 @@
 package com.hadesky.cacw.model;
 
 import com.google.gson.JsonObject;
+import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.DB.DatabaseManager;
 import com.hadesky.cacw.model.network.CacwServer;
 
 import java.io.File;
@@ -16,6 +18,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**团队数据仓库，包括新建团队、获取团队资料等
@@ -26,6 +29,7 @@ public class TeamRepertory
 
     CacwServer mCacwServer;
     private static TeamRepertory sTeamRepertory;
+    private DatabaseManager mDatabaseManager;
 
     public static TeamRepertory getInstance()
     {
@@ -37,6 +41,7 @@ public class TeamRepertory
     public TeamRepertory()
     {
         mCacwServer = MyApp.getApiServer();
+        mDatabaseManager = DatabaseManager.getInstance(MyApp.getAppContext());
     }
 
 
@@ -107,8 +112,6 @@ public class TeamRepertory
 
     }
 
-
-
     public Observable<List<ProjectBean>> getTeamProjects(int tid,Boolean isFile)
     {
        String state;
@@ -141,7 +144,7 @@ public class TeamRepertory
 
     public Observable<String> removeTeamMember(int tid,int userid)
     {
-        return mCacwServer.removeTeamMember(tid,userid)
+        return mCacwServer.deleteTeamMember(tid,userid)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -176,6 +179,21 @@ public class TeamRepertory
         return mCacwServer.applyTeam(tid,content)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<String> addTeamMember(final MessageBean bean)
+    {
+        return  mCacwServer.addTeamMember(bean.getTeamid(),bean.getOther().getId())
+                .subscribeOn(Schedulers.io())
+                .compose(RxHelper.<String>handleResult())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s)
+                    {
+                        mDatabaseManager.deleteMessageById(bean.getId());
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

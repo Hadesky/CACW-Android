@@ -7,7 +7,8 @@ import com.hadesky.cacw.ui.view.MessageListView;
 
 import java.util.List;
 
-/** 消息列表
+/**
+ * 消息列表
  * Created by dzysg on 2016/9/9 0009.
  */
 public class MessageListPresenterImpl implements MessageListPresenter
@@ -28,32 +29,38 @@ public class MessageListPresenterImpl implements MessageListPresenter
     {
 
     }
+
     @Override
     public void loadMessage()
     {
-        mMessageRepertory.getMessageList()
-                .subscribe(new RxSubscriber<List<MessageBean>>() {
-                    @Override
-                    public void _onError(String msg)
-                    {
-                        mView.hideProgress();
-                        mView.showMsg(msg);
-                    }
-                    @Override
-                    public void _onNext(List<MessageBean> list)
-                    {
-                        mView.hideProgress();
-                        mView.showMessage(list);
-                        mMessageList = list;
-                    }
-                });
+        mMessageRepertory.getMessageList().subscribe(new RxSubscriber<List<MessageBean>>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+                mView.hideProgress();
+                mView.showMsg(msg);
+            }
+
+            @Override
+            public void _onNext(List<MessageBean> list)
+            {
+                mView.hideProgress();
+                if (list != null && list.size() != 0)
+                {
+                    mView.showMessage(list);
+                    mMessageList = list;
+                }
+            }
+        });
     }
 
 
     @Override
     public void deleteMessage(MessageBean bean)
     {
-        mMessageRepertory.deleteMessage(bean.getOther().getId()).subscribe(new RxSubscriber<Integer>() {
+        mMessageRepertory.deleteUserMessage(bean.getOther().getId()).subscribe(new RxSubscriber<Integer>()
+        {
             @Override
             public void _onError(String msg)
             {

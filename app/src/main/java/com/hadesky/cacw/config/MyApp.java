@@ -45,6 +45,7 @@ public class MyApp extends Application
     {
         super.onCreate();
         URL = "http://192.168.199.234:8081";
+        //URL="http://cacw-2-dzyone.tenxcloud.net";
         mContext = this;
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
@@ -58,6 +59,7 @@ public class MyApp extends Application
         sOkHttpClient = new OkHttpClient.Builder().writeTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(URL).client(sOkHttpClient).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
         sApiServer = retrofit.create(CacwServer.class);
+
     }
 
 
@@ -75,7 +77,6 @@ public class MyApp extends Application
 
     /**
      * 获得通知manager
-     *
      * @return NotificationManager
      */
     public static NotificationManager getNotificationManager()
