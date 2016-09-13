@@ -62,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             public void setData(final MessageBean bean)
             {
                 //如果是别人申请加入我的团队
-                if (bean.getType()==1)
+                if (bean.getType()==1||bean.getType()==0)
                 {
                    setVisibility(R.id.layout_invite,View.VISIBLE);
                     View tv = findView(R.id.tv_accept);

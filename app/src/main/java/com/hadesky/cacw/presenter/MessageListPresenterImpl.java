@@ -21,7 +21,7 @@ public class MessageListPresenterImpl implements MessageListPresenter
     public MessageListPresenterImpl(MessageListView view)
     {
         mView = view;
-        mMessageRepertory = new MessageRepertory();
+        mMessageRepertory = MessageRepertory.getInstance();
     }
 
     @Override

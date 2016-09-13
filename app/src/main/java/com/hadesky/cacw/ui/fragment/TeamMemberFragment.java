@@ -18,7 +18,6 @@ import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.view.TeamMemberView;
 import com.microstudent.app.bouncyfastscroller.vertical.VerticalBouncyFastScroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -125,12 +124,8 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
 
 
     public void navigateToInviteMemberActivity() {
-        ArrayList<UserBean> data =null; //(ArrayList<UserBean>) mPresenter.getData();
-        if (data != null) {
             Intent intent = new Intent(getContext(), InviteMemberActivity.class);
-            intent.putExtra(IntentTag.TAG_TEAM_MEMBER, data);
             intent.putExtra(IntentTag.TAG_TEAM_BEAN, mTeamBean);
             startActivity(intent);
-        }
     }
 }

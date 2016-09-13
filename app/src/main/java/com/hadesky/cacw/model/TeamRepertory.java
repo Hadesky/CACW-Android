@@ -1,7 +1,6 @@
 package com.hadesky.cacw.model;
 
 import com.google.gson.JsonObject;
-import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
@@ -182,16 +181,16 @@ public class TeamRepertory
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<String> addTeamMember(final MessageBean bean)
+    public Observable<String> addTeamMember(int tid, final int uid)
     {
-        return  mCacwServer.addTeamMember(bean.getTeamid(),bean.getOther().getId())
+        return  mCacwServer.addTeamMember(tid,uid)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<String>handleResult())
                 .doOnNext(new Action1<String>() {
                     @Override
                     public void call(String s)
                     {
-                        mDatabaseManager.deleteMessageById(bean.getId());
+                        mDatabaseManager.deleteMessageById(uid);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread());

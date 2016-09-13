@@ -152,7 +152,7 @@ public interface CacwServer
 
 
     @GET("/v1/user/search")
-    Observable<BaseResult<List<UserBean>>> searchUser(@Query("query") String text,@Query("limit")int limit,@Query("offset")int offset);
+    Observable<BaseResult<List<UserBean>>> searchUser(@Query("query") String text,@Query("limit")int limit,@Query("offset")int offset,@Query("teamid") Integer teamid);
 
 
     @GET("/v1/team/search")

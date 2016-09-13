@@ -27,12 +27,28 @@ public class MessageRepertory
     DatabaseManager mDatabaseManager;
 
 
-    public MessageRepertory()
+    private static class holder
+    {
+        public static MessageRepertory instance = new MessageRepertory();
+    }
+
+    public static MessageRepertory getInstance()
+    {
+        MessageRepertory m = holder.instance;
+        m.initDB();
+        return m;
+    }
+
+    private MessageRepertory()
     {
         mCacwServer = MyApp.getApiServer();
         mDatabaseManager = DatabaseManager.getInstance(MyApp.getAppContext());
     }
 
+    private void initDB()
+    {
+        mDatabaseManager=DatabaseManager.getInstance(MyApp.getAppContext());
+    }
 
     public Observable<List<MessageBean>> getMessageList()
     {

@@ -107,7 +107,7 @@ public class SearchTeamPresenterImpl implements SearchPresenter, BaseViewHolder.
     }
 
     @Override
-    public void showNextResults()
+    public void LoadNextPage()
     {
         if (mIsFinal)
             return;
@@ -145,7 +145,7 @@ public class SearchTeamPresenterImpl implements SearchPresenter, BaseViewHolder.
     {
         if (mAdapter.getNextResultPosition() == position)
         {
-            showNextResults();
+            LoadNextPage();
             return;
         }
         if(mTeams.size()>position)

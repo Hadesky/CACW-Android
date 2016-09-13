@@ -100,13 +100,15 @@ public class UserRepertory
     }
 
 
-    public Observable<List<UserBean>> searchUser(String text,int limit,int offset)
+    public Observable<List<UserBean>> searchUser(String text,int limit,int offset,Integer teamid)
     {
-        return mCacwServer.searchUser(text,limit,offset)
+        return mCacwServer.searchUser(text,limit,offset,teamid)
                 .subscribeOn(Schedulers.io())
                 .compose(RxHelper.<List<UserBean>>handleResult())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+
 
 
 }

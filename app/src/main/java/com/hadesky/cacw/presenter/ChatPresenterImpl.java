@@ -11,6 +11,8 @@ import com.hadesky.cacw.ui.view.ChatView;
 
 import java.util.List;
 
+import rx.Subscription;
+
 /**
  * Created by dzysg on 2016/9/9 0009.
  */
@@ -23,17 +25,18 @@ public class ChatPresenterImpl implements ChatPresenter
     private ChatAdapter mAdapter;
     private MessageRepertory mMessageRepertory;
     private TeamRepertory mTeamRepertory;
-    private int page =1;
+    private Subscription mSubscription;
+    private int page = 1;
     private int pageSize = 20;
 
 
-    public ChatPresenterImpl(ChatView view, ChatAdapter adapter,UserBean other)
+    public ChatPresenterImpl(ChatView view, ChatAdapter adapter, UserBean other)
     {
         mView = view;
         this.other = other;
         me = MyApp.getCurrentUser();
         mAdapter = adapter;
-        mMessageRepertory = new MessageRepertory();
+        mMessageRepertory = MessageRepertory.getInstance();
         mTeamRepertory = TeamRepertory.getInstance();
     }
 
@@ -46,19 +49,20 @@ public class ChatPresenterImpl implements ChatPresenter
     @Override
     public void loadChatMessage()
     {
-        mMessageRepertory.getUserMessage(other.getId(),page,pageSize)
-                .subscribe(new RxSubscriber<List<MessageBean>>() {
-                    @Override
-                    public void _onError(String msg)
-                    {
-                        mView.showMsg(msg);
-                    }
-                    @Override
-                    public void _onNext(List<MessageBean> list)
-                    {
-                        mView.showChatList(list);
-                    }
-                });
+        mMessageRepertory.getUserMessage(other.getId(), page, pageSize).subscribe(new RxSubscriber<List<MessageBean>>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+                mView.showMsg(msg);
+            }
+
+            @Override
+            public void _onNext(List<MessageBean> list)
+            {
+                mView.showChatList(list);
+            }
+        });
     }
 
     @Override
@@ -71,21 +75,21 @@ public class ChatPresenterImpl implements ChatPresenter
         bean.setMe(true);
         bean.setType(2);
         mAdapter.addNewChat(bean);
-        mMessageRepertory.sendMessage(bean)
-                .subscribe(new RxSubscriber<String>() {
-                    @Override
-                    public void _onError(String msg)
-                    {
-                        mView.showMsg(msg);
-                        mAdapter.onFail(bean);
-                    }
+        mSubscription = mMessageRepertory.sendMessage(bean).subscribe(new RxSubscriber<String>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+                mView.showMsg(msg);
+                mAdapter.onFail(bean);
+            }
 
-                    @Override
-                    public void _onNext(String s)
-                    {
-                        mAdapter.onSucceed(bean);
-                    }
-                });
+            @Override
+            public void _onNext(String s)
+            {
+                mAdapter.onSucceed(bean);
+            }
+        });
     }
 
     @Override
@@ -97,26 +101,37 @@ public class ChatPresenterImpl implements ChatPresenter
     @Override
     public void onDestroy()
     {
-
+        if (mSubscription != null)
+        {
+            mSubscription.unsubscribe();
+        }
     }
 
     @Override
     public void AcceptJoinTeam(final MessageBean bean)
     {
-         mTeamRepertory.addTeamMember(bean)
-                 .subscribe(new RxSubscriber<String>() {
-                     @Override
-                     public void _onError(String msg)
-                     {
-                         mView.showMsg(msg);
-                     }
+        int uid;
+        //如果是别人申请加入我的团队，uid为别人，否则是我同意别的团队的邀请，uid为自己
+        if (bean.getType() == 1)
+            uid = bean.getOther().getId();
+        else
+            uid = me.getId();
 
-                     @Override
-                     public void _onNext(String s)
-                     {
-                         mAdapter.delete(bean);
-                     }
-                 });
+            mSubscription = mTeamRepertory.addTeamMember(bean.getTeamid(),uid).subscribe(new RxSubscriber<String>()
+            {
+                @Override
+                public void _onError(String msg)
+                {
+                    mView.showMsg(msg);
+                }
+
+                @Override
+                public void _onNext(String s)
+                {
+                    mView.showMsg("加入成功");
+                    mAdapter.delete(bean);
+                }
+            });
     }
 
     @Override

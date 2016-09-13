@@ -11,16 +11,10 @@ public interface ChatPresenter
 
     void loadNewMsg();
     void loadChatMessage();
-
     void send(String text);
-
     void loadMore();
-
     void onDestroy();
-
     void AcceptJoinTeam(MessageBean bean);
     void rejectJoinTeam(MessageBean bean);
-
-
     void deleteChat();
 }

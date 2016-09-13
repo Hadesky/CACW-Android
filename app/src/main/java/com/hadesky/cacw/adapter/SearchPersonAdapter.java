@@ -17,7 +17,7 @@ import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-/**
+/** 搜索用户列表 adapter
  * Created by 45517 on 2016/7/22.
  */
 public class SearchPersonAdapter extends BaseAdapter<UserBean> {
@@ -96,7 +96,6 @@ public class SearchPersonAdapter extends BaseAdapter<UserBean> {
     private BaseViewHolder<UserBean> createNextTenViewHolder(View view) {
 
         mNextResultViewWeakReference = new WeakReference<>(view);
-
         return new BaseViewHolder<UserBean>(view) {
             @Override
             public void setData(UserBean aVoid) {

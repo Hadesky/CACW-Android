@@ -79,7 +79,7 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
         mView.showProgress();
         if(mSubscription!=null)
             mSubscription.unsubscribe();
-        mSubscription = mUserRepertory.searchUser(key, pageSize, 0).subscribe(new RxSubscriber<List<UserBean>>()
+        mSubscription = mUserRepertory.searchUser(key, pageSize, 0,null).subscribe(new RxSubscriber<List<UserBean>>()
         {
             @Override
             public void _onError(String msg)
@@ -120,7 +120,7 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
     }
 
     @Override
-    public void showNextResults()
+    public void LoadNextPage()
     {
         if (mIsFinal)
             return;
@@ -128,7 +128,7 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
         mView.showProgress();
         page++;
         int offset = pageSize * (page - 1);
-        mSubscription = mUserRepertory.searchUser(mSearchText, 10, offset).subscribe(new RxSubscriber<List<UserBean>>()
+        mSubscription = mUserRepertory.searchUser(mSearchText, 10, offset,null).subscribe(new RxSubscriber<List<UserBean>>()
         {
             @Override
             public void _onError(String msg)
@@ -159,7 +159,7 @@ public class SearchPersonPresenterImpl implements SearchPresenter, BaseViewHolde
     {
         if (mAdapter.getNextResultPosition() == position)
         {
-            showNextResults();
+            LoadNextPage();
             return;
         }
         if (mUsers != null && mUsers.size() > position)
