@@ -1,206 +1,226 @@
 package com.hadesky.cacw.presenter;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.util.Log;
-
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.UserRepertory;
 import com.hadesky.cacw.ui.view.EditMyInfoView;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
+import rx.Subscription;
 
-/**
- * Created by MicroStudent on 2016/7/10.
+/** 个人资料编辑
+ * Created by dzysg on 2016/9/4 0004.
  */
+public class EditMyInfoPresenterImpl implements EditMyInfoPresenter
+{
 
-public class EditMyInfoPresenterImpl implements EditMyInfoPresenter {
+    private EditMyInfoView mView;
+    private UserRepertory mUserRepertory;
+    private Subscription mSubscription;
+    private UserBean mUser;
 
-    private static final String TAG = "EditMyInfoPresenterImpl";
 
-    private EditMyInfoView mEditMyInfoView;
-    private UserBean mCurrentUser;
-
-    public EditMyInfoPresenterImpl(EditMyInfoView view) {
-        mEditMyInfoView = view;
-        mCurrentUser = MyApp.getCurrentUser();
-    }
-
-    /**
-     * 这里做两步，第一步先删除服务器上的头像，第二部修改
-     *
-     * @param file 已经上传完成的头像文件
-     */
-    private void updateUserAvatar(final BmobFile file) {
-        BmobFile oldFile = MyApp.getCurrentUser().getUserAvatar();
-        if (oldFile != null) {
-            oldFile.delete();
-        }
-
-        UserBean newBean = new UserBean();
-        newBean.setUserAvatar(file);
-        newBean.update(MyApp.getCurrentUser().getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.hideProgress();
-                    mEditMyInfoView.setAvatar(file.getUrl());
-                }
-            }
-        });
-    }
-
-    /**
-     * 这里只做第一步，上传图片，真正更改用户头像的操作在updateUserAvatar里
-     * @param avatarPath 头像的路径
-     */
-    @Override
-    public void updateAvatar(String avatarPath) {
-        mEditMyInfoView.showProgress();
-        final BmobFile avatar = new BmobFile(new File(avatarPath));
-        avatar.upload(new UploadFileListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    updateUserAvatar(avatar);
-                } else {
-                    mEditMyInfoView.hideProgress();
-                    mEditMyInfoView.showMsg("图片上传失败，请检查网络！");
-                }
-            }
-        });
+    public EditMyInfoPresenterImpl(EditMyInfoView view)
+    {
+        mView = view;
+        mUserRepertory = UserRepertory.getInstance();
+        mUser = MyApp.getCurrentUser();
     }
 
     @Override
-    public void updateSexual(final Byte sex) {
-        UserBean newUser = new UserBean();
-        newUser.setSex(sex);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
-
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setSex(sex);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void updateSummary(final String summary) {
-        UserBean newUser = new UserBean();
-        newUser.setSummary(summary);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
-
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setSummary(summary);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void updateNickName(final String nickName) {
-        if (nickName == null || nickName.isEmpty()) {
-            mEditMyInfoView.showMsg("不能设置为空");
+    public void updateAvatar(File avatar)
+    {
+        if(!avatar.exists())
+        {
+            mView.showMsg("文件不存在");
             return;
         }
-        UserBean newUser = new UserBean();
-        newUser.setNickName(nickName);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+        mView.showProgress();
 
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setNickName(nickName);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+        mUserRepertory.modifyUserIcon(avatar)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mUser.setAvatarUrl(s);
+                        mView.setAvatar(mUser.getAvatarUrl());
+                    }
+                });
     }
 
     @Override
-    public void loadInfo() {
-        if (mCurrentUser != null) {
-            mEditMyInfoView.setSex(mCurrentUser.getSex());
-            mEditMyInfoView.setNickName(mCurrentUser.getNickName());
-            mEditMyInfoView.setSummary(mCurrentUser.getSummary());
-            mEditMyInfoView.setUserName(mCurrentUser.getUsername());
-            if (mCurrentUser.getUserAvatar()!=null)
-            mEditMyInfoView.setAvatar(mCurrentUser.getUserAvatar().getUrl());
-            mEditMyInfoView.setPhoneNumber(mCurrentUser.getMobilePhoneNumber());
-            mEditMyInfoView.setShortPhoneNumber(mCurrentUser.getShortNumber());
-            mEditMyInfoView.setAddress(mCurrentUser.getAddress());
-        }
+    public void updateSexual(final int sex)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("sex",String.valueOf(sex));
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setSex(sex);
+                        mUser.setSex(sex);
+                    }
+                });
     }
 
     @Override
-    public void updatePhone(final String phoneNumber) {
-        UserBean newUser = new UserBean();
-        newUser.setMobilePhoneNumber(phoneNumber);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+    public void updateSummary(final String summary)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("summary",summary);
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setSummary(summary);
+                        mUser.setSummary(summary);
 
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setPhoneNumber(phoneNumber);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+                    }
+                });
     }
 
     @Override
-    public void updateShortPhone(final String shortPhone) {
-        UserBean newUser = new UserBean();
-        newUser.setShortNumber(shortPhone);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
-
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setShortPhoneNumber(shortPhone);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public void updateNickName(final String nickName)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("nickName",nickName);
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setNickName(nickName);
+                        mUser.setNickName(nickName);
+                    }
+                });
     }
 
     @Override
-    public void updateAddress(final String address) {
-        UserBean newUser = new UserBean();
-        newUser.setAddress(address);
-        UserBean currentUser = BmobUser.getCurrentUser(UserBean.class);
+    public void loadInfo()
+    {
+        mView.setAddress(mUser.getAddress());
+        mView.setAvatar(mUser.getAvatarUrl());
+        mView.setNickName(mUser.getNickName());
+        mView.setPhoneNumber(mUser.getMobilePhone());
+        mView.setSex(mUser.getSex());
+        mView.setShortPhoneNumber(mUser.getShortNumber());
+        mView.setSummary(mUser.getSummary());
+        mView.setUserName(mUser.getUsername());
+    }
 
-        newUser.update(currentUser.getObjectId(), new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    mEditMyInfoView.setAddress(address);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
+    @Override
+    public void updatePhone(final String mobilePhone)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("mobilePhone",mobilePhone);
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setPhoneNumber(mobilePhone);
+                        mUser.setMobilePhone(mobilePhone);
+                    }
+                });
+    }
+
+    @Override
+    public void updateShortPhone(final String shortNumber)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("shortNumber",shortNumber);
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setShortPhoneNumber(shortNumber);
+                        mUser.setShortNumber(shortNumber);
+                    }
+                });
+    }
+
+    @Override
+    public void updateAddress(final String address)
+    {
+        mView.showProgress();
+        Map<String,String> map = new HashMap<>();
+        map.put("address",address);
+        mSubscription =  mUserRepertory.modifyUserInfo(map)
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.hideProgress();
+                        mView.setAddress(address);
+                        mUser.setAddress(address);
+                    }
+                });
+    }
+
+    @Override
+    public void cancel()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
+        MyApp.getSessionManager().saveUser(mUser);
     }
 }

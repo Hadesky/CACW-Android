@@ -1,63 +1,68 @@
 package com.hadesky.cacw.presenter;
 
-
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.model.AccountRepertory;
 import com.hadesky.cacw.ui.view.RegisterView;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import rx.Subscriber;
+import rx.Subscription;
 
 /**
- *  注册页面
- * Created by 45517 on 2015/11/22.
+ * 注册
+ * Created by dzysg on 2016/8/31 0031.
  */
-public class RegisterPresenterImpl implements RegisterPresenter {
-    public static final String TAG = RegisterPresenterImpl.class.getSimpleName();
+public class RegisterPresenterImpl implements RegisterPresenter
+{
 
+    private AccountRepertory mAccountRepertory;
     private RegisterView mView;
+    private Subscription mSubscription;
 
-
-    public RegisterPresenterImpl(RegisterView view) {
+    public RegisterPresenterImpl(RegisterView view)
+    {
         mView = view;
+        mAccountRepertory = new AccountRepertory();
     }
 
     @Override
-    public void getAuthCode(String email) {
-        return;
+    public void getAuthCode(String email)
+    {
+
     }
 
     @Override
-    public void register(String email, String pw, String authCode) {
-        UserBean bean = new UserBean();
-        //把邮箱当用户名
-        bean.setEmail(email);
-        bean.setUsername(email);
-        bean.setPassword(pw);
-        bean.signUp(new SaveListener<UserBean>() {
+    public void register(String email, String pw, String authCode)
+    {
+        mView.showProgress();
+        mSubscription = mAccountRepertory.register(email, pw).subscribe(new Subscriber<String>()
+        {
             @Override
-            public void done(UserBean userBean, BmobException e)
+            public void onCompleted()
             {
-                mView.hideProgress();
-                if (e==null)
-                {
-                    mView.showMsg("注册成功");
-                    mView.close();
-                }else
-                {
-                    mView.showMsg(e.getMessage());
-                }
+
             }
 
             @Override
-            public void onStart()
+            public void onError(Throwable e)
             {
-                mView.showProgress();
+                mView.showMsg(e.getMessage());
+                mView.hideProgress();
+            }
+
+            @Override
+            public void onNext(String Result)
+            {
+                mView.hideProgress();
+                mView.showMsg("注册成功");
+                mView.close();
             }
         });
     }
 
+
     @Override
-    public void cancelRequest() {
-        //mView.getMyApp().cancelPendingRequest(TAG);
+    public void cancelRequest()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 }

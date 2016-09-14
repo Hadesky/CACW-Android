@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/member_size"
     android:layout_height="@dimen/member_size"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:orientation="vertical"
     android:paddingTop="2dp">
@@ -24,13 +25,15 @@
         android:layout_below="@id/iv_avatar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
-        android:text="谢伟鹏"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxLength="4"
         android:textSize="@dimen/font_small"/>
 
-    <ImageView
-        android:id="@+id/iv_is_finish"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        android:layout_toRightOf="@id/iv_avatar"
-        android:src="@drawable/ic_check"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_is_finish"-->
+        <!--android:layout_width="10dp"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_toRightOf="@id/iv_avatar"-->
+        <!--android:src="@drawable/ic_check"/>-->
 </RelativeLayout>

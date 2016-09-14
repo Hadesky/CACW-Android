@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TaskMembersAdapter;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TaskDetailPresenter;
 import com.hadesky.cacw.presenter.TaskDetailPresenterImpl;
@@ -29,7 +30,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView {
+public class TaskDetailActivity extends BaseActivity implements View.OnClickListener, TaskDetailView
+{
 
     private Toolbar mToolbar;
     private TextView mTitle;
@@ -44,28 +46,27 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
 
 
     private RecyclerView mRcv_members;
-    private View mBtnEditTask;
     private View mBtnDelTask;
     private NestedScrollView mScrollView;
     private TaskDetailPresenter mPresenter;
     private TaskMembersAdapter mAdapter;
     private TaskBean mTask;
     private AnimProgressDialog mProgressDialog;
-
-    private boolean mIsFinished;//是否为已经查看完成任务的界面
+    private ArrayList<UserBean> mMembers;
 
     @Override
-    public int getLayoutId() {
+    public int getLayoutId()
+    {
         return R.layout.activity_task_detail;
     }
 
     @Override
-    public void initView() {
+    public void initView()
+    {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mRcv_members = (RecyclerView) findViewById(R.id.rcv_members);
-        mBtnEditTask = findViewById(R.id.btn_edit);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView);
         mLocation = (TextView) findViewById(R.id.tv_location);
         mDetail = (TextView) findViewById(R.id.tv_detail);
@@ -80,7 +81,8 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void setupView() {
+    public void setupView()
+    {
         mProgressDialog = new AnimProgressDialog(this, false, null, "获取中");
 
 
@@ -94,77 +96,61 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcv_members.setLayoutManager(manager);
         mRcv_members.setVerticalFadingEdgeEnabled(false);
-        mAdapter = new TaskMembersAdapter(this, new ArrayList<TaskMember>());
+        mAdapter = new TaskMembersAdapter(this, new ArrayList<UserBean>());
         mRcv_members.setAdapter(mAdapter);
 
-        mBtnEditTask.setOnClickListener(this);
         mBtnDelTask.setOnClickListener(this);
 
         //mScrollView.scrollTo(0,0);
         mScrollView.setVerticalFadingEdgeEnabled(false);
 
-        TaskMember tm = (TaskMember) getIntent().getSerializableExtra("task");
-        mIsFinished = getIntent().getBooleanExtra("isFinished",false);
-
-        if (tm == null) {
-            String taskid = getIntent().getStringExtra(IntentTag.TAG_TASK_ID);
-            if (taskid==null)
-            {
-                showToast("数据错误");
-                finish();
-            }else
-            {
-                mTask = new TaskBean();
-                mTask.setObjectId(taskid);
-                mPresenter = new TaskDetailPresenterImpl(this, mTask);
-                mPresenter.loadTaskInfo();
-            }
-        }else
+        TaskBean tm = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
+        if (tm == null)
         {
-            mTask = tm.getTask();
-            showInfo(mTask);
-            mPresenter = new TaskDetailPresenterImpl(this, mTask);
-            mPresenter.LoadTaskMember();
+            finish();
+            return;
         }
 
+
+        mTask = tm;
+        mPresenter = new TaskDetailPresenterImpl(this, mTask);
+        showInfo(mTask);
+        mPresenter.LoadTaskMember();
+
     }
 
+
+    //点击删除
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            onBackPressed();
+    public void onClick(View v)
+    {
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    //点击编辑
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.btn_edit) {
-            Intent i = new Intent(this, EditTaskActivity.class);
-            i.putExtra("task", mTask);
-            startActivityForResult(i, MainActivity.RequestCode_TaskChange);
-        } else if (v.getId() == R.id.btn_del) {
-            new AlertDialog.Builder(this).setTitle("你确定要删除任务吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+       if (v.getId() == R.id.btn_del)
+        {
+            new AlertDialog.Builder(this).setMessage(R.string.confirm_to_del_task).setPositiveButton(R.string.OK, new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialog, int which)
+                {
                     mPresenter.onDeleteTask();
                 }
-            }).setNegativeButton("取消", null).show();
+            }).setNegativeButton(R.string.cancel, null).show();
 
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
 
         if (resultCode == MainActivity.result_task_change)
         {
             setResult(resultCode);
-            if (data != null) {
-                TaskBean taskBean = (TaskBean) data.getSerializableExtra("task");
-                if (taskBean != null) {
+            if (data != null)
+            {
+                TaskBean taskBean = (TaskBean) data.getSerializableExtra(IntentTag.TAG_TASK_BEAN);
+                if (taskBean != null)
+                {
                     mTask = taskBean;
                     showInfo(mTask);
                     mPresenter.LoadTaskMember();
@@ -175,15 +161,16 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void showInfo(TaskBean task) {
+    public void showInfo(TaskBean task)
+    {
         mTask = task;
         mTitle.setText(task.getTitle());
-        mProject.setText(task.getProjectBean().getProjectName());
+        mProject.setText(task.getProject().getName());
         mDetail.setText(task.getContent());
         mLocation.setText(task.getLocation());
 
-        Calendar start = DateUtil.StringToCalendar(task.getStartDate().getDate());
-        Calendar end = DateUtil.StringToCalendar(task.getEndDate().getDate());
+        Calendar start = DateUtil.StringToCalendar(task.getStartDate());
+        Calendar end = DateUtil.StringToCalendar(task.getEndDate());
 
 
         mTvStartDate.setText(String.format(Locale.US, "%d-%02d-%02d", start.get(Calendar.YEAR), start.get(Calendar.MONTH) + 1, start.get(Calendar.DAY_OF_MONTH)));
@@ -191,36 +178,83 @@ public class TaskDetailActivity extends BaseActivity implements View.OnClickList
         mTvEndDate.setText(String.format(Locale.US, "%d-%02d-%02d", end.get(Calendar.YEAR), end.get(Calendar.MONTH) + 1, end.get(Calendar.DAY_OF_MONTH)));
         mTvEndTime.setText(String.format(Locale.US, "%02d:%02d", end.get(Calendar.HOUR_OF_DAY), end.get(Calendar.MINUTE)));
 
-        if (mIsFinished||!task.getAdaminUserId().equals(MyApp.getCurrentUser().getObjectId())) {
-            mBtnEditTask.setVisibility(View.INVISIBLE);
+        //判断显示删除按钮
+        if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
+        {
             mBtnDelTask.setVisibility(View.INVISIBLE);
         }
     }
 
+    private void onEditTaskClick()
+    {
+        if (mTask.getAdminId() != MyApp.getCurrentUser().getId())
+        {
+            showToast(getString(R.string.you_are_admin_can_not_exit));
+            return;
+        }
+        if(mTask.isFinish())
+        {
+            showToast(getString(R.string.can_not_edit_finished_task));
+            return;
+        }
+
+
+        Intent i = new Intent(this, EditTaskActivity.class);
+        i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
+        i.putExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+        startActivityForResult(i, MainActivity.RequestCode_TaskChange);
+    }
+
     @Override
-    public void ShowMember(List<TaskMember> users) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+            onBackPressed();
+        if (item.getItemId() == R.id.action_edit)
+        {
+            onEditTaskClick();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.menu_task_detail, menu);
+        return true;
+    }
+
+    @Override
+    public void ShowMember(List<UserBean> users)
+    {
+        mMembers = (ArrayList<UserBean>) users;
         mAdapter.setDatas(users);
     }
 
 
     @Override
-    public void closeActivity() {
+    public void closeActivity()
+    {
         setResult(MainActivity.result_task_change);
         finish();
     }
 
     @Override
-    public void showProgress() {
+    public void showProgress()
+    {
         mProgressDialog.show();
     }
 
     @Override
-    public void hideProgress() {
+    public void hideProgress()
+    {
         mProgressDialog.dismiss();
     }
 
     @Override
-    public void showMsg(String s) {
+    public void showMsg(String s)
+    {
         showToast(s);
     }
 }

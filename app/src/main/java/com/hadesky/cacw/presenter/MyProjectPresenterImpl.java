@@ -2,111 +2,101 @@ package com.hadesky.cacw.presenter;
 
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
+import com.hadesky.cacw.model.network.ProjectRepertory;
 import com.hadesky.cacw.ui.view.MyProjectView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
+import rx.Observable;
 import rx.Subscription;
 
 /**
- * 我的项目Presenter实现
- * Created by 45517 on 2015/10/31.
+ * Created by dzysg on 2016/9/2 0002.
  */
-public class MyProjectPresenterImpl implements MyProjectPresenter {
+public class MyProjectPresenterImpl implements MyProjectPresenter
+{
 
-    private List<ProjectBean> mData;
     private MyProjectView mView;
-    private UserBean mUser;
+    private TeamBean mTeamBean;
     private Subscription mSubscription;
-    private TeamBean mTeam;
+    private TeamRepertory mTeamRepertory;
+    private List<ProjectBean> mProjects;
+    private ProjectRepertory mProjectRepertory;
 
-    public MyProjectPresenterImpl(MyProjectView myProjectView, TeamBean b) {
-
-        this.mView = myProjectView;
-        mUser = MyApp.getCurrentUser();
-        mTeam = b;
-    }
-
-    @Override
-    public void loadProject() {
-        if (mTeam == null)
-            loadAllProjects();
+    public MyProjectPresenterImpl(MyProjectView view, TeamBean t)
+    {
+        mView = view;
+        mTeamBean = t;
+        if (t != null)
+            mTeamRepertory = TeamRepertory.getInstance();
         else
-            loadTeamProjects();
-    }
-
-
-    private void loadTeamProjects() {
-        BmobQuery<ProjectBean> q = new BmobQuery<>();
-        q.addWhereEqualTo("mTeam", new BmobPointer(mTeam));
-        mView.showProgress();
-        mSubscription = q.findObjects(new FindListener<ProjectBean>() {
-            @Override
-            public void done(List<ProjectBean> list, BmobException e) {
-                mView.hideProgress();
-                if (e != null) {
-                    mView.showMsg(e.getMessage());
-                } else {
-                    mView.showProject(list);
-                }
-            }
-        });
-    }
-
-
-    private void loadAllProjects() {
-//        String sql = "select include mTeam,* from ProjectBean where mTeam in (select include mTeam from TeamMember" +
-//                " where mUser = Pointer(_User,%s))";
-
-        BmobQuery<TeamMember> tm = new BmobQuery<>();
-        tm.addWhereEqualTo("mUser", new BmobPointer(mUser));
-
-        mSubscription = tm.findObjects(new FindListener<TeamMember>() {
-            @Override
-            public void done(List<TeamMember> list, BmobException e) {
-                if (e != null) {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                } else {
-                    List<String> IdList = new ArrayList<>();
-                    for (TeamMember tm : list) {
-                        IdList.add(tm.getTeam().getObjectId());
-                    }
-                    BmobQuery<ProjectBean> pb = new BmobQuery<>();
-                    pb.include("mTeam");
-                    BmobQuery<TeamBean> tb = new BmobQuery<>();
-                    tb.addWhereContainedIn("objectId",IdList);
-                    pb.addWhereMatchesQuery("mTeam", "TeamBean", tb);
-                    pb.findObjects(new FindListener<ProjectBean>() {
-                        @Override
-                        public void done(List<ProjectBean> list, BmobException e) {
-                            mView.hideProgress();
-                            if (e != null) {
-
-                                mView.showMsg(e.getMessage());
-                            } else {
-                                mView.showProject(list);
-                            }
-                        }
-                    });
-
-                }
-            }
-        });
-
+            mProjectRepertory = ProjectRepertory.getInstance();
     }
 
     @Override
-    public void onDestroy() {
-        if (mSubscription != null)
-            mSubscription.unsubscribe();
+    public void loadProject()
+    {
+        mView.showProgress();
+
+        Observable<List<ProjectBean>> observable;
+        if (mTeamRepertory != null)
+        {
+            observable = mTeamRepertory.getTeamProjects(mTeamBean.getId(),null);
+
+        } else
+        {
+            observable = mProjectRepertory.getProjectList(false, null);
+        }
+        mSubscription = observable.subscribe(new RxSubscriber<List<ProjectBean>>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+                mView.hideProgress();
+                mView.showMsg(msg);
+            }
+
+            @Override
+            public void _onNext(List<ProjectBean> projectBeens)
+            {
+                mView.hideProgress();
+                mProjects = projectBeens;
+                mView.showProject(projectBeens);
+            }
+        });
+    }
+
+    @Override
+    public void createProject(final String name)
+    {
+        mView.showProgress();
+        mTeamRepertory.createTeamProject(mTeamBean.getId(), name).subscribe(new RxSubscriber<String>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+                mView.hideProgress();
+                mView.showMsg(msg);
+            }
+
+            @Override
+            public void _onNext(String s)
+            {
+                mView.hideProgress();
+                ProjectBean p = new ProjectBean();
+                p.setName(name);
+                p.setId(Integer.parseInt(s));
+                mProjects.add(p);
+                mView.showProject(mProjects);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy()
+    {
+
     }
 }

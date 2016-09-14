@@ -1,119 +1,104 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TaskMember;
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TaskRepertory;
+import com.hadesky.cacw.model.network.ProjectRepertory;
 import com.hadesky.cacw.ui.view.TaskView;
-import com.hadesky.cacw.util.TaskComparetor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.UpdateListener;
+import rx.Observable;
 import rx.Subscription;
 
-/**
- * 控制任务页面数据加载逻辑impl
- * Created by dzysg on 2015/10/29 0029.
+/**主界面 我的任务
+ * Created by dzysg on 2016/8/31 0031.
  */
-public class MyTaskPresenterImpl implements MyTaskPresenter {
-    private TaskView mTaskView;
-    private  List<TaskMember> mMemberLists;
-    private   UserBean mUser;
-    private  Subscription mSubscription;
-    private boolean mIsFinished;
-    private TaskComparetor mComparetors;
+public class MyTaskPresenterImpl implements MyTaskPresenter
+{
 
 
-    public MyTaskPresenterImpl(TaskView view,boolean isFinished) {
-        mTaskView = view;
-        mUser = MyApp.getCurrentUser();
-        mIsFinished = isFinished;
-        mComparetors = new TaskComparetor();
+    private TaskView mView;
+    private TaskRepertory mTaskRepertory;
+    private ProjectRepertory mProjectRepertory;
+    private Subscription mSubscription;
+    private List<TaskBean> mTasks;
+
+    public MyTaskPresenterImpl(TaskView view)
+    {
+        mView = view;
+        mTaskRepertory = TaskRepertory.getInstance();
+        mProjectRepertory = ProjectRepertory.getInstance();
     }
 
+
+
+    /** 任务状态
+     * @param state 0为未完成 1 为完成 2为所有
+     */
+    @Override
+    public void LoadTasks(int state,int projectid)
+    {
+
+        mView.showProgress();
+        Observable<List<TaskBean>> observable;
+
+        if(projectid>0)
+            observable = mProjectRepertory.getProjectTask(projectid,state);
+        else
+            observable = mTaskRepertory.getTaskList(state);
+
+
+        mSubscription = observable
+                    .subscribe(new RxSubscriber<List<TaskBean>>() {
+                        @Override
+                        public void _onError(String e)
+                        {
+                            mView.hideProgress();
+                            mView.showMsg(e);
+                        }
+                        @Override
+                        public void _onNext(List<TaskBean> list)
+                        {
+                            mView.hideProgress();
+                            mTasks = list;
+                            mView.showDatas(list);
+                        }
+                    });
+    }
 
 
     @Override
-    public void LoadTasks() {
-
-        mTaskView.showProgress();
-        BmobQuery<TaskMember> query = new BmobQuery<>();
-        query.addWhereEqualTo("mUser", new BmobPointer(mUser));
-        if (mIsFinished)
-            query.addWhereEqualTo("mIsFinish",2);
-        else
-            query.addWhereEqualTo("mIsFinish",1);
-
-        query.include("mTask.mProjectBean");
-        mSubscription =  query.findObjects(new FindListener<TaskMember>() {
-            @Override
-            public void done(List<TaskMember> list, BmobException e) {
-                mTaskView.hideProgress();
-                if (e==null)
-                {
-                    list = sortByDate(list);
-                    mTaskView.showDatas(list);
-                    mMemberLists = list;
-                }
-                else
-                {
-                    mTaskView.showMsg(e.getMessage());
-                }
-            }
-        });
-    }
-
-    private List<TaskMember> sortByDate(List<TaskMember> list)
+    public void CompleteTask(final TaskBean task)
     {
-        if (list.size()<2)
-            return list;
-
-        TaskMember[] array = new TaskMember[list.size()];
-        list.toArray(array);
-        Arrays.sort(array,mComparetors);
-        List<TaskMember> result = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++)
+        if(task.getAdminId()!= MyApp.getCurrentUser().getId())
         {
-            result.add(array[i]);
+            mView.showMsg("你不是任务创建者");
+            return;
         }
 
-        return result;
+
+        mSubscription =  mTaskRepertory.completeTask(task.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mTasks.remove(task);
+                        mView.showDatas(mTasks);
+                    }
+                });
     }
 
-
     @Override
-    public void CompleteTask(final TaskMember tm) {
-        mTaskView.showProgress();
-        TaskMember t = new TaskMember();
-        t.setObjectId(tm.getObjectId());
-        t.setFinish(true);
-        t.update(new UpdateListener() {
-            @Override
-            public void done(BmobException e) {
-                mTaskView.hideProgress();
-                if (e==null)
-                {
-                    mMemberLists.remove(tm);
-                    mTaskView.showMsg(tm.getTask().getTitle()+"任务已完成");
-                    mTaskView.showDatas(mMemberLists);
-                }else
-                {
-                    mTaskView.showMsg(e.getMessage());
-                }
-            }
-        });
-    }
-
-
-    @Override
-    public void onDestroy() {
-        if (mSubscription!=null)
+    public void onDestroy()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
             mSubscription.unsubscribe();
     }
 }

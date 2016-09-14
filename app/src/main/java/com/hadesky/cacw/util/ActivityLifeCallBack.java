@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import java.lang.ref.WeakReference;
+
 /**
  *
  * Created by dzysg on 2016/7/31 0031.
@@ -11,6 +13,7 @@ import android.os.Bundle;
 public class ActivityLifeCallBack implements Application.ActivityLifecycleCallbacks
 {
     private static int count = 0;
+    public static WeakReference<Activity> mTop;
 
 
     public ActivityLifeCallBack()
@@ -39,7 +42,7 @@ public class ActivityLifeCallBack implements Application.ActivityLifecycleCallba
     @Override
     public void onActivityResumed(Activity activity)
     {
-
+        mTop = new WeakReference<>(activity);
     }
 
     @Override

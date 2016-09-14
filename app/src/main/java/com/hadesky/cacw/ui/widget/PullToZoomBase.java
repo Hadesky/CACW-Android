@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * from: https://github.com/Frank-Zhu/PullZoomView
  *
@@ -36,7 +39,7 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
     private float mLastMotionX1, mLastMotionX2 = 0;
     private float mInitialMotionY1, mInitialMotionY2 = 0;
     private float mInitialMotionX1, mInitialMotionX2 = 0;
-    private OnPullZoomListener onPullZoomListener;
+    private List<OnPullZoomListener> mOnPullZoomListeners = new ArrayList<>();
 
     private int newScrollValue = 0;
 
@@ -86,8 +89,8 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
         addView(mRootView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
-    public void setOnPullZoomListener(OnPullZoomListener onPullZoomListener) {
-        this.onPullZoomListener = onPullZoomListener;
+    public void addOnPullZoomListeners(OnPullZoomListener onPullZoomListeners) {
+        this.mOnPullZoomListeners.add(onPullZoomListeners);
     }
 
     @Override
@@ -136,6 +139,25 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
     public void setHideHeader(boolean isHideHeader) {//header显示才能Zoom
         this.isHideHeader = isHideHeader;
     }
+
+
+
+    private void NotifyZoomEndLisenter()
+    {
+        for(OnPullZoomListener listener: mOnPullZoomListeners)
+        {
+            listener.onPullZoomEnd();
+        }
+    }
+
+    private void NotifyOnPullZooming(int newScrollValue)
+    {
+        for(OnPullZoomListener listener: mOnPullZoomListeners)
+        {
+            listener.onPullZooming(newScrollValue);
+        }
+    }
+
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -243,9 +265,7 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
                     // If we're already refreshing, just scroll back to the top
                     if (isZooming()) {
                         smoothScrollToTop();
-                        if (onPullZoomListener != null) {
-                            onPullZoomListener.onPullZoomEnd();
-                        }
+                        NotifyZoomEndLisenter();
                         isZooming = false;
                         return true;
                     }
@@ -272,9 +292,7 @@ public abstract class PullToZoomBase<T extends View> extends LinearLayout implem
         newScrollValue = getNewScrollValue();
 
         pullHeaderToZoom(newScrollValue);
-        if (onPullZoomListener != null) {
-            onPullZoomListener.onPullZooming(newScrollValue);
-        }
+        NotifyOnPullZooming(newScrollValue);
     }
 
     protected abstract void pullHeaderToZoom(int newScrollValue);

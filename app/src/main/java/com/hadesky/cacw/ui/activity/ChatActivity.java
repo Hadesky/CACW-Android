@@ -70,7 +70,7 @@ public class ChatActivity extends BaseActivity implements ChatView
     @Override
     public void setupView()
     {
-        UserBean bean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+        UserBean bean = getIntent().getParcelableExtra(IntentTag.TAG_USER_BEAN);
 
         if (bean==null)
         {
@@ -137,9 +137,7 @@ public class ChatActivity extends BaseActivity implements ChatView
                 return false;
             }
         });
-
-
-        mPresenter=  new ChatPresenterImpl(this,mReceiver,mAdapter);
+        mPresenter=  new ChatPresenterImpl(this,mAdapter,mReceiver);
         mAdapter.setPresenter(mPresenter);
         mPresenter.loadChatMessage();
         setupReciever();
@@ -153,12 +151,11 @@ public class ChatActivity extends BaseActivity implements ChatView
             public void onReceive(Context context, Intent intent)
             {
                 Log.e("tag", "收到广播");
-                String id = intent.getStringExtra(IntentTag.TAG_USER_ID);
-                if (id.equals(mReceiver.getObjectId()))
+                int id = intent.getIntExtra(IntentTag.TAG_USER_ID,-1);
+                if (id==(mReceiver.getId()))
                 {
                     mPresenter.loadNewMsg();
                 }
-
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, filter);

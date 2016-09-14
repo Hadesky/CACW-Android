@@ -1,61 +1,55 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.bean.TeamBean;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.MyTeamView;
 
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 import rx.Subscription;
 
 /**
  *
- *
- * Created by dzysg on 2016/3/22 0022.
+ * Created by dzysg on 2016/9/1 0001.
  */
 public class MyTeamPresenterImpl implements MyTeamPresenter
 {
-    MyTeamView mTeamView;
-    Subscription mSubscriptions;
-    UserBean mUser;
+    MyTeamView mView;
+    TeamRepertory mTeamRepertory;
+    Subscription mSubscription;
 
-    public MyTeamPresenterImpl(MyTeamView TeamView)
-
+    public MyTeamPresenterImpl(MyTeamView view)
     {
-        mTeamView = TeamView;
-        mUser = MyApp.getCurrentUser();
+        mView = view;
+        mTeamRepertory = TeamRepertory.getInstance();
     }
 
     @Override
-    public void LoadAllTeams(BmobQuery.CachePolicy policy) {
-        mTeamView.showProgress();
-        BmobQuery<TeamMember> q = new BmobQuery<>();
-        q.setCachePolicy(policy);
-        q.addWhereEqualTo("mUser", new BmobPointer(mUser));
-        q.include("mUser,mTeam");
-
-        mSubscriptions = q.findObjects(new FindListener<TeamMember>() {
+    public void LoadAllTeams()
+    {
+        mView.showProgress();
+        mSubscription  =  mTeamRepertory.getTeamList().subscribe(new RxSubscriber<List<TeamBean>>() {
             @Override
-            public void done(List<TeamMember> list, BmobException e) {
-                mTeamView.hideProgress();
-                if (e == null) {
-                    mTeamView.showTeamList(list);
-                } else {
-                    mTeamView.showMsg(e.getMessage());
-                }
+            public void _onError(String e)
+            {
+                mView.hideProgress();
+                mView.showMsg(e);
+            }
+
+            @Override
+            public void _onNext(List<TeamBean> list)
+            {
+                mView.hideProgress();
+                mView.showTeamList(list);
             }
         });
-
     }
 
     @Override
-    public void onDestroy() {
-        if (mSubscriptions!=null)
-            mSubscriptions.unsubscribe();
+    public void onDestroy()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 }

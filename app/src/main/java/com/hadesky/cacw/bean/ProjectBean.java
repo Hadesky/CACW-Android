@@ -1,54 +1,113 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobRelation;
+import java.io.Serializable;
 
 /**
  * project的表
  * Created by 45517 on 2015/9/18.
  */
-public class ProjectBean extends BmobObject {
+public class ProjectBean  implements Serializable
+{
 
-    private String mProjectName;//Item的文字
-    private BmobFile mProjectAvatar;
-    private BmobRelation mTasks;//与之关联的Task
-    private TeamBean mTeam;//所属团队
+    private String name;//Item的文字
+    private TeamBean team;//所属团队
+    private int id;
+    private int AdminId;
+    private int isPrivate=0;
+    private int isFile = 0;
+    private int taskCount;//任务总数
+    private int unfinishTaskCount;//没完成的任务数
 
 
     public ProjectBean() {
+
     }
 
+    public int getTaskCount()
+    {
+        return taskCount;
+    }
+
+    public void setTaskCount(int taskCount)
+    {
+        this.taskCount = taskCount;
+    }
+
+    public int getUnfinishTaskCount()
+    {
+        return unfinishTaskCount;
+    }
+
+    public void setUnfinishTaskCount(int unfinishTaskCount)
+    {
+        this.unfinishTaskCount = unfinishTaskCount;
+    }
+
+    public int getIsFile()
+    {
+        return isFile;
+    }
+
+    public void setIsFile(int isFile)
+    {
+        this.isFile = isFile;
+    }
+
+    public boolean isPrivate()
+    {
+        return isPrivate>0;
+    }
+
+    public void setIsPrivate(int isPrivate)
+    {
+        this.isPrivate = isPrivate;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public int getAdminId()
+    {
+        return AdminId;
+    }
+
+    public void setAdminId(int adminId)
+    {
+        AdminId = adminId;
+    }
 
     public ProjectBean(String title) {
-        this.mProjectName = title;
+        this.name = title;
     }
 
     public TeamBean getTeam() {
-        return mTeam;
+        return team;
     }
 
     public void setTeam(TeamBean mTeam) {
-        this.mTeam = mTeam;
+        this.team = mTeam;
     }
 
-    public String getProjectName() {
-        return mProjectName;
+    public String getName() {
+        return name;
     }
 
-    public void setProjectName(String title) {
-        this.mProjectName = title;
-    }
-
-
-    public BmobFile getProjectAvatar() {
-        return mProjectAvatar;
-    }
-
-    public void setProjectAvatar(BmobFile mProjectAvatar) {
-        this.mProjectAvatar = mProjectAvatar;
+    public void setName(String title) {
+        this.name = title;
     }
 
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj != null && obj instanceof ProjectBean && ((ProjectBean) obj).id == id;
 
+    }
 }

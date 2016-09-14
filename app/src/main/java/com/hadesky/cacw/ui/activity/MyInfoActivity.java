@@ -10,11 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.UserInfoFragment;
 
+
+//这个activity是在MeFragment 点进去打开的界面，带有编辑菜单
 public class MyInfoActivity extends BaseActivity {
     private Toolbar toolbar;
 
@@ -45,7 +46,7 @@ public class MyInfoActivity extends BaseActivity {
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentUser());
+            bundle.putParcelable(IntentTag.TAG_USER_BEAN, MyApp.getCurrentUser());
             fragment.setArguments(bundle);
             fm.beginTransaction()
                     .add(R.id.container, fragment)

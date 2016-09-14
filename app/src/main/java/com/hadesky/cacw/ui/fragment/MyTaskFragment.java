@@ -8,9 +8,10 @@ import android.view.View;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTaskRecyclerAdapter;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.TaskBean;
 import com.hadesky.cacw.presenter.MyTaskPresenter;
 import com.hadesky.cacw.presenter.MyTaskPresenterImpl;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TaskView;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
 import com.hadesky.cacw.ui.widget.RecyclerViewItemDecoration;
@@ -33,7 +34,8 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private MyTaskPresenter mPresenter;
-    private boolean mFinishTaskMode = false;//是否用于显示已经完成任务
+    private int mProjectId = -1;
+    private int mState = 0;
 
     @Override
     public int getLayoutId()
@@ -51,15 +53,8 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     protected void setupViews(Bundle bundle)
     {
-        Bundle b = getArguments();
-        if (b != null)
-        {
-            mFinishTaskMode = b.getBoolean("isFinished");
-        }
 
         mDialog = new AnimProgressDialog(getActivity(), false, null, "正在发送请求");
-        mPresenter = new MyTaskPresenterImpl(this, mFinishTaskMode);
-
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_primary));
         mSwipeRefreshLayout.setProgressViewOffset(true, -100, 50);
@@ -67,13 +62,23 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskMember>(), mPresenter, R.layout.list_item_teamtask, mFinishTaskMode);
-        mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(getContext()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mPresenter.LoadTasks();
+
+        mPresenter = new MyTaskPresenterImpl(this);
+        mAdapter = new MyTaskRecyclerAdapter(new ArrayList<TaskBean>(), mPresenter, R.layout.list_item_teamtask);
+        mAdapter.setEmptyLayoutId(R.layout.list_item_task_empty);
+        mRecyclerView.setAdapter(mAdapter);
+
+        Bundle arg = getArguments();
+        if(arg!=null)
+        {
+            mProjectId = arg.getInt(IntentTag.TAG_PROJECT_ID,-1);
+            mState = arg.getInt(IntentTag.TAG_TASK_STATUS,0);
+        }
+
+        mPresenter.LoadTasks(mState,mProjectId);
     }
 
     @Override
@@ -86,16 +91,15 @@ public class MyTaskFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh()
     {
-        mPresenter.LoadTasks();
+        mPresenter.LoadTasks(mState,mProjectId);
     }
 
     @Override
-    public void showDatas(List<TaskMember> tasks)
+    public void showDatas(List<TaskBean> tasks)
     {
         mAdapter.setDatas(tasks);
         mAdapter.notifyDataSetChanged();
     }
-
 
     @Override
     public void showProgress()

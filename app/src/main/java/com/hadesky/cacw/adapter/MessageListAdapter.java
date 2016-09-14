@@ -1,10 +1,9 @@
 package com.hadesky.cacw.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -13,10 +12,8 @@ import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.ChatActivity;
-import com.hadesky.cacw.util.StringUtils;
 
 import java.util.List;
 
@@ -41,22 +38,17 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
             @Override
             public void setData(MessageBean messageBean)
             {
-                UserBean u = messageBean.getReceiver();
-                if (MyApp.isCurrentUser(u))
-                {
-                    u = messageBean.getSender();
-                }
+                UserBean u = messageBean.getOther();
                 setTextView(R.id.tv_nick_name, u.getNickName());
-                setTextView(R.id.tv_msg, StringUtils.messageBean2Msg(messageBean,mContext));
+                setTextView(R.id.tv_msg,messageBean.getContent());
                 SimpleDraweeView iv = findView(R.id.iv_avatar);
                 iv.setImageURI(u.getAvatarUrl());
 
                 //如果消息没读而且消息来自他人
-                if (!messageBean.getHasRead() && !MyApp.isCurrentUser(messageBean.getSender()))
+                if (!messageBean.isHasRead() &&!messageBean.isMe())
                     setVisibility(R.id.iv_has_read, View.VISIBLE);
                 else
                     setVisibility(R.id.iv_has_read, View.GONE);
-
             }
         };
 
@@ -65,14 +57,10 @@ public class MessageListAdapter extends BaseAdapter<MessageBean>
             @Override
             public void OnItemClick(View view, int position)
             {
-                if (mDatas != null && !mDatas.isEmpty()) {
-                    Intent i = new Intent(mContext, ChatActivity.class);
-                    if (MyApp.isCurrentUser(mDatas.get(position).getReceiver()))
-                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getSender());
-                    else
-                        i.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getReceiver());
-                    mContext.startActivity(i);
-                }
+                Intent intent = new Intent(mContext, ChatActivity.class);
+                mDatas.get(position).setHasRead(true);
+                intent.putExtra(IntentTag.TAG_USER_BEAN , (Parcelable)mDatas.get(position).getOther());
+                mContext.startActivity(intent);
             }
         });
         holder.setOnItemLongClickListener(mOnItemLongClickListener);

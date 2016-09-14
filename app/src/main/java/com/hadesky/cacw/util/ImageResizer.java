@@ -4,15 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -99,6 +95,13 @@ public class ImageResizer {
             }
         }
     }
+
+    public static File getCompressBitmapByLuban(String oriPath, String fileName, Context context)
+    {
+        Luban luban = Luban.getInstance();
+        return  luban.thirdCompress(new File(oriPath),context.getCacheDir().getAbsolutePath()+File.separator+fileName);
+    }
+
 
     @Nullable
     public static File getCompressBitmap(String oriPath, String fileName, Context context) {

@@ -1,7 +1,7 @@
 package com.hadesky.cacw.test;
 
 import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.database.DatabaseManager;
+import com.hadesky.cacw.model.DB.DatabaseManager;
 
 /**
  *

@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.InviteMemberActivity">
-
   <android.support.v7.widget.Toolbar
       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
       android:id="@+id/toolbar"
@@ -16,11 +15,6 @@
       android:background="?attr/colorPrimary"
       app:title="邀请新成员"
       app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-  <com.hadesky.cacw.ui.widget.SearchView.SearchView
-      android:id="@+id/searchview"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
   <FrameLayout
       android:id="@+id/container"
       android:layout_width="match_parent"

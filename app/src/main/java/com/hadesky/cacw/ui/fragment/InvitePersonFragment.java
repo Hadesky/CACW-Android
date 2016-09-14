@@ -1,87 +1,80 @@
 package com.hadesky.cacw.ui.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.hadesky.cacw.R;
+import com.hadesky.cacw.adapter.InvitePersonAdapter;
+import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.presenter.InvitePersonPresenter;
 import com.hadesky.cacw.presenter.InvitePersonPresenterImpl;
-import com.hadesky.cacw.presenter.SearchPresenter;
-import com.hadesky.cacw.ui.activity.InviteMemberActivity;
+import com.hadesky.cacw.tag.IntentTag;
+import com.hadesky.cacw.ui.activity.UserInfoActivity;
+import com.hadesky.cacw.ui.view.InvitePersonView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InvitePersonFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class InvitePersonFragment extends SearchPersonFragment implements InviteMemberActivity.OnInviteListener {
 
-    private static final String ARG_TEAM_MEMBER = "team_member";
-    public static final String ARG_TEAM_BEAN = "team_bean";
+public class InvitePersonFragment extends BaseFragment implements InvitePersonView, BaseViewHolder.OnItemClickListener
+{
 
-    /**
-     * @param searchKey 需要查找的Key.
-     * @return A new instance of fragment SearchPersonFragment，可能为null
-     */
-    @Nullable
-    public static <T extends SearchFragment> T newInstance(Class<T> subClass, String searchKey,
-                                                           ArrayList<UserBean> teamMember, TeamBean teamBean) {
-        T fragment = null;
-        try {
-            fragment = subClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Bundle args = new Bundle();
-        args.putString(ARG_SEARCH_KEY, searchKey);
-        args.putSerializable(ARG_TEAM_MEMBER, teamMember);
-        args.putSerializable(ARG_TEAM_BEAN, teamBean);
-        if (fragment != null) {
-            fragment.setArguments(args);
-        }
-        return fragment;
-    }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            List<UserBean> teamMember = (List<UserBean>) getArguments().getSerializable(ARG_TEAM_MEMBER);
-            TeamBean currentTeam = (TeamBean) getArguments().getSerializable(ARG_TEAM_BEAN);
-            ((InvitePersonPresenter) mPresenter).setTeamMember(teamMember);
-            ((InvitePersonPresenter) mPresenter).setOnInviteListener(this);
-            ((InvitePersonPresenter) mPresenter).setCurrentTeam(currentTeam);
-        }
-    }
+    private EditText mEdtSearch;
+    private RecyclerView mRecyclerView;
+    private TeamBean mTeamBean;
+    private InvitePersonPresenter mPresenter;
+    private InvitePersonAdapter mAdapter;
+    private List<UserBean> mUser;
 
     @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.fragment_invite_person;
     }
 
     @Override
-    protected SearchPresenter createPresenter() {
-        return new InvitePersonPresenterImpl(this, getContext(), this);
+    protected void initViews(View view)
+    {
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        mEdtSearch = (EditText) view.findViewById(R.id.et);
     }
 
+
     @Override
-    public void onInvite(int position) {
-        showInviteDialog(position);
+    protected void setupViews(Bundle bundle)
+    {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new InvitePersonAdapter(null, R.layout.item_person_in_invite,this,this);
+        mRecyclerView.setAdapter(mAdapter);
+        mTeamBean = (TeamBean) getArguments().getSerializable(IntentTag.TAG_TEAM_BEAN);
+        mPresenter = new InvitePersonPresenterImpl(this,mTeamBean);
+
+        mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                if(actionId== EditorInfo.IME_ACTION_SEARCH)
+                {
+                    mPresenter.search(v.getText().toString());
+                }
+                return true;
+            }
+        });
     }
 
     private void showInviteDialog(final int position) {
+
         View view = getLayoutInflater(null).inflate(R.layout.dialog_with_edit_text_30, null);
         final EditText editText = (EditText) view.findViewById(R.id.edit_text);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
@@ -90,21 +83,60 @@ public class InvitePersonFragment extends SearchPersonFragment implements Invite
                 .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((InvitePersonPresenter) mPresenter).handleInviteMessage(editText.getText().toString(),position);
+                        mPresenter.inviteUser(editText.getText().toString(),position);
                     }
                 });
         builder.create().show();
     }
 
+    @Override
+    public void showUser(List<UserBean> list,boolean isfinial)
+    {
+        mUser = list;
+        mAdapter.setData(list,isfinial);
+    }
 
-    public void disableInviteButton(int position) {
-        if (position >= 0 && position < mRecyclerView.getChildCount()) {
-            View view = mRecyclerView.getChildAt(position);
-            Button button = (Button) view.findViewById(R.id.bt_invite);
-            if (button != null) {
-                button.setSelected(true);
-                button.setEnabled(false);
-            }
+    @Override
+    public void onInviteSucceed(int pos)
+    {
+        mAdapter.disableInviteButton(pos);
+    }
+
+    @Override
+    public void showProgress()
+    {
+
+    }
+
+    @Override
+    public void hideProgress()
+    {
+
+    }
+
+    @Override
+    public void showMsg(String s)
+    {
+        showToast(s);
+    }
+
+    @Override
+    public void OnItemClick(View view, int position)
+    {
+
+        if(position==mAdapter.getNextResultPosition())
+        {
+            mPresenter.LoadNextPage();
+        }
+        else if(view.getId()==R.id.layout_invite_item)
+        {
+            UserBean u = mUser.get(position);
+            Intent intent = new Intent(getContext(), UserInfoActivity.class);
+            intent.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable)u);
+            getContext().startActivity(intent);
+        }else if(view.getId()==R.id.bt_invite)
+        {
+            showInviteDialog(position);
         }
     }
 }

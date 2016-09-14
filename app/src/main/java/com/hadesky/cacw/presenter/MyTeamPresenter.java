@@ -1,6 +1,6 @@
 package com.hadesky.cacw.presenter;
 
-import cn.bmob.v3.BmobQuery;
+
 
 /**
  *
@@ -8,6 +8,6 @@ import cn.bmob.v3.BmobQuery;
  */
 public interface MyTeamPresenter
 {
-    void LoadAllTeams(BmobQuery.CachePolicy policy);
+    void LoadAllTeams();
     void onDestroy();
 }

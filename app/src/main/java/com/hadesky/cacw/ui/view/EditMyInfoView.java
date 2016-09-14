@@ -1,9 +1,5 @@
 package com.hadesky.cacw.ui.view;
 
-import android.graphics.Bitmap;
-
-import com.hadesky.cacw.bean.UserBean;
-
 /**
  * Created by MicroStudent on 2016/7/10.
  */
@@ -11,7 +7,7 @@ import com.hadesky.cacw.bean.UserBean;
 public interface EditMyInfoView extends BaseView {
     void setAvatar(String avatarUrl);
 
-    void setSex(Byte sex);
+    void setSex(int sex);
 
     void setSummary(String summary);
 

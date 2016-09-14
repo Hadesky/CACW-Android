@@ -1,188 +1,77 @@
 package com.hadesky.cacw.presenter;
 
 import com.hadesky.cacw.bean.MessageBean;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.database.DatabaseManager;
+import com.hadesky.cacw.model.MessageRepertory;
+import com.hadesky.cacw.model.RxSubscriber;
 import com.hadesky.cacw.ui.view.MessageListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobBatch;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BatchResult;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListListener;
-import rx.Subscription;
-
 /**
- *
- * Created by dzysg on 2016/7/23 0023.
+ * 消息列表
+ * Created by dzysg on 2016/9/9 0009.
  */
 public class MessageListPresenterImpl implements MessageListPresenter
 {
+
     private MessageListView mView;
-    private  DatabaseManager mDatabaseManager;
-    private  UserBean mUser;
-    private  Subscription mSubscription;
-    private List<MessageBean> mNewMessage;
-    private boolean mLoading = false;
-    private boolean haveNewMsg = false;
+    private MessageRepertory mMessageRepertory;
+    private List<MessageBean> mMessageList;
 
     public MessageListPresenterImpl(MessageListView view)
     {
         mView = view;
-        mDatabaseManager = DatabaseManager.getInstance(MyApp.getAppContext());
-        mUser = MyApp.getCurrentUser();
+        mMessageRepertory = MessageRepertory.getInstance();
     }
-
 
     @Override
     public void onDestroy()
     {
-        if (mSubscription != null)
-            mSubscription.unsubscribe();
+
     }
-
-
 
     @Override
     public void loadMessage()
     {
-
-        if (mLoading)
-        {
-            haveNewMsg = true;
-            return;
-        }
-
-        mLoading = true;
-        mView.showProgress();
-        BmobQuery<MessageBean> query = new BmobQuery<>();
-        query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
-        query.include("mSender,mReceiver");
-
-        mSubscription = query.findObjects(new FindListener<MessageBean>()
+        mMessageRepertory.getMessageList().subscribe(new RxSubscriber<List<MessageBean>>()
         {
             @Override
-            public void done(List<MessageBean> list, BmobException e)
+            public void _onError(String msg)
             {
-                if (e != null)
-                {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                    mLoading = false;
-                } else
-                {
-                    mNewMessage = list;
-                    if (list.size()==0) //如果没有新数据
-                    {
-                        mView.hideProgress();
-                        loadMsgFromDB();//直接获取本地数据
-                        mLoading = false;
-                    }else
-                        deleteFromBmob(list); //如果有新数据，先删除后台的数据
-                }
+                mView.hideProgress();
+                mView.showMsg(msg);
             }
-        });
 
-    }
-
-    @Override
-    public void loadMessageQuietly() {
-
-        if (mLoading)//如果上一次加载还没有完成，先等上一次加载完
-        {
-            haveNewMsg = true;
-            return;
-        }
-
-        mLoading = true;
-
-        BmobQuery<MessageBean> query = new BmobQuery<>();
-        query.addWhereEqualTo("mReceiver", new BmobPointer(mUser));//只获取别人发给自己的
-        query.include("mSender,mReceiver");
-
-        mSubscription = query.findObjects(new FindListener<MessageBean>()
-        {
             @Override
-            public void done(List<MessageBean> list, BmobException e)
+            public void _onNext(List<MessageBean> list)
             {
-                if (e == null) {
-                    mNewMessage = list;
-                    if (list.size()==0) //如果无有新数据
-                    {
-                        loadMsgFromDB();//直接获取本地数据
-                        mLoading = false;
-                        if (haveNewMsg)
-                        {
-                            haveNewMsg = false;
-                            loadMessageQuietly();
-                        }
-                    }else
-                        deleteFromBmob(list); //如果有新数据，先删除后台的数据
+                mView.hideProgress();
+                if (list != null && list.size() != 0)
+                {
+                    mView.showMessage(list);
+                    mMessageList = list;
                 }
             }
         });
     }
 
-    private void deleteFromBmob(List<MessageBean> list)
-    {
-        BmobBatch batch = new BmobBatch();
-        batch.deleteBatch(new ArrayList<BmobObject>(list));
-        batch.doBatch(new QueryListListener<BatchResult>() {
-            @Override
-            public void done(List<BatchResult> list, BmobException e)
-            {
-                mLoading = false;
-                if (e==null)//删除成功
-                {
-                    mDatabaseManager.saveMessage(mNewMessage);//先存到数据库
-                    loadMsgFromDB(); //再从数据库取出
-                    if (haveNewMsg)
-                    {
-                        haveNewMsg = false;
-                        loadMessageQuietly();
-                    }
-                }else
-                {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                }
-            }
-        });
-
-    }
-
-    private void loadMsgFromDB()
-    {
-        List<UserBean> users = mDatabaseManager.queryAllUsers();//找出所有通讯过的用户
-        List<MessageBean> mlist = new ArrayList<>();
-        for(UserBean sb : users)
-        {
-            MessageBean mb = mDatabaseManager.queryLastMessageByUser(sb.getObjectId());//找出用户的最后一条消息
-            if (mb!=null)
-            {
-                mlist.add(mb);
-            } else//如果不存在，就删除用户
-            {
-                mDatabaseManager.deleteUser(sb.getObjectId());
-            }
-        }
-        mView.hideProgress();
-        mView.showMessage(mlist);
-    }
 
     @Override
     public void deleteMessage(MessageBean bean)
     {
-        if (MyApp.isCurrentUser(bean.getSender()))
-            mDatabaseManager.deleteUserAndMessage(bean.getReceiver().getObjectId());
-        else
-            mDatabaseManager.deleteUserAndMessage(bean.getSender().getObjectId());
+        mMessageRepertory.deleteUserMessage(bean.getOther().getId()).subscribe(new RxSubscriber<Integer>()
+        {
+            @Override
+            public void _onError(String msg)
+            {
+
+            }
+
+            @Override
+            public void _onNext(Integer integer)
+            {
+
+            }
+        });
     }
 }

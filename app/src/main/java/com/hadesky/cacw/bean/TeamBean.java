@@ -1,100 +1,89 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.datatype.BmobRelation;
+import com.hadesky.cacw.config.MyApp;
+
+import java.io.Serializable;
 
 /**
  * 团队实体
  * Created by 45517 on 2015/10/31.
  */
-public class TeamBean extends BmobObject {
+public class TeamBean implements Serializable
+{
 
-    private Long mTeamId;
 
-    private String mTeamName;
+    private int id;
+    private String teamName;
+    private String summary;//团队介绍
+    private int AdminId;
+    private String notice;
+    private int projectCount;
+    private int memberCount;
+    private String avatarUrl;
 
-    private String mSummary;//团队介绍
 
-    private BmobFile mTeamAvatar;//团队头像
-
-    private UserBean mAdminUser;//管理员
-
-    private BmobRelation mProjects;
-
-    public TeamBean() {
-
+    public int getProjectCount()
+    {
+        return projectCount;
     }
 
-    public BmobRelation getProjects() {
-        return mProjects;
+    public int getMemberCount()
+    {
+        return memberCount;
     }
 
-    public void setProjects(BmobRelation mProjects) {
-        this.mProjects = mProjects;
+    public int getAdminId()
+    {
+        return AdminId;
+    }
+
+    public void setAdminId(int adminId)
+    {
+        AdminId = adminId;
+    }
+
+    public String getNotice()
+    {
+        return notice;
+    }
+
+    public void setNotice(String notice)
+    {
+        this.notice = notice;
     }
 
     public String getSummary() {
-        return mSummary;
+        return summary;
     }
 
     public void setSummary(String summary) {
-        mSummary = summary;
-    }
-
-    public BmobFile getTeamAvatar() {
-        return mTeamAvatar;
-    }
-
-    public void setTeamAvatar(BmobFile teamAvatar) {
-        mTeamAvatar = teamAvatar;
+        this.summary = summary;
     }
 
     public TeamBean(String mTeamName) {
-        this.mTeamName = mTeamName;
+        this.teamName = mTeamName;
     }
 
-    public Long getTeamId() {
-        return mTeamId;
+    public int getId() {
+        return id;
     }
 
-    public void setTeamId(Long teamId) {
-        mTeamId = teamId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public UserBean getAdminUser() {
-        return mAdminUser;
-    }
-
-    public void setAdminUser(UserBean adminUser) {
-        mAdminUser = adminUser;
-    }
 
     public String getTeamName() {
-        return mTeamName;
+        return teamName;
     }
 
     public void setTeamName(String team_name) {
-        this.mTeamName = team_name;
+        this.teamName = team_name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o != null && o instanceof TeamBean) {
-            if (((TeamBean) o).getObjectId().equals(getObjectId())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        if (getObjectId() != null) {
-            result = 31 * result + getObjectId().hashCode();
-        }
-        return result;
+    public String getTeamAvatarUrl()
+    {
+        return MyApp.getURL()+"/v1/images/team_"+id+"_"+avatarUrl+".jpg";
     }
 }

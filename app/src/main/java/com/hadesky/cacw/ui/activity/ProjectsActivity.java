@@ -3,7 +3,6 @@ package com.hadesky.cacw.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -14,20 +13,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.MyProjectPresenter;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import com.hadesky.cacw.ui.widget.AnimProgressDialog;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 
 public class ProjectsActivity extends BaseActivity {
     private Toolbar toolbar;
     private TeamBean mTeam;
     private AnimProgressDialog mProgressDialog;
-
+    private MyProjectPresenter mPresenter;
 
     @Override
     public int getLayoutId() {
@@ -43,10 +40,8 @@ public class ProjectsActivity extends BaseActivity {
     @Override
     public void setupView() {
 
-        mProgressDialog = new AnimProgressDialog(this, false, null, "请稍候...");
-
         Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(ProjectFragment.TeamBundleTAG);
+        mTeam = (TeamBean) i.getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
         if (mTeam==null)
         {
             showToast("找不到项目");
@@ -61,22 +56,23 @@ public class ProjectsActivity extends BaseActivity {
         }
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.container);
+
+        ProjectFragment fragment = (ProjectFragment) fm.findFragmentById(R.id.container);
 
         if (fragment == null) {
             fragment = new ProjectFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(ProjectFragment.TeamBundleTAG,mTeam);
-            fragment.setArguments(bundle);
-            fm.beginTransaction()
-                    .add(R.id.container,fragment,ProjectFragment.FregmentTAG)
-                    .commit();
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(IntentTag.TAG_TEAM_BEAN,mTeam);
+        fragment.setArguments(bundle);
+        fm.beginTransaction()
+                .add(R.id.container,fragment,ProjectFragment.FregmentTAG)
+                .commit();
     }
     private void OnCreateProjectClick()
     {
-        if (mTeam.getAdminUser().getObjectId().equals(MyApp.getCurrentUser().getObjectId())) {
-
+        if (mTeam.getAdminId()==MyApp.getCurrentUser().getId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -92,40 +88,15 @@ public class ProjectsActivity extends BaseActivity {
         }else
         {
             showToast(getString(R.string.you_are_not_admin) );
-
         }
     }
 
     private void createProject(String name)
     {
-        if (name.trim().length()==0)
-        {
-            showToast("名字非法");
-            return;
+        ProjectFragment fragment = (ProjectFragment) getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment != null) {
+            fragment.createProject(name);
         }
-        mProgressDialog.show();
-        ProjectBean bean = new ProjectBean();
-        bean.setProjectName(name);
-        bean.setTeam(mTeam);
-
-        bean.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                mProgressDialog.dismiss();
-                if (e==null)
-                {
-                    showToast("创建成功");
-                    ProjectFragment fragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(ProjectFragment.FregmentTAG);
-                    if (fragment!=null)
-                    {
-                        fragment.refresh();
-                    }
-                }else{
-                    showToast(e.getMessage());
-                }
-            }
-        });
-
     }
 
     @Override

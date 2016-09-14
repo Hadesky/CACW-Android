@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activity.TaskDetailActivity">
 
     <android.support.v7.widget.Toolbar
@@ -40,99 +41,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+            <!--时间开始-->
             <LinearLayout
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:text="开始时间:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    />
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/tv_start_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="2015-01-01"/>
+                android:layout_height="@dimen/list_item_height_larger">
+                <LinearLayout
+                    android:id="@+id/bt_start_date_time"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_start_date"
+                        tools:text="2016年8月6日"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        tools:text="16：00"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <ImageView
+                    android:src="@drawable/arrow_right_black"
+                    android:layout_width="@dimen/image_small"
+                    android:layout_height="@dimen/image_small"/>
+                <LinearLayout
+                    android:id="@+id/bt_end_date_time"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_end_date"
+                        tools:text="2016年8月6日"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        tools:text="16：00"
+                        android:textSize="30sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="开始日期:"/>
-
-                <TextView
-                    android:id="@+id/tv_start_date"
-                    android:layout_marginLeft="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="2015-01-01"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:text="结束时间:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    />
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/tv_end_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="2015-01-01"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:text="结束日期:"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    />
-
-                <TextView
-                    android:layout_marginLeft="16dp"
-                    android:id="@+id/tv_end_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="2015-01-01"/>
-            </LinearLayout>
-
-            <ImageView style="@style/paddingDividingLine"/>
 
             <RelativeLayout
                 android:gravity="center_vertical"
@@ -198,7 +160,6 @@
                     android:layout_marginTop="16dp"
                     style="@style/tv_item_title_vertical_relative"
                     android:text="成员："/>
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcv_members"
                     android:layout_width="match_parent"
@@ -207,43 +168,26 @@
                     android:fillViewport="true"/>
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/btn_edit"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_margin="16dp"
-                android:background="?attr/colorPrimary"
-                android:clickable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
-                    android:text="@string/edit"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"/>
-            </RelativeLayout>
-
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/btn_del"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="10dp"
                 android:background="#FFF44336"
+                app:cardCornerRadius="3dp"
+                app:cardBackgroundColor="#FFF44336"
                 android:clickable="true">
-
                 <TextView
+                    android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerInParent="true"
                     android:text="@string/delete_task"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"/>
-            </RelativeLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </com.hadesky.cacw.ui.widget.RevScrollView>
 </RelativeLayout>

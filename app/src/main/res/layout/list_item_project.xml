@@ -8,10 +8,12 @@
     <ImageView
         android:id="@+id/iv_project_avatar"
         android:layout_centerVertical="true"
-        android:layout_margin="5dp"
+        android:layout_margin="6dp"
+        android:padding="3dp"
         android:layout_width="@dimen/image_normal"
         android:layout_height="@dimen/image_normal"
-        tools:src="@drawable/default_user_image"
+        android:src="@drawable/ic_project"
+
         />
     <TextView
         style="@style/tv_project_name"

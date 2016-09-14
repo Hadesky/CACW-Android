@@ -1,112 +1,104 @@
 package com.hadesky.cacw.presenter;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.Button;
-
-import com.hadesky.cacw.JPush.JPushSender;
-import com.hadesky.cacw.R;
-import com.hadesky.cacw.adapter.InvitePersonAdapter;
-import com.hadesky.cacw.adapter.SearchPersonAdapter;
-import com.hadesky.cacw.bean.MessageBean;
 import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.tag.IntentTag;
-import com.hadesky.cacw.ui.activity.InviteMemberActivity;
-import com.hadesky.cacw.ui.fragment.InvitePersonFragment;
-import com.hadesky.cacw.ui.view.SearchPersonOrTeamView;
-import com.hadesky.cacw.util.StringUtils;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
+import com.hadesky.cacw.model.UserRepertory;
+import com.hadesky.cacw.ui.view.InvitePersonView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import rx.Subscription;
 
 /**
  *
- * Created by 45517 on 2016/7/22.
+ * Created by dzysg on 2016/9/13 0013.
  */
-public class InvitePersonPresenterImpl extends SearchPersonPresenterImpl implements InvitePersonPresenter {
+public class InvitePersonPresenterImpl implements InvitePersonPresenter
+{
 
-    private static final String TAG = "InvitePersonPresenter";
 
-    private InviteMemberActivity.OnInviteListener mOnInviteListener;
+    private InvitePersonView mView;
+    private TeamBean mTeamBean;
+    private boolean mIsFinal;
+    private String mSearchText;
+    private Subscription mSubscription;
+    private TeamRepertory mTeamRepertory;
+    private UserRepertory mUserRepertory;
+    private List<UserBean> mUsers;
+    private int page = 1;
+    private int pageSize = 5;
 
-    private TeamBean mCurrentTeam;
-
-    private InvitePersonFragment mInvitePersonFragment;
-
-    public InvitePersonPresenterImpl(SearchPersonOrTeamView view, Context context,
-                                     InvitePersonFragment invitePersonFragment) {
-        super(view, context);
-        mInvitePersonFragment = invitePersonFragment;
+    public InvitePersonPresenterImpl(InvitePersonView view, TeamBean t)
+    {
+        mView = view;
+        mTeamBean = t;
+        mTeamRepertory = TeamRepertory.getInstance();
+        mUserRepertory = UserRepertory.getInstance();
     }
 
-    @Override
-    protected SearchPersonAdapter createAdapter() {
-        return new InvitePersonAdapter(null, R.layout.item_person_in_invite, this);
-    }
 
     @Override
-    public void OnItemClick(View view, int position) {
-        if (view instanceof Button) {
-            mOnInviteListener.onInvite(position);
-        } else {
-            super.OnItemClick(view, position);
-        }
-    }
+    public void inviteUser(String s, final int position)
+    {
+        mSubscription = mTeamRepertory.invitePerson(mTeamBean.getId(),mUsers.get(position).getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
 
-    @Override
-    public void setOnInviteListener(InviteMemberActivity.OnInviteListener listener) {
-        mOnInviteListener = listener;
-    }
-
-    @Override
-    public void setTeamMember(List<UserBean> teamMember) {
-        ((InvitePersonAdapter) mAdapter).setTeamMember(teamMember);
-    }
-
-    @Override
-    public void handleInviteMessage(String s, final int position) {
-        if (mInvitePersonFragment != null && mCurrentTeam != null) {
-            final UserBean invitedUser = mAdapter.getDatas().get(position);
-            MessageBean messageBean = new MessageBean();
-            messageBean.setSender(MyApp.getCurrentUser());
-            messageBean.setReceiver(invitedUser);
-            messageBean.setMsg(handleMessage(s));
-            messageBean.setType(MessageBean.TYPE_TEAM_TO_USER);
-            messageBean.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e == null) {
-                        mInvitePersonFragment.showMsg("成功发送邀请");
-                        mInvitePersonFragment.disableInviteButton(position);
-                        sendPush(invitedUser);
-                    } else {
-                        mInvitePersonFragment.showMsg("发送失败，请检查网络");
                     }
-                }
-            });
-        }
+                    @Override
+                    public void _onNext(String s)
+                    {
+                        mView.onInviteSucceed(position);
+                    }
+                });
     }
 
-    private void sendPush(UserBean invitedUser)
+    @Override
+    public void search(String key)
+    {
+        doSearch(key);
+    }
+
+    private void doSearch(String key)
+    {
+        if(key.length()==0)
+        {
+            mView.showUser(new ArrayList<UserBean>(),true);
+            return;
+        }
+        mSubscription = mUserRepertory.searchUser(key,pageSize,0,mTeamBean.getId())
+                .subscribe(new RxSubscriber<List<UserBean>>() {
+                    @Override
+                    public void _onError(String msg)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(msg);
+                    }
+                    @Override
+                    public void _onNext(List<UserBean> userBeen)
+                    {
+                        mUsers = userBeen;
+                        mView.hideProgress();
+                        mIsFinal = userBeen.size() < pageSize;
+                        mView.showUser(userBeen,mIsFinal);
+                    }
+                });
+    }
+
+    @Override
+    public void LoadNextPage()
     {
 
-        String title ="团队邀请";
-        UserBean me = MyApp.getCurrentUser();
-        String content = IntentTag.TAG_PUSH_MSG+me.getObjectId()+me.getNickName() + "邀请你加入团队 " + mCurrentTeam.getTeamName();
-        JPushSender sender = new JPushSender.SenderBuilder().addAlias(invitedUser.getObjectId()).Message(title,content).build();
-        MyApp.getJPushManager().sendMsg(sender,null);
-    }
-
-    private String handleMessage(String msg) {
-        return StringUtils.composeInviteOrJoinString(mCurrentTeam.getObjectId(), mCurrentTeam.getTeamName(), msg);
     }
 
     @Override
-    public void setCurrentTeam(TeamBean currentTeam) {
-        mCurrentTeam = currentTeam;
+    public void onDestroy()
+    {
+
     }
 }

@@ -1,8 +1,8 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,8 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.UserBean;
@@ -27,6 +25,8 @@ public class UserInfoActivity extends BaseActivity
     private UserBean mUserBean;
     private FloatingActionButton mMessageButton;
 
+
+
     @Override
     public int getLayoutId()
     {
@@ -37,7 +37,8 @@ public class UserInfoActivity extends BaseActivity
     public void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        mUserBean = (UserBean) getIntent().getSerializableExtra(IntentTag.TAG_USER_BEAN);
+        mUserBean = getIntent().getParcelableExtra(IntentTag.TAG_USER_BEAN);
+
         if (mUserBean.equals(MyApp.getCurrentUser())) {
             navigateTo(MyInfoActivity.class, false);
             finish();
@@ -61,9 +62,7 @@ public class UserInfoActivity extends BaseActivity
         if (fragment == null) {
             fragment = new UserInfoFragment();
             Bundle bundle = new Bundle();
-
-            bundle.putSerializable(IntentTag.TAG_USER_BEAN, mUserBean);
-
+            bundle.putParcelable(IntentTag.TAG_USER_BEAN, mUserBean);
             fragment.setArguments(bundle);
 
             fm.beginTransaction()
@@ -80,7 +79,6 @@ public class UserInfoActivity extends BaseActivity
                     mMessageButton.show();
                 }
             }
-
             @Override
             public void onPullZoomEnd() {
                 mMessageButton.show();
@@ -95,7 +93,7 @@ public class UserInfoActivity extends BaseActivity
                     return;
                 }
                 Intent i = new Intent(UserInfoActivity.this,ChatActivity.class);
-                i.putExtra(IntentTag.TAG_USER_BEAN, mUserBean);
+                i.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable)mUserBean);
                 startActivity(i);
             }
         });

@@ -33,6 +33,7 @@
         >
     <EditText
         android:id="@+id/edt_team_name"
+        android:maxLines="1"
         android:hint="填写团队名称"
         android:layout_gravity="center_horizontal"
         android:layout_width="300dp"

@@ -71,7 +71,6 @@ public abstract class SearchFragment extends Fragment implements SearchPersonOrT
                              Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         if (mAdapter != null) {
             mRecyclerView.setAdapter(mAdapter);
@@ -87,6 +86,7 @@ public abstract class SearchFragment extends Fragment implements SearchPersonOrT
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
         mAdapter = adapter;
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -139,16 +139,7 @@ public abstract class SearchFragment extends Fragment implements SearchPersonOrT
         Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentLoadingListener {
         void onFragmentLoadingStart();
 

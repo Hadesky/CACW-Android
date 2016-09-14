@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -27,11 +28,11 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.base.BaseAdapter;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.TeamInfoPresenter;
 import com.hadesky.cacw.presenter.TeamInfoPresenterImpl;
-import com.hadesky.cacw.ui.fragment.ProjectFragment;
+import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.TeamInfoView;
 import com.hadesky.cacw.ui.widget.ColorfulAnimView.ColorfulAnimView;
 import com.hadesky.cacw.ui.widget.PullToZoomBase;
@@ -47,15 +48,17 @@ import java.util.List;
 
 public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
-    static public final String IntentTag = "team";
-    static public final String TeamIconFileName_Low = "team_icon_low";
-    static public final String TeamIconFileName= "team_icon";
+    static public final String TeamIconFileName_Low = "team_icon_low.jpg";
+    static public final String TeamIconFileName= "team_icon.jpg";
     private TextView mTvTeamName;
     private TextView mTvTeamId;
     private TextView mTvSummary;
     private TextView mTvProjectCount;
+    private TextView mTvMemberCount;
+    private TextView mTvNotice;
     private RecyclerView mRcvMembers;
-    private BaseAdapter<TeamMember> mAdapter;
+
+    private BaseAdapter<UserBean> mAdapter;
     private TeamInfoPresenter mPresenters;
     private TeamBean mTeam;
     private SimpleDraweeView mSimpleDraweeView;
@@ -77,6 +80,8 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mSimpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_team_icon);
         mZoom = (SimpleDraweeView) findViewById(R.id.iv_zoom);
         mTvProjectCount = (TextView) findViewById(R.id.tv_project_count);
+        mTvMemberCount = (TextView) findViewById(R.id.tv_team_member_count);
+        mTvNotice = (TextView) findViewById(R.id.tv_team_notice);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null)
@@ -101,16 +106,16 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
         showInfo();
 
-        mAdapter = new BaseAdapter<TeamMember>(new ArrayList<TeamMember>(), R.layout.list_item_member) {
+        mAdapter = new BaseAdapter<UserBean>(new ArrayList<UserBean>(), R.layout.list_item_member) {
             @Override
-            public BaseViewHolder<TeamMember> createHolder(View v, Context context) {
-                BaseViewHolder viewHolder = new BaseViewHolder<TeamMember>(v) {
+            public BaseViewHolder<UserBean> createHolder(View v, Context context) {
+                BaseViewHolder<UserBean> viewHolder = new BaseViewHolder<UserBean>(v) {
                     @Override
-                    public void setData(TeamMember o) {
-                        setTextView(R.id.tv, o.getUser().getNickName());
-                        if (o.getUser().getAvatarUrl() != null) {
+                    public void setData(UserBean o) {
+                        setTextView(R.id.tv, o.getNickName());
+                        if (o.getAvatarUrl() != null) {
                             SimpleDraweeView avatar = findView(R.id.iv_avatar);
-                            avatar.setImageURI(o.getUser().getAvatarUrl());
+                            avatar.setImageURI(o.getAvatarUrl());
                         }
                     }
                 };
@@ -118,7 +123,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     @Override
                     public void OnItemClick(View view, int position) {
                         Intent intent = new Intent(TeamInfoActivity.this, UserInfoActivity.class);
-                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, mDatas.get(position).getUser());
+                        intent.putExtra(com.hadesky.cacw.tag.IntentTag.TAG_USER_BEAN, (Parcelable)mDatas.get(position));
                         startActivity(intent);
                     }
                 });
@@ -132,23 +137,23 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
         mRcvMembers.setAdapter(mAdapter);
 
-
-        mPresenters = new TeamInfoPresenterImpl(mTeam, this);
+        //Presenters 加载数据
+        mPresenters = new TeamInfoPresenterImpl(this,mTeam.getId());
         mPresenters.getTeamMembers();
-        mPresenters.getProjectCount();
+        mPresenters.getTeamInfo();
 
         PullToZoomScrollViewEx scrollView = (PullToZoomScrollViewEx) findViewById(R.id.zoom_scrollView);
         if (scrollView != null) {
-            scrollView.setOnPullZoomListener(new PullToZoomBase.OnPullZoomListener() {
+            scrollView.addOnPullZoomListeners(new PullToZoomBase.OnPullZoomListener() {
                 @Override
                 public void onPullZooming(int newScrollValue) {
 
                 }
-
                 @Override
                 public void onPullZoomEnd() {
-                    mPresenters.refreshTeamInfo();
+                    mPresenters.getTeamInfo();
                     mPresenters.getTeamMembers();
+                    mRcvMembers.setLayoutFrozen(false);
                 }
             });
         }
@@ -171,11 +176,23 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(TeamInfoActivity.this, ProjectsActivity.class);
-                    i.putExtra(ProjectFragment.TeamBundleTAG, mTeam);
+                    i.putExtra(IntentTag.TAG_TEAM_BEAN , mTeam);
                     startActivity(i);
                 }
             });
         }
+        //点击公告
+        v = findViewById(R.id.team_notice);
+        if (v != null) {
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     onNoticeClick();
+                }
+            });
+        }
+
+
         //点击团队成员，打开团队成员列表
         v = findViewById(R.id.layout_team_member);
         if (v != null) {
@@ -192,21 +209,25 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
     private void loadTeamBeanFromIntent() {
         Intent i = getIntent();
-        mTeam = (TeamBean) i.getSerializableExtra(IntentTag);
+        mTeam = (TeamBean) i.getSerializableExtra(IntentTag.TAG_TEAM_BEAN);
         if (mTeam == null) {
             finish();
         }
     }
 
-    @Override
-    public void showInfo() {
-        mTvTeamId.setText(String.valueOf(mTeam.getTeamId()));
+
+    private void showInfo() {
+
+        mTvTeamId.setText(String.valueOf(mTeam.getId()));
         mTvTeamName.setText(mTeam.getTeamName());
         mTvSummary.setText(mTeam.getSummary());
-        if (mTeam.getTeamAvatar() != null) {
-            Uri uri = Uri.parse(mTeam.getTeamAvatar().getUrl());
-            mSimpleDraweeView.setImageURI(uri);
+        mTvNotice.setText(mTeam.getNotice());
+        mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),mTeam.getProjectCount()));
+        mTvMemberCount.setText(String.format(getString(R.string.member_count),mTeam.getMemberCount()));
 
+        if (mTeam.getTeamAvatarUrl() != null) {
+            Uri uri = Uri.parse(mTeam.getTeamAvatarUrl());
+            mSimpleDraweeView.setImageURI(uri);
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setImageRequest(ImageRequestBuilder.newBuilderWithSource(uri).setPostprocessor(new BlurProcessor()).build())
                     .build();
@@ -233,8 +254,30 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
         super.onResume();
     }
 
+    //点击公告
+    private void onNoticeClick() {
+        if (mTeam.getAdminId()==MyApp.getCurrentUser().getId()) {
+            View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
+            final EditText editText = (EditText) view.findViewById(R.id.edit_text);
+            editText.setText(mTvNotice.getText());
+            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                    .setTitle(R.string.notice)
+                    .setView(view)
+                    .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPresenters.modifyNotice(editText.getText().toString());
+                        }
+                    });
+            builder.create().show();
+        }
+    }
+
+
+    //点击简介
     private void onSummaryClick() {
-        if (mTeam.getAdminUser().equals(MyApp.getCurrentUser())) {
+
+        if (mTeam.getAdminId()==MyApp.getCurrentUser().getId()) {
             View view = getLayoutInflater().inflate(R.layout.dialog_nick_name, null);
             final EditText editText = (EditText) view.findViewById(R.id.edit_text);
             editText.setText(mTvSummary.getText());
@@ -244,7 +287,7 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
                     .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mPresenters.changeSummary(editText.getText().toString());
+                            mPresenters.modifySummary(editText.getText().toString());
                         }
                     });
             builder.create().show();
@@ -346,15 +389,11 @@ public class TeamInfoActivity extends BaseActivity implements TeamInfoView {
 
 
     @Override
-    public void showMembers(List<TeamMember> list) {
+    public void showMembers(List<UserBean> list) {
         mAdapter.setDatas(list);
         mRcvMembers.setLayoutFrozen(true);
     }
 
-    @Override
-    public void showProjectCount(int num) {
-            mTvProjectCount.setText(String.format(getString(R.string.sum_of_projects),num));
-    }
 
     @Override
     public void showProgress() {

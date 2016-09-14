@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.MyTeamAdapter;
-import com.hadesky.cacw.bean.TeamMember;
+import com.hadesky.cacw.bean.TeamBean;
 import com.hadesky.cacw.presenter.MyTeamPresenter;
 import com.hadesky.cacw.presenter.MyTeamPresenterImpl;
 import com.hadesky.cacw.ui.view.MyTeamView;
@@ -17,7 +17,6 @@ import com.hadesky.cacw.util.FullyGridLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
 
 public class MyTeamActivity extends BaseActivity implements MyTeamView, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
 
@@ -49,16 +48,12 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
         FullyGridLayoutManager layoutManager = new FullyGridLayoutManager(this, 2);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(layoutManager);
-        mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamMember>(),R.layout.list_item_team);
+        mMyTeamAdapter = new MyTeamAdapter(new ArrayList<TeamBean>(),R.layout.list_item_team);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mMyTeamAdapter);
 
         mPresenter = new MyTeamPresenterImpl(this);
-
-        mPresenter.LoadAllTeams(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
-
-        List<TeamMember> list = new ArrayList<>();
-        mMyTeamAdapter.setDatas(list);
+        mPresenter.LoadAllTeams();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,7 +63,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
     }
 
     @Override
-    public void showTeamList(List<TeamMember> list)
+    public void showTeamList(List<TeamBean> list)
     {
         mMyTeamAdapter.setDatas(list);
     }
@@ -109,7 +104,7 @@ public class MyTeamActivity extends BaseActivity implements MyTeamView, android.
     @Override
     public void onRefresh() {
         if (mPresenter != null) {
-            mPresenter.LoadAllTeams(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+            mPresenter.LoadAllTeams();
         }
     }
 }

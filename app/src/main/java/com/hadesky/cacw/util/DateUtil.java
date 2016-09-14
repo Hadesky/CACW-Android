@@ -18,6 +18,7 @@ public class DateUtil {
 
     static public Date StringToDate(String s) {
         SimpleDateFormat format = getSimpleDateFormat();
+
         Date date = null;
         try {
             date = format.parse(s);

@@ -97,9 +97,7 @@ public class DateTimePickerDialog extends DialogFragment {
         if (arguments != null) {
             options = arguments.getParcelable(SUBLIME_OPTIONS);
         }
-
         mSublimePicker.initializePicker(options, mListener);
-
         mType = getTag().equals("start") ? TYPE_START : TYPE_EDN;
         return mSublimePicker;
     }

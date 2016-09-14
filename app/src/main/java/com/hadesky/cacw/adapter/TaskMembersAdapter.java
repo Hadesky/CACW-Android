@@ -2,16 +2,16 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.TaskMember;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.SelectMemberActivity;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -28,16 +28,16 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static final int BUTTON_TYPE_DELETE = 2;
 
     private Context mContext;
-    private List<TaskMember> mDatas;
+    private List<UserBean> mDatas;
     private boolean ableToDelete = false;
     private boolean ableToAdd = false;
 
-    public TaskMembersAdapter(Context context, List<TaskMember> datas) {
+    public TaskMembersAdapter(Context context, List<UserBean> datas) {
         mContext = context;
         mDatas = datas;
     }
 
-    public void setDatas(List<TaskMember> list) {
+    public void setDatas(List<UserBean> list) {
         mDatas = list;
         notifyDataSetChanged();
     }
@@ -53,7 +53,7 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
                 @Override
                 public void OnItemClick(View view, int position) {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position).getUser());
+                    intent.putExtra(IntentTag.TAG_USER_BEAN, (Parcelable)mDatas.get(position));
                     mContext.startActivity(intent);
                 }
             });
@@ -71,10 +71,9 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
 
     @Override
     public void onBindViewHolder(TaskMemberVH holder, int position) {
-        TaskMember tm = mDatas.get(position);
-        holder.setName(tm.getUser().getNickName());
-        holder.setFinish(tm.isFinish());
-        holder.setImageUri(tm.getUser().getAvatarUrl());
+        UserBean tm = mDatas.get(position);
+        holder.setName(tm.getNickName());
+        holder.setImageUri(tm.getAvatarUrl());
 
     }
 
@@ -121,13 +120,12 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
     public static class TaskMemberVH extends RecyclerView.ViewHolder implements View.OnClickListener {
         private OnItemClickListener mOnItemClickListener;
         private TextView mName;
-        private ImageView mIvIsFinish;
         private SimpleDraweeView mAvatar;
 
         public TaskMemberVH(View itemView, OnItemClickListener listener) {
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.tv_name);
-            mIvIsFinish = (ImageView) itemView.findViewById(R.id.iv_is_finish);
+
             mAvatar = (SimpleDraweeView) itemView.findViewById(R.id.iv_avatar);
 
             itemView.setOnClickListener(this);
@@ -137,13 +135,6 @@ public class TaskMembersAdapter extends RecyclerView.Adapter<TaskMembersAdapter.
         public void setImageUri(String uri)
         {
             mAvatar.setImageURI(uri);
-        }
-
-        public void setFinish(boolean b) {
-            if (b)
-                mIvIsFinish.setVisibility(View.VISIBLE);
-            else
-                mIvIsFinish.setVisibility(View.INVISIBLE);
         }
 
         @Override

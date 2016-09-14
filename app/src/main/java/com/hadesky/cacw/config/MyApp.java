@@ -3,16 +3,23 @@ package com.hadesky.cacw.config;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.hadesky.cacw.JPush.JPushManager;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.model.SessionManagement;
+import com.hadesky.cacw.model.network.CacwServer;
+import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.util.ActivityLifeCallBack;
 
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobUser;
+import java.util.concurrent.TimeUnit;
+
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -26,62 +33,95 @@ public class MyApp extends Application
     private static final String TAG = MyApp.class.getSimpleName();
     private static String URL;//服务器地址
     private static Context mContext;//App实例
-    private static JPushManager sJPushManager;
-
-
+    private static OkHttpClient sOkHttpClient;
+    private static SessionManagement sSessionManagement;
+    private static CacwServer sApiServer;
+    private static String sDeviceId;
+    private static int sUserId = -1;
+    private static UserBean mUser;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-
-        URL = "http://115.28.15.194:8000";
+        URL = "http://192.168.199.234:8081";
+        //URL="http://cacw-2-dzyone.tenxcloud.net";
         mContext = this;
-        Bmob.initialize(this, "e3eaf0e8f1712c6cb3dee7ba7cc995de");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        Fresco.initialize(this);
-        JPushManager.init("e1ddf6b7d3bb9c6ba2545a55","f8dd58cf4736e59d58a28432");
+
+        ImagePipelineConfig config =ImagePipelineConfig.newBuilder(this)
+                .setBitmapsConfig(Bitmap.Config.RGB_565)
+                .build();
+        Fresco.initialize(this,config);
+
         this.registerActivityLifecycleCallbacks(new ActivityLifeCallBack());
+        sOkHttpClient = new OkHttpClient.Builder().writeTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).cookieJar(new CookieManager()).build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(URL).client(sOkHttpClient).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+        sApiServer = retrofit.create(CacwServer.class);
+
     }
 
-    public static JPushManager getJPushManager()
+
+    public static String getDeviceId()
     {
-        if (sJPushManager==null)
-            sJPushManager = new JPushManager(new OkHttpClient());
-        return sJPushManager;
+        if (sDeviceId == null)
+            sDeviceId = JPushInterface.getRegistrationID(getAppContext());
+        return sDeviceId;
+    }
+
+    public static CacwServer getApiServer()
+    {
+        return sApiServer;
     }
 
     /**
      * 获得通知manager
      * @return NotificationManager
      */
-    public static NotificationManager getNotificationManager() {
-        if (mContext != null) {
+    public static NotificationManager getNotificationManager()
+    {
+        if (mContext != null)
+        {
             return (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return null;
     }
 
+    public static synchronized SessionManagement getSessionManager()
+    {
+        if (sSessionManagement == null)
+            sSessionManagement = new SessionManagement(getAppContext());
+        return sSessionManagement;
+    }
+
+    //messageList用到
     public static boolean isCurrentUser(UserBean sb)
     {
-        return getCurrentUser().equals(sb);
+        return true;
+    }
+
+
+    public static void setCurrentUser(UserBean u)
+    {
+        mUser = u;
     }
 
     public static UserBean getCurrentUser()
     {
-        return BmobUser.getCurrentUser(UserBean.class);
+        if(mUser==null)
+            mUser = getSessionManager().getUser();
+        return mUser;
     }
+
 
     public static Context getAppContext()
     {
         return mContext;
     }
 
-
     public static String getURL()
     {
         return URL;
     }
-
 }

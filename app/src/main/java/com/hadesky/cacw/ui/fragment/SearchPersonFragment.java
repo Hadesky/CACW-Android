@@ -3,9 +3,8 @@ package com.hadesky.cacw.ui.fragment;
 import android.support.v4.app.Fragment;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
-import com.hadesky.cacw.presenter.SearchPresenter;
 import com.hadesky.cacw.presenter.SearchPersonPresenterImpl;
+import com.hadesky.cacw.presenter.SearchPresenter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,11 +20,11 @@ public class SearchPersonFragment extends SearchFragment {
 
     @Override
     protected SearchPresenter createPresenter() {
-        return new SearchPersonPresenterImpl(this,getContext());
+        return new SearchPersonPresenterImpl(this,getActivity());
     }
 
     public void updateSearchKey(String searchKey) {
-        if (searchKey != null && searchKey.length() != 0) {
+        if (searchKey != null) {
             mPresenter.search(searchKey);
         }
     }

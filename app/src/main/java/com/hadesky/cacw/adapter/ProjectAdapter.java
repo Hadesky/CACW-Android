@@ -31,7 +31,7 @@ public class ProjectAdapter extends BaseAdapter<ProjectBean>
         BaseViewHolder<ProjectBean> holder  = new BaseViewHolder<ProjectBean> (v) {
             @Override
             public void setData(ProjectBean o) {
-                setTextView(R.id.tv_project_title,o.getProjectName());
+                setTextView(R.id.tv_project_title,o.getName());
             }
         };
 

@@ -2,6 +2,7 @@ package com.hadesky.cacw.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.UserInfoActivity;
@@ -36,7 +36,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
 
     private boolean ableToAdd = false;
 
-    private List<TaskMember> members;
+    private List<UserBean> members;
     private Context mContext;
     private LayoutInflater inflater;
     private int mode = 0;
@@ -48,12 +48,12 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
     //返回true才执行删除
     public interface OnMemberEditListener
     {
-        boolean onMemberDelete(UserBean user_id);
+        void onMemberDelete(UserBean user_id);
 
-        void onAddMember();
+        void onAddMemberClick();
     }
 
-    public EditableMembersAdapter(List<TaskMember> member, Context context, OnMemberEditListener listener, TaskBean task)
+    public EditableMembersAdapter(List<UserBean> member, Context context, OnMemberEditListener listener, TaskBean task)
     {
         this.mOnMemberEditListener = listener;
         this.mContext = context;
@@ -64,13 +64,13 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDatas(List<TaskMember> list)
+    public void setDatas(List<UserBean> list)
     {
         members = list;
         notifyDataSetChanged();
     }
 
-    public List<TaskMember> getDatas()
+    public List<UserBean> getDatas()
     {
         return members;
     }
@@ -94,16 +94,17 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                     {
                         //点击到头像
                         Intent intent = new Intent(mContext, UserInfoActivity.class);
-                        intent.putExtra(IntentTag.TAG_USER_BEAN, members.get(position).getUser());
+                        intent.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable) members.get(position));
                         mContext.startActivity(intent);
                     } else
                     {
                         //点击到头像的删除按钮
-                        if (mOnMemberEditListener.onMemberDelete(members.get(position).getUser()))
-                        {
-                            members.remove(position);
-                            notifyDataSetChanged();
-                        }
+                        mOnMemberEditListener.onMemberDelete(members.get(position));
+//                        if (mOnMemberEditListener.onMemberDelete(members.get(position)))
+//                        {
+//                            members.remove(position);
+//                            notifyDataSetChanged();
+//                        }
                     }
                 }
             });
@@ -117,7 +118,7 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 public void OnItemClick(View view, int position)
                 {
                     if (mOnMemberEditListener != null)
-                        mOnMemberEditListener.onAddMember();
+                        mOnMemberEditListener.onAddMemberClick();
                 }
             });
         } else
@@ -155,8 +156,8 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
                 holder.setDeleteViewVisible(true);
                 holder.avatarView.setClickable(false);
             }
-            holder.setText(members.get(position).getUser().getNickName());
-            holder.setImageUrl(members.get(position).getUser().getAvatarUrl());
+            holder.setText(members.get(position).getNickName());
+            holder.setImageUrl(members.get(position).getAvatarUrl());
 
         } else if (holder.getViewType() == BUTTON_TYPE_DELETE)
         {
@@ -168,6 +169,19 @@ public class EditableMembersAdapter extends RecyclerView.Adapter<EditableMembers
             } else if (mode == MODE_DELETE)
             {
                 //删除状态去除删除按钮
+                holder.itemView.setVisibility(View.GONE);
+            }
+        }
+        else if (holder.getViewType() == BUTTON_TYPE_ADD)
+        {
+            //当前要进行设置的是添加按钮
+            if (mode == MODE_NORMAL)
+            {
+                //普通状态显示+按钮
+                holder.itemView.setVisibility(View.VISIBLE);
+            } else if (mode == MODE_DELETE)
+            {
+                //删除状态去除+按钮
                 holder.itemView.setVisibility(View.GONE);
             }
         }

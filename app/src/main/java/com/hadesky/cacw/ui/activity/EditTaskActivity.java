@@ -27,9 +27,9 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.EditableMembersAdapter;
 import com.hadesky.cacw.bean.ProjectBean;
 import com.hadesky.cacw.bean.TaskBean;
-import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.presenter.EditTaskPresenter;
 import com.hadesky.cacw.presenter.EditTaskPresenterImpl;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.view.EditTaskView;
@@ -44,8 +44,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import cn.bmob.v3.datatype.BmobDate;
-
 
 public class EditTaskActivity extends BaseActivity implements EditTaskView, EditableMembersAdapter.OnMemberEditListener
 {
@@ -55,9 +53,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private TextView mTvStartTime;
     private TextView mTvEndDate;
     private TextView mTvEndTime;
-
     private TextView mTvProject;
-
 
     private EditText mEdtTitle;
     private EditText mEdtLocation;
@@ -68,7 +64,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private TaskBean mTask;
     private EditableMembersAdapter mAdapter;
 
-    private EditTaskPresenterImpl mPresenter;
+    private EditTaskPresenter mPresenter;
 
     private boolean newTask;//表示当前是新建任务还是编辑现有任务
     private List<ProjectBean> mProjectList;
@@ -76,9 +72,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
     private Calendar mCalendarStart;
     private Calendar mCalendarEnd;
-    private int mStartHourOfDay, mStartMinute,mEndHourOfDay, mEndMinute;
-    private List<TaskMember> mMembers;
-
+    private int mStartHourOfDay, mStartMinute, mEndHourOfDay, mEndMinute;
+    private ArrayList<UserBean> mMembers;
     private DateTimePickerDialog mDateTimePickerDialog;
 
     private boolean isEdited = false;//是否已经更改
@@ -86,43 +81,54 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     public static final String TIME_FORMAT = "%02d:%02d";
     public static final String DATE_FORMAT = "%d-%02d-%02d";
 
-    private DateTimePickerDialog.Callback mDateTimeCallback = new DateTimePickerDialog.Callback() {
+    private DateTimePickerDialog.Callback mDateTimeCallback = new DateTimePickerDialog.Callback()
+    {
         @Override
-        public void onCancelled() {
-            if (mDateTimePickerDialog != null) {
+        public void onCancelled()
+        {
+            if (mDateTimePickerDialog != null)
+            {
                 mDateTimePickerDialog.dismiss();
             }
         }
 
         @Override
-        public void onDateTimeRecurrenceSet(SelectedDate selectedDate, int hourOfDay, int minute, int startOrEnd) {
+        public void onDateTimeRecurrenceSet(SelectedDate selectedDate, int hourOfDay, int minute, int startOrEnd)
+        {
 
-            if (selectedDate.getType() == SelectedDate.Type.RANGE) {
+            if (selectedDate.getType() == SelectedDate.Type.RANGE)
+            {
                 //选择了一个范围，直接用来做开始和结束
                 mCalendarStart = selectedDate.getStartDate();
                 mCalendarEnd = selectedDate.getEndDate();
                 mStartMinute = mEndMinute = minute;
                 mStartHourOfDay = mEndHourOfDay = hourOfDay;
-            } else if (startOrEnd == DateTimePickerDialog.TYPE_START) {
+            } else if (startOrEnd == DateTimePickerDialog.TYPE_START)
+            {
                 mCalendarStart = selectedDate.getStartDate();
-                if (mCalendarEnd == null || mCalendarEnd.compareTo(mCalendarStart) < 0) {
+                if (mCalendarEnd == null || mCalendarEnd.compareTo(mCalendarStart) < 0)
+                {
                     //将end和start置同
                     mCalendarEnd = mCalendarStart;
                     mStartMinute = mEndMinute = minute;
                     mStartHourOfDay = mEndHourOfDay = hourOfDay;
-                } else {
+                } else
+                {
                     mStartHourOfDay = hourOfDay;
                     mStartMinute = minute;
                 }
-            } else {
+            } else
+            {
                 //结束
                 mCalendarEnd = selectedDate.getStartDate();
-                if (mCalendarStart == null || mCalendarStart.compareTo(mCalendarEnd) > 0) {
+                if (mCalendarStart == null || mCalendarStart.compareTo(mCalendarEnd) > 0)
+                {
                     //将end和start置同
                     mCalendarStart = mCalendarEnd;
                     mStartMinute = mEndMinute = minute;
                     mStartHourOfDay = mEndHourOfDay = hourOfDay;
-                } else {
+                } else
+                {
                     mEndHourOfDay = hourOfDay;
                     mEndMinute = minute;
                 }
@@ -132,31 +138,33 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
     };
 
-    private TextWatcher mTextWatcher = new TextWatcher() {
+    private TextWatcher mTextWatcher = new TextWatcher()
+    {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
 
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
+        public void afterTextChanged(Editable editable)
+        {
             isEdited = true;
         }
     };
 
-    private void adjustDateTimeDisplay() {
-        if (mCalendarStart != null && mCalendarEnd != null) {
-            mTvStartDate.setText(String.format(Locale.getDefault(), DATE_FORMAT,
-                    mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH),
-                    mCalendarStart.get(Calendar.DAY_OF_MONTH)));
-            mTvEndDate.setText(String.format(Locale.getDefault(), DATE_FORMAT,
-                    mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH),
-                    mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
+    private void adjustDateTimeDisplay()
+    {
+        if (mCalendarStart != null && mCalendarEnd != null)
+        {
+            mTvStartDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarStart.get(Calendar.YEAR), mCalendarStart.get(Calendar.MONTH)+1, mCalendarStart.get(Calendar.DAY_OF_MONTH)));
+            mTvEndDate.setText(String.format(Locale.getDefault(), DATE_FORMAT, mCalendarEnd.get(Calendar.YEAR), mCalendarEnd.get(Calendar.MONTH)+1, mCalendarEnd.get(Calendar.DAY_OF_MONTH)));
         }
         mTvStartTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mStartHourOfDay, mStartMinute));
         mTvEndTime.setText(String.format(Locale.getDefault(), TIME_FORMAT, mEndHourOfDay, mEndMinute));
@@ -174,7 +182,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mProject = findViewById(R.id.project);
-//        mOk = findViewById(R.id.ok);
+
 
         mRcvMembers = (RecyclerView) findViewById(R.id.rcv_members);
         mEdtTitle = (EditText) findViewById(R.id.et_title);
@@ -184,18 +192,18 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
 
         mTvEndDate = (TextView) findViewById(R.id.tv_end_date);
         mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
-//        mEndDate = findViewById(R.id.end_date);
-//        mEndTime = findViewById(R.id.end_time);
+
         mTvStartDate = (TextView) findViewById(R.id.tv_start_date);
         mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
 
 
         mDateTimePickerDialog = new DateTimePickerDialog();
         mDateTimePickerDialog.setCallback(mDateTimeCallback);
+
         SublimeOptions options = new SublimeOptions();
         int displayOptions = 0;
-        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
-        displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER;
+        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER; //开日期选择
+        displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER; //开时间选择
         options.setDisplayOptions(displayOptions);
         options.setCanPickDateRange(true);
         Bundle bundle = new Bundle();
@@ -219,31 +227,30 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         manager.setOrientation(GridLayoutManager.VERTICAL);
         mRcvMembers.setLayoutManager(manager);
         mRcvMembers.setVerticalFadingEdgeEnabled(false);
+        mAdapter = new EditableMembersAdapter(new ArrayList<UserBean>(), this, this, mTask);
+        mAdapter.setAbleToAdd(true);
+        mAdapter.setAbleToDelete(true);
+        mRcvMembers.setAdapter(mAdapter);
 
-
-        //判定是新建来是编辑任务
-        mTask = (TaskBean) getIntent().getSerializableExtra("task");
+        //判定是新建还是编辑任务
+        mTask = (TaskBean) getIntent().getSerializableExtra(IntentTag.TAG_TASK_BEAN);
+        mMembers = (ArrayList<UserBean>) getIntent().getSerializableExtra(IntentTag.TAG_Task_MEMBER);
         if (mTask != null)
         {
             newTask = false;
             initDateAndTime();//这个方法一定要在newTask被赋值之后
             showTaskDetail(mTask);
+            showTaskMember(mMembers);
         } else
         {
             newTask = true;
             mTask = new TaskBean();
+            mMembers = new ArrayList<>();
+            mMembers.add(MyApp.getCurrentUser());
             initDateAndTime();
         }
+        mPresenter = new EditTaskPresenterImpl(this, mTask);
 
-        mAdapter = new EditableMembersAdapter(new ArrayList<TaskMember>(), this, this, mTask);
-        mAdapter.setAbleToAdd(true);
-        mAdapter.setAbleToDelete(true);
-
-        mRcvMembers.setAdapter(mAdapter);
-
-
-        mPresenter = new EditTaskPresenterImpl(this, mTask, newTask);
-        mPresenter.loadTaskMember();
         setListener();
     }
 
@@ -254,96 +261,51 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         mEdtDetail.addTextChangedListener(mTextWatcher);
         mEdtLocation.addTextChangedListener(mTextWatcher);
         mEdtTitle.addTextChangedListener(mTextWatcher);
-//        //点击确定
-//        mOk.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                saveTask();
-//            }
-//        });
 
-        findViewById(R.id.bt_start_date_time).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.bt_start_date_time).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 showStartTimeDialog();
             }
         });
-        findViewById(R.id.bt_end_date_time).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bt_end_date_time).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 showEndTimeDialog();
             }
         });
-//
-//        //点击开始时间
-//        mStartTime.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openTimeDialog(true);
-//            }
-//        });
-//        //点击开始日期
-//        mStartDate.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openDateDialog(true);
-//            }
-//        });
-//        //点击结束时间
-//        mEndTime.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openTimeDialog(false);
-//            }
-//        });
-//        //点击结束日期
-//        mEndDate.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                openDateDialog(false);
-//            }
-//        });
+
         //点击项目
         mProject.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (!newTask) {
-                    showMsg("不可修改任务项目");
-                } else {
+                if (!newTask)
+                {
+                    showMsg(getString(R.string.can_not_modify_project));
+                } else
+                {
                     mPresenter.loadProjects();
                     isEdited = true;
                 }
             }
         });
-//        //点击保存
-//        mOk.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                saveTask();
-//            }
-//        });
     }
 
-    private void showEndTimeDialog() {
-        mDateTimePickerDialog.show(getSupportFragmentManager(),"end");
+    private void showEndTimeDialog()
+    {
+        mDateTimePickerDialog.show(getSupportFragmentManager(), "end");
     }
 
-    private void showStartTimeDialog() {
-        mDateTimePickerDialog.show(getSupportFragmentManager(),"start");
+    private void showStartTimeDialog()
+    {
+        mDateTimePickerDialog.show(getSupportFragmentManager(), "start");
     }
 
 
@@ -356,20 +318,30 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         }
         if (mCalendarStart.compareTo(mCalendarEnd) > 0)
         {
-            showToast("开始时间晚于结束时间");
+            showToast(getString(R.string.time_error));
             return;
         }
 
-        mTask.setStartDate(new BmobDate(mCalendarStart.getTime()));
-        mTask.setEndDate(new BmobDate(mCalendarEnd.getTime()));
+        mTask.setStartDate(DateUtil.getSimpleDateFormat().format(mCalendarStart.getTime()));
+        mTask.setEndDate(DateUtil.getSimpleDateFormat().format(mCalendarEnd.getTime()));
         mTask.setTitle(mEdtTitle.getText().toString());
         mTask.setLocation(mEdtLocation.getText().toString());
         mTask.setContent(mEdtDetail.getText().toString());
-
-        mPresenter.saveTask(mAdapter.getDatas());
+        if (newTask)
+        {
+            if (mTask.getProject() == null)
+            {
+                showMsg(getString(R.string.please_select_project));
+                return;
+            }
+            mPresenter.createTask(mMembers);
+        } else
+        {
+            mPresenter.saveTask();
+        }
     }
 
-
+    @Deprecated
     private void openDateDialog(final boolean start)
     {
         Calendar c;
@@ -396,7 +368,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         d.show();
     }
 
-
+    @Deprecated
     private void openTimeDialog(final boolean start)
     {
         Calendar c;
@@ -442,7 +414,8 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
         if (item.getItemId() == android.R.id.home)
             onBackPressed();
-        if (item.getItemId() == R.id.action_save) {
+        if (item.getItemId() == R.id.action_save)
+        {
             saveTask();
         }
         return super.onOptionsItemSelected(item);
@@ -454,92 +427,134 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         if (mAdapter.getMode() == EditableMembersAdapter.MODE_DELETE)
         {
             mAdapter.setMode(EditableMembersAdapter.MODE_NORMAL);
-        } else if (isEdited) {
-            new AlertDialog.Builder(this).setMessage("是否保存改动？").setNegativeButton("舍弃", new DialogInterface.OnClickListener() {
+        } else if (isEdited)
+        {
+            new AlertDialog.Builder(this).setMessage("是否保存改动？").setNegativeButton("舍弃", new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
                     finish();
                 }
-            }).setNeutralButton("取消", null).setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+            }).setNeutralButton("取消", null).setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener()
+            {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
                     saveTask();
                 }
             }).create().show();
-        } else {
+        } else
+        {
             super.onBackPressed();
         }
     }
 
 
-    @Override
-    public boolean onMemberDelete(UserBean user)
-    {
 
-        if (user.getObjectId().equals(MyApp.getCurrentUser().getObjectId()))
+    @Override
+    public void onMemberDelete(final UserBean user)
+    {
+        //当成员被点X删除时调用
+        if (user.getId() == MyApp.getCurrentUser().getId())
         {
             showMsg("不能删除自己");
-            return false;
+        }else
+        {
+            new AlertDialog.Builder(this).setMessage("是否确定移除成员 "+user.getNickName()+"?")
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            mPresenter.deleteMember(user);
+                        }
+                    })
+                    .setNeutralButton(R.string.cancel,null)
+                    .create()
+                    .show();
         }
-        return true;
     }
 
     @Override
-    public void onAddMember() //当+号被点击时调用
+    public void onAddMemberClick() //当+号被点击时调用
     {
-        if (mTask.getProjectBean() == null)
+        if (mTask.getProject() == null)
         {
             showToast("请先选择项目");
             return;
         }
+        if (mTask.getProject().isPrivate())
+        {
+            showToast("个人项目不能添加成员");
+            return;
+        }
         Intent i = new Intent(this, SelectMemberActivity.class);
-        i.putExtra(IntentTag.TAG_Task_MEMBER, (ArrayList<?>) mMembers);
-        i.putExtra(IntentTag.TAG_PROJECT_BEAN, mTask.getProjectBean());
-        startActivityForResult(i, 0);
+
+        i.putExtra(IntentTag.TAG_PROJECT_ID, mTask.getProject().getId());
+        i.putExtra(IntentTag.TAG_TASK_ID,mTask.getId());
+        i.putParcelableArrayListExtra(IntentTag.TAG_Task_MEMBER,mMembers);
+
+        startActivityForResult(i,0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
 
+        //从选择成员界面回来
         if (resultCode == Activity.RESULT_OK)
         {
-            ArrayList<UserBean> list = (ArrayList<UserBean>) data.getSerializableExtra(IntentTag.TAG_USER_BEAN_LIST);
+            ArrayList<UserBean> list = (ArrayList<UserBean>) data.getSerializableExtra(IntentTag.TAG_Task_MEMBER);
             if (list != null)
             {
-                mMembers = new ArrayList<>();
-                for(UserBean ub : list)
-                {
-                    TaskMember tm = new TaskMember();
-                    tm.setTask(mTask);
-                    tm.setUser(ub);
-                    mMembers.add(tm);
-                }
-                mAdapter.setDatas(mMembers);
-                isEdited = true;
+                mMembers.addAll(list);
+                mAdapter.notifyDataSetChanged();
+                setResult(MainActivity.result_task_change);
+                //isEdited = true;
             }
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
-    public void showTaskMember(List<TaskMember> members)
+    public void showTaskMember(ArrayList<UserBean> members)
     {
-        mAdapter.setDatas(members);
-        mMembers = members;
+        if(members!=null)
+        {
+            mAdapter.setDatas(members);
+            mMembers = members;
+        }
     }
 
     @Override
-    public void closePage()
+    public void close()
     {
         Intent i = new Intent();
-        i.putExtra("task", mTask);
+        //如果是任务详情过来的，告诉任务详情页面 新的taskbean
+        if (!newTask)
+        {
+            if (isEdited)
+                i.putExtra(IntentTag.TAG_TASK_BEAN, mTask);
+            else
+            {
+                finish();
+                return;
+            }
+        }
         setResult(MainActivity.result_task_change, i);
         finish();
     }
 
     @Override
-    public void selectProject(List<ProjectBean> beanList)
+    public void deleteMember(UserBean bean)
+    {
+        mMembers.remove(bean);
+        mAdapter.notifyDataSetChanged();
+        setResult(MainActivity.result_task_change);
+    }
+
+    @Override
+    public void showProjects(List<ProjectBean> beanList)
     {
 
         if (beanList == null || beanList.size() == 0)
@@ -547,12 +562,11 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             showMsg("当前没有项目");
             return;
         }
-
         mProjectList = beanList;
         final String[] items = new String[beanList.size()];
         for(int i = 0; i < beanList.size(); i++)
         {
-            items[i] = beanList.get(i).getProjectName();
+            items[i] = beanList.get(i).getName();
         }
 
         new AlertDialog.Builder(EditTaskActivity.this).setItems(items, new DialogInterface.OnClickListener()
@@ -560,13 +574,13 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                if (mTask.getProjectBean()!=null&& mTask.getProjectBean().getObjectId().equals(mProjectList.get(which).getObjectId()))
+                //如果项目没有变
+                if (mTask.getProject() != null && mTask.getProject().equals(mProjectList.get(which)))
                     return;
 
-                mTask.setProjectBean(mProjectList.get(which));
-                mTvProject.setText(mProjectList.get(which).getProjectName());
+                mTask.setProject(mProjectList.get(which));
+                mTvProject.setText(mProjectList.get(which).getName());
                 resetMembers();
-
             }
         }).show();
     }
@@ -575,10 +589,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     private void resetMembers()
     {
         mMembers = new ArrayList<>();
-        TaskMember tm = new TaskMember();
-        tm.setUser(MyApp.getCurrentUser());
-        tm.setTask(mTask);
-        mMembers.add(tm);
+        mMembers.add(MyApp.getCurrentUser());
         mAdapter.setDatas(mMembers);
         isEdited = true;
     }
@@ -595,18 +606,19 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
         } else
         {
             mCalendarStart = Calendar.getInstance();
-            Date d = DateUtil.StringToDate(mTask.getStartDate().getDate());
+            Date d = DateUtil.StringToDate(mTask.getStartDate());
             mCalendarStart.setTime(d);
 
             mCalendarEnd = Calendar.getInstance();
-            Date ed = DateUtil.StringToDate(mTask.getEndDate().getDate());
+            Date ed = DateUtil.StringToDate(mTask.getEndDate());
             mCalendarEnd.setTime(ed);
         }
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_edit_task, menu);
         return true;
     }
@@ -616,7 +628,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     {
 
         mEdtTitle.setText(b.getTitle());
-        mTvProject.setText(b.getProjectBean().getProjectName());
+        mTvProject.setText(b.getProject().getName());
         mEdtLocation.setText(b.getLocation());
         mEdtDetail.setText(b.getContent());
         setDateTextView();
@@ -645,6 +657,7 @@ public class EditTaskActivity extends BaseActivity implements EditTaskView, Edit
     protected void onDestroy()
     {
         super.onDestroy();
-        mPresenter.onDestroy();
+        if (mPresenter != null)
+            mPresenter.onDestroy();
     }
 }

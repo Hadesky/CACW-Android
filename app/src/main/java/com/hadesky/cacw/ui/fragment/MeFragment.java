@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.tag.IntentTag;
 import com.hadesky.cacw.ui.activity.FinishedTaskActivity;
@@ -21,12 +19,6 @@ import com.hadesky.cacw.ui.activity.MessageListActivity;
 import com.hadesky.cacw.ui.activity.MyInfoActivity;
 import com.hadesky.cacw.ui.activity.MyTeamActivity;
 import com.hadesky.cacw.ui.activity.SettingActivity;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * MeFragment
@@ -78,26 +70,15 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private String getAvatarUrl() {
-        UserBean bean = MyApp.getCurrentUser();
-        if (bean != null && bean.getUserAvatar() != null) {
-            return bean.getUserAvatar().getUrl();
-        }
-        return null;
+       return MyApp.getCurrentUser().getAvatarUrl();
     }
-
-
-
 
     /**
      * 在Session中获取昵称
      * @return 用户名
      */
     private String getNickName() {
-        String nickName = MyApp.getCurrentUser().getNickName();
-        if (nickName == null) {
-            return "蚂蚁";
-        }
-        return nickName;
+        return MyApp.getCurrentUser().getNickName();
     }
 
 
@@ -123,24 +104,6 @@ public class MeFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.layout_memo:
-                new Thread(){
-                    @Override
-                    public void run() {
-                        JPushSender sender = new JPushSender.SenderBuilder().addAlias(MyApp.getCurrentUser().
-                                getObjectId()).Message("title", "message").build();
-                        MyApp.getJPushManager().sendMsg(sender, new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-
-                            }
-                        });
-                    }
-                }.start();
                 break;
             case R.id.layout_my_team:
                 Intent intent1 = new Intent(getContext(), MyTeamActivity.class);

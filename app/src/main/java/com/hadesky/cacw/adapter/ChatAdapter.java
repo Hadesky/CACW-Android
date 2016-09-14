@@ -11,9 +11,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.viewholder.BaseViewHolder;
 import com.hadesky.cacw.bean.MessageBean;
+import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
 import com.hadesky.cacw.presenter.ChatPresenter;
-import com.hadesky.cacw.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ChatPresenter mPresenter;
+    private UserBean mUser;
 
 
     public ChatAdapter(Context context, List<MessageBean> datas)
@@ -41,6 +42,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mContext = context;
         if (datas != null)
             mDatas = datas;
+        mUser = MyApp.getCurrentUser();
     }
 
     @Override
@@ -59,8 +61,8 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
             @Override
             public void setData(final MessageBean bean)
             {
-                //如果是别人邀请我  或者 别人申请加入我的团队
-                if (bean.getType().equals(MessageBean.TYPE_TEAM_TO_USER)||bean.getType().equals(MessageBean.TYPE_USER_TO_TEAM))
+                //如果是别人申请加入我的团队
+                if (bean.getType()==1||bean.getType()==0)
                 {
                    setVisibility(R.id.layout_invite,View.VISIBLE);
                     View tv = findView(R.id.tv_accept);
@@ -71,7 +73,6 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                             acceptJoinTeam(bean);
                         }
                     });
-
                     tv = findView(R.id.tv_reject);
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -86,10 +87,14 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
                     setVisibility(R.id.layout_invite,View.GONE);
                 }
 
-                setTextView(R.id.tv_msg,StringUtils.messageBean2Msg(bean,mContext));
-                setTextView(R.id.tv_username, bean.getSender().getNickName());
+                UserBean u = bean.isMe()?mUser:bean.getOther();
+
+
+
+                setTextView(R.id.tv_msg,bean.getContent());
+                setTextView(R.id.tv_username, u.getNickName());
                 SimpleDraweeView draweView = findView(R.id.iv_avatar);
-                draweView.setImageURI(bean.getSender().getAvatarUrl());
+                draweView.setImageURI(u.getAvatarUrl());
                 Integer state = mSendState.get(bean);
                 if (state == null || state == 2)//成功
                 {
@@ -136,8 +141,9 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
 
     public void delete(MessageBean bean)
     {
-        mDatas.remove(bean);
-        notifyDataSetChanged();
+        int i = mDatas.indexOf(bean);
+        mDatas.remove(i);
+        notifyItemRemoved(i);
     }
 
 
@@ -183,7 +189,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
     @Override
     public int getItemViewType(int position)
     {
-        if (isMe(mDatas.get(position)))
+        if (mDatas.get(position).isMe())
         {
             return Me;
         }
@@ -196,10 +202,6 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseViewHolder<MessageBean
         mPresenter = presenter;
     }
 
-    private boolean isMe(MessageBean bean)
-    {
-        return MyApp.isCurrentUser(bean.getSender());
-    }
 
     @Override
     public int getItemCount()

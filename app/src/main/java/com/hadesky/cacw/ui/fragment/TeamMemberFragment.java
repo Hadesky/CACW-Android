@@ -18,7 +18,6 @@ import com.hadesky.cacw.ui.activity.InviteMemberActivity;
 import com.hadesky.cacw.ui.view.TeamMemberView;
 import com.microstudent.app.bouncyfastscroller.vertical.VerticalBouncyFastScroller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,15 +30,11 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
     private RecyclerView mRecyclerView;
     private VerticalBouncyFastScroller mScroller;
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_TEAM_BEAN = "team_bean";
-
     private TeamBean mTeamBean;
 
     private TeamMemberPresenter mPresenter;
 
     private List<UserBean> mTeamMember;
-
 
     /**
      * @param teamBean 用于新建Fragment的TeamBean
@@ -48,7 +43,7 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
     public static TeamMemberFragment newInstance(TeamBean teamBean) {
         TeamMemberFragment fragment = new TeamMemberFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_TEAM_BEAN, teamBean);
+        args.putSerializable(IntentTag.TAG_TEAM_BEAN, teamBean);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,9 +52,9 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTeamBean = (TeamBean) getArguments().getSerializable(ARG_TEAM_BEAN);
+            mTeamBean = (TeamBean) getArguments().getSerializable(IntentTag.TAG_TEAM_BEAN);
         }
-        mPresenter = new TeamMemberPresenterImpl(this);
+        mPresenter = new TeamMemberPresenterImpl(this,mTeamBean);
     }
 
 
@@ -75,7 +70,7 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
         mScroller = (VerticalBouncyFastScroller) view.findViewById(R.id.vbfs);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        mPresenter.loadData();
+        mPresenter.loadMembers();
     }
 
     @Override
@@ -91,15 +86,9 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
     }
 
     @Override
-    public TeamBean getTeamBean() {
-        return mTeamBean;
-    }
-
-    @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
         if (adapter != null) {
             mRecyclerView.setAdapter(adapter);
-
         }
     }
 
@@ -133,13 +122,10 @@ public class TeamMemberFragment extends BaseFragment implements TeamMemberView{
         showToast(s);
     }
 
+
     public void navigateToInviteMemberActivity() {
-        ArrayList<UserBean> data = (ArrayList<UserBean>) mPresenter.getData();
-        if (data != null) {
             Intent intent = new Intent(getContext(), InviteMemberActivity.class);
-            intent.putExtra(IntentTag.TAG_TEAM_MEMBER, data);
             intent.putExtra(IntentTag.TAG_TEAM_BEAN, mTeamBean);
             startActivity(intent);
-        }
     }
 }

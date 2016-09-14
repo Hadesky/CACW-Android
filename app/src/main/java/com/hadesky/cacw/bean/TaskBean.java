@@ -1,7 +1,8 @@
 package com.hadesky.cacw.bean;
 
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.datatype.BmobDate;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * 一项任务的实体对象类
@@ -9,35 +10,84 @@ import cn.bmob.v3.datatype.BmobDate;
  */
 
 
-public class TaskBean extends BmobObject
+public class TaskBean implements Serializable
 {
-    private String mTitle = "";
-    private BmobDate mStartDate;
-    private BmobDate mEndDate;
 
-    private String mContent="";
-    private String mLocation = "";
-    private ProjectBean mProjectBean;
-    private String mAdaminUserId = "";
 
-    public ProjectBean getProjectBean() {
-        return mProjectBean;
+    private int id;
+
+    @SerializedName("title")
+    private String mTitle;
+
+    @SerializedName("content")
+    private String mContent;
+
+    @SerializedName("location")
+    private String mLocation;
+
+    @SerializedName("project")
+    private ProjectBean mProject;
+    private int AdminId;
+    private String startDate;
+    private String endDate;
+    private int finish;
+
+
+    public int getId()
+    {
+        return id;
     }
 
-    public void setProjectBean(ProjectBean projectBean) {
-        mProjectBean = projectBean;
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
-    public TaskBean() {
-
+    public ProjectBean getProject() {
+        return mProject;
     }
 
-    public String getAdaminUserId() {
-        return mAdaminUserId;
+    public void setProject(ProjectBean project) {
+        mProject = project;
     }
 
-    public void setAdaminUserId(String adaminUserId) {
-        mAdaminUserId = adaminUserId;
+
+    public boolean isFinish()
+    {
+        return finish==1;
+    }
+
+    public void setFinish(int finish)
+    {
+        this.finish = finish;
+    }
+
+    public String getStartDate()
+    {
+        return startDate;
+    }
+
+    public void setStartDate(String mstartDate)
+    {
+        this.startDate = mstartDate;
+    }
+
+    public String getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(String mendDate)
+    {
+        this.endDate = mendDate;
+    }
+
+    public int getAdminId() {
+        return AdminId;
+    }
+
+    public void setAdminId(int adaminUserId) {
+        AdminId = adaminUserId;
     }
 
     public String getLocation()
@@ -60,7 +110,6 @@ public class TaskBean extends BmobObject
     }
 
 
-
     public String getTitle()
     {
         return mTitle;
@@ -71,34 +120,6 @@ public class TaskBean extends BmobObject
         mTitle = title;
     }
 
-    public BmobDate getStartDate() {
-        return mStartDate;
-    }
 
-    public void setStartDate(BmobDate startDate) {
-        mStartDate = startDate;
-    }
-
-    public BmobDate getEndDate() {
-        return mEndDate;
-    }
-
-    public void setEndDate(BmobDate endDate) {
-        mEndDate = endDate;
-    }
-
-    public TaskBean clone()
-    {
-        TaskBean taskBean = new TaskBean();
-        taskBean.setObjectId(getObjectId());
-        taskBean.setAdaminUserId(mAdaminUserId);
-        taskBean.setTitle(mTitle);
-        taskBean.setContent(mContent);
-        taskBean.setLocation(mLocation);
-        taskBean.setProjectBean(mProjectBean);
-        taskBean.setStartDate(mStartDate);
-        taskBean.setEndDate(mEndDate);
-        return taskBean;
-    }
 
 }

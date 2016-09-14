@@ -1,126 +1,57 @@
 package com.hadesky.cacw.presenter;
 
-import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
-import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.NewTeamView;
 
 import java.io.File;
 
-import cn.bmob.v3.BmobACL;
-import cn.bmob.v3.BmobRole;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UploadFileListener;
+import rx.Subscription;
 
 /**
  *
- * Created by dzysg on 2016/7/10 0010.
+ * Created by dzysg on 2016/9/1 0001.
  */
-public class NewTeamPresenterImpl implements NewTeamPresenter {
+public class NewTeamPresenterImpl implements NewTeamPresenter
+{
 
+    private TeamRepertory mTeamRepertory;
+    private NewTeamView mView;
+    private Subscription mSubscription;
 
-    NewTeamView mView;
-
-    public NewTeamPresenterImpl(NewTeamView view) {
+    public NewTeamPresenterImpl(NewTeamView view)
+    {
         mView = view;
+        mTeamRepertory = TeamRepertory.getInstance();
     }
 
-
-    private void createTeam(TeamBean teamBean)
+    @Override
+    public void createTeam(String team, File avatar)
     {
-        BmobACL acl = new BmobACL();
-        //只有管理员可写团队TeamBean
-        acl.setWriteAccess(MyApp.getCurrentUser(), true);
-        acl.setPublicWriteAccess(false);
-        acl.setPublicReadAccess(true);
 
-        teamBean.setAdminUser(MyApp.getCurrentUser());
-        teamBean.setACL(acl);
-
-        //对于TeamMember来说，每一列只有自己和所在团队的管理员可以写操作
-        acl = new BmobACL();
-        acl.setPublicWriteAccess(false);
-        acl.setPublicReadAccess(true);
-        acl.setWriteAccess(MyApp.getCurrentUser(), true);
-
-
-        final TeamMember tm = new TeamMember();
-        tm.setTeam(teamBean);
-        tm.setUser(MyApp.getCurrentUser());
-        tm.setACL(acl);
-
-        teamBean.save(new SaveListener<String>() {
+        mView.showProgress();
+        mSubscription = mTeamRepertory.createTeam(team,avatar).subscribe(new RxSubscriber<String>() {
             @Override
-            public void done(String s, BmobException e) {
-                if (e == null) {
-                    tm.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                            mView.hideProgress();
-                            if (e == null)
-                            {
-                                mView.showMsg("创建成功");
-                                mView.Close();
-                            }
-                            else {
-                                mView.showMsg(e.getMessage());
-                            }
-                        }
-                    });
-                } else {
-                    mView.hideProgress();
-                    mView.showMsg(e.getMessage());
-                }
+            public void _onError(String e)
+            {
+                mView.hideProgress();
+                mView.showMsg(e);
+            }
+
+            @Override
+            public void _onNext(String s)
+            {
+                mView.hideProgress();
+                mView.showMsg("创建成功");
+                mView.Close();
             }
         });
     }
 
-
-
-
     @Override
-    public void createTeam(final String tname, File avatar) {
-
-        if (tname.trim().length() == 0) {
-            mView.showMsg("团队名称不能为空");
-            return;
-        }
-        if (tname.contains("$"))
-        {
-            mView.showMsg("团队名称不能含有特殊字符");
-            return;
-        }
-
-
-        mView.showProgress();
-
-        if (avatar!=null)
-        {
-            final BmobFile f = new BmobFile(avatar);
-            f.upload(new UploadFileListener() {
-                @Override
-                public void done(BmobException e) {
-                    if (e==null)
-                    {
-
-                        TeamBean tb = new TeamBean();
-                        tb.setTeamName(tname);
-                        tb.setTeamAvatar(f);
-                        createTeam(tb);
-                    }else
-                    {
-                        mView.showMsg(e.getMessage());
-                        mView.hideProgress();
-                    }
-                }
-            });
-        }else
-        {
-            TeamBean tb = new TeamBean();
-            tb.setTeamName(tname);
-            createTeam(tb);
-        }
+    public void cancel()
+    {
+        if(mSubscription!=null&&!mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 }

@@ -17,7 +17,6 @@ import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.SearchTaskAdapter;
 import com.hadesky.cacw.adapter.ViewPagerAdapter;
 import com.hadesky.cacw.presenter.SearchPresenter;
-import com.hadesky.cacw.presenter.SearchTaskPresenterImpl;
 import com.hadesky.cacw.ui.fragment.SearchFragment;
 import com.hadesky.cacw.ui.fragment.SearchPersonFragment;
 import com.hadesky.cacw.ui.fragment.SearchTeamFragment;
@@ -36,7 +35,6 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private SearchPresenter mSearchTaskPresenter;//人和团队的present在各自的fragment里面
     private SearchTaskAdapter mSearchTaskAdapter;
-
     private RecyclerView mSearchTaskRecyclerView;
 
     private int mLoadingFragmentCount;
@@ -53,7 +51,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
         mFragmentManager = getSupportFragmentManager();
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mSearchTaskPresenter = new SearchTaskPresenterImpl(this, this);
+        //mSearchTaskPresenter = new SearchTaskPresenterImpl(this, this);
     }
 
     @Override
@@ -97,7 +95,7 @@ public class SearchActivity extends BaseActivity implements SwipeRefreshLayout.O
                 }
                 loadSearchPersonFragment(s.toString());
                 loadSearchTeamFragment(s.toString());
-                loadSearchTask(s.toString());
+                //loadSearchTask(s.toString());
             }
         });
         mRefreshLayout.setOnRefreshListener(this);

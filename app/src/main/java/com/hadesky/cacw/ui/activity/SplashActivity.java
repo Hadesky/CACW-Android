@@ -1,14 +1,12 @@
 package com.hadesky.cacw.ui.activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.WindowManager;
 
 import com.hadesky.cacw.R;
-import com.hadesky.cacw.bean.UserBean;
+import com.hadesky.cacw.config.MyApp;
 
-import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -52,14 +50,12 @@ public class SplashActivity extends BaseActivity {
         }
         finish();
     }
-
     /**
      * 检查是否已经登录
      * @return true 如果已经登录
      */
     private boolean hasLogin() {
-        UserBean bean = BmobUser.getCurrentUser(UserBean.class);
-        return bean != null;
+        return MyApp.getSessionManager().isLogin();
     }
 
     /**

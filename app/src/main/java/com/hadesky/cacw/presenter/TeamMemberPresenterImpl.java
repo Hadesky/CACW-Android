@@ -1,240 +1,120 @@
 package com.hadesky.cacw.presenter;
 
-import android.util.Log;
-
-import com.hadesky.cacw.JPush.JPushSender;
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.TeamMemberAdapter;
-import com.hadesky.cacw.bean.TaskMember;
 import com.hadesky.cacw.bean.TeamBean;
-import com.hadesky.cacw.bean.TeamMember;
 import com.hadesky.cacw.bean.UserBean;
 import com.hadesky.cacw.config.MyApp;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.TeamRepertory;
 import com.hadesky.cacw.ui.view.TeamMemberView;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobBatch;
-import cn.bmob.v3.BmobObject;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BatchResult;
-import cn.bmob.v3.datatype.BmobPointer;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListListener;
-import cn.bmob.v3.listener.UpdateListener;
 import rx.Subscription;
+import rx.internal.util.SubscriptionList;
 
 /**
- * Created by MicroStudent on 2016/7/16.
+ *
+ * Created by dzysg on 2016/9/2 0002.
  */
-
 public class TeamMemberPresenterImpl implements TeamMemberPresenter
 {
 
-    private static final String TAG = "TeamMemberPresenterImpl";
-
-    private TeamMemberView mView;
-
-    private Subscription mSubscriptions;
-
-    private TeamMemberAdapter mAdapter;
-
+    TeamMemberView mView;
+    TeamBean mTeam;
     private List<UserBean> mUsers;
+    private TeamMemberAdapter mAdapter;
+    private TeamRepertory mTeamRepertory;
+    SubscriptionList mSubscriptionList = new SubscriptionList();
 
-    private List<TeamMember> mTeamMembers;
 
-    private TeamBean mTeamBean;
-
-    public TeamMemberPresenterImpl(TeamMemberView view)
+    public TeamMemberPresenterImpl(TeamMemberView view, TeamBean t)
     {
         mView = view;
-        mTeamBean = view.getTeamBean();
+        mTeam = t;
+        mTeamRepertory = TeamRepertory.getInstance();
     }
 
     @Override
-    public void loadData()
+    public void loadMembers()
     {
-        Log.d(TAG, "loading data");
-        BmobQuery<TeamMember> query = new BmobQuery<>();
-        query.addWhereEqualTo("mTeam", new BmobPointer(mTeamBean));
-        query.include("mUser");
-        mView.showProgress();
+        Subscription subscription  =  mTeamRepertory.getTeamMember(mTeam.getId(),null,0,true)
+                .subscribe(new RxSubscriber<List<UserBean>>() {
+                    @Override
+                    public void _onError(String e)
+                    {
+                        mView.hideProgress();
+                        mView.showMsg(e);
+                    }
 
-        mSubscriptions = query.findObjects(new FindListener<TeamMember>()
-        {
-            @Override
-            public void done(List<TeamMember> list, BmobException e)
-            {
-                mView.hideProgress();
-                if (e == null)
-                {
-                    handleResult(list);
-                } else
-                {
-                    mView.showMsg(e.getMessage());
-                }
-            }
-        });
+                    @Override
+                    public void _onNext(List<UserBean> members)
+                    {
+                        mView.hideProgress();
+                        handleResult(members);
+                    }
+                });
+        mSubscriptionList.add(subscription);
     }
 
     @Override
     public void onDestroy()
     {
-        if (mSubscriptions != null)
-        {
-            mSubscriptions.unsubscribe();
-        }
-        mView = null;
+        mSubscriptionList.unsubscribe();
     }
 
     @Override
     public int getUserCount()
     {
-        if (mUsers != null)
-        {
-            return mUsers.size();
-        }
         return 0;
     }
+
 
     @Override
     public void deleteMember(final UserBean bean)
     {
-        if (bean.equals(MyApp.getCurrentUser()))
+        if(MyApp.getCurrentUser().getId()!=mTeam.getAdminId())
+        {
+            mView.showMsg("你不是团队管理员，不能删除成员");
+            return;
+        }
+        if(MyApp.getCurrentUser().getId()==bean.getId())
         {
             mView.showMsg("不能删除自己");
             return;
         }
-
-        if (!mTeamBean.getAdminUser().equals(mUsers))
-        {
-            mView.showMsg("你当前不是团队管理员");
-            return;
-        }
-
-        mView.showProgress();
-        TeamMember del=null;
-        for(TeamMember tm : mTeamMembers)
-        {
-            if (tm.getUser().equals(bean))
-            {
-                del = tm;
-                break;
-            }
-        }
-        if (del!=null)
-        {
-            del.delete(new UpdateListener() {
-                @Override
-                public void done(BmobException e)
-                {
-                    if (e!=null)
+        mTeamRepertory.removeTeamMember(mTeam.getId(),bean.getId())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onError(String msg)
                     {
                         mView.hideProgress();
-                        mView.showMsg(e.getMessage());
-                    }else
-                    {
-                        deleteTask(bean);
+                        mView.showMsg(msg);
                     }
-                }
-            });
-        }else
-        {
-            mView.hideProgress();
-            mView.showMsg("该成员已经删除");
-        }
-    }
 
-    //删除成员后删除相关的任务成员
-    private void deleteTask(final UserBean bean)
-    {
-        BmobQuery<TaskMember> query = new BmobQuery<>();
-        query.addWhereEqualTo("mUser", new BmobPointer(bean));
-        query.include("mTask.mProjectBean.mTeam,mUser");
-        query.findObjects(new FindListener<TaskMember>()
-        {
-            @Override
-            public void done(List<TaskMember> list, BmobException e)
-            {
-                if (e != null)
-                {
-                    mView.showMsg(e.getMessage());
-                    mView.hideProgress();
-                }
-                else
-                {
-                    if (list.size()==0)
+                    @Override
+                    public void _onNext(String s)
                     {
-                        mView.showMsg("删除成功");
-                        sendDeleteMemberPush(bean);
-                        mAdapter.getDatas().remove(bean);
+                        mView.hideProgress();
+                        mUsers.remove(bean);
                         mAdapter.notifyDataSetChanged();
-                        return;
                     }
-                    List<BmobObject> members = new ArrayList<>();
-                    for(TaskMember tm : list)
-                    {
-                        if (tm.getTask().getProjectBean().getTeam().getObjectId().equals(mTeamBean.getObjectId()))
-                            members.add(tm);
-                    }
-                    BmobBatch batch = new BmobBatch();
-                    batch.deleteBatch(members);
-                    batch.doBatch(new QueryListListener<BatchResult>()
-                    {
-                        @Override
-                        public void done(List<BatchResult> list, BmobException e)
-                        {
-                            mView.hideProgress();
-                            if (e == null)
-                            {
-                                mView.showMsg("删除成功");
-                                mAdapter.getDatas().remove(bean);
-                                sendDeleteMemberPush(bean);
-                                mAdapter.notifyDataSetChanged();
-                            } else
-                                mView.showMsg(e.getMessage());
-                        }
-                    });
-                }
-            }
-        });
+                });
     }
 
-    private void sendDeleteMemberPush(UserBean bean)
-    {
-        String title;
-        String content;
-        title = "团队消息";
-        content = "你已经被移出团队 " + mTeamBean.getTeamName();
-        JPushSender sender = new JPushSender.SenderBuilder().addAlias(bean.getObjectId()).Message(title, content).build();
-        MyApp.getJPushManager().sendMsg(sender, null);
-    }
-
-    @Override
-    public List<UserBean> getData()
-    {
-        return mUsers;
-    }
-
-    private void handleResult(List<TeamMember> list)
-    {
-        mTeamMembers = list;
+    private void handleResult(List<UserBean> list) {
         List<UserBean> users = new ArrayList<>();
         UserBean admin = null;
-        for(TeamMember member : list)
-        {
-            users.add(member.getUser());
-            if (member.getUser().equals(mTeamBean.getAdminUser()))
-            {
-                admin = member.getUser();
+        for (UserBean member : list) {
+            users.add(member);
+            if (member.getId()==mTeam.getAdminId()) {
+                admin = member;
             }
         }
-
         mUsers = users;
-
         mAdapter = new TeamMemberAdapter(users, R.layout.item_user, admin);
         mAdapter.setPresenter(this);
         mView.setAdapter(mAdapter);

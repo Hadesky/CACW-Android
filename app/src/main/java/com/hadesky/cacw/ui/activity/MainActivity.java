@@ -14,8 +14,11 @@ import android.widget.PopupMenu;
 
 import com.hadesky.cacw.R;
 import com.hadesky.cacw.adapter.FragmentAdapter;
-import com.hadesky.cacw.config.MyApp;
-import com.hadesky.cacw.database.DatabaseManager;
+import com.hadesky.cacw.model.AccountRepertory;
+import com.hadesky.cacw.model.DB.DatabaseManager;
+import com.hadesky.cacw.model.RxSubscriber;
+import com.hadesky.cacw.model.network.BaseResult;
+import com.hadesky.cacw.model.network.CookieManager;
 import com.hadesky.cacw.ui.fragment.MeFragment;
 import com.hadesky.cacw.ui.fragment.MyTaskFragment;
 import com.hadesky.cacw.ui.fragment.ProjectFragment;
@@ -23,7 +26,6 @@ import com.hadesky.cacw.ui.fragment.ProjectFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
@@ -63,12 +65,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void setupView() {
-
-        if(MyApp.getCurrentUser()==null) {
-            navigateTo(LoginActivity.class, true);
-            finish();
-            return;
-        }
         setupTabView();
     }
 
@@ -77,6 +73,7 @@ public class MainActivity extends BaseActivity {
      */
     private void setupTabView() {
         String[] titles = getResources().getStringArray(R.array.tab_titles);
+
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[0]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[1]));
         mTabLayout.addTab(mTabLayout.newTab().setText(titles[2]));
@@ -121,11 +118,6 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem addItem = menu.getItem(0);
-
-
-        //mPopupMenu = new PopupMenu(this,addView);
-        //getMenuInflater().inflate(R.menu.menu_task_popup,addItem.getSubMenu());
         return true;
     }
 
@@ -159,15 +151,27 @@ public class MainActivity extends BaseActivity {
     private void logout()
     {
 
-        DatabaseManager.closeDb();//关闭数据库
-        JPushInterface.setAlias(getApplicationContext(), "", null);
-        JPushInterface.stopPush(this);
-        BmobUser.logOut();
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
+        AccountRepertory.getInstance().logout().subscribe(new RxSubscriber<BaseResult<String>>() {
+            @Override
+            public void _onError(String msg)
+            {
+                showToast(msg);
+            }
+            @Override
+            public void _onNext(BaseResult<String> stringBaseResult)
+            {
+                DatabaseManager.closeDb();//关闭数据库
+                JPushInterface.setAlias(getApplicationContext(), "", null);
+                JPushInterface.stopPush(MainActivity.this);
+                //消除相关Cookie
+                CookieManager.clearCookie();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 
@@ -178,7 +182,6 @@ public class MainActivity extends BaseActivity {
         {
             mMyTaskFragment.onRefresh();
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 

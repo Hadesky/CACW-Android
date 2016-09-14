@@ -3,6 +3,7 @@ package com.hadesky.cacw.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -59,12 +60,12 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
                     mContext.startActivity(intent);
                 } else {
                     Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra(IntentTag.TAG_USER_BEAN, mDatas.get(position));
+                    intent.putExtra(IntentTag.TAG_USER_BEAN,(Parcelable) mDatas.get(position));
                     mContext.startActivity(intent);
                 }
             }
         });
-        if (MyApp.isCurrentUser(mAdminUser)) {
+        if (MyApp.getCurrentUser().equals(mAdminUser)) {
             viewHolder.setOnItemLongClickListener(new BaseViewHolder.OnItemLongClickListener() {
                 @Override
                 public boolean OnItemLongClick(View view, final int position)
@@ -125,8 +126,8 @@ public class TeamMemberAdapter extends BaseAdapter<UserBean>
         public void setData(UserBean userBean) {
             setTextView(R.id.tv_nick_name, userBean.getNickName());
             SimpleDraweeView view = findView(R.id.iv_avatar);
-            if (userBean.getUserAvatar() != null) {
-                view.setImageURI(userBean.getUserAvatar().getUrl());
+            if (userBean.getAvatarUrl() != null) {
+                view.setImageURI(userBean.getAvatarUrl());
             } else {
                 view.setImageURI((String) null);
             }
